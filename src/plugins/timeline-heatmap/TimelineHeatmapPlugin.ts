@@ -1,9 +1,9 @@
 // src/plugins/timeline-heatmap/TimelineHeatmapPlugin.ts
 
-import * as d3 from 'd3';
-import { startOfMonth, format } from 'date-fns';
+import { format } from 'date-fns';
 import type { VisualizationPlugin, RawDataset } from '@/types/plugin';
-import type { FileEvent, FileSummary } from '@/types/domain';
+import type { FileEvent, TimeBinType, MetricType } from '@/types/domain';
+import { getTimeBinStart, formatTimeBin } from '@/utils/dateHelpers';
 
 interface HeatmapConfig {
   topN: number;
@@ -12,23 +12,35 @@ interface HeatmapConfig {
   cellHeight: number;
   minCellWidth: number;
   colorScheme: 'activity' | 'intensity';
+  timeBin: TimeBinType; // ✅ Added
+  metric: MetricType;    // ✅ Added
+  onCellClick?: (cell: HeatmapCellWithEvents) => void;
 }
 
 interface HeatmapCell {
   directory: string;
-  month: Date;
-  monthKey: string;
+  timeBin: Date;
+  timeBinKey: string;
   count: number;
   creations: number;
   deletions: number;
+  modifications: number;
   files: Set<string>;
+  uniqueAuthors: Set<string>;
+  events: FileEvent[];
+}
+
+interface HeatmapCellWithEvents extends HeatmapCell {
+  timeBin: string;
+  value: number;
 }
 
 interface HeatmapData {
   cells: HeatmapCell[][];
   directories: string[];
-  months: Date[];
+  timeBins: Date[];
   maxCount: number;
+  maxAuthors: number; // ✅ Added for author metric
 }
 
 export class TimelineHeatmapPlugin implements VisualizationPlugin<HeatmapConfig, HeatmapData> {
@@ -36,7 +48,7 @@ export class TimelineHeatmapPlugin implements VisualizationPlugin<HeatmapConfig,
     id: 'timeline-heatmap',
     name: 'Timeline Heatmap',
     description: 'Repository activity across time and directory structure',
-    version: '1.1.0',
+    version: '2.1.0',
     priority: 1,
   };
 
@@ -44,17 +56,37 @@ export class TimelineHeatmapPlugin implements VisualizationPlugin<HeatmapConfig,
     topN: 20,
     showCreations: true,
     showDeletions: true,
-    cellHeight: 32,
-    minCellWidth: 60,
+    cellHeight: 25,
+    minCellWidth: 80,
     colorScheme: 'activity',
+    timeBin: 'week',
+    metric: 'events',
   };
 
-  private svg: d3.Selection<SVGSVGElement, unknown, null, undefined> | null = null;
+  private table: HTMLTableElement | null = null;
   private container: HTMLElement | null = null;
-  private scrollContainer: HTMLDivElement | null = null;
   private tooltip: HTMLDivElement | null = null;
   private tooltipTimeout: number | null = null;
   private currentData: HeatmapData | null = null;
+  private currentConfig: HeatmapConfig | null = null;
+
+  // ✅ Helper function to get metric value from cell
+  private getValueForMetric(cell: HeatmapCell, metric: MetricType): number {
+    switch (metric) {
+      case 'commits':
+        // Count unique commit hashes
+        return new Set(cell.events.map(e => e.commit_hash)).size;
+      case 'events':
+        return cell.count;
+      case 'authors':
+        return cell.uniqueAuthors.size;
+      case 'lines':
+        // For now, use event count as proxy (could be enhanced with actual line data)
+        return cell.count;
+      default:
+        return cell.count;
+    }
+  }
 
   // Improved color scheme for better readability
   private getActivityColor(value: number, maxValue: number): string {
@@ -62,7 +94,7 @@ export class TimelineHeatmapPlugin implements VisualizationPlugin<HeatmapConfig,
     
     const normalized = Math.min(1, value / maxValue);
     
-    // GitHub-style green gradient (all colors stay dark enough for white text)
+    // GitHub-style green gradient
     if (normalized < 0.2) {
       return '#0e4429'; // Dark green
     } else if (normalized < 0.4) {
@@ -72,39 +104,31 @@ export class TimelineHeatmapPlugin implements VisualizationPlugin<HeatmapConfig,
     } else if (normalized < 0.8) {
       return '#39d353'; // Bright green
     } else {
-      return '#00ff41'; // Very bright green (still readable with white text)
+      return '#00ff41'; // Very bright green
     }
   }
 
   init(container: HTMLElement, config: HeatmapConfig): void {
     this.container = container;
     this.container.innerHTML = '';
-    this.container.style.overflow = 'hidden';
+    this.container.style.overflow = 'auto';
     this.container.style.position = 'relative';
-
-    // Create scroll container
-    this.scrollContainer = document.createElement('div');
-    this.scrollContainer.style.width = '100%';
-    this.scrollContainer.style.height = '100%';
-    this.scrollContainer.style.overflow = 'auto';
-    this.scrollContainer.style.position = 'relative';
-    this.container.appendChild(this.scrollContainer);
+    this.container.style.background = '#18181b';
+    this.currentConfig = config;
 
     // Create tooltip
     this.tooltip = document.createElement('div');
-    this.tooltip.className = 'absolute hidden bg-gray-900 text-white text-xs rounded-lg shadow-lg p-3 pointer-events-none z-50 max-w-xs border border-gray-700';
+    this.tooltip.className = 'absolute hidden bg-zinc-900/95 backdrop-blur text-white text-xs rounded-lg shadow-2xl p-3 pointer-events-none z-50 max-w-xs border border-zinc-700';
     this.tooltip.style.transition = 'opacity 0.2s';
     document.body.appendChild(this.tooltip);
-
-    // Create SVG without viewBox - use actual dimensions
-    this.svg = d3.select(this.scrollContainer)
-      .append('svg')
-      .style('display', 'block')
-      .style('background', '#18181b');
   }
 
-  processData(dataset: RawDataset): HeatmapData {
+  processData(dataset: RawDataset, config?: HeatmapConfig): HeatmapData {
     const events = dataset.events as FileEvent[];
+    
+    // ✅ Use config or default
+    const timeBinType = config?.timeBin || this.defaultConfig.timeBin;
+    const topN = config?.topN || this.defaultConfig.topN;
     
     // Filter valid events and parse dates
     const validEvents = events
@@ -128,40 +152,46 @@ export class TimelineHeatmapPlugin implements VisualizationPlugin<HeatmapConfig,
           commit_datetime: dateObj
         };
       })
-      .filter(e => !isNaN(e.commit_datetime.getTime())); // Remove invalid dates
+      .filter(e => !isNaN(e.commit_datetime.getTime()));
 
-    // Extract directories and aggregate by month
+    // ✅ Extract directories and aggregate by DYNAMIC time bin
     const cellMap = new Map<string, HeatmapCell>();
     
     validEvents.forEach(event => {
       const date = event.commit_datetime;
-      const monthStart = startOfMonth(date);
-      const monthKey = format(monthStart, 'yyyy-MM');
+      const binStart = getTimeBinStart(date, timeBinType); // ✅ Dynamic
+      const binKey = binStart.toISOString(); // ✅ Dynamic key
       
       // Get top-level or second-level directory
       const parts = event.file_path.split('/').filter(p => p);
       const directory = parts.length > 1 ? `${parts[0]}/${parts[1]}` : parts[0] || 'root';
       
-      const key = `${directory}|${monthKey}`;
+      const key = `${directory}|${binKey}`;
       
       if (!cellMap.has(key)) {
         cellMap.set(key, {
           directory,
-          month: monthStart,
-          monthKey,
+          timeBin: binStart,
+          timeBinKey: binKey,
           count: 0,
           creations: 0,
           deletions: 0,
+          modifications: 0,
           files: new Set(),
+          uniqueAuthors: new Set(),
+          events: [],
         });
       }
       
       const cell = cellMap.get(key)!;
       cell.count++;
       cell.files.add(event.file_path);
+      cell.uniqueAuthors.add(event.author_name);
+      cell.events.push(event);
       
-      if (event.status === 'A') cell.creations++;
-      if (event.status === 'D') cell.deletions++;
+      if (event.status === 'A' || event.status === 'added') cell.creations++;
+      if (event.status === 'D' || event.status === 'deleted') cell.deletions++;
+      if (event.status === 'M' || event.status === 'modified') cell.modifications++;
     });
 
     // Get top N directories by total activity
@@ -173,324 +203,260 @@ export class TimelineHeatmapPlugin implements VisualizationPlugin<HeatmapConfig,
 
     const topDirectories = Array.from(directoryCounts.entries())
       .sort((a, b) => b[1] - a[1])
-      .slice(0, this.defaultConfig.topN)
+      .slice(0, topN)
       .map(([dir]) => dir);
 
-    // Get all unique months
-    const monthSet = new Set<string>();
-    cellMap.forEach(cell => monthSet.add(cell.monthKey));
-    const months = Array.from(monthSet)
+    // ✅ Get all unique time bins (sorted)
+    const binSet = new Set<string>();
+    cellMap.forEach(cell => binSet.add(cell.timeBinKey));
+    const timeBins = Array.from(binSet)
       .sort()
-      .map(key => new Date(`${key}-01`));
+      .map(key => new Date(key));
 
     // Build 2D array of cells
     const cells: HeatmapCell[][] = topDirectories.map(directory => {
-      return months.map(month => {
-        const monthKey = format(month, 'yyyy-MM');
-        const key = `${directory}|${monthKey}`;
+      return timeBins.map(bin => {
+        const binKey = bin.toISOString();
+        const key = `${directory}|${binKey}`;
         return cellMap.get(key) || {
           directory,
-          month,
-          monthKey,
+          timeBin: bin,
+          timeBinKey: binKey,
           count: 0,
           creations: 0,
           deletions: 0,
+          modifications: 0,
           files: new Set(),
+          uniqueAuthors: new Set(),
+          events: [],
         };
       });
     });
 
-    // Find max count for color scaling
+    // ✅ Find max values for different metrics
     const maxCount = Math.max(...Array.from(cellMap.values()).map(c => c.count), 1);
+    const maxAuthors = Math.max(...Array.from(cellMap.values()).map(c => c.uniqueAuthors.size), 1);
 
     return {
       cells,
       directories: topDirectories,
-      months,
+      timeBins,
       maxCount,
+      maxAuthors,
     };
   }
 
   render(data: HeatmapData, config: HeatmapConfig): void {
-    if (!this.svg || !this.container) return;
+    if (!this.container) return;
     
     this.currentData = data;
-
-    // Fixed dimensions for scrollable timeline
-    const margin = { top: 80, right: 40, bottom: 100, left: 220 };
-    const cellWidth = config.minCellWidth;  // Fixed cell width
-    const cellHeight = config.cellHeight;   // Fixed cell height
-    
-    // Calculate actual SVG dimensions based on data
-    const gridWidth = cellWidth * data.months.length;
-    const gridHeight = cellHeight * data.directories.length;
-    const svgWidth = margin.left + gridWidth + margin.right;
-    const svgHeight = margin.top + gridHeight + margin.bottom;
-
-    // Set SVG to actual dimensions (will be scrollable)
-    this.svg
-      .attr('width', svgWidth)
-      .attr('height', svgHeight);
+    this.currentConfig = config;
 
     // Clear previous content
-    this.svg.selectAll('*').remove();
+    this.container.innerHTML = '';
 
-    // Add info text at top
-    const info = this.svg.append('g')
-      .attr('transform', `translate(${margin.left}, 30)`);
+    // Create table
+    this.table = document.createElement('table');
+    this.table.style.borderCollapse = 'separate';
+    this.table.style.borderSpacing = '2px';
+    this.table.style.width = 'fit-content';
+    this.table.style.minWidth = '100%';
+
+    // Create thead with sticky headers
+    const thead = document.createElement('thead');
+    const headerRow = document.createElement('tr');
     
-    info.append('text')
-      .attr('x', 0)
-      .attr('y', 0)
-      .attr('fill', '#fff')
-      .attr('font-size', '18px')
-      .attr('font-weight', 'bold')
-      .text('Repository Activity Timeline');
-    
-    info.append('text')
-      .attr('x', 0)
-      .attr('y', 25)
-      .attr('fill', '#a1a1aa')
-      .attr('font-size', '12px')
-      .text(`${data.directories.length} directories × ${data.months.length} months • Scroll horizontally to explore timeline`);
+    // Empty corner cell
+    const cornerTh = document.createElement('th');
+    cornerTh.style.position = 'sticky';
+    cornerTh.style.left = '0';
+    cornerTh.style.top = '0';
+    cornerTh.style.zIndex = '30';
+    cornerTh.style.background = '#27272a';
+    cornerTh.style.minWidth = '200px';
+    cornerTh.style.width = '200px';
+    cornerTh.style.padding = '12px';
+    cornerTh.style.borderBottom = '2px solid #18181b';
+    cornerTh.style.color = '#a1a1aa';
+    cornerTh.style.fontSize = '11px';
+    cornerTh.style.fontWeight = 'bold';
+    cornerTh.style.textAlign = 'left';
+    cornerTh.textContent = 'Directory';
+    headerRow.appendChild(cornerTh);
 
-    // Create main group
-    const g = this.svg.append('g')
-      .attr('transform', `translate(${margin.left},${margin.top})`);
-
-    // Helper function to get contrasting text color
-    const getTextColor = (count: number, maxCount: number): string => {
-      if (count === 0) return '#71717a'; // Gray for empty cells
-      // All activity colors (greens) are dark enough for white text
-      return '#ffffff';
-    };
-
-    // Draw cells
-    const cellGroups = g.selectAll('g.cell-group')
-      .data(data.cells)
-      .enter()
-      .append('g')
-      .attr('class', 'cell-group');
-
-    cellGroups.each((rowData, rowIndex, nodes) => {
-      const rowGroup = d3.select(nodes[rowIndex]);
+    // ✅ Dynamic time bin headers
+    data.timeBins.forEach((bin) => {
+      const th = document.createElement('th');
+      th.style.position = 'sticky';
+      th.style.top = '0';
+      th.style.zIndex = '20';
+      th.style.background = '#27272a';
+      th.style.minWidth = `${config.minCellWidth}px`;
+      th.style.width = `${config.minCellWidth}px`;
+      th.style.padding = '8px';
+      th.style.color = '#a1a1aa';
+      th.style.fontSize = '11px';
+      th.style.fontFamily = 'sans-serif';
+      th.style.textAlign = 'center';
+      th.style.verticalAlign = 'bottom';
+      th.style.borderBottom = '2px solid #18181b';
+      th.style.whiteSpace = 'nowrap';
+      th.style.overflow = 'hidden';
+      th.style.textOverflow = 'ellipsis';
       
-      rowData.forEach((cell, colIndex) => {
-        const cellGroup = rowGroup.append('g')
-          .attr('class', 'cell')
-          .attr('transform', `translate(${colIndex * cellWidth}, ${rowIndex * cellHeight})`);
+      const span = document.createElement('span');
+      span.style.display = 'inline-block';
+      span.textContent = formatTimeBin(bin, config.timeBin); // ✅ Dynamic formatting
+      th.appendChild(span);
+      
+      headerRow.appendChild(th);
+    });
 
-        const bgColor = cell.count > 0 ? this.getActivityColor(cell.count, data.maxCount) : '#8aece2';
-        const textColor = getTextColor(cell.count, data.maxCount);
+    thead.appendChild(headerRow);
+    this.table.appendChild(thead);
 
-        // Draw cell background
-        cellGroup.append('rect')
-          .attr('width', cellWidth - 2)
-          .attr('height', cellHeight - 2)
-          .attr('rx', 3)
-          .attr('fill', bgColor)
-          .attr('stroke', '#18181b')
-          .attr('stroke-width', 1)
-          .style('cursor', cell.count > 0 ? 'pointer' : 'default')
-          .on('mouseenter', (event) => this.showTooltip(event, cell, config))
-          .on('mouseleave', () => this.hideTooltip())
-          .on('mousemove', (event) => this.updateTooltipPosition(event));
+    // ✅ Determine max value based on metric
+    const maxValue = config.metric === 'authors' ? data.maxAuthors : data.maxCount;
 
-        // Draw creation indicator (green dot) with white stroke for visibility
+    // Create tbody with data rows
+    const tbody = document.createElement('tbody');
+    
+    data.directories.forEach((directory, rowIndex) => {
+      const row = document.createElement('tr');
+      
+      // Directory label (sticky)
+      const dirTh = document.createElement('th');
+      dirTh.style.position = 'sticky';
+      dirTh.style.left = '0';
+      dirTh.style.zIndex = '10';
+      dirTh.style.background = '#27272a';
+      dirTh.style.minWidth = '200px';
+      dirTh.style.width = '200px';
+      dirTh.style.padding = '8px 12px';
+      dirTh.style.color = '#fff';
+      dirTh.style.fontSize = '11px';
+      dirTh.style.fontFamily = 'monospace';
+      dirTh.style.fontWeight = '500';
+      dirTh.style.textAlign = 'left';
+      dirTh.style.whiteSpace = 'nowrap';
+      dirTh.style.overflow = 'hidden';
+      dirTh.style.textOverflow = 'ellipsis';
+      dirTh.style.borderRight = '2px solid #18181b';
+      dirTh.title = directory;
+      dirTh.textContent = directory.length > 28 ? '...' + directory.slice(-25) : directory;
+      row.appendChild(dirTh);
+
+      // Data cells
+      data.cells[rowIndex].forEach((cell, colIndex) => {
+        const td = document.createElement('td');
+        
+        // ✅ Get value based on selected metric
+        const cellValue = this.getValueForMetric(cell, config.metric);
+        const bgColor = cellValue > 0 ? this.getActivityColor(cellValue, maxValue) : '#27272a';
+        const textColor = cellValue > 0 ? '#ffffff' : '#71717a';
+        
+        td.style.background = bgColor;
+        td.style.minWidth = `${config.minCellWidth}px`;
+        td.style.width = `${config.minCellWidth}px`;
+        td.style.height = `${config.cellHeight}px`;
+        td.style.padding = '4px';
+        td.style.position = 'relative';
+        td.style.cursor = cellValue > 0 ? 'pointer' : 'default';
+        td.style.textAlign = 'center';
+        td.style.verticalAlign = 'middle';
+        td.style.transition = 'transform 0.1s, box-shadow 0.1s';
+
+        // Cell content container
+        const cellContent = document.createElement('div');
+        cellContent.style.position = 'relative';
+        cellContent.style.width = '100%';
+        cellContent.style.height = '100%';
+        cellContent.style.display = 'flex';
+        cellContent.style.alignItems = 'center';
+        cellContent.style.justifyContent = 'center';
+
+        // ✅ Display metric value
+        if (cellValue > 0) {
+          const countSpan = document.createElement('span');
+          countSpan.style.color = textColor;
+          countSpan.style.fontSize = '10px';
+          countSpan.style.fontFamily = 'monospace';
+          countSpan.style.fontWeight = '600';
+          countSpan.textContent = cellValue > 999 ? `${Math.floor(cellValue / 1000)}k` : cellValue.toString();
+          cellContent.appendChild(countSpan);
+        }
+
+        // Creation indicator (green dot)
         if (config.showCreations && cell.creations > 0) {
           const dotSize = Math.min(5, Math.sqrt(cell.creations) + 2);
-          cellGroup.append('circle')
-            .attr('cx', 8)
-            .attr('cy', 8)
-            .attr('r', dotSize)
-            .attr('fill', '#22c55e')
-            .attr('stroke', '#ffffff')
-            .attr('stroke-width', 1.5)
-            .style('pointer-events', 'none');
+          const creationDot = document.createElement('div');
+          creationDot.style.position = 'absolute';
+          creationDot.style.top = '4px';
+          creationDot.style.left = '4px';
+          creationDot.style.width = `${dotSize * 2}px`;
+          creationDot.style.height = `${dotSize * 2}px`;
+          creationDot.style.borderRadius = '50%';
+          creationDot.style.background = '#22c55e';
+          creationDot.style.border = '1.5px solid #ffffff';
+          creationDot.style.pointerEvents = 'none';
+          cellContent.appendChild(creationDot);
         }
 
-        // Draw deletion indicator (red dot) with white stroke for visibility
+        // Deletion indicator (red dot)
         if (config.showDeletions && cell.deletions > 0) {
           const dotSize = Math.min(5, Math.sqrt(cell.deletions) + 2);
-          cellGroup.append('circle')
-            .attr('cx', cellWidth - 10)
-            .attr('cy', 8)
-            .attr('r', dotSize)
-            .attr('fill', '#ef4444')
-            .attr('stroke', '#ffffff')
-            .attr('stroke-width', 1.5)
-            .style('pointer-events', 'none');
+          const deletionDot = document.createElement('div');
+          deletionDot.style.position = 'absolute';
+          deletionDot.style.top = '4px';
+          deletionDot.style.right = '4px';
+          deletionDot.style.width = `${dotSize * 2}px`;
+          deletionDot.style.height = `${dotSize * 2}px`;
+          deletionDot.style.borderRadius = '50%';
+          deletionDot.style.background = '#ef4444';
+          deletionDot.style.border = '1.5px solid #ffffff';
+          deletionDot.style.pointerEvents = 'none';
+          cellContent.appendChild(deletionDot);
         }
-        
-        // Add event count text for active cells with contrasting color
-        if (cell.count > 0 && cellWidth >= 50 && cellHeight >= 25) {
-          cellGroup.append('text')
-            .attr('x', cellWidth / 2)
-            .attr('y', cellHeight - 6)
-            .attr('text-anchor', 'middle')
-            .attr('fill', textColor)
-            .attr('font-size', '10px')
-            .attr('font-family', 'monospace')
-            .attr('font-weight', '600')
-            .style('pointer-events', 'none')
-            .text(cell.count > 999 ? `${Math.floor(cell.count / 1000)}k` : cell.count);
+
+        td.appendChild(cellContent);
+
+        // Event handlers
+        if (cellValue > 0) {
+          td.addEventListener('mouseenter', (e) => this.showTooltip(e, cell, config));
+          td.addEventListener('mouseleave', () => this.hideTooltip());
+          td.addEventListener('mousemove', (e) => this.updateTooltipPosition(e));
+          td.addEventListener('mouseenter', () => {
+            td.style.transform = 'scale(1.05)';
+            td.style.boxShadow = '0 4px 12px rgba(0, 0, 0, 0.5)';
+            td.style.zIndex = '5';
+          });
+          td.addEventListener('mouseleave', () => {
+            td.style.transform = 'scale(1)';
+            td.style.boxShadow = 'none';
+            td.style.zIndex = 'auto';
+          });
+          
+          // Click handler for detail panel
+          td.addEventListener('click', () => {
+            if (config.onCellClick) {
+              const cellWithEvents: HeatmapCellWithEvents = {
+                ...cell,
+                timeBin: formatTimeBin(cell.timeBin, config.timeBin),
+                value: cellValue,
+              };
+              config.onCellClick(cellWithEvents);
+            }
+          });
         }
+
+        row.appendChild(td);
       });
+
+      tbody.appendChild(row);
     });
 
-    // Add Y-axis (directory labels) - FIXED POSITION
-    const yAxis = g.append('g')
-      .attr('class', 'y-axis')
-      .attr('transform', `translate(-15, 0)`);
-
-    data.directories.forEach((dir, i) => {
-      const labelGroup = yAxis.append('g')
-        .attr('transform', `translate(0, ${i * cellHeight})`);
-      
-      // Background for label
-      labelGroup.append('rect')
-        .attr('x', -200)
-        .attr('y', 0)
-        .attr('width', 195)
-        .attr('height', cellHeight - 2)
-        .attr('fill', '#27272a')
-        .attr('opacity', 0.9);
-      
-      labelGroup.append('text')
-        .attr('x', -10)
-        .attr('y', cellHeight / 2)
-        .attr('text-anchor', 'end')
-        .attr('dominant-baseline', 'middle')
-        .attr('fill', 'black')
-        .attr('font-size', '11px')
-        .attr('font-family', 'monospace')
-        .attr('font-weight', '500')
-        .style('cursor', 'default')
-        .text(dir.length > 28 ? '...' + dir.slice(-25) : dir)
-        .append('title')
-        .text(dir);
-    });
-
-    // Add X-axis (month labels)
-    const xAxis = g.append('g')
-      .attr('class', 'x-axis')
-      .attr('transform', `translate(0, ${cellHeight * data.directories.length + 15})`);
-
-    data.months.forEach((month, i) => {
-      xAxis.append('text')
-        .attr('x', i * cellWidth + cellWidth / 2)
-        .attr('y', 0)
-        .attr('transform', `rotate(-45, ${i * cellWidth + cellWidth / 2}, 0)`)
-        .attr('text-anchor', 'end')
-        .attr('dominant-baseline', 'middle')
-        .attr('fill', '#a1a1aa')
-        .attr('font-size', '11px')
-        .attr('font-family', 'sans-serif')
-        .text(format(month, 'MMM yyyy'));
-    });
-
-    // Add legend
-    this.renderLegend(g, gridWidth + 30, 20, data.maxCount, config);
-  }
-
-  private renderLegend(
-    g: d3.Selection<SVGGElement, unknown, null, undefined>,
-    x: number,
-    y: number,
-    maxCount: number,
-    config: HeatmapConfig
-  ): void {
-    const legendWidth = 180;
-    const legendHeight = 160;
-
-    const legend = g.append('g')
-      .attr('class', 'legend')
-      .attr('transform', `translate(${x}, ${y})`);
-
-    // Background
-    legend.append('rect')
-      .attr('width', legendWidth)
-      .attr('height', legendHeight)
-      .attr('fill', '#FF91A4')
-      .attr('stroke', '#3f3f46')
-      .attr('stroke-width', 1)
-      .attr('rx', 6);
-
-    // Title
-    legend.append('text')
-      .attr('x', legendWidth / 2)
-      .attr('y', 22)
-      .attr('text-anchor', 'middle')
-      .attr('fill', '#fff')
-      .attr('font-size', '13px')
-      .attr('font-weight', 'bold')
-      .text('Activity Scale');
-
-    // Gradient samples
-    const gradientSteps = 5;
-    const stepHeight = 16;
-    const startY = 40;
-    
-    for (let i = 0; i < gradientSteps; i++) {
-      const value = (i / (gradientSteps - 1)) * maxCount;
-      const color = this.getActivityColor(value, maxCount);
-      
-      legend.append('rect')
-        .attr('x', 15)
-        .attr('y', startY + i * stepHeight)
-        .attr('width', 28)
-        .attr('height', stepHeight - 2)
-        .attr('rx', 2)
-        .attr('fill', color)
-        .attr('stroke', '#18181b');
-
-      legend.append('text')
-        .attr('x', 50)
-        .attr('y', startY + i * stepHeight + stepHeight / 2)
-        .attr('dominant-baseline', 'middle')
-        .attr('fill', '#e4e4e7')
-        .attr('font-size', '11px')
-        .text(i === 0 ? '0 events' : `${Math.round(value)} events`);
-    }
-
-    // Indicators legend
-    const indicatorY = startY + gradientSteps * stepHeight + 15;
-    
-    if (config.showCreations) {
-      legend.append('circle')
-        .attr('cx', 25)
-        .attr('cy', indicatorY)
-        .attr('r', 4)
-        .attr('fill', '#22c55e')
-        .attr('stroke', '#ffffff')
-        .attr('stroke-width', 1.5);
-      
-      legend.append('text')
-        .attr('x', 35)
-        .attr('y', indicatorY)
-        .attr('dominant-baseline', 'middle')
-        .attr('fill', '#e4e4e7')
-        .attr('font-size', '11px')
-        .text('File creations');
-    }
-
-    if (config.showDeletions) {
-      legend.append('circle')
-        .attr('cx', 25)
-        .attr('cy', indicatorY + 20)
-        .attr('r', 4)
-        .attr('fill', '#ef4444')
-        .attr('stroke', '#ffffff')
-        .attr('stroke-width', 1.5);
-      
-      legend.append('text')
-        .attr('x', 35)
-        .attr('y', indicatorY + 20)
-        .attr('dominant-baseline', 'middle')
-        .attr('fill', '#e4e4e7')
-        .attr('font-size', '11px')
-        .text('File deletions');
-    }
+    this.table.appendChild(tbody);
+    this.container.appendChild(this.table);
   }
 
   private showTooltip(event: MouseEvent, cell: HeatmapCell, config: HeatmapConfig): void {
@@ -502,14 +468,19 @@ export class TimelineHeatmapPlugin implements VisualizationPlugin<HeatmapConfig,
       this.tooltipTimeout = null;
     }
 
-    const monthLabel = format(cell.month, 'MMMM yyyy');
-    
+    // ✅ Get metric-specific value
+    const metricValue = this.getValueForMetric(cell, config.metric);
+    const metricLabel = config.metric.charAt(0).toUpperCase() + config.metric.slice(1);
+
     let content = `
-      <div class="font-bold mb-1">${cell.directory}</div>
-      <div class="text-gray-300 mb-2">${monthLabel}</div>
       <div class="space-y-1">
-        <div>Total Events: <span class="font-semibold">${cell.count}</span></div>
-        <div>Unique Files: <span class="font-semibold">${cell.files.size}</span></div>
+        <div class="font-bold text-sm text-purple-400">${cell.directory}</div>
+        <div class="text-zinc-400 text-[10px]">${formatTimeBin(cell.timeBin, config.timeBin)}</div>
+        <div class="border-t border-zinc-700 pt-1 mt-1"></div>
+        <div><span class="text-zinc-500">${metricLabel}:</span> <span class="font-semibold">${metricValue}</span></div>
+        <div><span class="text-zinc-500">Total Events:</span> <span class="font-semibold">${cell.count}</span></div>
+        <div><span class="text-zinc-500">Unique Files:</span> <span class="font-semibold">${cell.files.size}</span></div>
+        <div><span class="text-zinc-500">Contributors:</span> <span class="font-semibold">${cell.uniqueAuthors.size}</span></div>
     `;
 
     if (config.showCreations && cell.creations > 0) {
@@ -523,6 +494,13 @@ export class TimelineHeatmapPlugin implements VisualizationPlugin<HeatmapConfig,
       content += `<div class="flex items-center gap-1">
         <span class="inline-block w-2 h-2 rounded-full bg-red-500"></span>
         Deletions: <span class="font-semibold">${cell.deletions}</span>
+      </div>`;
+    }
+
+    if (cell.modifications > 0) {
+      content += `<div class="flex items-center gap-1">
+        <span class="inline-block w-2 h-2 rounded-full bg-blue-500"></span>
+        Modifications: <span class="font-semibold">${cell.modifications}</span>
       </div>`;
     }
 
@@ -578,33 +556,26 @@ export class TimelineHeatmapPlugin implements VisualizationPlugin<HeatmapConfig,
       this.tooltip.remove();
       this.tooltip = null;
     }
-    if (this.svg) {
-      this.svg.remove();
-      this.svg = null;
-    }
-    if (this.scrollContainer) {
-      this.scrollContainer.remove();
-      this.scrollContainer = null;
+    if (this.table) {
+      this.table.remove();
+      this.table = null;
     }
     if (this.container) {
       this.container.innerHTML = '';
       this.container = null;
     }
     this.currentData = null;
+    this.currentConfig = null;
   }
 
   async exportImage(): Promise<Blob> {
-    if (!this.svg) {
+    if (!this.table) {
       throw new Error('No visualization to export');
     }
 
-    const svgNode = this.svg.node();
-    if (!svgNode) {
-      throw new Error('SVG node not found');
-    }
-
-    const serializer = new XMLSerializer();
-    const svgString = serializer.serializeToString(svgNode);
+    const svgString = `<svg xmlns="http://www.w3.org/2000/svg" width="800" height="600">
+      <text x="400" y="300" text-anchor="middle" fill="white">Export feature for HTML table coming soon...</text>
+    </svg>`;
     const blob = new Blob([svgString], { type: 'image/svg+xml' });
 
     return blob;

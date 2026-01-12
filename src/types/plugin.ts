@@ -20,7 +20,7 @@ export interface VisualizationPlugin<TConfig = any, TData = any> {
   
   // Lifecycle methods
   init(container: HTMLElement, config: TConfig): void;
-  processData(dataset: RawDataset): TData;
+  processData(dataset: RawDataset, config?: TConfig): TData; // ✅ Added config parameter
   render(data: TData, config: TConfig): void;
   update(data: TData, config: TConfig): void;
   destroy(): void;

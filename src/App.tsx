@@ -7,11 +7,9 @@ import { dataLoader } from '@/services/data/DataLoader';
 import { dataProcessor } from '@/services/processing/DataProcessor';
 import { useAppStore } from '@/store/appStore';
 import { TimelineHeatmapPlugin } from '@/plugins/timeline-heatmap/TimelineHeatmapPlugin';
-import { TreemapPlugin } from '@/plugins/treemap-animation/TreemapPlugin';
 import LoadingSpinner from '@/components/common/LoadingSpinner';
 import ErrorDisplay from '@/components/common/ErrorDisplay';
 import PluginSelector from '@/components/layout/PluginSelector';
-import TimelineControls from '@/components/common/TimelineControls';
 import FilterPanel from '@/components/common/FilterPanel';
 import MetricSelector from '@/components/common/MetricSelector';
 import TimeBinSelector from '@/components/common/TimeBinSelector';
@@ -24,7 +22,6 @@ const App: React.FC = () => {
   const [plugins, setPlugins] = useState<VisualizationPlugin[]>([]);
   const [activePlugin, setActivePluginInstance] = useState<VisualizationPlugin | null>(null);
   
-  // NEW: Progress state
   const [loadingProgress, setLoadingProgress] = useState<LoadProgress>({
     loaded: 0,
     total: 0,
@@ -34,17 +31,14 @@ const App: React.FC = () => {
   const { 
     data, setData, setLoading, setError, 
     ui, setActivePlugin, setShowFilters, setSelectedCell,
-    filters,
-    timeline
+    filters
   } = useAppStore();
   
   // Initialize plugins
   useEffect(() => {
     const heatmapPlugin = new TimelineHeatmapPlugin();
-    const treemapPlugin = new TreemapPlugin();
     
     PluginRegistry.register(heatmapPlugin);
-    PluginRegistry.register(treemapPlugin);
     
     const allPlugins = PluginRegistry.getAll();
     setPlugins(allPlugins);
@@ -70,7 +64,6 @@ const App: React.FC = () => {
         const eventsUrl = './DATASETS_excalidraw/file_lifecycle_events.csv';
         const summaryUrl = './DATASETS_excalidraw/file_lifecycle_summary.csv';
         
-        // Load with progress updates
         const dataset = await dataLoader.loadDatasetWithProgress(
           eventsUrl,
           summaryUrl,
@@ -110,7 +103,6 @@ const App: React.FC = () => {
 
     let result = data.events;
 
-    // Apply filters
     if (filters.authors.size > 0) {
       result = dataProcessor.filterEventsByAuthors(result, filters.authors);
     }
@@ -136,32 +128,11 @@ const App: React.FC = () => {
     return result;
   }, [data.events, filters.authors, filters.directories, filters.fileTypes, filters.eventTypes]);
 
-  // Get Date Range
-  const dateRange = useMemo(() => {
-    if (data.events.length === 0) return { min: new Date(), max: new Date() };
-    
-    // Optimized min/max calculation to avoid spread operator on large arrays
-    let min = data.events[0].commit_datetime.getTime();
-    let max = min;
-    
-    for (let i = 1; i < data.events.length; i++) {
-      const time = data.events[i].commit_datetime.getTime();
-      if (time < min) min = time;
-      if (time > max) max = time;
-    }
-    
-    return {
-      min: new Date(min),
-      max: new Date(max)
-    };
-  }, [data.events]);
-  
   // Process and Render
   useEffect(() => {
     if (!activePlugin || filteredEvents.length === 0 || !containerRef.current) return;
     
     try {
-      // Merge default config with store state
       const config = {
         ...activePlugin.defaultConfig,
         timeBin: filters.timeBin,
@@ -169,10 +140,11 @@ const App: React.FC = () => {
         onCellClick: (cell: any) => setSelectedCell(cell)
       };
 
+      // ✅ Pass config to processData
       const processed = activePlugin.processData({
         events: filteredEvents,
         summary: data.summary,
-      });
+      }, config);
       
       activePlugin.init(containerRef.current, config);
       activePlugin.render(processed, config);
@@ -188,16 +160,6 @@ const App: React.FC = () => {
       }
     };
   }, [activePlugin, filteredEvents, filters.timeBin, filters.metric, containerRef.current]);
-  
-  // Update time indicator when timeline.currentTime changes
-  useEffect(() => {
-    if (!activePlugin) return;
-    
-    if (activePlugin.metadata.id === 'timeline-heatmap' && 
-        typeof (activePlugin as any).updateCurrentTimeIndicator === 'function') {
-      (activePlugin as any).updateCurrentTimeIndicator(timeline.currentTime);
-    }
-  }, [timeline.currentTime, activePlugin]);
   
   const handleExport = async () => {
     if (!activePlugin) return;
@@ -215,7 +177,6 @@ const App: React.FC = () => {
     }
   };
   
-  // Enhanced loading screen with progress
   if (data.loading) {
     const percent = loadingProgress.total > 0 
       ? Math.floor((loadingProgress.loaded / loadingProgress.total) * 100)
@@ -231,8 +192,6 @@ const App: React.FC = () => {
       <div className="h-screen bg-zinc-950 text-white flex items-center justify-center">
         <div className="text-center space-y-6 max-w-md w-full px-6">
           <LoadingSpinner message="Loading repository data..." />
-          
-          {/* Progress Bar */}
           <div className="space-y-2">
             <div className="w-full bg-zinc-800 rounded-full h-3 overflow-hidden">
               <div 
@@ -240,22 +199,16 @@ const App: React.FC = () => {
                 style={{ width: `${percent}%` }}
               />
             </div>
-            
-            {/* Progress Text */}
             <div className="flex justify-between items-center text-sm">
               <span className="text-zinc-400 font-mono">{phaseLabel}</span>
               <span className="text-zinc-500 font-mono">
                 {loadingProgress.loaded.toLocaleString()} / {loadingProgress.total.toLocaleString()}
               </span>
             </div>
-            
-            {/* Percentage */}
             <div className="text-center">
               <span className="text-2xl font-bold text-white">{percent}%</span>
             </div>
           </div>
-          
-          {/* Tip */}
           <p className="text-xs text-zinc-600 italic">
             Streaming data with Web Workers for optimal performance...
           </p>
@@ -274,24 +227,24 @@ const App: React.FC = () => {
   
   return (
     <div className="h-screen bg-zinc-950 text-white flex flex-col overflow-hidden">
-      {/* Header */}
-      <header className="bg-zinc-900 border-b border-zinc-800 p-3 flex-none z-10">
-        <div className="flex items-center justify-between">
+      {/* 1. Compact Header (flex-none) */}
+      <header className="bg-zinc-900 border-b border-zinc-800 px-4 py-2 flex-none z-10">
+        <div className="flex items-center justify-between gap-4">
           <div className="flex items-center gap-4">
-            <div>
-              <h1 className="text-lg font-bold leading-tight">Git Repository Visualization</h1>
-              <p className="text-xs text-zinc-500 font-mono">
+            <div className="flex flex-col">
+              <h1 className="text-base font-bold leading-tight">Git Repository Visualization</h1>
+              <p className="text-[10px] text-zinc-500 font-mono leading-tight">
                 {filteredEvents.length.toLocaleString()} events · {data.summary.length.toLocaleString()} files
               </p>
             </div>
-            <div className="h-8 w-px bg-zinc-800 mx-2"></div>
+            <div className="h-8 w-px bg-zinc-800"></div>
             <PluginSelector plugins={plugins} />
           </div>
           
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-2">
             <TimeBinSelector />
             <MetricSelector />
-            <div className="h-8 w-px bg-zinc-800 mx-2"></div>
+            <div className="h-8 w-px bg-zinc-800"></div>
             
             <button
               onClick={() => setShowFilters(!ui.showFilters)}
@@ -312,37 +265,33 @@ const App: React.FC = () => {
         </div>
       </header>
       
-      {/* Main content area */}
+      {/* 2. Main Content Area (flex-1) */}
       <div className="flex-1 flex overflow-hidden">
-        {/* Filter Panel */}
-        {ui.showFilters && (
-          <aside className="w-80 bg-zinc-900 border-r border-zinc-800 overflow-y-auto flex-none">
-            <FilterPanel events={data.events} onClose={() => setShowFilters(false)} />
-          </aside>
-        )}
         
-        {/* Visualization area */}
-        <main className="flex-1 overflow-hidden relative">
-          <div ref={containerRef} className="w-full h-full"></div>
+        {/* 2a. Filter Panel (flex-none, toggleable) */}
+        <aside className={`w-80 bg-zinc-900 border-r border-zinc-800 overflow-y-auto flex-none panel-transition ${!ui.showFilters ? 'panel-hidden' : ''}`}>
+          <FilterPanel events={data.events} onClose={() => setShowFilters(false)} />
+        </aside>
+        
+        {/* 2b. Center Column (flex-1) */}
+        <main className="flex-1 flex flex-col overflow-hidden">
+          
+          {/* Visualization Grid (flex-1, scrollable) */}
+          <div ref={containerRef} className="flex-1 overflow-auto"></div>
+
         </main>
-        
-        {/* Cell detail panel */}
-        {ui.selectedCell && (
-          <aside className="w-96 bg-zinc-900 border-l border-zinc-800 overflow-y-auto flex-none">
+
+        {/* 2c. Detail Panel (flex-none, toggleable) */}
+        <aside className={`w-96 bg-zinc-900 border-l border-zinc-800 flex-none panel-transition relative ${!ui.selectedCell ? 'panel-hidden' : ''}`}>
+          {ui.selectedCell && (
             <CellDetailPanel 
               cell={ui.selectedCell} 
               onClose={() => setSelectedCell(null)}
             />
-          </aside>
-        )}
+          )}
+        </aside>
+
       </div>
-      
-      {/* Timeline Controls Footer */}
-      {activePlugin?.metadata.id === 'timeline-heatmap' && (
-        <footer className="bg-zinc-900 border-t border-zinc-800 p-4 flex-none">
-          <TimelineControls minDate={dateRange.min} maxDate={dateRange.max} />
-        </footer>
-      )}
     </div>
   );
 };
