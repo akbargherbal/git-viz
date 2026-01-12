@@ -15,6 +15,10 @@ body {
   overflow: hidden;
 }
 
+main {
+  padding-bottom: 12px;
+}
+
 code, pre {
   font-family: 'Courier New', Courier, monospace;
 }

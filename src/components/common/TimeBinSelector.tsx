@@ -12,7 +12,6 @@ export const TimeBinSelector: React.FC = () => {
     { value: 'week', label: 'Week', icon: <CalendarRange size={14} /> },
     { value: 'month', label: 'Month', icon: <Calendar size={14} /> },
     { value: 'quarter', label: 'Quarter', icon: <CalendarClock size={14} /> },
-    { value: 'year', label: 'Year', icon: <Calendar size={14} /> },
   ];
 
   return (

@@ -1,47 +1,18 @@
 // src/components/common/FilterPanel.tsx
-import React, { useMemo } from 'react';
+import React from 'react';
 import { useAppStore } from '@/store/appStore';
 import { X, Filter, User, Folder, File, Tag, RotateCcw } from 'lucide-react';
-import { FileEvent } from '@/types/domain';
+import { RepoMetadata } from '@/types/domain';
 
 interface FilterPanelProps {
-  events: FileEvent[];
+  metadata: RepoMetadata | null;
   onClose: () => void;
 }
 
-export const FilterPanel: React.FC<FilterPanelProps> = ({ events, onClose }) => {
+export const FilterPanel: React.FC<FilterPanelProps> = ({ metadata, onClose }) => {
   const { filters, toggleAuthor, toggleDirectory, toggleFileType, toggleEventType, clearFilters } = useAppStore();
 
-  // Compute available options from data
-  const options = useMemo(() => {
-    const authors = new Map<string, number>();
-    const directories = new Map<string, number>();
-    const fileTypes = new Map<string, number>();
-    const eventTypes = new Map<string, number>();
-
-    events.forEach(e => {
-      // Authors
-      authors.set(e.author_name, (authors.get(e.author_name) || 0) + 1);
-      
-      // Directories (top level)
-      const dir = e.file_path.split('/')[0];
-      if (dir) directories.set(dir, (directories.get(dir) || 0) + 1);
-      
-      // File Types
-      const ext = e.file_path.split('.').pop() || 'unknown';
-      fileTypes.set(ext, (fileTypes.get(ext) || 0) + 1);
-      
-      // Event Types
-      eventTypes.set(e.status, (eventTypes.get(e.status) || 0) + 1);
-    });
-
-    return {
-      authors: Array.from(authors.entries()).sort((a, b) => b[1] - a[1]),
-      directories: Array.from(directories.entries()).sort((a, b) => b[1] - a[1]),
-      fileTypes: Array.from(fileTypes.entries()).sort((a, b) => b[1] - a[1]),
-      eventTypes: Array.from(eventTypes.entries()).sort((a, b) => b[1] - a[1]),
-    };
-  }, [events]);
+  if (!metadata) return null;
 
   // Check if any filters are active
   const hasActiveFilters = 
@@ -59,7 +30,7 @@ export const FilterPanel: React.FC<FilterPanelProps> = ({ events, onClose }) => 
   }: { 
     title: string; 
     icon: any; 
-    items: [string, number][]; 
+    items: { label: string; count: number }[]; 
     selected: Set<string>; 
     onToggle: (id: string) => void; 
   }) => (
@@ -69,30 +40,37 @@ export const FilterPanel: React.FC<FilterPanelProps> = ({ events, onClose }) => 
         {title}
       </div>
       <div className="space-y-1 max-h-48 overflow-y-auto pr-2 custom-scrollbar">
-        {items.map(([item, count]) => (
+        {items.map(({ label, count }) => (
           <label 
-            key={item} 
+            key={label} 
             className={`
               flex items-center justify-between p-2 rounded cursor-pointer text-sm transition-colors
-              ${selected.has(item) ? 'bg-purple-900/30 text-purple-200' : 'hover:bg-zinc-800 text-zinc-300'}
+              ${selected.has(label) ? 'bg-purple-900/30 text-purple-200' : 'hover:bg-zinc-800 text-zinc-300'}
             `}
           >
             <div className="flex items-center gap-2 overflow-hidden">
               <input
                 type="checkbox"
-                checked={selected.has(item)}
-                onChange={() => onToggle(item)}
+                checked={selected.has(label)}
+                onChange={() => onToggle(label)}
                 className="rounded border-zinc-600 bg-zinc-800 text-purple-600 focus:ring-purple-500/50"
               />
-              <span className="truncate" title={item}>{item}</span>
+              <span className="truncate" title={label}>{label}</span>
             </div>
-            <span className="text-xs text-zinc-500 font-mono">{count}</span>
+            <span className="text-xs text-zinc-500 font-mono">{count.toLocaleString()}</span>
           </label>
         ))}
       </div>
     </div>
   );
 
+  // Transform metadata for display
+  const authorItems = metadata.authors.map(a => ({ label: a.name, count: a.commit_count }));
+  const fileTypeItems = metadata.file_types.map(f => ({ label: f.extension, count: f.count }));
+  
+  // Note: Directory stats might need to be derived from the tree if not in metadata, 
+  // but for now we'll skip or use what's available.
+  
   return (
     <div className="w-80 bg-zinc-900 border-l border-zinc-800 h-full flex flex-col shadow-xl">
       <div className="p-4 border-b border-zinc-800 flex items-center justify-between">
@@ -112,39 +90,22 @@ export const FilterPanel: React.FC<FilterPanelProps> = ({ events, onClose }) => 
 
       <div className="flex-1 overflow-y-auto p-4 custom-scrollbar">
         <FilterSection 
-          title="Event Types" 
-          icon={Tag} 
-          items={options.eventTypes} 
-          selected={filters.eventTypes} 
-          onToggle={toggleEventType} 
-        />
-        
-        <FilterSection 
-          title="Directories" 
-          icon={Folder} 
-          items={options.directories} 
-          selected={filters.directories} 
-          onToggle={toggleDirectory} 
+          title="Authors" 
+          icon={User} 
+          items={authorItems} 
+          selected={filters.authors} 
+          onToggle={toggleAuthor} 
         />
         
         <FilterSection 
           title="File Types" 
           icon={File} 
-          items={options.fileTypes} 
+          items={fileTypeItems} 
           selected={filters.fileTypes} 
           onToggle={toggleFileType} 
         />
-        
-        <FilterSection 
-          title="Authors" 
-          icon={User} 
-          items={options.authors} 
-          selected={filters.authors} 
-          onToggle={toggleAuthor} 
-        />
       </div>
 
-      {/* QUICK WIN: Improved Reset Filters button */}
       <div className="p-4 border-t border-zinc-800">
         <button
           onClick={clearFilters}
@@ -157,7 +118,6 @@ export const FilterPanel: React.FC<FilterPanelProps> = ({ events, onClose }) => 
               : 'bg-zinc-800 text-zinc-500 cursor-not-allowed'
             }
           `}
-          title={hasActiveFilters ? 'Reset all filters' : 'No active filters'}
         >
           <RotateCcw size={16} />
           Reset Filters

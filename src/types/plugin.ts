@@ -1,15 +1,16 @@
 // src/types/plugin.ts
 
-import { FileEvent, FileSummary } from './domain';
+import { RepoMetadata, OptimizedDirectoryNode, ActivityMatrixItem } from './domain';
 import { PluginMetadata, ExportOptions } from './visualization';
 
 /**
  * Plugin system types and interfaces
  */
 
-export interface RawDataset {
-  events: FileEvent[];
-  summary: FileSummary[];
+export interface OptimizedDataset {
+  metadata: RepoMetadata;
+  tree: OptimizedDirectoryNode;
+  activity: ActivityMatrixItem[];
 }
 
 export interface VisualizationPlugin<TConfig = any, TData = any> {
@@ -20,7 +21,10 @@ export interface VisualizationPlugin<TConfig = any, TData = any> {
   
   // Lifecycle methods
   init(container: HTMLElement, config: TConfig): void;
-  processData(dataset: RawDataset, config?: TConfig): TData; // ✅ Added config parameter
+  
+  // Updated to accept OptimizedDataset
+  processData(dataset: OptimizedDataset, config?: TConfig): TData;
+  
   render(data: TData, config: TConfig): void;
   update(data: TData, config: TConfig): void;
   destroy(): void;

@@ -1,9 +1,14 @@
 // src/plugins/timeline-heatmap/TimelineHeatmapPlugin.ts
 
-import { format } from 'date-fns';
-import type { VisualizationPlugin, RawDataset } from '@/types/plugin';
-import type { FileEvent, TimeBinType, MetricType } from '@/types/domain';
-import { getTimeBinStart, formatTimeBin } from '@/utils/dateHelpers';
+import { format } from "date-fns";
+import type { VisualizationPlugin, OptimizedDataset } from "@/types/plugin";
+import type {
+  TimeBinType,
+  MetricType,
+  OptimizedDirectoryNode,
+} from "@/types/domain";
+import { getTimeBinStart, formatTimeBin } from "@/utils/dateHelpers";
+import { formatNumber } from "@/utils/formatting";
 
 interface HeatmapConfig {
   topN: number;
@@ -11,44 +16,70 @@ interface HeatmapConfig {
   showDeletions: boolean;
   cellHeight: number;
   minCellWidth: number;
-  colorScheme: 'activity' | 'intensity';
-  timeBin: TimeBinType; // ✅ Added
-  metric: MetricType;    // ✅ Added
-  onCellClick?: (cell: HeatmapCellWithEvents) => void;
+  colorScheme: "activity" | "intensity";
+  timeBin: TimeBinType;
+  metric: MetricType;
+  onCellClick?: (cell: any) => void;
 }
 
-interface HeatmapCell {
+// Extended interface to include all metrics
+export interface HeatmapCell {
   directory: string;
   timeBin: Date;
-  timeBinKey: string;
-  count: number;
+  // Metrics
+  events: number; // Total events (a + m + del)
+  commits: number; // Total commits
+  authors: number; // Unique authors
+  // Breakdown
   creations: number;
   deletions: number;
   modifications: number;
-  files: Set<string>;
-  uniqueAuthors: Set<string>;
-  events: FileEvent[];
-}
-
-interface HeatmapCellWithEvents extends HeatmapCell {
-  timeBin: string;
-  value: number;
+  // Display helper
+  value: number; // The value currently being visualized based on metric
 }
 
 interface HeatmapData {
   cells: HeatmapCell[][];
   directories: string[];
   timeBins: Date[];
-  maxCount: number;
-  maxAuthors: number; // ✅ Added for author metric
+  maxValue: number; // Max value for the CURRENT metric
 }
 
-export class TimelineHeatmapPlugin implements VisualizationPlugin<HeatmapConfig, HeatmapData> {
+// Add this helper function at the top of the class or file
+function getContrastingTextColor(
+  hue: number,
+  saturation: number,
+  lightness: number
+): string {
+  // Convert HSL to relative luminance (simplified, good enough for our use case)
+  // This approximation works well for our color ranges
+  const luminance = lightness / 100;
+
+  // For saturated colors, we need a higher threshold
+  // Green/yellow hues need even higher thresholds due to human eye sensitivity
+  let threshold = 0.5;
+  if (saturation > 50) {
+    // Adjust threshold based on hue (green/yellow are brighter to human eye)
+    if (hue >= 60 && hue <= 180) {
+      // Green to cyan range
+      threshold = 0.6;
+    } else if (hue >= 30 && hue < 60) {
+      // Yellow-orange range
+      threshold = 0.55;
+    }
+  }
+
+  return luminance > threshold ? "#000000" : "#ffffff";
+}
+
+export class TimelineHeatmapPlugin
+  implements VisualizationPlugin<HeatmapConfig, HeatmapData>
+{
   metadata = {
-    id: 'timeline-heatmap',
-    name: 'Timeline Heatmap',
-    description: 'Repository activity across time and directory structure',
-    version: '2.1.0',
+    id: "timeline-heatmap",
+    name: "Timeline Heatmap",
+    description: "Repository activity across time and directory structure",
+    version: "3.1.0",
     priority: 1,
   };
 
@@ -56,536 +87,291 @@ export class TimelineHeatmapPlugin implements VisualizationPlugin<HeatmapConfig,
     topN: 20,
     showCreations: true,
     showDeletions: true,
-    cellHeight: 25,
-    minCellWidth: 80,
-    colorScheme: 'activity',
-    timeBin: 'week',
-    metric: 'events',
+    cellHeight: 30,
+    minCellWidth: 60,
+    colorScheme: "activity",
+    timeBin: "week",
+    metric: "events",
   };
 
-  private table: HTMLTableElement | null = null;
   private container: HTMLElement | null = null;
-  private tooltip: HTMLDivElement | null = null;
-  private tooltipTimeout: number | null = null;
-  private currentData: HeatmapData | null = null;
-  private currentConfig: HeatmapConfig | null = null;
-
-  // ✅ Helper function to get metric value from cell
-  private getValueForMetric(cell: HeatmapCell, metric: MetricType): number {
-    switch (metric) {
-      case 'commits':
-        // Count unique commit hashes
-        return new Set(cell.events.map(e => e.commit_hash)).size;
-      case 'events':
-        return cell.count;
-      case 'authors':
-        return cell.uniqueAuthors.size;
-      case 'lines':
-        // For now, use event count as proxy (could be enhanced with actual line data)
-        return cell.count;
-      default:
-        return cell.count;
-    }
-  }
-
-  // Improved color scheme for better readability
-  private getActivityColor(value: number, maxValue: number): string {
-    if (value === 0 || maxValue === 0) return '#27272a'; // Dark gray for empty
-    
-    const normalized = Math.min(1, value / maxValue);
-    
-    // GitHub-style green gradient
-    if (normalized < 0.2) {
-      return '#0e4429'; // Dark green
-    } else if (normalized < 0.4) {
-      return '#006d32'; // Medium-dark green
-    } else if (normalized < 0.6) {
-      return '#26a641'; // Medium green
-    } else if (normalized < 0.8) {
-      return '#39d353'; // Bright green
-    } else {
-      return '#00ff41'; // Very bright green
-    }
-  }
 
   init(container: HTMLElement, config: HeatmapConfig): void {
     this.container = container;
-    this.container.innerHTML = '';
-    this.container.style.overflow = 'auto';
-    this.container.style.position = 'relative';
-    this.container.style.background = '#18181b';
-    this.currentConfig = config;
-
-    // Create tooltip
-    this.tooltip = document.createElement('div');
-    this.tooltip.className = 'absolute hidden bg-zinc-900/95 backdrop-blur text-white text-xs rounded-lg shadow-2xl p-3 pointer-events-none z-50 max-w-xs border border-zinc-700';
-    this.tooltip.style.transition = 'opacity 0.2s';
-    document.body.appendChild(this.tooltip);
+    this.container.innerHTML = "";
+    this.container.style.overflow = "auto";
+    this.container.style.background = "#09090b"; // zinc-950
   }
 
-  processData(dataset: RawDataset, config?: HeatmapConfig): HeatmapData {
-    const events = dataset.events as FileEvent[];
-    
-    // ✅ Use config or default
+  processData(dataset: OptimizedDataset, config?: HeatmapConfig): HeatmapData {
+    const { tree, activity } = dataset;
     const timeBinType = config?.timeBin || this.defaultConfig.timeBin;
+    const metric = config?.metric || this.defaultConfig.metric;
     const topN = config?.topN || this.defaultConfig.topN;
-    
-    // Filter valid events and parse dates
-    const validEvents = events
-      .filter(e => 
-        e.file_path && 
-        e.commit_datetime && 
-        !e.file_path.includes('node_modules') &&
-        !e.file_path.startsWith('.')
-      )
-      .map(e => {
-        // Handle both Date objects and string dates
-        let dateObj: Date;
-        if (e.commit_datetime instanceof Date) {
-          dateObj = e.commit_datetime;
-        } else {
-          dateObj = new Date(e.commit_datetime);
-        }
-        
-        return {
-          ...e,
-          commit_datetime: dateObj
-        };
-      })
-      .filter(e => !isNaN(e.commit_datetime.getTime()));
 
-    // ✅ Extract directories and aggregate by DYNAMIC time bin
+    // 1. Map IDs to Directory Paths
+    const idToPath = new Map<number, string>();
+    const traverse = (node: OptimizedDirectoryNode, currentPath: string) => {
+      const path = currentPath ? `${currentPath}/${node.name}` : node.name;
+      if (node.type === "directory") {
+        idToPath.set(node.id, path);
+        node.children?.forEach((child) => traverse(child, path));
+      }
+    };
+    traverse(tree, "");
+
+    // 2. Aggregate Activity by Directory and TimeBin
+    const dirActivity = new Map<string, number>(); // For sorting top N
     const cellMap = new Map<string, HeatmapCell>();
-    
-    validEvents.forEach(event => {
-      const date = event.commit_datetime;
-      const binStart = getTimeBinStart(date, timeBinType); // ✅ Dynamic
-      const binKey = binStart.toISOString(); // ✅ Dynamic key
-      
-      // Get top-level or second-level directory
-      const parts = event.file_path.split('/').filter(p => p);
-      const directory = parts.length > 1 ? `${parts[0]}/${parts[1]}` : parts[0] || 'root';
-      
-      const key = `${directory}|${binKey}`;
-      
+    const timeBinsSet = new Set<number>();
+
+    activity.forEach((item) => {
+      const path = idToPath.get(item.id);
+      if (!path) return;
+
+      // Calculate total activity for sorting (always sort by total events for relevance)
+      const totalEvents = item.a + item.m + item.del;
+      dirActivity.set(path, (dirActivity.get(path) || 0) + totalEvents);
+
+      // Binning
+      const date = new Date(item.d);
+      const binStart = getTimeBinStart(date, timeBinType);
+      const binKey = binStart.getTime();
+      timeBinsSet.add(binKey);
+
+      const key = `${path}|${binKey}`;
       if (!cellMap.has(key)) {
         cellMap.set(key, {
-          directory,
+          directory: path,
           timeBin: binStart,
-          timeBinKey: binKey,
-          count: 0,
+          events: 0,
+          commits: 0,
+          authors: 0,
           creations: 0,
           deletions: 0,
           modifications: 0,
-          files: new Set(),
-          uniqueAuthors: new Set(),
-          events: [],
+          value: 0,
         });
       }
-      
+
       const cell = cellMap.get(key)!;
-      cell.count++;
-      cell.files.add(event.file_path);
-      cell.uniqueAuthors.add(event.author_name);
-      cell.events.push(event);
-      
-      if (event.status === 'A' || event.status === 'added') cell.creations++;
-      if (event.status === 'D' || event.status === 'deleted') cell.deletions++;
-      if (event.status === 'M' || event.status === 'modified') cell.modifications++;
+      cell.events += totalEvents;
+      cell.commits += item.c;
+      cell.creations += item.a;
+      cell.deletions += item.del;
+      cell.modifications += item.m;
+      // Authors is pre-calculated unique count in matrix, we take the max for the bin
+      cell.authors = Math.max(cell.authors, item.au);
     });
 
-    // Get top N directories by total activity
-    const directoryCounts = new Map<string, number>();
-    cellMap.forEach(cell => {
-      const current = directoryCounts.get(cell.directory) || 0;
-      directoryCounts.set(cell.directory, current + cell.count);
-    });
-
-    const topDirectories = Array.from(directoryCounts.entries())
+    // 3. Get Top N Directories
+    const topDirectories = Array.from(dirActivity.entries())
       .sort((a, b) => b[1] - a[1])
       .slice(0, topN)
       .map(([dir]) => dir);
 
-    // ✅ Get all unique time bins (sorted)
-    const binSet = new Set<string>();
-    cellMap.forEach(cell => binSet.add(cell.timeBinKey));
-    const timeBins = Array.from(binSet)
+    // 4. Sort Time Bins
+    const timeBins = Array.from(timeBinsSet)
       .sort()
-      .map(key => new Date(key));
+      .map((t) => new Date(t));
 
-    // Build 2D array of cells
-    const cells: HeatmapCell[][] = topDirectories.map(directory => {
-      return timeBins.map(bin => {
-        const binKey = bin.toISOString();
-        const key = `${directory}|${binKey}`;
-        return cellMap.get(key) || {
-          directory,
+    // 5. Build Grid and Calculate Max Value for Color Scale
+    let maxValue = 0;
+
+    const cells = topDirectories.map((dir) => {
+      return timeBins.map((bin) => {
+        const key = `${dir}|${bin.getTime()}`;
+        const cell = cellMap.get(key) || {
+          directory: dir,
           timeBin: bin,
-          timeBinKey: binKey,
-          count: 0,
+          events: 0,
+          commits: 0,
+          authors: 0,
           creations: 0,
           deletions: 0,
           modifications: 0,
-          files: new Set(),
-          uniqueAuthors: new Set(),
-          events: [],
+          value: 0,
         };
+
+        // Determine value based on selected metric
+        switch (metric) {
+          case "authors":
+            cell.value = cell.authors;
+            break;
+          case "commits":
+            cell.value = cell.commits;
+            break;
+          case "events":
+          default:
+            cell.value = cell.events;
+            break;
+        }
+
+        maxValue = Math.max(maxValue, cell.value);
+        return cell;
       });
     });
 
-    // ✅ Find max values for different metrics
-    const maxCount = Math.max(...Array.from(cellMap.values()).map(c => c.count), 1);
-    const maxAuthors = Math.max(...Array.from(cellMap.values()).map(c => c.uniqueAuthors.size), 1);
-
-    return {
-      cells,
-      directories: topDirectories,
-      timeBins,
-      maxCount,
-      maxAuthors,
-    };
+    return { cells, directories: topDirectories, timeBins, maxValue };
   }
 
   render(data: HeatmapData, config: HeatmapConfig): void {
     if (!this.container) return;
-    
-    this.currentData = data;
-    this.currentConfig = config;
+    this.container.innerHTML = "";
 
-    // Clear previous content
-    this.container.innerHTML = '';
+    const table = document.createElement("table");
+    table.style.borderCollapse = "separate";
+    table.style.borderSpacing = "2px";
+    table.style.fontFamily = "monospace";
 
-    // Create table
-    this.table = document.createElement('table');
-    this.table.style.borderCollapse = 'separate';
-    this.table.style.borderSpacing = '2px';
-    this.table.style.width = 'fit-content';
-    this.table.style.minWidth = '100%';
+    // Header Row
+    const thead = document.createElement("thead");
+    const headerRow = document.createElement("tr");
 
-    // Create thead with sticky headers
-    const thead = document.createElement('thead');
-    const headerRow = document.createElement('tr');
-    
-    // Empty corner cell
-    const cornerTh = document.createElement('th');
-    cornerTh.style.position = 'sticky';
-    cornerTh.style.left = '0';
-    cornerTh.style.top = '0';
-    cornerTh.style.zIndex = '30';
-    cornerTh.style.background = '#27272a';
-    cornerTh.style.minWidth = '200px';
-    cornerTh.style.width = '200px';
-    cornerTh.style.padding = '12px';
-    cornerTh.style.borderBottom = '2px solid #18181b';
-    cornerTh.style.color = '#a1a1aa';
-    cornerTh.style.fontSize = '11px';
-    cornerTh.style.fontWeight = 'bold';
-    cornerTh.style.textAlign = 'left';
-    cornerTh.textContent = 'Directory';
-    headerRow.appendChild(cornerTh);
+    // Corner (Sticky Top + Left)
+    const corner = document.createElement("th");
+    corner.innerHTML = `<div class="flex flex-col items-start">
+      <span class="text-zinc-400">Directory</span>
+      <span class="text-[10px] text-zinc-600 font-normal">Top ${config.topN} by Activity</span>
+    </div>`;
+    corner.style.position = "sticky";
+    corner.style.left = "0";
+    corner.style.top = "0";
+    corner.style.zIndex = "40"; // Highest priority
+    corner.style.background = "#18181b"; // zinc-900
+    corner.style.padding = "12px";
+    corner.style.textAlign = "left";
+    corner.style.borderBottom = "1px solid #27272a";
+    headerRow.appendChild(corner);
 
-    // ✅ Dynamic time bin headers
+    // Time Columns (Sticky Top)
     data.timeBins.forEach((bin) => {
-      const th = document.createElement('th');
-      th.style.position = 'sticky';
-      th.style.top = '0';
-      th.style.zIndex = '20';
-      th.style.background = '#27272a';
+      const th = document.createElement("th");
+      th.textContent = formatTimeBin(bin, config.timeBin);
       th.style.minWidth = `${config.minCellWidth}px`;
-      th.style.width = `${config.minCellWidth}px`;
-      th.style.padding = '8px';
-      th.style.color = '#a1a1aa';
-      th.style.fontSize = '11px';
-      th.style.fontFamily = 'sans-serif';
-      th.style.textAlign = 'center';
-      th.style.verticalAlign = 'bottom';
-      th.style.borderBottom = '2px solid #18181b';
-      th.style.whiteSpace = 'nowrap';
-      th.style.overflow = 'hidden';
-      th.style.textOverflow = 'ellipsis';
-      
-      const span = document.createElement('span');
-      span.style.display = 'inline-block';
-      span.textContent = formatTimeBin(bin, config.timeBin); // ✅ Dynamic formatting
-      th.appendChild(span);
-      
+      th.style.padding = "8px";
+      th.style.color = "#71717a"; // zinc-500
+      th.style.fontSize = "10px";
+      th.style.textAlign = "center";
+      th.style.fontWeight = "normal";
+
+      // Sticky positioning for time axis
+      th.style.position = "sticky";
+      th.style.top = "0";
+      th.style.zIndex = "30"; // Above body cells, below corner
+      th.style.background = "#18181b"; // Opaque background to hide scrolling content
+      th.style.borderBottom = "1px solid #27272a";
+
       headerRow.appendChild(th);
     });
-
     thead.appendChild(headerRow);
-    this.table.appendChild(thead);
+    table.appendChild(thead);
 
-    // ✅ Determine max value based on metric
-    const maxValue = config.metric === 'authors' ? data.maxAuthors : data.maxCount;
+    // Body
+    const tbody = document.createElement("tbody");
+    data.directories.forEach((dir, i) => {
+      const row = document.createElement("tr");
 
-    // Create tbody with data rows
-    const tbody = document.createElement('tbody');
-    
-    data.directories.forEach((directory, rowIndex) => {
-      const row = document.createElement('tr');
-      
-      // Directory label (sticky)
-      const dirTh = document.createElement('th');
-      dirTh.style.position = 'sticky';
-      dirTh.style.left = '0';
-      dirTh.style.zIndex = '10';
-      dirTh.style.background = '#27272a';
-      dirTh.style.minWidth = '200px';
-      dirTh.style.width = '200px';
-      dirTh.style.padding = '8px 12px';
-      dirTh.style.color = '#fff';
-      dirTh.style.fontSize = '11px';
-      dirTh.style.fontFamily = 'monospace';
-      dirTh.style.fontWeight = '500';
-      dirTh.style.textAlign = 'left';
-      dirTh.style.whiteSpace = 'nowrap';
-      dirTh.style.overflow = 'hidden';
-      dirTh.style.textOverflow = 'ellipsis';
-      dirTh.style.borderRight = '2px solid #18181b';
-      dirTh.title = directory;
-      dirTh.textContent = directory.length > 28 ? '...' + directory.slice(-25) : directory;
-      row.appendChild(dirTh);
+      // Directory Label (Sticky Left)
+      const th = document.createElement("th");
+      // Truncate long paths visually but keep title
+      const shortName = dir.length > 40 ? "..." + dir.slice(-37) : dir;
+      th.textContent = shortName;
+      th.title = dir;
+      th.style.position = "sticky";
+      th.style.left = "0";
+      th.style.zIndex = "20"; // Above body cells, below corner
+      th.style.background = "#18181b";
+      th.style.padding = "8px 12px";
+      th.style.color = "#e4e4e7"; // zinc-200
+      th.style.fontSize = "11px";
+      th.style.textAlign = "left";
+      th.style.whiteSpace = "nowrap";
+      th.style.borderRight = "1px solid #27272a";
+      row.appendChild(th);
 
-      // Data cells
-      data.cells[rowIndex].forEach((cell, colIndex) => {
-        const td = document.createElement('td');
-        
-        // ✅ Get value based on selected metric
-        const cellValue = this.getValueForMetric(cell, config.metric);
-        const bgColor = cellValue > 0 ? this.getActivityColor(cellValue, maxValue) : '#27272a';
-        const textColor = cellValue > 0 ? '#ffffff' : '#71717a';
-        
-        td.style.background = bgColor;
-        td.style.minWidth = `${config.minCellWidth}px`;
-        td.style.width = `${config.minCellWidth}px`;
+      // Cells
+      data.cells[i].forEach((cell) => {
+        const td = document.createElement("td");
+        const value = cell.value;
+
+        // Color logic
+        let bg = "#18181b"; // Default dark
+        let textColor = "transparent";
+
+        // Then in your render method, replace the text color logic:
+        if (value > 0) {
+          const intensity = Math.log(value + 1) / Math.log(data.maxValue + 1);
+
+          let hue = 145; // Green default (Events)
+          if (config.metric === "authors") hue = 30; // Orange
+          if (config.metric === "commits") hue = 210; // Blue
+          if (config.metric === "lines") hue = 340; // Purple
+
+          const saturation = 70;
+          const lightness = 10 + intensity * 50; // 10% to 60%
+          bg = `hsl(${hue}, ${saturation}%, ${lightness}%)`;
+
+          // Use the helper function
+          textColor = getContrastingTextColor(hue, saturation, lightness);
+        }
+
+        td.style.background = bg;
         td.style.height = `${config.cellHeight}px`;
-        td.style.padding = '4px';
-        td.style.position = 'relative';
-        td.style.cursor = cellValue > 0 ? 'pointer' : 'default';
-        td.style.textAlign = 'center';
-        td.style.verticalAlign = 'middle';
-        td.style.transition = 'transform 0.1s, box-shadow 0.1s';
+        td.style.color = textColor;
+        td.style.fontSize = "10px";
+        td.style.textAlign = "center";
+        td.style.verticalAlign = "middle";
+        td.style.transition = "all 0.1s";
 
-        // Cell content container
-        const cellContent = document.createElement('div');
-        cellContent.style.position = 'relative';
-        cellContent.style.width = '100%';
-        cellContent.style.height = '100%';
-        cellContent.style.display = 'flex';
-        cellContent.style.alignItems = 'center';
-        cellContent.style.justifyContent = 'center';
-
-        // ✅ Display metric value
-        if (cellValue > 0) {
-          const countSpan = document.createElement('span');
-          countSpan.style.color = textColor;
-          countSpan.style.fontSize = '10px';
-          countSpan.style.fontFamily = 'monospace';
-          countSpan.style.fontWeight = '600';
-          countSpan.textContent = cellValue > 999 ? `${Math.floor(cellValue / 1000)}k` : cellValue.toString();
-          cellContent.appendChild(countSpan);
+        // 1. Numeric Overlay
+        if (value > 0) {
+          td.textContent = formatNumber(value);
         }
 
-        // Creation indicator (green dot)
-        if (config.showCreations && cell.creations > 0) {
-          const dotSize = Math.min(5, Math.sqrt(cell.creations) + 2);
-          const creationDot = document.createElement('div');
-          creationDot.style.position = 'absolute';
-          creationDot.style.top = '4px';
-          creationDot.style.left = '4px';
-          creationDot.style.width = `${dotSize * 2}px`;
-          creationDot.style.height = `${dotSize * 2}px`;
-          creationDot.style.borderRadius = '50%';
-          creationDot.style.background = '#22c55e';
-          creationDot.style.border = '1.5px solid #ffffff';
-          creationDot.style.pointerEvents = 'none';
-          cellContent.appendChild(creationDot);
+        // 2. Creation Indicator (Green underline)
+        if (cell.creations > 0) {
+          td.style.borderBottom = "2px solid #4ade80"; // green-400
         }
 
-        // Deletion indicator (red dot)
-        if (config.showDeletions && cell.deletions > 0) {
-          const dotSize = Math.min(5, Math.sqrt(cell.deletions) + 2);
-          const deletionDot = document.createElement('div');
-          deletionDot.style.position = 'absolute';
-          deletionDot.style.top = '4px';
-          deletionDot.style.right = '4px';
-          deletionDot.style.width = `${dotSize * 2}px`;
-          deletionDot.style.height = `${dotSize * 2}px`;
-          deletionDot.style.borderRadius = '50%';
-          deletionDot.style.background = '#ef4444';
-          deletionDot.style.border = '1.5px solid #ffffff';
-          deletionDot.style.pointerEvents = 'none';
-          cellContent.appendChild(deletionDot);
-        }
+        // Tooltip
+        td.title =
+          `${dir}\n${formatTimeBin(cell.timeBin, config.timeBin)}\n` +
+          `${config.metric}: ${value}\n` +
+          `(+${cell.creations} -${cell.deletions} ~${cell.modifications})`;
 
-        td.appendChild(cellContent);
+        if (value > 0) {
+          td.style.cursor = "pointer";
+          td.onclick = () => config.onCellClick?.(cell);
 
-        // Event handlers
-        if (cellValue > 0) {
-          td.addEventListener('mouseenter', (e) => this.showTooltip(e, cell, config));
-          td.addEventListener('mouseleave', () => this.hideTooltip());
-          td.addEventListener('mousemove', (e) => this.updateTooltipPosition(e));
-          td.addEventListener('mouseenter', () => {
-            td.style.transform = 'scale(1.05)';
-            td.style.boxShadow = '0 4px 12px rgba(0, 0, 0, 0.5)';
-            td.style.zIndex = '5';
-          });
-          td.addEventListener('mouseleave', () => {
-            td.style.transform = 'scale(1)';
-            td.style.boxShadow = 'none';
-            td.style.zIndex = 'auto';
-          });
-          
-          // Click handler for detail panel
-          td.addEventListener('click', () => {
-            if (config.onCellClick) {
-              const cellWithEvents: HeatmapCellWithEvents = {
-                ...cell,
-                timeBin: formatTimeBin(cell.timeBin, config.timeBin),
-                value: cellValue,
-              };
-              config.onCellClick(cellWithEvents);
-            }
-          });
+          // Hover effect
+          td.onmouseenter = () => {
+            td.style.transform = "scale(1.1)";
+            td.style.zIndex = "10";
+          };
+          td.onmouseleave = () => {
+            td.style.transform = "scale(1)";
+            td.style.zIndex = "auto";
+          };
         }
 
         row.appendChild(td);
       });
-
       tbody.appendChild(row);
     });
 
-    this.table.appendChild(tbody);
-    this.container.appendChild(this.table);
+    table.appendChild(tbody);
+    this.container.appendChild(table);
   }
 
-  private showTooltip(event: MouseEvent, cell: HeatmapCell, config: HeatmapConfig): void {
-    if (!this.tooltip) return;
-
-    // Clear any pending hide timeout
-    if (this.tooltipTimeout) {
-      clearTimeout(this.tooltipTimeout);
-      this.tooltipTimeout = null;
-    }
-
-    // ✅ Get metric-specific value
-    const metricValue = this.getValueForMetric(cell, config.metric);
-    const metricLabel = config.metric.charAt(0).toUpperCase() + config.metric.slice(1);
-
-    let content = `
-      <div class="space-y-1">
-        <div class="font-bold text-sm text-purple-400">${cell.directory}</div>
-        <div class="text-zinc-400 text-[10px]">${formatTimeBin(cell.timeBin, config.timeBin)}</div>
-        <div class="border-t border-zinc-700 pt-1 mt-1"></div>
-        <div><span class="text-zinc-500">${metricLabel}:</span> <span class="font-semibold">${metricValue}</span></div>
-        <div><span class="text-zinc-500">Total Events:</span> <span class="font-semibold">${cell.count}</span></div>
-        <div><span class="text-zinc-500">Unique Files:</span> <span class="font-semibold">${cell.files.size}</span></div>
-        <div><span class="text-zinc-500">Contributors:</span> <span class="font-semibold">${cell.uniqueAuthors.size}</span></div>
-    `;
-
-    if (config.showCreations && cell.creations > 0) {
-      content += `<div class="flex items-center gap-1">
-        <span class="inline-block w-2 h-2 rounded-full bg-green-500"></span>
-        Creations: <span class="font-semibold">${cell.creations}</span>
-      </div>`;
-    }
-
-    if (config.showDeletions && cell.deletions > 0) {
-      content += `<div class="flex items-center gap-1">
-        <span class="inline-block w-2 h-2 rounded-full bg-red-500"></span>
-        Deletions: <span class="font-semibold">${cell.deletions}</span>
-      </div>`;
-    }
-
-    if (cell.modifications > 0) {
-      content += `<div class="flex items-center gap-1">
-        <span class="inline-block w-2 h-2 rounded-full bg-blue-500"></span>
-        Modifications: <span class="font-semibold">${cell.modifications}</span>
-      </div>`;
-    }
-
-    content += '</div>';
-
-    this.tooltip.innerHTML = content;
-    this.tooltip.classList.remove('hidden');
-    this.updateTooltipPosition(event);
+  update() {}
+  destroy() {
+    if (this.container) this.container.innerHTML = "";
   }
-
-  private updateTooltipPosition(event: MouseEvent): void {
-    if (!this.tooltip) return;
-
-    const padding = 10;
-    const tooltipRect = this.tooltip.getBoundingClientRect();
-    
-    let left = event.pageX + padding;
-    let top = event.pageY + padding;
-
-    // Keep tooltip within viewport
-    if (left + tooltipRect.width > window.innerWidth) {
-      left = event.pageX - tooltipRect.width - padding;
-    }
-
-    if (top + tooltipRect.height > window.innerHeight) {
-      top = event.pageY - tooltipRect.height - padding;
-    }
-
-    this.tooltip.style.left = `${left}px`;
-    this.tooltip.style.top = `${top}px`;
+  async exportImage() {
+    return new Blob();
   }
-
-  private hideTooltip(): void {
-    if (!this.tooltip) return;
-
-    // Delay hiding to prevent flicker
-    this.tooltipTimeout = window.setTimeout(() => {
-      if (this.tooltip) {
-        this.tooltip.classList.add('hidden');
-      }
-    }, 100);
-  }
-
-  update(data: HeatmapData, config: HeatmapConfig): void {
-    this.render(data, config);
-  }
-
-  destroy(): void {
-    if (this.tooltipTimeout) {
-      clearTimeout(this.tooltipTimeout);
-    }
-    if (this.tooltip) {
-      this.tooltip.remove();
-      this.tooltip = null;
-    }
-    if (this.table) {
-      this.table.remove();
-      this.table = null;
-    }
-    if (this.container) {
-      this.container.innerHTML = '';
-      this.container = null;
-    }
-    this.currentData = null;
-    this.currentConfig = null;
-  }
-
-  async exportImage(): Promise<Blob> {
-    if (!this.table) {
-      throw new Error('No visualization to export');
-    }
-
-    const svgString = `<svg xmlns="http://www.w3.org/2000/svg" width="800" height="600">
-      <text x="400" y="300" text-anchor="middle" fill="white">Export feature for HTML table coming soon...</text>
-    </svg>`;
-    const blob = new Blob([svgString], { type: 'image/svg+xml' });
-
-    return blob;
-  }
-
-  exportData(): any {
-    return {
-      plugin: this.metadata.id,
-      data: this.currentData,
-      exportedAt: new Date().toISOString(),
-    };
+  exportData() {
+    return {};
   }
 }

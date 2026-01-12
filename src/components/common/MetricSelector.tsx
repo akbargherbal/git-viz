@@ -16,7 +16,6 @@ export const MetricSelector: React.FC = () => {
 
   return (
     <div className="flex items-center gap-2">
-      <span className="text-xs text-zinc-500 uppercase font-bold tracking-wider">Metric:</span>
       <div className="flex items-center bg-zinc-900 rounded-lg p-1 border border-zinc-800">
         {options.map((option) => (
           <button

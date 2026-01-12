@@ -1,16 +1,20 @@
 // src/store/appStore.ts
 
 import { create } from 'zustand';
-import { FileEvent, FileSummary, TimeRange, TimeBinType, MetricType } from '@/types/domain';
+import { 
+  RepoMetadata, 
+  OptimizedDirectoryNode, 
+  ActivityMatrixItem,
+  TimeRange, 
+  TimeBinType, 
+  MetricType 
+} from '@/types/domain';
 import { FilterState } from '@/types/visualization';
 
-/**
- * Global application state store
- */
-
 interface DataState {
-  events: FileEvent[];
-  summary: FileSummary[];
+  metadata: RepoMetadata | null;
+  tree: OptimizedDirectoryNode | null;
+  activity: ActivityMatrixItem[];
   loading: boolean;
   error: string | null;
 }
@@ -36,7 +40,11 @@ interface TimelineState {
 interface AppState {
   // Data
   data: DataState;
-  setData: (events: FileEvent[], summary: FileSummary[]) => void;
+  setOptimizedData: (
+    metadata: RepoMetadata, 
+    tree: OptimizedDirectoryNode, 
+    activity: ActivityMatrixItem[]
+  ) => void;
   setLoading: (loading: boolean) => void;
   setError: (error: string | null) => void;
   
@@ -68,15 +76,16 @@ interface AppState {
 export const useAppStore = create<AppState>((set) => ({
   // Data state
   data: {
-    events: [],
-    summary: [],
+    metadata: null,
+    tree: null,
+    activity: [],
     loading: false,
     error: null,
   },
   
-  setData: (events, summary) =>
+  setOptimizedData: (metadata, tree, activity) =>
     set((state) => ({
-      data: { ...state.data, events, summary, loading: false, error: null },
+      data: { ...state.data, metadata, tree, activity, loading: false, error: null },
     })),
   
   setLoading: (loading) =>
