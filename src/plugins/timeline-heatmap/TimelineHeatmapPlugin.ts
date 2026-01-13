@@ -331,7 +331,12 @@ export class TimelineHeatmapPlugin
 
         // 2. Creation Indicator (Green underline)
         if (cell.creations > 0) {
-          td.style.borderBottom = "2px solid #4ade80"; // green-400
+          td.style.borderBottom = "2px solid green"; // green-400
+        }
+
+        // Deletion Indicator (Red overline)
+        if (cell.deletions > 0) {
+          td.style.borderTop = "2px solid red"; // green-400
         }
 
         // Tooltip
