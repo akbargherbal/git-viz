@@ -1,7 +1,7 @@
 // src/components/common/FilterPanel.tsx
 import React, { useMemo } from 'react';
 import { useAppStore } from '@/store/appStore';
-import { X, Filter, User, Folder, File, Tag, RotateCcw } from 'lucide-react';
+import { X, Filter, User, File, RotateCcw } from 'lucide-react'; // Removed unused icons
 import { RepoMetadata } from '@/types/domain';
 
 interface FilterPanelProps {
@@ -55,7 +55,8 @@ const FilterSection: React.FC<FilterSectionProps> = ({
 );
 
 export const FilterPanel: React.FC<FilterPanelProps> = ({ metadata, onClose }) => {
-  const { filters, toggleAuthor, toggleDirectory, toggleFileType, toggleEventType, clearFilters } = useAppStore();
+  // REMOVED: toggleDirectory, toggleEventType (unused)
+  const { filters, toggleAuthor, toggleFileType, clearFilters } = useAppStore();
 
   // Memoize and aggregate data to ensure uniqueness and performance
   const { authorItems, fileTypeItems } = useMemo(() => {

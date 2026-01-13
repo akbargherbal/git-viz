@@ -64,7 +64,7 @@ interface AppState {
   setActivePlugin: (pluginId: string) => void;
   setSelectedCell: (cell: any | null) => void;
   setShowFilters: (show: boolean) => void;
-  toggleDirectory: (dir: string) => void;
+  // REMOVED DUPLICATE toggleDirectory HERE
   
   // Timeline
   timeline: TimelineState;
