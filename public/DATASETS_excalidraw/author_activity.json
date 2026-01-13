@@ -1,0 +1,2624 @@
+{
+  "authors": [
+    {
+      "author": "aakansha1216@gmail.com",
+      "email": "aakansha1216@gmail.com",
+      "unique_commits": 774,
+      "files_touched": 1231,
+      "total_changes": 4620
+    },
+    {
+      "author": "luzar.david@gmail.com",
+      "email": "luzar.david@gmail.com",
+      "unique_commits": 641,
+      "files_touched": 537,
+      "total_changes": 2974
+    },
+    {
+      "author": "marcel@excalidraw.com",
+      "email": "marcel@excalidraw.com",
+      "unique_commits": 105,
+      "files_touched": 1314,
+      "total_changes": 2806
+    },
+    {
+      "author": "lipiridis@gmail.com",
+      "email": "lipiridis@gmail.com",
+      "unique_commits": 331,
+      "files_touched": 316,
+      "total_changes": 2264
+    },
+    {
+      "author": "77840495+excalibot@users.noreply.github.com",
+      "email": "77840495+excalibot@users.noreply.github.com",
+      "unique_commits": 66,
+      "files_touched": 117,
+      "total_changes": 2169
+    },
+    {
+      "author": "5153846+dwelle@users.noreply.github.com",
+      "email": "5153846+dwelle@users.noreply.github.com",
+      "unique_commits": 305,
+      "files_touched": 643,
+      "total_changes": 1738
+    },
+    {
+      "author": "ryan.weihao.di@gmail.com",
+      "email": "ryan.weihao.di@gmail.com",
+      "unique_commits": 264,
+      "files_touched": 464,
+      "total_changes": 1541
+    },
+    {
+      "author": "49699333+dependabot[bot]@users.noreply.github.com",
+      "email": "49699333+dependabot[bot]@users.noreply.github.com",
+      "unique_commits": 635,
+      "files_touched": 19,
+      "total_changes": 1169
+    },
+    {
+      "author": "mark@lazycat.hu",
+      "email": "mark@lazycat.hu",
+      "unique_commits": 144,
+      "files_touched": 300,
+      "total_changes": 942
+    },
+    {
+      "author": "viczian.zsolt@gmail.com",
+      "email": "viczian.zsolt@gmail.com",
+      "unique_commits": 279,
+      "files_touched": 429,
+      "total_changes": 929
+    },
+    {
+      "author": "1852529+DanielJGeiger@users.noreply.github.com",
+      "email": "1852529+DanielJGeiger@users.noreply.github.com",
+      "unique_commits": 135,
+      "files_touched": 167,
+      "total_changes": 912
+    },
+    {
+      "author": "27856297+dependabot-preview[bot]@users.noreply.github.com",
+      "email": "27856297+dependabot-preview[bot]@users.noreply.github.com",
+      "unique_commits": 232,
+      "files_touched": 54,
+      "total_changes": 520
+    },
+    {
+      "author": "arnostpleskot@gmail.com",
+      "email": "arnostpleskot@gmail.com",
+      "unique_commits": 158,
+      "files_touched": 153,
+      "total_changes": 464
+    },
+    {
+      "author": "vjeuxx@gmail.com",
+      "email": "vjeuxx@gmail.com",
+      "unique_commits": 140,
+      "files_touched": 119,
+      "total_changes": 329
+    },
+    {
+      "author": "38168628+barnabasmolnar@users.noreply.github.com",
+      "email": "38168628+barnabasmolnar@users.noreply.github.com",
+      "unique_commits": 10,
+      "files_touched": 233,
+      "total_changes": 284
+    },
+    {
+      "author": "petehunt@users.noreply.github.com",
+      "email": "petehunt@users.noreply.github.com",
+      "unique_commits": 27,
+      "files_touched": 93,
+      "total_changes": 234
+    },
+    {
+      "author": "git@twopointzero.us",
+      "email": "git@twopointzero.us",
+      "unique_commits": 26,
+      "files_touched": 104,
+      "total_changes": 214
+    },
+    {
+      "author": "me@gasim.xyz",
+      "email": "me@gasim.xyz",
+      "unique_commits": 27,
+      "files_touched": 82,
+      "total_changes": 209
+    },
+    {
+      "author": "konmpar@gmail.com",
+      "email": "konmpar@gmail.com",
+      "unique_commits": 42,
+      "files_touched": 69,
+      "total_changes": 170
+    },
+    {
+      "author": "arun4033622@gmail.com",
+      "email": "arun4033622@gmail.com",
+      "unique_commits": 31,
+      "files_touched": 67,
+      "total_changes": 154
+    },
+    {
+      "author": "bboytx@gmail.com",
+      "email": "bboytx@gmail.com",
+      "unique_commits": 32,
+      "files_touched": 86,
+      "total_changes": 150
+    },
+    {
+      "author": "steveruizok@gmail.com",
+      "email": "steveruizok@gmail.com",
+      "unique_commits": 13,
+      "files_touched": 85,
+      "total_changes": 133
+    },
+    {
+      "author": "steiner.thomas@gmail.com",
+      "email": "steiner.thomas@gmail.com",
+      "unique_commits": 49,
+      "files_touched": 51,
+      "total_changes": 129
+    },
+    {
+      "author": "dai-shi@users.noreply.github.com",
+      "email": "dai-shi@users.noreply.github.com",
+      "unique_commits": 29,
+      "files_touched": 47,
+      "total_changes": 128
+    },
+    {
+      "author": "Faustino.kialungila@gmail.com",
+      "email": "Faustino.kialungila@gmail.com",
+      "unique_commits": 40,
+      "files_touched": 67,
+      "total_changes": 99
+    },
+    {
+      "author": "barnabas@excalidraw.com",
+      "email": "barnabas@excalidraw.com",
+      "unique_commits": 27,
+      "files_touched": 25,
+      "total_changes": 96
+    },
+    {
+      "author": "833927+pshihn@users.noreply.github.com",
+      "email": "833927+pshihn@users.noreply.github.com",
+      "unique_commits": 27,
+      "files_touched": 37,
+      "total_changes": 91
+    },
+    {
+      "author": "xixixao@seznam.cz",
+      "email": "xixixao@seznam.cz",
+      "unique_commits": 11,
+      "files_touched": 70,
+      "total_changes": 90
+    },
+    {
+      "author": "marcelmraz@seznam.cz",
+      "email": "marcelmraz@seznam.cz",
+      "unique_commits": 2,
+      "files_touched": 70,
+      "total_changes": 72
+    },
+    {
+      "author": "artur@excalidraw.com",
+      "email": "artur@excalidraw.com",
+      "unique_commits": 8,
+      "files_touched": 55,
+      "total_changes": 67
+    },
+    {
+      "author": "giordano.giovanni1993@gmail.com",
+      "email": "giordano.giovanni1993@gmail.com",
+      "unique_commits": 32,
+      "files_touched": 27,
+      "total_changes": 66
+    },
+    {
+      "author": "jnforja@gmail.com",
+      "email": "jnforja@gmail.com",
+      "unique_commits": 8,
+      "files_touched": 36,
+      "total_changes": 64
+    },
+    {
+      "author": "me@iama.re",
+      "email": "me@iama.re",
+      "unique_commits": 4,
+      "files_touched": 43,
+      "total_changes": 57
+    },
+    {
+      "author": "gperaltascura@gmail.com",
+      "email": "gperaltascura@gmail.com",
+      "unique_commits": 12,
+      "files_touched": 28,
+      "total_changes": 51
+    },
+    {
+      "author": "harzjc@gmail.com",
+      "email": "harzjc@gmail.com",
+      "unique_commits": 1,
+      "files_touched": 51,
+      "total_changes": 51
+    },
+    {
+      "author": "maielo.mv@gmail.com",
+      "email": "maielo.mv@gmail.com",
+      "unique_commits": 17,
+      "files_touched": 26,
+      "total_changes": 50
+    },
+    {
+      "author": "brikaaomar@gmail.com",
+      "email": "brikaaomar@gmail.com",
+      "unique_commits": 8,
+      "files_touched": 40,
+      "total_changes": 43
+    },
+    {
+      "author": "achille.lacoin@gmail.com",
+      "email": "achille.lacoin@gmail.com",
+      "unique_commits": 18,
+      "files_touched": 22,
+      "total_changes": 41
+    },
+    {
+      "author": "ishtiaqbhatti455@gmail.com",
+      "email": "ishtiaqbhatti455@gmail.com",
+      "unique_commits": 1,
+      "files_touched": 39,
+      "total_changes": 39
+    },
+    {
+      "author": "yongdamsh@gmail.com",
+      "email": "yongdamsh@gmail.com",
+      "unique_commits": 11,
+      "files_touched": 22,
+      "total_changes": 37
+    },
+    {
+      "author": "tkhazamov@wayfair.com",
+      "email": "tkhazamov@wayfair.com",
+      "unique_commits": 8,
+      "files_touched": 23,
+      "total_changes": 32
+    },
+    {
+      "author": "hello@enzoferey.com",
+      "email": "hello@enzoferey.com",
+      "unique_commits": 3,
+      "files_touched": 27,
+      "total_changes": 32
+    },
+    {
+      "author": "45559664+alex-kim-dev@users.noreply.github.com",
+      "email": "45559664+alex-kim-dev@users.noreply.github.com",
+      "unique_commits": 8,
+      "files_touched": 22,
+      "total_changes": 32
+    },
+    {
+      "author": "the.tomsherman@gmail.com",
+      "email": "the.tomsherman@gmail.com",
+      "unique_commits": 2,
+      "files_touched": 32,
+      "total_changes": 32
+    },
+    {
+      "author": "kartikprajapati987@gmail.com",
+      "email": "kartikprajapati987@gmail.com",
+      "unique_commits": 4,
+      "files_touched": 26,
+      "total_changes": 31
+    },
+    {
+      "author": "git@jedfox.com",
+      "email": "git@jedfox.com",
+      "unique_commits": 6,
+      "files_touched": 28,
+      "total_changes": 29
+    },
+    {
+      "author": "12221094+hugo082@users.noreply.github.com",
+      "email": "12221094+hugo082@users.noreply.github.com",
+      "unique_commits": 1,
+      "files_touched": 29,
+      "total_changes": 29
+    },
+    {
+      "author": "herb@devresults.com",
+      "email": "herb@devresults.com",
+      "unique_commits": 3,
+      "files_touched": 27,
+      "total_changes": 27
+    },
+    {
+      "author": "edwinlin1987@gmail.com",
+      "email": "edwinlin1987@gmail.com",
+      "unique_commits": 6,
+      "files_touched": 20,
+      "total_changes": 26
+    },
+    {
+      "author": "falava@gmail.com",
+      "email": "falava@gmail.com",
+      "unique_commits": 2,
+      "files_touched": 19,
+      "total_changes": 24
+    },
+    {
+      "author": "muzakparov@gmail.com",
+      "email": "muzakparov@gmail.com",
+      "unique_commits": 9,
+      "files_touched": 18,
+      "total_changes": 22
+    },
+    {
+      "author": "luzpaz@users.noreply.github.com",
+      "email": "luzpaz@users.noreply.github.com",
+      "unique_commits": 1,
+      "files_touched": 22,
+      "total_changes": 22
+    },
+    {
+      "author": "younessfkhach@protonmail.com",
+      "email": "younessfkhach@protonmail.com",
+      "unique_commits": 4,
+      "files_touched": 19,
+      "total_changes": 22
+    },
+    {
+      "author": "31545456+yubinTW@users.noreply.github.com",
+      "email": "31545456+yubinTW@users.noreply.github.com",
+      "unique_commits": 2,
+      "files_touched": 22,
+      "total_changes": 22
+    },
+    {
+      "author": "O4epegb@mail.ru",
+      "email": "O4epegb@mail.ru",
+      "unique_commits": 3,
+      "files_touched": 19,
+      "total_changes": 21
+    },
+    {
+      "author": "g.grossetie@gmail.com",
+      "email": "g.grossetie@gmail.com",
+      "unique_commits": 3,
+      "files_touched": 21,
+      "total_changes": 21
+    },
+    {
+      "author": "53315888+lissitz@users.noreply.github.com",
+      "email": "53315888+lissitz@users.noreply.github.com",
+      "unique_commits": 9,
+      "files_touched": 13,
+      "total_changes": 21
+    },
+    {
+      "author": "msal4@outlook.com",
+      "email": "msal4@outlook.com",
+      "unique_commits": 3,
+      "files_touched": 18,
+      "total_changes": 21
+    },
+    {
+      "author": "vjeux@fb.com",
+      "email": "vjeux@fb.com",
+      "unique_commits": 2,
+      "files_touched": 10,
+      "total_changes": 19
+    },
+    {
+      "author": "71402528+ArchishmanSengupta@users.noreply.github.com",
+      "email": "71402528+ArchishmanSengupta@users.noreply.github.com",
+      "unique_commits": 1,
+      "files_touched": 19,
+      "total_changes": 19
+    },
+    {
+      "author": "oliverbenns@users.noreply.github.com",
+      "email": "oliverbenns@users.noreply.github.com",
+      "unique_commits": 1,
+      "files_touched": 18,
+      "total_changes": 18
+    },
+    {
+      "author": "alsuren@gmail.com",
+      "email": "alsuren@gmail.com",
+      "unique_commits": 2,
+      "files_touched": 16,
+      "total_changes": 18
+    },
+    {
+      "author": "mohitbajo36@gmail.com",
+      "email": "mohitbajo36@gmail.com",
+      "unique_commits": 4,
+      "files_touched": 13,
+      "total_changes": 17
+    },
+    {
+      "author": "1595098+ReneCode@users.noreply.github.com",
+      "email": "1595098+ReneCode@users.noreply.github.com",
+      "unique_commits": 4,
+      "files_touched": 14,
+      "total_changes": 17
+    },
+    {
+      "author": "victor.dhamma@gmail.com",
+      "email": "victor.dhamma@gmail.com",
+      "unique_commits": 1,
+      "files_touched": 17,
+      "total_changes": 17
+    },
+    {
+      "author": "64294045+mabdullahadeel@users.noreply.github.com",
+      "email": "64294045+mabdullahadeel@users.noreply.github.com",
+      "unique_commits": 2,
+      "files_touched": 16,
+      "total_changes": 17
+    },
+    {
+      "author": "161169629+cTangonan123@users.noreply.github.com",
+      "email": "161169629+cTangonan123@users.noreply.github.com",
+      "unique_commits": 5,
+      "files_touched": 17,
+      "total_changes": 17
+    },
+    {
+      "author": "mursaleennisar980@gmail.com",
+      "email": "mursaleennisar980@gmail.com",
+      "unique_commits": 1,
+      "files_touched": 16,
+      "total_changes": 16
+    },
+    {
+      "author": "robinsonmadrid@outlook.com",
+      "email": "robinsonmadrid@outlook.com",
+      "unique_commits": 1,
+      "files_touched": 15,
+      "total_changes": 15
+    },
+    {
+      "author": "quintorel@hotmail.com",
+      "email": "quintorel@hotmail.com",
+      "unique_commits": 5,
+      "files_touched": 11,
+      "total_changes": 15
+    },
+    {
+      "author": "monstershome@gmail.com",
+      "email": "monstershome@gmail.com",
+      "unique_commits": 4,
+      "files_touched": 15,
+      "total_changes": 15
+    },
+    {
+      "author": "hazam@yandex-team.ru",
+      "email": "hazam@yandex-team.ru",
+      "unique_commits": 11,
+      "files_touched": 6,
+      "total_changes": 14
+    },
+    {
+      "author": "50418432+adarkforce@users.noreply.github.com",
+      "email": "50418432+adarkforce@users.noreply.github.com",
+      "unique_commits": 4,
+      "files_touched": 12,
+      "total_changes": 14
+    },
+    {
+      "author": "31386431+lusingander@users.noreply.github.com",
+      "email": "31386431+lusingander@users.noreply.github.com",
+      "unique_commits": 11,
+      "files_touched": 12,
+      "total_changes": 14
+    },
+    {
+      "author": "15923595+edbentley@users.noreply.github.com",
+      "email": "15923595+edbentley@users.noreply.github.com",
+      "unique_commits": 2,
+      "files_touched": 13,
+      "total_changes": 14
+    },
+    {
+      "author": "HarryMillerMail@googlemail.com",
+      "email": "HarryMillerMail@googlemail.com",
+      "unique_commits": 3,
+      "files_touched": 8,
+      "total_changes": 14
+    },
+    {
+      "author": "jjprevite@gmail.com",
+      "email": "jjprevite@gmail.com",
+      "unique_commits": 5,
+      "files_touched": 7,
+      "total_changes": 13
+    },
+    {
+      "author": "bradymadden97@gmail.com",
+      "email": "bradymadden97@gmail.com",
+      "unique_commits": 7,
+      "files_touched": 7,
+      "total_changes": 13
+    },
+    {
+      "author": "paulo.hgmenezes@gmail.com",
+      "email": "paulo.hgmenezes@gmail.com",
+      "unique_commits": 8,
+      "files_touched": 5,
+      "total_changes": 12
+    },
+    {
+      "author": "narek.mal@gmail.com",
+      "email": "narek.mal@gmail.com",
+      "unique_commits": 5,
+      "files_touched": 12,
+      "total_changes": 12
+    },
+    {
+      "author": "mertkaradogan@gmail.com",
+      "email": "mertkaradogan@gmail.com",
+      "unique_commits": 5,
+      "files_touched": 5,
+      "total_changes": 12
+    },
+    {
+      "author": "vandras2003@gmail.com",
+      "email": "vandras2003@gmail.com",
+      "unique_commits": 2,
+      "files_touched": 12,
+      "total_changes": 12
+    },
+    {
+      "author": "rileyschnee@gmail.com",
+      "email": "rileyschnee@gmail.com",
+      "unique_commits": 1,
+      "files_touched": 12,
+      "total_changes": 12
+    },
+    {
+      "author": "139547705+spc-28@users.noreply.github.com",
+      "email": "139547705+spc-28@users.noreply.github.com",
+      "unique_commits": 1,
+      "files_touched": 12,
+      "total_changes": 12
+    },
+    {
+      "author": "accounts@carlsverre.com",
+      "email": "accounts@carlsverre.com",
+      "unique_commits": 2,
+      "files_touched": 11,
+      "total_changes": 11
+    },
+    {
+      "author": "mwufi@users.noreply.github.com",
+      "email": "mwufi@users.noreply.github.com",
+      "unique_commits": 3,
+      "files_touched": 8,
+      "total_changes": 11
+    },
+    {
+      "author": "jack_walsh1@hotmail.com",
+      "email": "jack_walsh1@hotmail.com",
+      "unique_commits": 1,
+      "files_touched": 11,
+      "total_changes": 11
+    },
+    {
+      "author": "jeremy@repl.it",
+      "email": "jeremy@repl.it",
+      "unique_commits": 1,
+      "files_touched": 10,
+      "total_changes": 10
+    },
+    {
+      "author": "jackdebidda@gmail.com",
+      "email": "jackdebidda@gmail.com",
+      "unique_commits": 1,
+      "files_touched": 10,
+      "total_changes": 10
+    },
+    {
+      "author": "35834754+mohammadamin16@users.noreply.github.com",
+      "email": "35834754+mohammadamin16@users.noreply.github.com",
+      "unique_commits": 1,
+      "files_touched": 10,
+      "total_changes": 10
+    },
+    {
+      "author": "nishanthkarthik@live.com",
+      "email": "nishanthkarthik@live.com",
+      "unique_commits": 1,
+      "files_touched": 10,
+      "total_changes": 10
+    },
+    {
+      "author": "jilles.soeters@udemy.com",
+      "email": "jilles.soeters@udemy.com",
+      "unique_commits": 3,
+      "files_touched": 8,
+      "total_changes": 9
+    },
+    {
+      "author": "sven-kube@gmx.de",
+      "email": "sven-kube@gmx.de",
+      "unique_commits": 1,
+      "files_touched": 9,
+      "total_changes": 9
+    },
+    {
+      "author": "81241551+LakshyaSatpal@users.noreply.github.com",
+      "email": "81241551+LakshyaSatpal@users.noreply.github.com",
+      "unique_commits": 1,
+      "files_touched": 9,
+      "total_changes": 9
+    },
+    {
+      "author": "vimniky@gmail.com",
+      "email": "vimniky@gmail.com",
+      "unique_commits": 3,
+      "files_touched": 8,
+      "total_changes": 8
+    },
+    {
+      "author": "w.seine@criteo.com",
+      "email": "w.seine@criteo.com",
+      "unique_commits": 5,
+      "files_touched": 7,
+      "total_changes": 8
+    },
+    {
+      "author": "ajaykumbhare@outlook.com",
+      "email": "ajaykumbhare@outlook.com",
+      "unique_commits": 1,
+      "files_touched": 8,
+      "total_changes": 8
+    },
+    {
+      "author": "shukla.vaibhav1077@gmail.com",
+      "email": "shukla.vaibhav1077@gmail.com",
+      "unique_commits": 3,
+      "files_touched": 8,
+      "total_changes": 8
+    },
+    {
+      "author": "jhanmariobolivarpena@gmail.com",
+      "email": "jhanmariobolivarpena@gmail.com",
+      "unique_commits": 1,
+      "files_touched": 8,
+      "total_changes": 8
+    },
+    {
+      "author": "jonas.bleyl@gmail.com",
+      "email": "jonas.bleyl@gmail.com",
+      "unique_commits": 1,
+      "files_touched": 7,
+      "total_changes": 7
+    },
+    {
+      "author": "programmer@hey.com",
+      "email": "programmer@hey.com",
+      "unique_commits": 2,
+      "files_touched": 7,
+      "total_changes": 7
+    },
+    {
+      "author": "bbrriiccee@gmail.com",
+      "email": "bbrriiccee@gmail.com",
+      "unique_commits": 1,
+      "files_touched": 7,
+      "total_changes": 7
+    },
+    {
+      "author": "jakob.guddas@aol.com",
+      "email": "jakob.guddas@aol.com",
+      "unique_commits": 1,
+      "files_touched": 7,
+      "total_changes": 7
+    },
+    {
+      "author": "david.laban@red-badger.com",
+      "email": "david.laban@red-badger.com",
+      "unique_commits": 1,
+      "files_touched": 7,
+      "total_changes": 7
+    },
+    {
+      "author": "38392250+anumithaapollo12@users.noreply.github.com",
+      "email": "38392250+anumithaapollo12@users.noreply.github.com",
+      "unique_commits": 1,
+      "files_touched": 7,
+      "total_changes": 7
+    },
+    {
+      "author": "connor.hanafee@gmail.com",
+      "email": "connor.hanafee@gmail.com",
+      "unique_commits": 3,
+      "files_touched": 5,
+      "total_changes": 7
+    },
+    {
+      "author": "hampus.lavin@gmail.com",
+      "email": "hampus.lavin@gmail.com",
+      "unique_commits": 1,
+      "files_touched": 7,
+      "total_changes": 7
+    },
+    {
+      "author": "lynda0214@gmail.com",
+      "email": "lynda0214@gmail.com",
+      "unique_commits": 1,
+      "files_touched": 7,
+      "total_changes": 7
+    },
+    {
+      "author": "faustino.kialungila@gmail.com",
+      "email": "faustino.kialungila@gmail.com",
+      "unique_commits": 4,
+      "files_touched": 5,
+      "total_changes": 6
+    },
+    {
+      "author": "Ives.v.h@gmail.com",
+      "email": "Ives.v.h@gmail.com",
+      "unique_commits": 3,
+      "files_touched": 4,
+      "total_changes": 6
+    },
+    {
+      "author": "milos@excalidraw.com",
+      "email": "milos@excalidraw.com",
+      "unique_commits": 4,
+      "files_touched": 4,
+      "total_changes": 6
+    },
+    {
+      "author": "tomac@google.com",
+      "email": "tomac@google.com",
+      "unique_commits": 2,
+      "files_touched": 6,
+      "total_changes": 6
+    },
+    {
+      "author": "shrirambalaji1996@gmail.com",
+      "email": "shrirambalaji1996@gmail.com",
+      "unique_commits": 4,
+      "files_touched": 5,
+      "total_changes": 6
+    },
+    {
+      "author": "minhnguyenxx@gmail.com",
+      "email": "minhnguyenxx@gmail.com",
+      "unique_commits": 4,
+      "files_touched": 6,
+      "total_changes": 6
+    },
+    {
+      "author": "kishddizon@gmail.com",
+      "email": "kishddizon@gmail.com",
+      "unique_commits": 1,
+      "files_touched": 6,
+      "total_changes": 6
+    },
+    {
+      "author": "oren.me@gmail.com",
+      "email": "oren.me@gmail.com",
+      "unique_commits": 2,
+      "files_touched": 5,
+      "total_changes": 6
+    },
+    {
+      "author": "roxana.gherle@gmail.com",
+      "email": "roxana.gherle@gmail.com",
+      "unique_commits": 2,
+      "files_touched": 5,
+      "total_changes": 6
+    },
+    {
+      "author": "fabien0102@hotmail.com",
+      "email": "fabien0102@hotmail.com",
+      "unique_commits": 1,
+      "files_touched": 6,
+      "total_changes": 6
+    },
+    {
+      "author": "Rafi993@users.noreply.github.com",
+      "email": "Rafi993@users.noreply.github.com",
+      "unique_commits": 2,
+      "files_touched": 6,
+      "total_changes": 6
+    },
+    {
+      "author": "noel.schnierer@gmail.com",
+      "email": "noel.schnierer@gmail.com",
+      "unique_commits": 2,
+      "files_touched": 6,
+      "total_changes": 6
+    },
+    {
+      "author": "51274353+Mattross45@users.noreply.github.com",
+      "email": "51274353+Mattross45@users.noreply.github.com",
+      "unique_commits": 1,
+      "files_touched": 6,
+      "total_changes": 6
+    },
+    {
+      "author": "saikatdas40g@gmail.com",
+      "email": "saikatdas40g@gmail.com",
+      "unique_commits": 1,
+      "files_touched": 6,
+      "total_changes": 6
+    },
+    {
+      "author": "106070823+ericvannunen@users.noreply.github.com",
+      "email": "106070823+ericvannunen@users.noreply.github.com",
+      "unique_commits": 1,
+      "files_touched": 6,
+      "total_changes": 6
+    },
+    {
+      "author": "ritobrotokalita@gmail.com",
+      "email": "ritobrotokalita@gmail.com",
+      "unique_commits": 1,
+      "files_touched": 6,
+      "total_changes": 6
+    },
+    {
+      "author": "yo@nikoheikkila.fi",
+      "email": "yo@nikoheikkila.fi",
+      "unique_commits": 1,
+      "files_touched": 5,
+      "total_changes": 5
+    },
+    {
+      "author": "jared@palmer.net",
+      "email": "jared@palmer.net",
+      "unique_commits": 2,
+      "files_touched": 4,
+      "total_changes": 5
+    },
+    {
+      "author": "tomas.dohnal@gmail.com",
+      "email": "tomas.dohnal@gmail.com",
+      "unique_commits": 1,
+      "files_touched": 5,
+      "total_changes": 5
+    },
+    {
+      "author": "nvguyen@gmail.com",
+      "email": "nvguyen@gmail.com",
+      "unique_commits": 1,
+      "files_touched": 5,
+      "total_changes": 5
+    },
+    {
+      "author": "dawneraq@gmail.com",
+      "email": "dawneraq@gmail.com",
+      "unique_commits": 2,
+      "files_touched": 5,
+      "total_changes": 5
+    },
+    {
+      "author": "41156157+hitgo00@users.noreply.github.com",
+      "email": "41156157+hitgo00@users.noreply.github.com",
+      "unique_commits": 1,
+      "files_touched": 5,
+      "total_changes": 5
+    },
+    {
+      "author": "69623008+mazijian-pp@users.noreply.github.com",
+      "email": "69623008+mazijian-pp@users.noreply.github.com",
+      "unique_commits": 1,
+      "files_touched": 5,
+      "total_changes": 5
+    },
+    {
+      "author": "46524488+vnsteven@users.noreply.github.com",
+      "email": "46524488+vnsteven@users.noreply.github.com",
+      "unique_commits": 1,
+      "files_touched": 5,
+      "total_changes": 5
+    },
+    {
+      "author": "farooqbckk@gmail.com",
+      "email": "farooqbckk@gmail.com",
+      "unique_commits": 2,
+      "files_touched": 3,
+      "total_changes": 5
+    },
+    {
+      "author": "jaiwanth2011@gmail.com",
+      "email": "jaiwanth2011@gmail.com",
+      "unique_commits": 1,
+      "files_touched": 5,
+      "total_changes": 5
+    },
+    {
+      "author": "luka@bancek.net",
+      "email": "luka@bancek.net",
+      "unique_commits": 1,
+      "files_touched": 5,
+      "total_changes": 5
+    },
+    {
+      "author": "robert@crowded.co",
+      "email": "robert@crowded.co",
+      "unique_commits": 1,
+      "files_touched": 5,
+      "total_changes": 5
+    },
+    {
+      "author": "kent@threeriversinstitute.org",
+      "email": "kent@threeriversinstitute.org",
+      "unique_commits": 5,
+      "files_touched": 2,
+      "total_changes": 5
+    },
+    {
+      "author": "josephbuchma@users.noreply.github.com",
+      "email": "josephbuchma@users.noreply.github.com",
+      "unique_commits": 1,
+      "files_touched": 5,
+      "total_changes": 5
+    },
+    {
+      "author": "68807141+sachintha-lk@users.noreply.github.com",
+      "email": "68807141+sachintha-lk@users.noreply.github.com",
+      "unique_commits": 1,
+      "files_touched": 5,
+      "total_changes": 5
+    },
+    {
+      "author": "18559798+jdbruxelles@users.noreply.github.com",
+      "email": "18559798+jdbruxelles@users.noreply.github.com",
+      "unique_commits": 3,
+      "files_touched": 4,
+      "total_changes": 4
+    },
+    {
+      "author": "jakub.koralewski1@gmail.com",
+      "email": "jakub.koralewski1@gmail.com",
+      "unique_commits": 2,
+      "files_touched": 4,
+      "total_changes": 4
+    },
+    {
+      "author": "root@keyanzhang.com",
+      "email": "root@keyanzhang.com",
+      "unique_commits": 2,
+      "files_touched": 4,
+      "total_changes": 4
+    },
+    {
+      "author": "sevenflash@yandex.ru",
+      "email": "sevenflash@yandex.ru",
+      "unique_commits": 1,
+      "files_touched": 4,
+      "total_changes": 4
+    },
+    {
+      "author": "hello@weiweiwu.me",
+      "email": "hello@weiweiwu.me",
+      "unique_commits": 1,
+      "files_touched": 4,
+      "total_changes": 4
+    },
+    {
+      "author": "israeladura@gmail.com",
+      "email": "israeladura@gmail.com",
+      "unique_commits": 1,
+      "files_touched": 4,
+      "total_changes": 4
+    },
+    {
+      "author": "david-bonan@hotmail.com",
+      "email": "david-bonan@hotmail.com",
+      "unique_commits": 2,
+      "files_touched": 4,
+      "total_changes": 4
+    },
+    {
+      "author": "enzo.ferey@chance.co",
+      "email": "enzo.ferey@chance.co",
+      "unique_commits": 2,
+      "files_touched": 2,
+      "total_changes": 4
+    },
+    {
+      "author": "6529279+wboucher@users.noreply.github.com",
+      "email": "6529279+wboucher@users.noreply.github.com",
+      "unique_commits": 1,
+      "files_touched": 4,
+      "total_changes": 4
+    },
+    {
+      "author": "kentlbeck@gmail.com",
+      "email": "kentlbeck@gmail.com",
+      "unique_commits": 2,
+      "files_touched": 3,
+      "total_changes": 4
+    },
+    {
+      "author": "j.r.jurman@gmail.com",
+      "email": "j.r.jurman@gmail.com",
+      "unique_commits": 1,
+      "files_touched": 4,
+      "total_changes": 4
+    },
+    {
+      "author": "61521805+g4rry420@users.noreply.github.com",
+      "email": "61521805+g4rry420@users.noreply.github.com",
+      "unique_commits": 1,
+      "files_touched": 4,
+      "total_changes": 4
+    },
+    {
+      "author": "jangmin.dev@gmail.com",
+      "email": "jangmin.dev@gmail.com",
+      "unique_commits": 1,
+      "files_touched": 4,
+      "total_changes": 4
+    },
+    {
+      "author": "szymon.pajka@gmail.com",
+      "email": "szymon.pajka@gmail.com",
+      "unique_commits": 3,
+      "files_touched": 2,
+      "total_changes": 4
+    },
+    {
+      "author": "valgussev@gmail.com",
+      "email": "valgussev@gmail.com",
+      "unique_commits": 1,
+      "files_touched": 4,
+      "total_changes": 4
+    },
+    {
+      "author": "christianalfoni@gmail.com",
+      "email": "christianalfoni@gmail.com",
+      "unique_commits": 1,
+      "files_touched": 4,
+      "total_changes": 4
+    },
+    {
+      "author": "kent.beck@gusto.com",
+      "email": "kent.beck@gusto.com",
+      "unique_commits": 3,
+      "files_touched": 2,
+      "total_changes": 4
+    },
+    {
+      "author": "preetshihn@gmail.com",
+      "email": "preetshihn@gmail.com",
+      "unique_commits": 2,
+      "files_touched": 2,
+      "total_changes": 4
+    },
+    {
+      "author": "31528554+ThangHuuVu@users.noreply.github.com",
+      "email": "31528554+ThangHuuVu@users.noreply.github.com",
+      "unique_commits": 2,
+      "files_touched": 3,
+      "total_changes": 4
+    },
+    {
+      "author": "37394743+connor-pph@users.noreply.github.com",
+      "email": "37394743+connor-pph@users.noreply.github.com",
+      "unique_commits": 1,
+      "files_touched": 4,
+      "total_changes": 4
+    },
+    {
+      "author": "suwalkanishka@gmail.com",
+      "email": "suwalkanishka@gmail.com",
+      "unique_commits": 1,
+      "files_touched": 4,
+      "total_changes": 4
+    },
+    {
+      "author": "minozzi60@gmail.com",
+      "email": "minozzi60@gmail.com",
+      "unique_commits": 1,
+      "files_touched": 4,
+      "total_changes": 4
+    },
+    {
+      "author": "43703884+DDDDD12138@users.noreply.github.com",
+      "email": "43703884+DDDDD12138@users.noreply.github.com",
+      "unique_commits": 3,
+      "files_touched": 4,
+      "total_changes": 4
+    },
+    {
+      "author": "73137047+h0lm1@users.noreply.github.com",
+      "email": "73137047+h0lm1@users.noreply.github.com",
+      "unique_commits": 1,
+      "files_touched": 4,
+      "total_changes": 4
+    },
+    {
+      "author": "69307556+clarencechaan@users.noreply.github.com",
+      "email": "69307556+clarencechaan@users.noreply.github.com",
+      "unique_commits": 2,
+      "files_touched": 4,
+      "total_changes": 4
+    },
+    {
+      "author": "63807168+aashirisrar@users.noreply.github.com",
+      "email": "63807168+aashirisrar@users.noreply.github.com",
+      "unique_commits": 1,
+      "files_touched": 4,
+      "total_changes": 4
+    },
+    {
+      "author": "agebhar1@googlemail.com",
+      "email": "agebhar1@googlemail.com",
+      "unique_commits": 1,
+      "files_touched": 3,
+      "total_changes": 3
+    },
+    {
+      "author": "alexisbratsos@gmail.com",
+      "email": "alexisbratsos@gmail.com",
+      "unique_commits": 1,
+      "files_touched": 3,
+      "total_changes": 3
+    },
+    {
+      "author": "abhikulshrestha22@gmail.com",
+      "email": "abhikulshrestha22@gmail.com",
+      "unique_commits": 2,
+      "files_touched": 2,
+      "total_changes": 3
+    },
+    {
+      "author": "jeremypress1@gmail.com",
+      "email": "jeremypress1@gmail.com",
+      "unique_commits": 1,
+      "files_touched": 3,
+      "total_changes": 3
+    },
+    {
+      "author": "aosukeke@gmail.com",
+      "email": "aosukeke@gmail.com",
+      "unique_commits": 3,
+      "files_touched": 3,
+      "total_changes": 3
+    },
+    {
+      "author": "9283289+thibautsabot@users.noreply.github.com",
+      "email": "9283289+thibautsabot@users.noreply.github.com",
+      "unique_commits": 2,
+      "files_touched": 3,
+      "total_changes": 3
+    },
+    {
+      "author": "jai.dewani.99@gmail.com",
+      "email": "jai.dewani.99@gmail.com",
+      "unique_commits": 2,
+      "files_touched": 3,
+      "total_changes": 3
+    },
+    {
+      "author": "61119157+Nishant-l@users.noreply.github.com",
+      "email": "61119157+Nishant-l@users.noreply.github.com",
+      "unique_commits": 2,
+      "files_touched": 3,
+      "total_changes": 3
+    },
+    {
+      "author": "khalsah@gmail.com",
+      "email": "khalsah@gmail.com",
+      "unique_commits": 1,
+      "files_touched": 3,
+      "total_changes": 3
+    },
+    {
+      "author": "johtso@gmail.com",
+      "email": "johtso@gmail.com",
+      "unique_commits": 3,
+      "files_touched": 2,
+      "total_changes": 3
+    },
+    {
+      "author": "76729141+SahilNagpure07@users.noreply.github.com",
+      "email": "76729141+SahilNagpure07@users.noreply.github.com",
+      "unique_commits": 1,
+      "files_touched": 3,
+      "total_changes": 3
+    },
+    {
+      "author": "hamirmahal@gmail.com",
+      "email": "hamirmahal@gmail.com",
+      "unique_commits": 3,
+      "files_touched": 3,
+      "total_changes": 3
+    },
+    {
+      "author": "42270947+rubjo@users.noreply.github.com",
+      "email": "42270947+rubjo@users.noreply.github.com",
+      "unique_commits": 2,
+      "files_touched": 2,
+      "total_changes": 3
+    },
+    {
+      "author": "matrenin@ukr.net",
+      "email": "matrenin@ukr.net",
+      "unique_commits": 1,
+      "files_touched": 3,
+      "total_changes": 3
+    },
+    {
+      "author": "andres.rivera.toro@gmail.com",
+      "email": "andres.rivera.toro@gmail.com",
+      "unique_commits": 1,
+      "files_touched": 3,
+      "total_changes": 3
+    },
+    {
+      "author": "maruric@users.noreply.github.com",
+      "email": "maruric@users.noreply.github.com",
+      "unique_commits": 1,
+      "files_touched": 3,
+      "total_changes": 3
+    },
+    {
+      "author": "107800884+FadedBronze@users.noreply.github.com",
+      "email": "107800884+FadedBronze@users.noreply.github.com",
+      "unique_commits": 1,
+      "files_touched": 3,
+      "total_changes": 3
+    },
+    {
+      "author": "jasonphillips@users.noreply.github.com",
+      "email": "jasonphillips@users.noreply.github.com",
+      "unique_commits": 1,
+      "files_touched": 3,
+      "total_changes": 3
+    },
+    {
+      "author": "oshyun6623@gmail.com",
+      "email": "oshyun6623@gmail.com",
+      "unique_commits": 2,
+      "files_touched": 3,
+      "total_changes": 3
+    },
+    {
+      "author": "otte.pim@gmail.com",
+      "email": "otte.pim@gmail.com",
+      "unique_commits": 1,
+      "files_touched": 3,
+      "total_changes": 3
+    },
+    {
+      "author": "49964599+Irvingouj@users.noreply.github.com",
+      "email": "49964599+Irvingouj@users.noreply.github.com",
+      "unique_commits": 1,
+      "files_touched": 3,
+      "total_changes": 3
+    },
+    {
+      "author": "mikecat@users.noreply.github.com",
+      "email": "mikecat@users.noreply.github.com",
+      "unique_commits": 3,
+      "files_touched": 3,
+      "total_changes": 3
+    },
+    {
+      "author": "89120102+tempewda@users.noreply.github.com",
+      "email": "89120102+tempewda@users.noreply.github.com",
+      "unique_commits": 1,
+      "files_touched": 3,
+      "total_changes": 3
+    },
+    {
+      "author": "esteban.romo.98@gmail.com",
+      "email": "esteban.romo.98@gmail.com",
+      "unique_commits": 1,
+      "files_touched": 3,
+      "total_changes": 3
+    },
+    {
+      "author": "mingaaaa@outlook.com",
+      "email": "mingaaaa@outlook.com",
+      "unique_commits": 2,
+      "files_touched": 3,
+      "total_changes": 3
+    },
+    {
+      "author": "sonivatsal2001@gmail.com",
+      "email": "sonivatsal2001@gmail.com",
+      "unique_commits": 1,
+      "files_touched": 3,
+      "total_changes": 3
+    },
+    {
+      "author": "mishankov@mail.com",
+      "email": "mishankov@mail.com",
+      "unique_commits": 1,
+      "files_touched": 3,
+      "total_changes": 3
+    },
+    {
+      "author": "42074753+shreyjay0@users.noreply.github.com",
+      "email": "42074753+shreyjay0@users.noreply.github.com",
+      "unique_commits": 1,
+      "files_touched": 3,
+      "total_changes": 3
+    },
+    {
+      "author": "39777981+tothatt81@users.noreply.github.com",
+      "email": "39777981+tothatt81@users.noreply.github.com",
+      "unique_commits": 1,
+      "files_touched": 3,
+      "total_changes": 3
+    },
+    {
+      "author": "prasangblaze@gmail.com",
+      "email": "prasangblaze@gmail.com",
+      "unique_commits": 1,
+      "files_touched": 3,
+      "total_changes": 3
+    },
+    {
+      "author": "me@hazemkrimi.tech",
+      "email": "me@hazemkrimi.tech",
+      "unique_commits": 1,
+      "files_touched": 3,
+      "total_changes": 3
+    },
+    {
+      "author": "luc.leray@gmail.com",
+      "email": "luc.leray@gmail.com",
+      "unique_commits": 2,
+      "files_touched": 2,
+      "total_changes": 2
+    },
+    {
+      "author": "mesaugat@gmail.com",
+      "email": "mesaugat@gmail.com",
+      "unique_commits": 1,
+      "files_touched": 2,
+      "total_changes": 2
+    },
+    {
+      "author": "youss.meskini@gmail.com",
+      "email": "youss.meskini@gmail.com",
+      "unique_commits": 1,
+      "files_touched": 2,
+      "total_changes": 2
+    },
+    {
+      "author": "szaim@meilleursagents.com",
+      "email": "szaim@meilleursagents.com",
+      "unique_commits": 1,
+      "files_touched": 2,
+      "total_changes": 2
+    },
+    {
+      "author": "43617894+anishagg17@users.noreply.github.com",
+      "email": "43617894+anishagg17@users.noreply.github.com",
+      "unique_commits": 1,
+      "files_touched": 2,
+      "total_changes": 2
+    },
+    {
+      "author": "giovanni.giordano@brumbrum.it",
+      "email": "giovanni.giordano@brumbrum.it",
+      "unique_commits": 2,
+      "files_touched": 2,
+      "total_changes": 2
+    },
+    {
+      "author": "kviglucci@gmail.com",
+      "email": "kviglucci@gmail.com",
+      "unique_commits": 1,
+      "files_touched": 2,
+      "total_changes": 2
+    },
+    {
+      "author": "102623907+pano9000@users.noreply.github.com",
+      "email": "102623907+pano9000@users.noreply.github.com",
+      "unique_commits": 1,
+      "files_touched": 2,
+      "total_changes": 2
+    },
+    {
+      "author": "lucas.azzola@iress.com",
+      "email": "lucas.azzola@iress.com",
+      "unique_commits": 2,
+      "files_touched": 1,
+      "total_changes": 2
+    },
+    {
+      "author": "laranda@student.42.fr",
+      "email": "laranda@student.42.fr",
+      "unique_commits": 1,
+      "files_touched": 2,
+      "total_changes": 2
+    },
+    {
+      "author": "ito.tkmi@gmail.com",
+      "email": "ito.tkmi@gmail.com",
+      "unique_commits": 1,
+      "files_touched": 2,
+      "total_changes": 2
+    },
+    {
+      "author": "harshilparmar80@gmail.com",
+      "email": "harshilparmar80@gmail.com",
+      "unique_commits": 1,
+      "files_touched": 2,
+      "total_changes": 2
+    },
+    {
+      "author": "52590791+SavvyShah@users.noreply.github.com",
+      "email": "52590791+SavvyShah@users.noreply.github.com",
+      "unique_commits": 1,
+      "files_touched": 2,
+      "total_changes": 2
+    },
+    {
+      "author": "johnrazeur@gmail.com",
+      "email": "johnrazeur@gmail.com",
+      "unique_commits": 1,
+      "files_touched": 2,
+      "total_changes": 2
+    },
+    {
+      "author": "1136005348@qq.com",
+      "email": "1136005348@qq.com",
+      "unique_commits": 1,
+      "files_touched": 2,
+      "total_changes": 2
+    },
+    {
+      "author": "matias.capeletto@gmail.com",
+      "email": "matias.capeletto@gmail.com",
+      "unique_commits": 1,
+      "files_touched": 2,
+      "total_changes": 2
+    },
+    {
+      "author": "67276174+ignacio-cuadra@users.noreply.github.com",
+      "email": "67276174+ignacio-cuadra@users.noreply.github.com",
+      "unique_commits": 1,
+      "files_touched": 2,
+      "total_changes": 2
+    },
+    {
+      "author": "46889283+CoyoteWaltz@users.noreply.github.com",
+      "email": "46889283+CoyoteWaltz@users.noreply.github.com",
+      "unique_commits": 1,
+      "files_touched": 2,
+      "total_changes": 2
+    },
+    {
+      "author": "contact@mxstbr.com",
+      "email": "contact@mxstbr.com",
+      "unique_commits": 1,
+      "files_touched": 2,
+      "total_changes": 2
+    },
+    {
+      "author": "tomhicks@users.noreply.github.com",
+      "email": "tomhicks@users.noreply.github.com",
+      "unique_commits": 1,
+      "files_touched": 2,
+      "total_changes": 2
+    },
+    {
+      "author": "saranshbarua@gmail.com",
+      "email": "saranshbarua@gmail.com",
+      "unique_commits": 2,
+      "files_touched": 2,
+      "total_changes": 2
+    },
+    {
+      "author": "5364177+adilhaddaoui@users.noreply.github.com",
+      "email": "5364177+adilhaddaoui@users.noreply.github.com",
+      "unique_commits": 2,
+      "files_touched": 2,
+      "total_changes": 2
+    },
+    {
+      "author": "marcokaul@googlemail.com",
+      "email": "marcokaul@googlemail.com",
+      "unique_commits": 1,
+      "files_touched": 2,
+      "total_changes": 2
+    },
+    {
+      "author": "31315754+ismailnamdar@users.noreply.github.com",
+      "email": "31315754+ismailnamdar@users.noreply.github.com",
+      "unique_commits": 1,
+      "files_touched": 2,
+      "total_changes": 2
+    },
+    {
+      "author": "luffgd@gmail.com",
+      "email": "luffgd@gmail.com",
+      "unique_commits": 1,
+      "files_touched": 2,
+      "total_changes": 2
+    },
+    {
+      "author": "65488471+Pierre-Monier@users.noreply.github.com",
+      "email": "65488471+Pierre-Monier@users.noreply.github.com",
+      "unique_commits": 1,
+      "files_touched": 2,
+      "total_changes": 2
+    },
+    {
+      "author": "contact@ishandeveloper.com",
+      "email": "contact@ishandeveloper.com",
+      "unique_commits": 1,
+      "files_touched": 2,
+      "total_changes": 2
+    },
+    {
+      "author": "110197391+fouqueta@users.noreply.github.com",
+      "email": "110197391+fouqueta@users.noreply.github.com",
+      "unique_commits": 1,
+      "files_touched": 2,
+      "total_changes": 2
+    },
+    {
+      "author": "cyan.binary@gmail.com",
+      "email": "cyan.binary@gmail.com",
+      "unique_commits": 2,
+      "files_touched": 1,
+      "total_changes": 2
+    },
+    {
+      "author": "mehedi.dip@outlook.com",
+      "email": "mehedi.dip@outlook.com",
+      "unique_commits": 1,
+      "files_touched": 2,
+      "total_changes": 2
+    },
+    {
+      "author": "32750050+salehmoh@users.noreply.github.com",
+      "email": "32750050+salehmoh@users.noreply.github.com",
+      "unique_commits": 1,
+      "files_touched": 2,
+      "total_changes": 2
+    },
+    {
+      "author": "rulitrulik@gmail.com",
+      "email": "rulitrulik@gmail.com",
+      "unique_commits": 1,
+      "files_touched": 2,
+      "total_changes": 2
+    },
+    {
+      "author": "tommilligan@users.noreply.github.com",
+      "email": "tommilligan@users.noreply.github.com",
+      "unique_commits": 1,
+      "files_touched": 2,
+      "total_changes": 2
+    },
+    {
+      "author": "30566406+siddhant1@users.noreply.github.com",
+      "email": "30566406+siddhant1@users.noreply.github.com",
+      "unique_commits": 1,
+      "files_touched": 2,
+      "total_changes": 2
+    },
+    {
+      "author": "benjamin.andremicolon@gmail.com",
+      "email": "benjamin.andremicolon@gmail.com",
+      "unique_commits": 1,
+      "files_touched": 2,
+      "total_changes": 2
+    },
+    {
+      "author": "benjamin.kugler1996@gmail.com",
+      "email": "benjamin.kugler1996@gmail.com",
+      "unique_commits": 1,
+      "files_touched": 2,
+      "total_changes": 2
+    },
+    {
+      "author": "irosgrim@ionwebservices.dev",
+      "email": "irosgrim@ionwebservices.dev",
+      "unique_commits": 2,
+      "files_touched": 2,
+      "total_changes": 2
+    },
+    {
+      "author": "leconio@outlook.com",
+      "email": "leconio@outlook.com",
+      "unique_commits": 1,
+      "files_touched": 2,
+      "total_changes": 2
+    },
+    {
+      "author": "9018929+NickFitton@users.noreply.github.com",
+      "email": "9018929+NickFitton@users.noreply.github.com",
+      "unique_commits": 1,
+      "files_touched": 2,
+      "total_changes": 2
+    },
+    {
+      "author": "karl.horky@gmail.com",
+      "email": "karl.horky@gmail.com",
+      "unique_commits": 1,
+      "files_touched": 2,
+      "total_changes": 2
+    },
+    {
+      "author": "63002244+vsaravind01@users.noreply.github.com",
+      "email": "63002244+vsaravind01@users.noreply.github.com",
+      "unique_commits": 2,
+      "files_touched": 2,
+      "total_changes": 2
+    },
+    {
+      "author": "68773271+SnorfYang@users.noreply.github.com",
+      "email": "68773271+SnorfYang@users.noreply.github.com",
+      "unique_commits": 1,
+      "files_touched": 2,
+      "total_changes": 2
+    },
+    {
+      "author": "48420402+rafaquelhodev@users.noreply.github.com",
+      "email": "48420402+rafaquelhodev@users.noreply.github.com",
+      "unique_commits": 1,
+      "files_touched": 2,
+      "total_changes": 2
+    },
+    {
+      "author": "82713217+Rajni2002@users.noreply.github.com",
+      "email": "82713217+Rajni2002@users.noreply.github.com",
+      "unique_commits": 1,
+      "files_touched": 2,
+      "total_changes": 2
+    },
+    {
+      "author": "94870540+hocino@users.noreply.github.com",
+      "email": "94870540+hocino@users.noreply.github.com",
+      "unique_commits": 2,
+      "files_touched": 2,
+      "total_changes": 2
+    },
+    {
+      "author": "48094649+akib22@users.noreply.github.com",
+      "email": "48094649+akib22@users.noreply.github.com",
+      "unique_commits": 1,
+      "files_touched": 2,
+      "total_changes": 2
+    },
+    {
+      "author": "123532141+golok727@users.noreply.github.com",
+      "email": "123532141+golok727@users.noreply.github.com",
+      "unique_commits": 1,
+      "files_touched": 2,
+      "total_changes": 2
+    },
+    {
+      "author": "91144891+Andran1k@users.noreply.github.com",
+      "email": "91144891+Andran1k@users.noreply.github.com",
+      "unique_commits": 1,
+      "files_touched": 2,
+      "total_changes": 2
+    },
+    {
+      "author": "83207402+ashwintemkar@users.noreply.github.com",
+      "email": "83207402+ashwintemkar@users.noreply.github.com",
+      "unique_commits": 1,
+      "files_touched": 2,
+      "total_changes": 2
+    },
+    {
+      "author": "150679961+sohamsk13@users.noreply.github.com",
+      "email": "150679961+sohamsk13@users.noreply.github.com",
+      "unique_commits": 2,
+      "files_touched": 1,
+      "total_changes": 2
+    },
+    {
+      "author": "sidd3j27@gmail.com",
+      "email": "sidd3j27@gmail.com",
+      "unique_commits": 1,
+      "files_touched": 2,
+      "total_changes": 2
+    },
+    {
+      "author": "69043094+G0WTHAM-SELVARAJ@users.noreply.github.com",
+      "email": "69043094+G0WTHAM-SELVARAJ@users.noreply.github.com",
+      "unique_commits": 1,
+      "files_touched": 2,
+      "total_changes": 2
+    },
+    {
+      "author": "97570527+omareltomy@users.noreply.github.com",
+      "email": "97570527+omareltomy@users.noreply.github.com",
+      "unique_commits": 1,
+      "files_touched": 2,
+      "total_changes": 2
+    },
+    {
+      "author": "80324173+Shaocang@users.noreply.github.com",
+      "email": "80324173+Shaocang@users.noreply.github.com",
+      "unique_commits": 1,
+      "files_touched": 2,
+      "total_changes": 2
+    },
+    {
+      "author": "78421872+2hanbyeol1@users.noreply.github.com",
+      "email": "78421872+2hanbyeol1@users.noreply.github.com",
+      "unique_commits": 1,
+      "files_touched": 2,
+      "total_changes": 2
+    },
+    {
+      "author": "rubennorte@gmail.com",
+      "email": "rubennorte@gmail.com",
+      "unique_commits": 1,
+      "files_touched": 2,
+      "total_changes": 2
+    },
+    {
+      "author": "83207402+rothardo@users.noreply.github.com",
+      "email": "83207402+rothardo@users.noreply.github.com",
+      "unique_commits": 2,
+      "files_touched": 1,
+      "total_changes": 2
+    },
+    {
+      "author": "55016909+heysujal@users.noreply.github.com",
+      "email": "55016909+heysujal@users.noreply.github.com",
+      "unique_commits": 1,
+      "files_touched": 2,
+      "total_changes": 2
+    },
+    {
+      "author": "ben@benkraft.org",
+      "email": "ben@benkraft.org",
+      "unique_commits": 1,
+      "files_touched": 1,
+      "total_changes": 1
+    },
+    {
+      "author": "jessachandler@gmail.com",
+      "email": "jessachandler@gmail.com",
+      "unique_commits": 1,
+      "files_touched": 1,
+      "total_changes": 1
+    },
+    {
+      "author": "jeffeb3@gmail.com",
+      "email": "jeffeb3@gmail.com",
+      "unique_commits": 1,
+      "files_touched": 1,
+      "total_changes": 1
+    },
+    {
+      "author": "marco.franssen@gmail.com",
+      "email": "marco.franssen@gmail.com",
+      "unique_commits": 1,
+      "files_touched": 1,
+      "total_changes": 1
+    },
+    {
+      "author": "shahzebparkar@gmail.com",
+      "email": "shahzebparkar@gmail.com",
+      "unique_commits": 1,
+      "files_touched": 1,
+      "total_changes": 1
+    },
+    {
+      "author": "ishandeveloper@outlook.com",
+      "email": "ishandeveloper@outlook.com",
+      "unique_commits": 1,
+      "files_touched": 1,
+      "total_changes": 1
+    },
+    {
+      "author": "kissaki@posteo.de",
+      "email": "kissaki@posteo.de",
+      "unique_commits": 1,
+      "files_touched": 1,
+      "total_changes": 1
+    },
+    {
+      "author": "36969812+brandstetterm@users.noreply.github.com",
+      "email": "36969812+brandstetterm@users.noreply.github.com",
+      "unique_commits": 1,
+      "files_touched": 1,
+      "total_changes": 1
+    },
+    {
+      "author": "fsefidabi@gmail.com",
+      "email": "fsefidabi@gmail.com",
+      "unique_commits": 1,
+      "files_touched": 1,
+      "total_changes": 1
+    },
+    {
+      "author": "jason.praful@gmail.com",
+      "email": "jason.praful@gmail.com",
+      "unique_commits": 1,
+      "files_touched": 1,
+      "total_changes": 1
+    },
+    {
+      "author": "sami.hindi@renuo.ch",
+      "email": "sami.hindi@renuo.ch",
+      "unique_commits": 1,
+      "files_touched": 1,
+      "total_changes": 1
+    },
+    {
+      "author": "47125809+eolesinski@users.noreply.github.com",
+      "email": "47125809+eolesinski@users.noreply.github.com",
+      "unique_commits": 1,
+      "files_touched": 1,
+      "total_changes": 1
+    },
+    {
+      "author": "dacidigital@gmail.com",
+      "email": "dacidigital@gmail.com",
+      "unique_commits": 1,
+      "files_touched": 1,
+      "total_changes": 1
+    },
+    {
+      "author": "wei-wei@nashi.io",
+      "email": "wei-wei@nashi.io",
+      "unique_commits": 1,
+      "files_touched": 1,
+      "total_changes": 1
+    },
+    {
+      "author": "36122478+harishcalvin@users.noreply.github.com",
+      "email": "36122478+harishcalvin@users.noreply.github.com",
+      "unique_commits": 1,
+      "files_touched": 1,
+      "total_changes": 1
+    },
+    {
+      "author": "luca.colonnello91@gmail.com",
+      "email": "luca.colonnello91@gmail.com",
+      "unique_commits": 1,
+      "files_touched": 1,
+      "total_changes": 1
+    },
+    {
+      "author": "chi187@gmail.com",
+      "email": "chi187@gmail.com",
+      "unique_commits": 1,
+      "files_touched": 1,
+      "total_changes": 1
+    },
+    {
+      "author": "benjamin@midokura.com",
+      "email": "benjamin@midokura.com",
+      "unique_commits": 1,
+      "files_touched": 1,
+      "total_changes": 1
+    },
+    {
+      "author": "anirban.iatk9@gmail.com",
+      "email": "anirban.iatk9@gmail.com",
+      "unique_commits": 1,
+      "files_touched": 1,
+      "total_changes": 1
+    },
+    {
+      "author": "hey@jeremyscatigna.tech",
+      "email": "hey@jeremyscatigna.tech",
+      "unique_commits": 1,
+      "files_touched": 1,
+      "total_changes": 1
+    },
+    {
+      "author": "59737208+lily-ge@users.noreply.github.com",
+      "email": "59737208+lily-ge@users.noreply.github.com",
+      "unique_commits": 1,
+      "files_touched": 1,
+      "total_changes": 1
+    },
+    {
+      "author": "dvir.azulay@gmail.com",
+      "email": "dvir.azulay@gmail.com",
+      "unique_commits": 1,
+      "files_touched": 1,
+      "total_changes": 1
+    },
+    {
+      "author": "igorberlenko7@gmail.com",
+      "email": "igorberlenko7@gmail.com",
+      "unique_commits": 1,
+      "files_touched": 1,
+      "total_changes": 1
+    },
+    {
+      "author": "mtlewis@users.noreply.github.com",
+      "email": "mtlewis@users.noreply.github.com",
+      "unique_commits": 1,
+      "files_touched": 1,
+      "total_changes": 1
+    },
+    {
+      "author": "andelf@gmail.com",
+      "email": "andelf@gmail.com",
+      "unique_commits": 1,
+      "files_touched": 1,
+      "total_changes": 1
+    },
+    {
+      "author": "warren.seine@gmail.com",
+      "email": "warren.seine@gmail.com",
+      "unique_commits": 1,
+      "files_touched": 1,
+      "total_changes": 1
+    },
+    {
+      "author": "25874603+stbneb@users.noreply.github.com",
+      "email": "25874603+stbneb@users.noreply.github.com",
+      "unique_commits": 1,
+      "files_touched": 1,
+      "total_changes": 1
+    },
+    {
+      "author": "als.abdellah@gmail.com",
+      "email": "als.abdellah@gmail.com",
+      "unique_commits": 1,
+      "files_touched": 1,
+      "total_changes": 1
+    },
+    {
+      "author": "pedropbaracho@gmail.com",
+      "email": "pedropbaracho@gmail.com",
+      "unique_commits": 1,
+      "files_touched": 1,
+      "total_changes": 1
+    },
+    {
+      "author": "chrisep8@gmail.com",
+      "email": "chrisep8@gmail.com",
+      "unique_commits": 1,
+      "files_touched": 1,
+      "total_changes": 1
+    },
+    {
+      "author": "57059705+osushicrusher@users.noreply.github.com",
+      "email": "57059705+osushicrusher@users.noreply.github.com",
+      "unique_commits": 1,
+      "files_touched": 1,
+      "total_changes": 1
+    },
+    {
+      "author": "sboeuf@xebia.fr",
+      "email": "sboeuf@xebia.fr",
+      "unique_commits": 1,
+      "files_touched": 1,
+      "total_changes": 1
+    },
+    {
+      "author": "GabiRepare@users.noreply.github.com",
+      "email": "GabiRepare@users.noreply.github.com",
+      "unique_commits": 1,
+      "files_touched": 1,
+      "total_changes": 1
+    },
+    {
+      "author": "shaneosullivan1@gmail.com",
+      "email": "shaneosullivan1@gmail.com",
+      "unique_commits": 1,
+      "files_touched": 1,
+      "total_changes": 1
+    },
+    {
+      "author": "17279882+kvasimon@users.noreply.github.com",
+      "email": "17279882+kvasimon@users.noreply.github.com",
+      "unique_commits": 1,
+      "files_touched": 1,
+      "total_changes": 1
+    },
+    {
+      "author": "agarwalprashant355@gmail.com",
+      "email": "agarwalprashant355@gmail.com",
+      "unique_commits": 1,
+      "files_touched": 1,
+      "total_changes": 1
+    },
+    {
+      "author": "89014758+fennghuang@users.noreply.github.com",
+      "email": "89014758+fennghuang@users.noreply.github.com",
+      "unique_commits": 1,
+      "files_touched": 1,
+      "total_changes": 1
+    },
+    {
+      "author": "ashk0006@umn.edu",
+      "email": "ashk0006@umn.edu",
+      "unique_commits": 1,
+      "files_touched": 1,
+      "total_changes": 1
+    },
+    {
+      "author": "1126680+richkeenan@users.noreply.github.com",
+      "email": "1126680+richkeenan@users.noreply.github.com",
+      "unique_commits": 1,
+      "files_touched": 1,
+      "total_changes": 1
+    },
+    {
+      "author": "tbrockb@gmail.com",
+      "email": "tbrockb@gmail.com",
+      "unique_commits": 1,
+      "files_touched": 1,
+      "total_changes": 1
+    },
+    {
+      "author": "jrmi@jeremiez.net",
+      "email": "jrmi@jeremiez.net",
+      "unique_commits": 1,
+      "files_touched": 1,
+      "total_changes": 1
+    },
+    {
+      "author": "jbdupuis16@gmail.com",
+      "email": "jbdupuis16@gmail.com",
+      "unique_commits": 1,
+      "files_touched": 1,
+      "total_changes": 1
+    },
+    {
+      "author": "mauricelecordier@gmail.com",
+      "email": "mauricelecordier@gmail.com",
+      "unique_commits": 1,
+      "files_touched": 1,
+      "total_changes": 1
+    },
+    {
+      "author": "christof.pasquier@gmail.com",
+      "email": "christof.pasquier@gmail.com",
+      "unique_commits": 1,
+      "files_touched": 1,
+      "total_changes": 1
+    },
+    {
+      "author": "zerkms@zerkms.com",
+      "email": "zerkms@zerkms.com",
+      "unique_commits": 1,
+      "files_touched": 1,
+      "total_changes": 1
+    },
+    {
+      "author": "48316033+fdemir@users.noreply.github.com",
+      "email": "48316033+fdemir@users.noreply.github.com",
+      "unique_commits": 1,
+      "files_touched": 1,
+      "total_changes": 1
+    },
+    {
+      "author": "sakito21@gmail.com",
+      "email": "sakito21@gmail.com",
+      "unique_commits": 1,
+      "files_touched": 1,
+      "total_changes": 1
+    },
+    {
+      "author": "52590791+ShubhamCanCreate@users.noreply.github.com",
+      "email": "52590791+ShubhamCanCreate@users.noreply.github.com",
+      "unique_commits": 1,
+      "files_touched": 1,
+      "total_changes": 1
+    },
+    {
+      "author": "1056342711@qq.com",
+      "email": "1056342711@qq.com",
+      "unique_commits": 1,
+      "files_touched": 1,
+      "total_changes": 1
+    },
+    {
+      "author": "rahul3v@users.noreply.github.com",
+      "email": "rahul3v@users.noreply.github.com",
+      "unique_commits": 1,
+      "files_touched": 1,
+      "total_changes": 1
+    },
+    {
+      "author": "eltociear@gmail.com",
+      "email": "eltociear@gmail.com",
+      "unique_commits": 1,
+      "files_touched": 1,
+      "total_changes": 1
+    },
+    {
+      "author": "41436235+mkloubertego@users.noreply.github.com",
+      "email": "41436235+mkloubertego@users.noreply.github.com",
+      "unique_commits": 1,
+      "files_touched": 1,
+      "total_changes": 1
+    },
+    {
+      "author": "justingreenberg@users.noreply.github.com",
+      "email": "justingreenberg@users.noreply.github.com",
+      "unique_commits": 1,
+      "files_touched": 1,
+      "total_changes": 1
+    },
+    {
+      "author": "snbalay@gmail.com",
+      "email": "snbalay@gmail.com",
+      "unique_commits": 1,
+      "files_touched": 1,
+      "total_changes": 1
+    },
+    {
+      "author": "33168165+Dreace@users.noreply.github.com",
+      "email": "33168165+Dreace@users.noreply.github.com",
+      "unique_commits": 1,
+      "files_touched": 1,
+      "total_changes": 1
+    },
+    {
+      "author": "johann.sonntagbauer@gmx.at",
+      "email": "johann.sonntagbauer@gmx.at",
+      "unique_commits": 1,
+      "files_touched": 1,
+      "total_changes": 1
+    },
+    {
+      "author": "109069184+tfarhan00@users.noreply.github.com",
+      "email": "109069184+tfarhan00@users.noreply.github.com",
+      "unique_commits": 1,
+      "files_touched": 1,
+      "total_changes": 1
+    },
+    {
+      "author": "pritam.sangani@gmail.com",
+      "email": "pritam.sangani@gmail.com",
+      "unique_commits": 1,
+      "files_touched": 1,
+      "total_changes": 1
+    },
+    {
+      "author": "vincent.fretin@gmail.com",
+      "email": "vincent.fretin@gmail.com",
+      "unique_commits": 1,
+      "files_touched": 1,
+      "total_changes": 1
+    },
+    {
+      "author": "5650611+denisgolius@users.noreply.github.com",
+      "email": "5650611+denisgolius@users.noreply.github.com",
+      "unique_commits": 1,
+      "files_touched": 1,
+      "total_changes": 1
+    },
+    {
+      "author": "jialong.vip@gmail.com",
+      "email": "jialong.vip@gmail.com",
+      "unique_commits": 1,
+      "files_touched": 1,
+      "total_changes": 1
+    },
+    {
+      "author": "31936665+reymon359@users.noreply.github.com",
+      "email": "31936665+reymon359@users.noreply.github.com",
+      "unique_commits": 1,
+      "files_touched": 1,
+      "total_changes": 1
+    },
+    {
+      "author": "adopi.naj@gmail.com",
+      "email": "adopi.naj@gmail.com",
+      "unique_commits": 1,
+      "files_touched": 1,
+      "total_changes": 1
+    },
+    {
+      "author": "69441741+despinozap@users.noreply.github.com",
+      "email": "69441741+despinozap@users.noreply.github.com",
+      "unique_commits": 1,
+      "files_touched": 1,
+      "total_changes": 1
+    },
+    {
+      "author": "guillaumebriday@gmail.com",
+      "email": "guillaumebriday@gmail.com",
+      "unique_commits": 1,
+      "files_touched": 1,
+      "total_changes": 1
+    },
+    {
+      "author": "github@acheremisov.com",
+      "email": "github@acheremisov.com",
+      "unique_commits": 1,
+      "files_touched": 1,
+      "total_changes": 1
+    },
+    {
+      "author": "gael@demette.fr",
+      "email": "gael@demette.fr",
+      "unique_commits": 1,
+      "files_touched": 1,
+      "total_changes": 1
+    },
+    {
+      "author": "1183323265@qq.com",
+      "email": "1183323265@qq.com",
+      "unique_commits": 1,
+      "files_touched": 1,
+      "total_changes": 1
+    },
+    {
+      "author": "pat.lundqvist@gmail.com",
+      "email": "pat.lundqvist@gmail.com",
+      "unique_commits": 1,
+      "files_touched": 1,
+      "total_changes": 1
+    },
+    {
+      "author": "git@mkowalski.net",
+      "email": "git@mkowalski.net",
+      "unique_commits": 1,
+      "files_touched": 1,
+      "total_changes": 1
+    },
+    {
+      "author": "caleb.olearyall@gmail.com",
+      "email": "caleb.olearyall@gmail.com",
+      "unique_commits": 1,
+      "files_touched": 1,
+      "total_changes": 1
+    },
+    {
+      "author": "jaiwanth.work@gmail.com",
+      "email": "jaiwanth.work@gmail.com",
+      "unique_commits": 1,
+      "files_touched": 1,
+      "total_changes": 1
+    },
+    {
+      "author": "paulyiengr@gmail.com",
+      "email": "paulyiengr@gmail.com",
+      "unique_commits": 1,
+      "files_touched": 1,
+      "total_changes": 1
+    },
+    {
+      "author": "63980689+1fbr@users.noreply.github.com",
+      "email": "63980689+1fbr@users.noreply.github.com",
+      "unique_commits": 1,
+      "files_touched": 1,
+      "total_changes": 1
+    },
+    {
+      "author": "jeremy.mouzin@gmail.com",
+      "email": "jeremy.mouzin@gmail.com",
+      "unique_commits": 1,
+      "files_touched": 1,
+      "total_changes": 1
+    },
+    {
+      "author": "70084418+EternalWill43@users.noreply.github.com",
+      "email": "70084418+EternalWill43@users.noreply.github.com",
+      "unique_commits": 1,
+      "files_touched": 1,
+      "total_changes": 1
+    },
+    {
+      "author": "mail@tjang.nl",
+      "email": "mail@tjang.nl",
+      "unique_commits": 1,
+      "files_touched": 1,
+      "total_changes": 1
+    },
+    {
+      "author": "ggallon@users.noreply.github.com",
+      "email": "ggallon@users.noreply.github.com",
+      "unique_commits": 1,
+      "files_touched": 1,
+      "total_changes": 1
+    },
+    {
+      "author": "mxss1998@yandex.ru",
+      "email": "mxss1998@yandex.ru",
+      "unique_commits": 1,
+      "files_touched": 1,
+      "total_changes": 1
+    },
+    {
+      "author": "chinmaymhatre12@gmail.com",
+      "email": "chinmaymhatre12@gmail.com",
+      "unique_commits": 1,
+      "files_touched": 1,
+      "total_changes": 1
+    },
+    {
+      "author": "mxsshere@gmail.com",
+      "email": "mxsshere@gmail.com",
+      "unique_commits": 1,
+      "files_touched": 1,
+      "total_changes": 1
+    },
+    {
+      "author": "95320421+atorcode@users.noreply.github.com",
+      "email": "95320421+atorcode@users.noreply.github.com",
+      "unique_commits": 1,
+      "files_touched": 1,
+      "total_changes": 1
+    },
+    {
+      "author": "56750020+irounik@users.noreply.github.com",
+      "email": "56750020+irounik@users.noreply.github.com",
+      "unique_commits": 1,
+      "files_touched": 1,
+      "total_changes": 1
+    },
+    {
+      "author": "122669445+vedantmishra69@users.noreply.github.com",
+      "email": "122669445+vedantmishra69@users.noreply.github.com",
+      "unique_commits": 1,
+      "files_touched": 1,
+      "total_changes": 1
+    },
+    {
+      "author": "cebrailylmz02@gmail.com",
+      "email": "cebrailylmz02@gmail.com",
+      "unique_commits": 1,
+      "files_touched": 1,
+      "total_changes": 1
+    },
+    {
+      "author": "48601635+mubaraqwahab@users.noreply.github.com",
+      "email": "48601635+mubaraqwahab@users.noreply.github.com",
+      "unique_commits": 1,
+      "files_touched": 1,
+      "total_changes": 1
+    },
+    {
+      "author": "47149440+AlexandreLemoine40@users.noreply.github.com",
+      "email": "47149440+AlexandreLemoine40@users.noreply.github.com",
+      "unique_commits": 1,
+      "files_touched": 1,
+      "total_changes": 1
+    },
+    {
+      "author": "emmanuelferdman@gmail.com",
+      "email": "emmanuelferdman@gmail.com",
+      "unique_commits": 1,
+      "files_touched": 1,
+      "total_changes": 1
+    },
+    {
+      "author": "111674354+aashmanVerma@users.noreply.github.com",
+      "email": "111674354+aashmanVerma@users.noreply.github.com",
+      "unique_commits": 1,
+      "files_touched": 1,
+      "total_changes": 1
+    },
+    {
+      "author": "115115387+WabweniBrian@users.noreply.github.com",
+      "email": "115115387+WabweniBrian@users.noreply.github.com",
+      "unique_commits": 1,
+      "files_touched": 1,
+      "total_changes": 1
+    },
+    {
+      "author": "97356263+aludayalu@users.noreply.github.com",
+      "email": "97356263+aludayalu@users.noreply.github.com",
+      "unique_commits": 1,
+      "files_touched": 1,
+      "total_changes": 1
+    },
+    {
+      "author": "95122845+LukaHietala@users.noreply.github.com",
+      "email": "95122845+LukaHietala@users.noreply.github.com",
+      "unique_commits": 1,
+      "files_touched": 1,
+      "total_changes": 1
+    },
+    {
+      "author": "49414833+Denovocto@users.noreply.github.com",
+      "email": "49414833+Denovocto@users.noreply.github.com",
+      "unique_commits": 1,
+      "files_touched": 1,
+      "total_changes": 1
+    },
+    {
+      "author": "tomek.sulkowski@gmail.com",
+      "email": "tomek.sulkowski@gmail.com",
+      "unique_commits": 1,
+      "files_touched": 1,
+      "total_changes": 1
+    },
+    {
+      "author": "Predatorian3@gmail.com",
+      "email": "Predatorian3@gmail.com",
+      "unique_commits": 1,
+      "files_touched": 1,
+      "total_changes": 1
+    },
+    {
+      "author": "anamolous.behaviour@gmail.com",
+      "email": "anamolous.behaviour@gmail.com",
+      "unique_commits": 1,
+      "files_touched": 1,
+      "total_changes": 1
+    },
+    {
+      "author": "18385321+dantehemerson@users.noreply.github.com",
+      "email": "18385321+dantehemerson@users.noreply.github.com",
+      "unique_commits": 1,
+      "files_touched": 1,
+      "total_changes": 1
+    },
+    {
+      "author": "62998174+janpeterd@users.noreply.github.com",
+      "email": "62998174+janpeterd@users.noreply.github.com",
+      "unique_commits": 1,
+      "files_touched": 1,
+      "total_changes": 1
+    },
+    {
+      "author": "146062795+halocean96@users.noreply.github.com",
+      "email": "146062795+halocean96@users.noreply.github.com",
+      "unique_commits": 1,
+      "files_touched": 1,
+      "total_changes": 1
+    },
+    {
+      "author": "mritunjaygoutam2204@gmail.com",
+      "email": "mritunjaygoutam2204@gmail.com",
+      "unique_commits": 1,
+      "files_touched": 1,
+      "total_changes": 1
+    },
+    {
+      "author": "84917190+sunil-sharma-999@users.noreply.github.com",
+      "email": "84917190+sunil-sharma-999@users.noreply.github.com",
+      "unique_commits": 1,
+      "files_touched": 1,
+      "total_changes": 1
+    },
+    {
+      "author": "liuz_geek@163.com",
+      "email": "liuz_geek@163.com",
+      "unique_commits": 1,
+      "files_touched": 1,
+      "total_changes": 1
+    },
+    {
+      "author": "kamilwaz@icloud.com",
+      "email": "kamilwaz@icloud.com",
+      "unique_commits": 1,
+      "files_touched": 1,
+      "total_changes": 1
+    },
+    {
+      "author": "76877078+therealrinku@users.noreply.github.com",
+      "email": "76877078+therealrinku@users.noreply.github.com",
+      "unique_commits": 1,
+      "files_touched": 1,
+      "total_changes": 1
+    },
+    {
+      "author": "36722596+abhi12299@users.noreply.github.com",
+      "email": "36722596+abhi12299@users.noreply.github.com",
+      "unique_commits": 1,
+      "files_touched": 1,
+      "total_changes": 1
+    },
+    {
+      "author": "45576315+ObstinateM@users.noreply.github.com",
+      "email": "45576315+ObstinateM@users.noreply.github.com",
+      "unique_commits": 1,
+      "files_touched": 1,
+      "total_changes": 1
+    },
+    {
+      "author": "penubokim@gmail.com",
+      "email": "penubokim@gmail.com",
+      "unique_commits": 1,
+      "files_touched": 1,
+      "total_changes": 1
+    },
+    {
+      "author": "marten.mossberg98@gmail.com",
+      "email": "marten.mossberg98@gmail.com",
+      "unique_commits": 1,
+      "files_touched": 1,
+      "total_changes": 1
+    },
+    {
+      "author": "67090539+abhitrueprogrammer@users.noreply.github.com",
+      "email": "67090539+abhitrueprogrammer@users.noreply.github.com",
+      "unique_commits": 1,
+      "files_touched": 1,
+      "total_changes": 1
+    },
+    {
+      "author": "shalinimoorthy312@gmail.com",
+      "email": "shalinimoorthy312@gmail.com",
+      "unique_commits": 1,
+      "files_touched": 1,
+      "total_changes": 1
+    },
+    {
+      "author": "davide.wietlisbach@icloud.com",
+      "email": "davide.wietlisbach@icloud.com",
+      "unique_commits": 1,
+      "files_touched": 1,
+      "total_changes": 1
+    },
+    {
+      "author": "92149645+subhadeep-sengupta@users.noreply.github.com",
+      "email": "92149645+subhadeep-sengupta@users.noreply.github.com",
+      "unique_commits": 1,
+      "files_touched": 1,
+      "total_changes": 1
+    },
+    {
+      "author": "145224168+kodify-js@users.noreply.github.com",
+      "email": "145224168+kodify-js@users.noreply.github.com",
+      "unique_commits": 1,
+      "files_touched": 1,
+      "total_changes": 1
+    },
+    {
+      "author": "bluegreenmagick@gmail.com",
+      "email": "bluegreenmagick@gmail.com",
+      "unique_commits": 1,
+      "files_touched": 1,
+      "total_changes": 1
+    },
+    {
+      "author": "165713092+CharitSinghChauhan@users.noreply.github.com",
+      "email": "165713092+CharitSinghChauhan@users.noreply.github.com",
+      "unique_commits": 1,
+      "files_touched": 1,
+      "total_changes": 1
+    },
+    {
+      "author": "87199350+johnd99@users.noreply.github.com",
+      "email": "87199350+johnd99@users.noreply.github.com",
+      "unique_commits": 1,
+      "files_touched": 1,
+      "total_changes": 1
+    },
+    {
+      "author": "waltermitty121906@gmail.com",
+      "email": "waltermitty121906@gmail.com",
+      "unique_commits": 1,
+      "files_touched": 1,
+      "total_changes": 1
+    },
+    {
+      "author": "yago.dorea@gmail.com",
+      "email": "yago.dorea@gmail.com",
+      "unique_commits": 1,
+      "files_touched": 1,
+      "total_changes": 1
+    },
+    {
+      "author": "134545312+Cheapstar@users.noreply.github.com",
+      "email": "134545312+Cheapstar@users.noreply.github.com",
+      "unique_commits": 1,
+      "files_touched": 1,
+      "total_changes": 1
+    },
+    {
+      "author": "mkhuzaimaumair@gmail.com",
+      "email": "mkhuzaimaumair@gmail.com",
+      "unique_commits": 1,
+      "files_touched": 1,
+      "total_changes": 1
+    }
+  ],
+  "total_authors": 374,
+  "generated_at": "2026-01-13T08:58:32.323810+00:00"
+}

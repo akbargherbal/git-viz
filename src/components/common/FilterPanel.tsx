@@ -1,5 +1,5 @@
 // src/components/common/FilterPanel.tsx
-import React from 'react';
+import React, { useMemo } from 'react';
 import { useAppStore } from '@/store/appStore';
 import { X, Filter, User, Folder, File, Tag, RotateCcw } from 'lucide-react';
 import { RepoMetadata } from '@/types/domain';
@@ -9,8 +9,73 @@ interface FilterPanelProps {
   onClose: () => void;
 }
 
+interface FilterSectionProps {
+  title: string;
+  icon: any;
+  items: { label: string; count: number }[];
+  selected: Set<string>;
+  onToggle: (id: string) => void;
+}
+
+const FilterSection: React.FC<FilterSectionProps> = ({ 
+  title, 
+  icon: Icon, 
+  items, 
+  selected, 
+  onToggle 
+}) => (
+  <div className="mb-6">
+    <div className="flex items-center gap-2 mb-3 text-zinc-400 font-medium text-sm uppercase tracking-wider">
+      <Icon size={14} />
+      {title}
+    </div>
+    <div className="space-y-1 max-h-48 overflow-y-auto pr-2 custom-scrollbar">
+      {items.map(({ label, count }) => (
+        <label 
+          key={label} 
+          className={`
+            flex items-center justify-between p-2 rounded cursor-pointer text-sm transition-colors
+            ${selected.has(label) ? 'bg-purple-900/30 text-purple-200' : 'hover:bg-zinc-800 text-zinc-300'}
+          `}
+        >
+          <div className="flex items-center gap-2 overflow-hidden">
+            <input
+              type="checkbox"
+              checked={selected.has(label)}
+              onChange={() => onToggle(label)}
+              className="rounded border-zinc-600 bg-zinc-800 text-purple-600 focus:ring-purple-500/50"
+            />
+            <span className="truncate" title={label}>{label}</span>
+          </div>
+          <span className="text-xs text-zinc-500 font-mono">{count.toLocaleString()}</span>
+        </label>
+      ))}
+    </div>
+  </div>
+);
+
 export const FilterPanel: React.FC<FilterPanelProps> = ({ metadata, onClose }) => {
   const { filters, toggleAuthor, toggleDirectory, toggleFileType, toggleEventType, clearFilters } = useAppStore();
+
+  // Memoize and aggregate data to ensure uniqueness and performance
+  const { authorItems, fileTypeItems } = useMemo(() => {
+    if (!metadata) return { authorItems: [], fileTypeItems: [] };
+
+    // Aggregate authors by name to handle duplicates (same name, different emails)
+    const authorMap = new Map<string, number>();
+    metadata.authors.forEach(a => {
+      const current = authorMap.get(a.name) || 0;
+      authorMap.set(a.name, current + a.commit_count);
+    });
+
+    const aggregatedAuthors = Array.from(authorMap.entries())
+      .map(([name, count]) => ({ label: name, count }))
+      .sort((a, b) => b.count - a.count);
+
+    const fileTypes = metadata.file_types.map(f => ({ label: f.extension, count: f.count }));
+
+    return { authorItems: aggregatedAuthors, fileTypeItems: fileTypes };
+  }, [metadata]);
 
   if (!metadata) return null;
 
@@ -20,56 +85,6 @@ export const FilterPanel: React.FC<FilterPanelProps> = ({ metadata, onClose }) =
     filters.directories.size > 0 ||
     filters.fileTypes.size > 0 ||
     filters.eventTypes.size > 0;
-
-  const FilterSection = ({ 
-    title, 
-    icon: Icon, 
-    items, 
-    selected, 
-    onToggle 
-  }: { 
-    title: string; 
-    icon: any; 
-    items: { label: string; count: number }[]; 
-    selected: Set<string>; 
-    onToggle: (id: string) => void; 
-  }) => (
-    <div className="mb-6">
-      <div className="flex items-center gap-2 mb-3 text-zinc-400 font-medium text-sm uppercase tracking-wider">
-        <Icon size={14} />
-        {title}
-      </div>
-      <div className="space-y-1 max-h-48 overflow-y-auto pr-2 custom-scrollbar">
-        {items.map(({ label, count }) => (
-          <label 
-            key={label} 
-            className={`
-              flex items-center justify-between p-2 rounded cursor-pointer text-sm transition-colors
-              ${selected.has(label) ? 'bg-purple-900/30 text-purple-200' : 'hover:bg-zinc-800 text-zinc-300'}
-            `}
-          >
-            <div className="flex items-center gap-2 overflow-hidden">
-              <input
-                type="checkbox"
-                checked={selected.has(label)}
-                onChange={() => onToggle(label)}
-                className="rounded border-zinc-600 bg-zinc-800 text-purple-600 focus:ring-purple-500/50"
-              />
-              <span className="truncate" title={label}>{label}</span>
-            </div>
-            <span className="text-xs text-zinc-500 font-mono">{count.toLocaleString()}</span>
-          </label>
-        ))}
-      </div>
-    </div>
-  );
-
-  // Transform metadata for display
-  const authorItems = metadata.authors.map(a => ({ label: a.name, count: a.commit_count }));
-  const fileTypeItems = metadata.file_types.map(f => ({ label: f.extension, count: f.count }));
-  
-  // Note: Directory stats might need to be derived from the tree if not in metadata, 
-  // but for now we'll skip or use what's available.
   
   return (
     <div className="w-80 bg-zinc-900 border-l border-zinc-800 h-full flex flex-col shadow-xl">

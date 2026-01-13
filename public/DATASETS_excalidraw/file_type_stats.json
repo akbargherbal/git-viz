@@ -1,0 +1,181 @@
+{
+  "file_types": [
+    {
+      "extension": ".tsx",
+      "count": 622,
+      "total_changes": 8373
+    },
+    {
+      "extension": ".ts",
+      "count": 715,
+      "total_changes": 8048
+    },
+    {
+      "extension": ".json",
+      "count": 213,
+      "total_changes": 5882
+    },
+    {
+      "extension": ".scss",
+      "count": 180,
+      "total_changes": 1110
+    },
+    {
+      "extension": ".snap",
+      "count": 48,
+      "total_changes": 942
+    },
+    {
+      "extension": ".lock",
+      "count": 10,
+      "total_changes": 762
+    },
+    {
+      "extension": ".md",
+      "count": 40,
+      "total_changes": 599
+    },
+    {
+      "extension": ".woff2",
+      "count": 498,
+      "total_changes": 519
+    },
+    {
+      "extension": ".js",
+      "count": 103,
+      "total_changes": 483
+    },
+    {
+      "extension": ".yml",
+      "count": 24,
+      "total_changes": 182
+    },
+    {
+      "extension": ".mdx",
+      "count": 35,
+      "total_changes": 177
+    },
+    {
+      "extension": ".html",
+      "count": 11,
+      "total_changes": 155
+    },
+    {
+      "extension": "(no extension)",
+      "count": 37,
+      "total_changes": 135
+    },
+    {
+      "extension": ".png",
+      "count": 80,
+      "total_changes": 132
+    },
+    {
+      "extension": ".css",
+      "count": 29,
+      "total_changes": 106
+    },
+    {
+      "extension": ".svg",
+      "count": 39,
+      "total_changes": 49
+    },
+    {
+      "extension": ".mts",
+      "count": 6,
+      "total_changes": 38
+    },
+    {
+      "extension": ".ttf",
+      "count": 13,
+      "total_changes": 29
+    },
+    {
+      "extension": ".development",
+      "count": 1,
+      "total_changes": 25
+    },
+    {
+      "extension": ".production",
+      "count": 1,
+      "total_changes": 23
+    },
+    {
+      "extension": ".jpeg",
+      "count": 15,
+      "total_changes": 20
+    },
+    {
+      "extension": ".mjs",
+      "count": 3,
+      "total_changes": 13
+    },
+    {
+      "extension": ".patch",
+      "count": 3,
+      "total_changes": 9
+    },
+    {
+      "extension": ".map",
+      "count": 4,
+      "total_changes": 8
+    },
+    {
+      "extension": ".ico",
+      "count": 5,
+      "total_changes": 8
+    },
+    {
+      "extension": ".otf",
+      "count": 2,
+      "total_changes": 7
+    },
+    {
+      "extension": ".wasm",
+      "count": 3,
+      "total_changes": 5
+    },
+    {
+      "extension": ".txt",
+      "count": 1,
+      "total_changes": 3
+    },
+    {
+      "extension": ".rules",
+      "count": 2,
+      "total_changes": 3
+    },
+    {
+      "extension": ".cjs",
+      "count": 1,
+      "total_changes": 3
+    },
+    {
+      "extension": ".license",
+      "count": 1,
+      "total_changes": 2
+    },
+    {
+      "extension": ".excalidrawlib",
+      "count": 2,
+      "total_changes": 2
+    },
+    {
+      "extension": ".toml",
+      "count": 1,
+      "total_changes": 2
+    },
+    {
+      "extension": ".jpg",
+      "count": 2,
+      "total_changes": 2
+    },
+    {
+      "extension": ".sfd",
+      "count": 1,
+      "total_changes": 1
+    }
+  ],
+  "total_extensions": 35,
+  "generated_at": "2026-01-13T08:58:32.315018+00:00"
+}
