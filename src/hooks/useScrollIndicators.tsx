@@ -1,18 +1,24 @@
 // src/hooks/useScrollIndicators.tsx
 
-import { useState, useCallback, useLayoutEffect, RefObject } from 'react';
+import { useState, useCallback, useLayoutEffect, RefObject } from "react";
 
 interface UseScrollIndicatorsOptions {
   enableDrag?: boolean;
   enableWheel?: boolean;
   threshold?: number;
+  containerRef?: RefObject<HTMLElement>;
 }
 
 export const useScrollIndicators = (
   ref: RefObject<HTMLElement>,
   options: UseScrollIndicatorsOptions = {}
 ) => {
-  const { enableDrag = false, enableWheel = false, threshold = 60 } = options;
+  const {
+    enableDrag = false,
+    enableWheel = false,
+    threshold = 60,
+    containerRef,
+  } = options;
 
   const [state, setState] = useState({
     canScrollLeft: false,
@@ -29,8 +35,15 @@ export const useScrollIndicators = (
     const el = ref.current;
     if (!el) return;
 
-    const { scrollTop, scrollLeft, scrollWidth, scrollHeight, clientWidth, clientHeight } = el;
-    
+    const {
+      scrollTop,
+      scrollLeft,
+      scrollWidth,
+      scrollHeight,
+      clientWidth,
+      clientHeight,
+    } = el;
+
     // Use a slightly larger tolerance for more reliable boundary detection
     const tolerance = 5;
 
@@ -53,7 +66,7 @@ export const useScrollIndicators = (
         canScrollTop: hasVerticalOverflow && !isAtTopEdge,
         canScrollBottom: hasVerticalOverflow && !isAtBottomEdge,
       };
-      
+
       // Only update if state actually changed to prevent render loops
       if (
         prev.canScrollLeft !== newState.canScrollLeft ||
@@ -68,23 +81,23 @@ export const useScrollIndicators = (
   }, [ref]);
 
   const scroll = useCallback(
-    (direction: 'left' | 'right' | 'up' | 'down', amount: number = 200) => {
+    (direction: "left" | "right" | "up" | "down", amount: number = 200) => {
       const el = ref.current;
       if (!el) return;
-      const behavior = 'smooth';
+      const behavior = "smooth";
 
       switch (direction) {
-        case 'left': 
-          el.scrollBy({ left: -amount, behavior }); 
+        case "left":
+          el.scrollBy({ left: -amount, behavior });
           break;
-        case 'right': 
-          el.scrollBy({ left: amount, behavior }); 
+        case "right":
+          el.scrollBy({ left: amount, behavior });
           break;
-        case 'up': 
-          el.scrollBy({ top: -amount, behavior }); 
+        case "up":
+          el.scrollBy({ top: -amount, behavior });
           break;
-        case 'down': 
-          el.scrollBy({ top: amount, behavior }); 
+        case "down":
+          el.scrollBy({ top: amount, behavior });
           break;
       }
 
@@ -97,13 +110,15 @@ export const useScrollIndicators = (
   // Use LayoutEffect to attach listeners immediately after DOM updates
   useLayoutEffect(() => {
     const el = ref.current;
-    if (!el) return;
+    const eventEl = containerRef?.current || el;
+
+    if (!el || !eventEl) return;
 
     // Create a throttled version of checkScrollability for scroll events
     let scrollTimeout: NodeJS.Timeout;
     const handleScrollWithCheck = () => {
       checkScrollability();
-      
+
       // Additional check after scroll animation completes
       clearTimeout(scrollTimeout);
       scrollTimeout = setTimeout(() => {
@@ -112,14 +127,14 @@ export const useScrollIndicators = (
     };
 
     // 1. Scroll Listener with throttling
-    el.addEventListener('scroll', handleScrollWithCheck, { passive: true });
-    
+    el.addEventListener("scroll", handleScrollWithCheck, { passive: true });
+
     // 2. Resize Observer (Handles content changes and window resize)
     const resizeObserver = new ResizeObserver(() => {
       checkScrollability();
     });
     resizeObserver.observe(el);
-    
+
     // 3. MutationObserver to catch content changes
     const mutationObserver = new MutationObserver(() => {
       checkScrollability();
@@ -130,7 +145,7 @@ export const useScrollIndicators = (
       attributes: true,
       characterData: true,
     });
-    
+
     // 4. Initial Check (with slight delay to ensure layout is complete)
     requestAnimationFrame(() => {
       checkScrollability();
@@ -161,8 +176,8 @@ export const useScrollIndicators = (
       }));
     };
 
-    el.addEventListener('mousemove', handleMouseMove);
-    el.addEventListener('mouseleave', handleMouseLeave);
+    eventEl.addEventListener("mousemove", handleMouseMove);
+    eventEl.addEventListener("mouseleave", handleMouseLeave);
 
     // 6. Drag Logic
     let isDown = false;
@@ -174,8 +189,8 @@ export const useScrollIndicators = (
     const handleMouseDown = (e: MouseEvent) => {
       if (!enableDrag) return;
       isDown = true;
-      el.classList.add('cursor-grabbing');
-      el.classList.remove('cursor-grab');
+      el.classList.add("cursor-grabbing");
+      el.classList.remove("cursor-grab");
       startX = e.pageX - el.offsetLeft;
       startY = e.pageY - el.offsetTop;
       scrollLeftStart = el.scrollLeft;
@@ -185,8 +200,8 @@ export const useScrollIndicators = (
     const handleMouseUp = () => {
       if (!enableDrag) return;
       isDown = false;
-      el.classList.remove('cursor-grabbing');
-      el.classList.add('cursor-grab');
+      el.classList.remove("cursor-grabbing");
+      el.classList.add("cursor-grab");
     };
 
     const handleDragMove = (e: MouseEvent) => {
@@ -201,11 +216,11 @@ export const useScrollIndicators = (
     };
 
     if (enableDrag) {
-      el.style.cursor = 'grab';
-      el.addEventListener('mousedown', handleMouseDown);
-      el.addEventListener('mouseup', handleMouseUp);
-      el.addEventListener('mouseleave', handleMouseUp);
-      el.addEventListener('mousemove', handleDragMove);
+      el.style.cursor = "grab";
+      el.addEventListener("mousedown", handleMouseDown);
+      el.addEventListener("mouseup", handleMouseUp);
+      el.addEventListener("mouseleave", handleMouseUp);
+      el.addEventListener("mousemove", handleDragMove);
     }
 
     // 7. Wheel Logic
@@ -218,28 +233,35 @@ export const useScrollIndicators = (
     };
 
     if (enableWheel) {
-      el.addEventListener('wheel', handleWheel, { passive: false });
+      el.addEventListener("wheel", handleWheel, { passive: false });
     }
 
     return () => {
       clearTimeout(scrollTimeout);
-      el.removeEventListener('scroll', handleScrollWithCheck);
+      el.removeEventListener("scroll", handleScrollWithCheck);
       resizeObserver.disconnect();
       mutationObserver.disconnect();
-      el.removeEventListener('mousemove', handleMouseMove);
-      el.removeEventListener('mouseleave', handleMouseLeave);
-      
+      eventEl.removeEventListener("mousemove", handleMouseMove);
+      eventEl.removeEventListener("mouseleave", handleMouseLeave);
+
       if (enableDrag) {
-        el.removeEventListener('mousedown', handleMouseDown);
-        el.removeEventListener('mouseup', handleMouseUp);
-        el.removeEventListener('mouseleave', handleMouseUp);
-        el.removeEventListener('mousemove', handleDragMove);
+        el.removeEventListener("mousedown", handleMouseDown);
+        el.removeEventListener("mouseup", handleMouseUp);
+        el.removeEventListener("mouseleave", handleMouseUp);
+        el.removeEventListener("mousemove", handleDragMove);
       }
       if (enableWheel) {
-        el.removeEventListener('wheel', handleWheel);
+        el.removeEventListener("wheel", handleWheel);
       }
     };
-  }, [ref, threshold, enableDrag, enableWheel, checkScrollability]);
+  }, [
+    ref,
+    threshold,
+    enableDrag,
+    enableWheel,
+    checkScrollability,
+    containerRef,
+  ]);
 
   return {
     ...state,

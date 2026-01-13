@@ -1,4 +1,4 @@
-/* Add to src/index.css */
+/* src/index.css */
 
 @tailwind base;
 @tailwind components;
@@ -15,9 +15,6 @@ body {
   overflow: hidden;
 }
 
-/* main {
-  padding-bottom: 12px;
-} */
 
 code, pre {
   font-family: 'Courier New', Courier, monospace;
@@ -87,9 +84,6 @@ input[type="range"] {
   z-index: 10;
 }
 
-
-
-
 /* Loading Progress Bar Animations */
 @keyframes shimmer {
   0% {
@@ -151,4 +145,29 @@ input[type="range"] {
   padding-right: 0 !important;
   border-width: 0 !important;
   overflow: hidden;
+}
+
+/* Sleek Minimalistic Scrollbar */
+.sleek-scrollbar {
+  scrollbar-width: thin;
+  scrollbar-color: #3f3f46 transparent;
+}
+
+.sleek-scrollbar::-webkit-scrollbar {
+  height: 4px;
+  width: 4px;
+}
+
+.sleek-scrollbar::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.sleek-scrollbar::-webkit-scrollbar-thumb {
+  background-color: #3f3f46;
+  border-radius: 4px;
+  transition: background-color 0.2s ease;
+}
+
+.sleek-scrollbar::-webkit-scrollbar-thumb:hover {
+  background-color: #71717a;
 }

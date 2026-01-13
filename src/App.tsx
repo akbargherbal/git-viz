@@ -1,31 +1,34 @@
 // src/App.tsx
 
-import React, { useEffect, useRef, useState } from 'react';
-import { Filter } from 'lucide-react';
-import { PluginRegistry } from '@/plugins/core/PluginRegistry';
-import { TimelineHeatmapPlugin } from '@/plugins/timeline-heatmap/TimelineHeatmapPlugin';
-import { TreemapPlugin } from '@/plugins/treemap-animation/TreemapPlugin';
-import { DataLoader } from '@/services/data/DataLoader';
-import { useAppStore } from '@/store/appStore';
-import { PluginSelector } from '@/components/layout/PluginSelector';
-import { FilterPanel } from '@/components/common/FilterPanel';
-import { TimeBinSelector } from '@/components/common/TimeBinSelector';
-import { MetricSelector } from '@/components/common/MetricSelector';
-import { LoadingSpinner } from '@/components/common/LoadingSpinner';
-import { ErrorDisplay } from '@/components/common/ErrorDisplay';
-import { ScrollIndicatorOverlay } from '@/components/common/ScrollIndicatorOverlay';
-import { CellDetailPanel } from '@/plugins/timeline-heatmap/components/CellDetailPanel';
-import { useScrollIndicators } from '@/hooks/useScrollIndicators';
-import { LoadProgress } from '@/services/data/DataLoader';
-import type { VisualizationPlugin } from '@/types/plugin';
+import React, { useEffect, useRef, useState } from "react";
+import { Filter } from "lucide-react";
+import { PluginRegistry } from "@/plugins/core/PluginRegistry";
+import { TimelineHeatmapPlugin } from "@/plugins/timeline-heatmap/TimelineHeatmapPlugin";
+import { TreemapPlugin } from "@/plugins/treemap-animation/TreemapPlugin";
+import { DataLoader } from "@/services/data/DataLoader";
+import { useAppStore } from "@/store/appStore";
+import { PluginSelector } from "@/components/layout/PluginSelector";
+import { FilterPanel } from "@/components/common/FilterPanel";
+import { TimeBinSelector } from "@/components/common/TimeBinSelector";
+import { MetricSelector } from "@/components/common/MetricSelector";
+import { LoadingSpinner } from "@/components/common/LoadingSpinner";
+import { ErrorDisplay } from "@/components/common/ErrorDisplay";
+import { ScrollIndicatorOverlay } from "@/components/common/ScrollIndicatorOverlay";
+import { CellDetailPanel } from "@/plugins/timeline-heatmap/components/CellDetailPanel";
+import { useScrollIndicators } from "@/hooks/useScrollIndicators";
+import { LoadProgress } from "@/services/data/DataLoader";
+import type { VisualizationPlugin } from "@/types/plugin";
 
 const dataLoader = DataLoader.getInstance();
 
 const App: React.FC = () => {
   const containerRef = useRef<HTMLDivElement>(null);
+  const mainContainerRef = useRef<HTMLElement>(null);
   const headerScrollRef = useRef<HTMLDivElement>(null);
+  const headerContainerRef = useRef<HTMLElement>(null);
   const [plugins, setPlugins] = useState<VisualizationPlugin[]>([]);
-  const [activePlugin, setActivePluginInstance] = useState<VisualizationPlugin | null>(null);
+  const [activePlugin, setActivePluginInstance] =
+    useState<VisualizationPlugin | null>(null);
 
   const [loadingProgress, setLoadingProgress] = useState<LoadProgress>({
     loaded: 0,
@@ -45,12 +48,16 @@ const App: React.FC = () => {
     filters,
   } = useAppStore();
 
-  // Initialize scroll hooks - EXACTLY as original
-  const mainScroll = useScrollIndicators(containerRef);
-  const headerScroll = useScrollIndicators(headerScrollRef, { 
-    enableDrag: true, 
+  // Initialize scroll hooks
+  const mainScroll = useScrollIndicators(containerRef, {
+    containerRef: mainContainerRef,
+  });
+
+  const headerScroll = useScrollIndicators(headerScrollRef, {
+    enableDrag: true,
     enableWheel: true,
-    threshold: 80 
+    threshold: 80,
+    containerRef: headerContainerRef,
   });
 
   // Initialize plugins
@@ -85,7 +92,9 @@ const App: React.FC = () => {
         setOptimizedData(dataset.metadata, dataset.tree, dataset.activity);
       } catch (error) {
         console.error("Error loading data:", error);
-        setError(error instanceof Error ? error.message : "Failed to load data");
+        setError(
+          error instanceof Error ? error.message : "Failed to load data"
+        );
       }
     };
     loadData();
@@ -102,7 +111,7 @@ const App: React.FC = () => {
     }
   }, [ui.activePluginId]);
 
-  // Process and Render - EXACTLY as original
+  // Process and Render
   useEffect(() => {
     if (
       !activePlugin ||
@@ -132,13 +141,16 @@ const App: React.FC = () => {
 
       activePlugin.init(containerRef.current, config);
       activePlugin.render(processed, config);
-      
+
       // Force check after render to ensure indicators are correct
       mainScroll.checkScrollability();
-      
     } catch (error) {
       console.error("Error processing/rendering:", error);
-      setError(error instanceof Error ? error.message : "Failed to render visualization");
+      setError(
+        error instanceof Error
+          ? error.message
+          : "Failed to render visualization"
+      );
     }
 
     return () => {
@@ -179,7 +191,10 @@ const App: React.FC = () => {
   return (
     <div className="h-screen bg-zinc-950 text-white flex flex-col overflow-hidden">
       {/* Header */}
-      <header className="bg-zinc-900 border-b border-zinc-800 h-14 min-h-14 max-h-14 flex-none z-50 relative select-none">
+      <header
+        ref={headerContainerRef}
+        className="bg-zinc-900 border-b border-zinc-800 h-14 min-h-14 max-h-14 flex-none z-50 relative select-none"
+      >
         {/* Gradient fade hints */}
         {headerScroll.canScrollLeft && (
           <div className="absolute left-0 top-0 bottom-0 w-12 bg-gradient-to-r from-zinc-900 via-zinc-900/80 to-transparent pointer-events-none z-10" />
@@ -187,15 +202,10 @@ const App: React.FC = () => {
         {headerScroll.canScrollRight && (
           <div className="absolute right-0 top-0 bottom-0 w-12 bg-gradient-to-l from-zinc-900 via-zinc-900/80 to-transparent pointer-events-none z-10" />
         )}
-        
-        <ScrollIndicatorOverlay 
-          state={headerScroll} 
-          onScroll={headerScroll.scroll}
-        />
-        
-        <div 
+
+        <div
           ref={headerScrollRef}
-          className="h-full w-full overflow-x-auto overflow-y-hidden px-4 [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]"
+          className="h-full w-full overflow-x-auto overflow-y-hidden px-4 sleek-scrollbar"
         >
           <div className="flex items-center justify-between gap-4 h-full min-w-max">
             <div className="flex items-center gap-4 flex-shrink-0">
@@ -243,9 +253,15 @@ const App: React.FC = () => {
           />
         </aside>
 
-        {/* Main Content - EXACTLY as original */}
-        <main className="flex-1 flex flex-col overflow-hidden relative">
-          <ScrollIndicatorOverlay state={mainScroll} onScroll={mainScroll.scroll} />
+        {/* Main Content */}
+        <main
+          ref={mainContainerRef}
+          className="flex-1 flex flex-col overflow-hidden relative"
+        >
+          <ScrollIndicatorOverlay
+            state={mainScroll}
+            onScroll={mainScroll.scroll}
+          />
           <div ref={containerRef} className="flex-1 overflow-auto"></div>
         </main>
 
