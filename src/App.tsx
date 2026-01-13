@@ -1,26 +1,31 @@
 // src/App.tsx
 
-import React, { useEffect, useState, useRef } from "react";
-import { PluginRegistry } from "@/plugins/core/PluginRegistry";
-import { VisualizationPlugin } from "@/types/plugin";
-import { dataLoader, LoadProgress } from "@/services/data/DataLoader";
-import { useAppStore } from "@/store/appStore";
-import { TimelineHeatmapPlugin } from "@/plugins/timeline-heatmap/TimelineHeatmapPlugin";
-import { TreemapPlugin } from "@/plugins/treemap-animation/TreemapPlugin";
-import LoadingSpinner from "@/components/common/LoadingSpinner";
-import ErrorDisplay from "@/components/common/ErrorDisplay";
-import PluginSelector from "@/components/layout/PluginSelector";
-import FilterPanel from "@/components/common/FilterPanel";
-import MetricSelector from "@/components/common/MetricSelector";
-import TimeBinSelector from "@/components/common/TimeBinSelector";
-import CellDetailPanel from "@/plugins/timeline-heatmap/components/CellDetailPanel";
-import { Filter } from "lucide-react";
+import React, { useEffect, useRef, useState } from 'react';
+import { Filter } from 'lucide-react';
+import { PluginRegistry } from '@/plugins/core/PluginRegistry';
+import { TimelineHeatmapPlugin } from '@/plugins/timeline-heatmap/TimelineHeatmapPlugin';
+import { TreemapPlugin } from '@/plugins/treemap-animation/TreemapPlugin';
+import { DataLoader } from '@/services/data/DataLoader';
+import { useAppStore } from '@/store/appStore';
+import { PluginSelector } from '@/components/layout/PluginSelector';
+import { FilterPanel } from '@/components/common/FilterPanel';
+import { TimeBinSelector } from '@/components/common/TimeBinSelector';
+import { MetricSelector } from '@/components/common/MetricSelector';
+import { LoadingSpinner } from '@/components/common/LoadingSpinner';
+import { ErrorDisplay } from '@/components/common/ErrorDisplay';
+import { ScrollIndicatorOverlay } from '@/components/common/ScrollIndicatorOverlay';
+import { CellDetailPanel } from '@/plugins/timeline-heatmap/components/CellDetailPanel';
+import { useScrollIndicators } from '@/hooks/useScrollIndicators';
+import { LoadProgress } from '@/services/data/DataLoader';
+import type { VisualizationPlugin } from '@/types/plugin';
+
+const dataLoader = DataLoader.getInstance();
 
 const App: React.FC = () => {
   const containerRef = useRef<HTMLDivElement>(null);
+  const headerScrollRef = useRef<HTMLDivElement>(null);
   const [plugins, setPlugins] = useState<VisualizationPlugin[]>([]);
-  const [activePlugin, setActivePluginInstance] =
-    useState<VisualizationPlugin | null>(null);
+  const [activePlugin, setActivePluginInstance] = useState<VisualizationPlugin | null>(null);
 
   const [loadingProgress, setLoadingProgress] = useState<LoadProgress>({
     loaded: 0,
@@ -39,6 +44,14 @@ const App: React.FC = () => {
     setSelectedCell,
     filters,
   } = useAppStore();
+
+  // Initialize scroll hooks - EXACTLY as original
+  const mainScroll = useScrollIndicators(containerRef);
+  const headerScroll = useScrollIndicators(headerScrollRef, { 
+    enableDrag: true, 
+    enableWheel: true,
+    threshold: 80 
+  });
 
   // Initialize plugins
   useEffect(() => {
@@ -65,22 +78,16 @@ const App: React.FC = () => {
     const loadData = async () => {
       try {
         setLoading(true);
-
-        // Use absolute path with leading slash
         const dataset = await dataLoader.loadOptimizedDataset(
           "/DATASETS_excalidraw",
           (progress) => setLoadingProgress(progress)
         );
-
         setOptimizedData(dataset.metadata, dataset.tree, dataset.activity);
       } catch (error) {
         console.error("Error loading data:", error);
-        setError(
-          error instanceof Error ? error.message : "Failed to load data"
-        );
+        setError(error instanceof Error ? error.message : "Failed to load data");
       }
     };
-
     loadData();
   }, []);
 
@@ -95,7 +102,7 @@ const App: React.FC = () => {
     }
   }, [ui.activePluginId]);
 
-  // Process and Render
+  // Process and Render - EXACTLY as original
   useEffect(() => {
     if (
       !activePlugin ||
@@ -114,7 +121,6 @@ const App: React.FC = () => {
         onCellClick: (cell: any) => setSelectedCell(cell),
       };
 
-      // Pass the optimized dataset
       const processed = activePlugin.processData(
         {
           metadata: data.metadata,
@@ -126,13 +132,13 @@ const App: React.FC = () => {
 
       activePlugin.init(containerRef.current, config);
       activePlugin.render(processed, config);
+      
+      // Force check after render to ensure indicators are correct
+      mainScroll.checkScrollability();
+      
     } catch (error) {
       console.error("Error processing/rendering:", error);
-      setError(
-        error instanceof Error
-          ? error.message
-          : "Failed to render visualization"
-      );
+      setError(error instanceof Error ? error.message : "Failed to render visualization");
     }
 
     return () => {
@@ -172,36 +178,55 @@ const App: React.FC = () => {
 
   return (
     <div className="h-screen bg-zinc-950 text-white flex flex-col overflow-hidden">
-      <header className="bg-zinc-900 border-b border-zinc-800 px-4 h-14 min-h-14 max-h-14 flex-none z-50 overflow-x-auto overflow-y-hidden [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
-        <div className="flex items-center justify-between gap-4 h-full min-w-max">
-          <div className="flex items-center gap-4 flex-shrink-0">
-            <div className="flex flex-col">
-              <h1 className="text-base font-bold leading-tight">
-                Git Repository Visualization
-              </h1>
-              <p className="text-[10px] text-zinc-500 font-mono leading-tight">
-                {data.metadata?.repository_name || "Loading..."}
-              </p>
+      {/* Header */}
+      <header className="bg-zinc-900 border-b border-zinc-800 h-14 min-h-14 max-h-14 flex-none z-50 relative select-none">
+        {/* Gradient fade hints */}
+        {headerScroll.canScrollLeft && (
+          <div className="absolute left-0 top-0 bottom-0 w-12 bg-gradient-to-r from-zinc-900 via-zinc-900/80 to-transparent pointer-events-none z-10" />
+        )}
+        {headerScroll.canScrollRight && (
+          <div className="absolute right-0 top-0 bottom-0 w-12 bg-gradient-to-l from-zinc-900 via-zinc-900/80 to-transparent pointer-events-none z-10" />
+        )}
+        
+        <ScrollIndicatorOverlay 
+          state={headerScroll} 
+          onScroll={headerScroll.scroll}
+        />
+        
+        <div 
+          ref={headerScrollRef}
+          className="h-full w-full overflow-x-auto overflow-y-hidden px-4 [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]"
+        >
+          <div className="flex items-center justify-between gap-4 h-full min-w-max">
+            <div className="flex items-center gap-4 flex-shrink-0">
+              <div className="flex flex-col">
+                <h1 className="text-base font-bold leading-tight">
+                  Git Repository Visualization
+                </h1>
+                <p className="text-[10px] text-zinc-500 font-mono leading-tight">
+                  {data.metadata?.repository_name || "Loading..."}
+                </p>
+              </div>
+              <div className="h-8 w-px bg-zinc-800"></div>
+              <PluginSelector plugins={plugins} />
             </div>
-            <div className="h-8 w-px bg-zinc-800"></div>
-            <PluginSelector plugins={plugins} />
-          </div>
 
-          <div className="flex items-center gap-2 flex-shrink-0">
-            <TimeBinSelector />
-            <MetricSelector />
-            <div className="h-8 w-px bg-zinc-800"></div>
+            <div className="flex items-center gap-2 flex-shrink-0">
+              <TimeBinSelector />
+              <MetricSelector />
+              <div className="h-8 w-px bg-zinc-800"></div>
 
-            <button
-              onClick={() => setShowFilters(!ui.showFilters)}
-              className={`p-2 rounded-lg transition-colors ${
-                ui.showFilters
-                  ? "bg-purple-600 text-white"
-                  : "bg-zinc-800 text-zinc-400 hover:text-white"
-              }`}
-            >
-              <Filter size={18} />
-            </button>
+              <button
+                onClick={() => setShowFilters(!ui.showFilters)}
+                className={`p-2 rounded-lg transition-colors ${
+                  ui.showFilters
+                    ? "bg-purple-600 text-white"
+                    : "bg-zinc-800 text-zinc-400 hover:text-white"
+                }`}
+              >
+                <Filter size={18} />
+              </button>
+            </div>
           </div>
         </div>
       </header>
@@ -218,7 +243,9 @@ const App: React.FC = () => {
           />
         </aside>
 
-        <main className="flex-1 flex flex-col overflow-hidden">
+        {/* Main Content - EXACTLY as original */}
+        <main className="flex-1 flex flex-col overflow-hidden relative">
+          <ScrollIndicatorOverlay state={mainScroll} onScroll={mainScroll.scroll} />
           <div ref={containerRef} className="flex-1 overflow-auto"></div>
         </main>
 

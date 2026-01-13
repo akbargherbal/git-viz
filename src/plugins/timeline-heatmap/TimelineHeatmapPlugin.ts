@@ -254,6 +254,7 @@ export class TimelineHeatmapPlugin
       th.style.fontSize = "10px";
       th.style.textAlign = "center";
       th.style.fontWeight = "normal";
+      th.style.userSelect = "none"
 
       // Sticky positioning for time axis
       th.style.position = "sticky";
@@ -323,6 +324,8 @@ export class TimelineHeatmapPlugin
         td.style.textAlign = "center";
         td.style.verticalAlign = "middle";
         td.style.transition = "all 0.1s";
+        td.style.userSelect = "none";
+
 
         // 1. Numeric Overlay
         if (value > 0) {
