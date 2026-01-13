@@ -172,9 +172,9 @@ const App: React.FC = () => {
 
   return (
     <div className="h-screen bg-zinc-950 text-white flex flex-col overflow-hidden">
-      <header className="bg-zinc-900 border-b border-zinc-800 px-4 py-2 flex-none z-50">
-        <div className="flex items-center justify-between gap-4">
-          <div className="flex items-center gap-4">
+      <header className="bg-zinc-900 border-b border-zinc-800 px-4 h-14 min-h-14 max-h-14 flex-none z-50 overflow-x-auto overflow-y-hidden [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
+        <div className="flex items-center justify-between gap-4 h-full min-w-max">
+          <div className="flex items-center gap-4 flex-shrink-0">
             <div className="flex flex-col">
               <h1 className="text-base font-bold leading-tight">
                 Git Repository Visualization
@@ -187,7 +187,7 @@ const App: React.FC = () => {
             <PluginSelector plugins={plugins} />
           </div>
 
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-2 flex-shrink-0">
             <TimeBinSelector />
             <MetricSelector />
             <div className="h-8 w-px bg-zinc-800"></div>
