@@ -14,11 +14,11 @@ export interface LoadProgress {
   phase: "metadata" | "tree" | "activity" | "complete";
 }
 
-// --- Raw Data Interfaces (Matching your new dataset) ---
+// --- V2 Raw Data Interfaces ---
 
 interface RawLifecycleData {
-  analyzed_at: string;
-  repository: string;
+  generated_at: string;
+  repository_path: string;
   total_files: number;
   total_commits: number;
   total_changes: number;
@@ -26,30 +26,35 @@ interface RawLifecycleData {
 }
 
 interface RawFileEvent {
-  commit: string;
+  commit_hash: string;
   timestamp: number;
   datetime: string;
   operation: "A" | "M" | "D" | "R";
-  author: string;
+  author_name: string;
   author_email: string;
-  subject: string;
+  commit_subject: string;
 }
 
-interface RawAuthorActivity {
-  authors: Array<{
-    author: string;
+interface V2AuthorNetwork {
+  nodes: Array<{
+    id: string;
     email: string;
-    unique_commits: number;
-    files_touched: number;
-    total_changes: number;
+    commit_count: number;
+    collaboration_count: number;
   }>;
 }
 
-interface RawFileTypeStats {
-  file_types: Array<{
-    extension: string;
-    count: number;
-    total_changes: number;
+interface V2FileIndex {
+  files: Record<string, {
+    total_commits: number;
+  }>;
+}
+
+interface V2DirectoryStats {
+  directories: Record<string, {
+    path: string;
+    total_commits: number;
+    activity_score: number;
   }>;
 }
 
@@ -67,27 +72,10 @@ export class DataLoader {
 
   private async fetchJson<T>(url: string, name: string): Promise<T> {
     const res = await fetch(url);
-
-    if (!res.ok) {
-      throw new Error(
-        `Failed to load ${name}: ${res.status} ${res.statusText}`
-      );
-    }
-
-    const contentType = res.headers.get("content-type");
-    if (contentType && contentType.includes("text/html")) {
-      throw new Error(
-        `Failed to load ${name}: Server returned HTML instead of JSON. \n` +
-          `Ensure the file exists in the 'public/' directory.`
-      );
-    }
-
+    if (!res.ok) throw new Error(`Failed to load ${name}: ${res.status}`);
     return res.json() as Promise<T>;
   }
 
-  /**
-   * Load the raw datasets and adapt them to the OptimizedDataset format
-   */
   async loadOptimizedDataset(
     baseUrl: string = "/DATASETS_excalidraw",
     onProgress?: (progress: LoadProgress) => void
@@ -95,39 +83,28 @@ export class DataLoader {
     const startTime = performance.now();
 
     try {
-      // 1. Load Raw Files in Parallel
-      if (onProgress) onProgress({ loaded: 0, total: 3, phase: "metadata" });
+      if (onProgress) onProgress({ loaded: 0, total: 4, phase: "metadata" });
 
-      const [lifecycleData, authorData, fileTypeData] = await Promise.all([
-        this.fetchJson<RawLifecycleData>(
-          `${baseUrl}/file_lifecycle.json`,
-          "File Lifecycle"
-        ),
-        this.fetchJson<RawAuthorActivity>(
-          `${baseUrl}/author_activity.json`,
-          "Author Activity"
-        ),
-        this.fetchJson<RawFileTypeStats>(
-          `${baseUrl}/file_type_stats.json`,
-          "File Types"
-        ),
+      const [lifecycleData, authorNetwork, fileIndex, dirStats] = await Promise.all([
+        this.fetchJson<RawLifecycleData>(`${baseUrl}/file_lifecycle.json`, "File Lifecycle"),
+        this.fetchJson<V2AuthorNetwork>(`${baseUrl}/networks/author_network.json`, "Author Network"),
+        this.fetchJson<V2FileIndex>(`${baseUrl}/metadata/file_index.json`, "File Index"),
+        this.fetchJson<V2DirectoryStats>(`${baseUrl}/aggregations/directory_stats.json`, "Directory Stats"),
       ]);
 
-      // 2. Transform Data
-      if (onProgress) onProgress({ loaded: 1, total: 3, phase: "tree" });
+      if (onProgress) onProgress({ loaded: 2, total: 4, phase: "tree" });
 
       const dataset = this.processRawData(
         lifecycleData,
-        authorData,
-        fileTypeData
+        authorNetwork,
+        fileIndex,
+        dirStats
       );
 
       const totalTime = performance.now() - startTime;
-      console.log(
-        `🎉 Dataset loaded and adapted in ${(totalTime / 1000).toFixed(2)}s`
-      );
+      console.log(`🎉 Dataset loaded in ${(totalTime / 1000).toFixed(2)}s`);
 
-      if (onProgress) onProgress({ loaded: 3, total: 3, phase: "complete" });
+      if (onProgress) onProgress({ loaded: 4, total: 4, phase: "complete" });
 
       return dataset;
     } catch (error) {
@@ -138,41 +115,12 @@ export class DataLoader {
 
   private processRawData(
     lifecycle: RawLifecycleData,
-    authors: RawAuthorActivity,
-    fileTypes: RawFileTypeStats
+    authorNetwork: V2AuthorNetwork,
+    fileIndex: V2FileIndex,
+    dirStats: V2DirectoryStats
   ): OptimizedDataset {
-    // --- 1. Build Metadata ---
-    const allTimestamps = Object.values(lifecycle.files)
-      .flat()
-      .map((e) => e.timestamp * 1000);
-
-    const minTime = Math.min(...allTimestamps);
-    const maxTime = Math.max(...allTimestamps);
-
-    const metadata: RepoMetadata = {
-      repository_name: lifecycle.repository.split("/").pop() || "Repository",
-      generation_date: lifecycle.analyzed_at,
-      date_range: {
-        start: new Date(minTime).toISOString(),
-        end: new Date(maxTime).toISOString(),
-      },
-      stats: {
-        total_commits: lifecycle.total_commits,
-        total_files: lifecycle.total_files,
-        total_authors: authors.authors.length,
-      },
-      authors: authors.authors.map((a) => ({
-        name: a.author,
-        email: a.email,
-        commit_count: a.unique_commits,
-      })),
-      file_types: fileTypes.file_types.map((f) => ({
-        extension: f.extension,
-        count: f.count,
-      })),
-    };
-
-    // --- 2. Build Directory Tree & Assign IDs ---
+    
+    // --- 1. Build Directory Tree First (Needed for validation) ---
     let nodeIdCounter = 1;
     const root: OptimizedDirectoryNode = {
       id: 0,
@@ -182,28 +130,18 @@ export class DataLoader {
       children: [],
     };
 
-    // Map to quickly find directory nodes by path for activity aggregation
     const dirPathToId = new Map<string, number>();
     dirPathToId.set("", 0);
 
-    // Helper to get or create directory node
-    const getOrCreateDir = (
-      pathParts: string[],
-      parent: OptimizedDirectoryNode
-    ): OptimizedDirectoryNode => {
+    const getOrCreateDir = (pathParts: string[], parent: OptimizedDirectoryNode): OptimizedDirectoryNode => {
       if (pathParts.length === 0) return parent;
-
       const currentName = pathParts[0];
       const remainingParts = pathParts.slice(1);
 
-      let child = parent.children?.find(
-        (c) => c.name === currentName && c.type === "directory"
-      );
+      let child = parent.children?.find(c => c.name === currentName && c.type === "directory");
 
       if (!child) {
-        const currentPath = parent.path
-          ? `${parent.path}/${currentName}`
-          : currentName;
+        const currentPath = parent.path ? `${parent.path}/${currentName}` : currentName;
         child = {
           id: nodeIdCounter++,
           name: currentName,
@@ -215,19 +153,13 @@ export class DataLoader {
         parent.children.push(child);
         dirPathToId.set(currentPath, child.id);
       }
-
       return getOrCreateDir(remainingParts, child);
     };
 
-    // Build tree from file paths
     Object.keys(lifecycle.files).forEach((filePath) => {
       const parts = filePath.split("/");
       const fileName = parts.pop()!;
-      const dirParts = parts;
-
-      const dirNode = getOrCreateDir(dirParts, root);
-
-      // Add file node
+      const dirNode = getOrCreateDir(parts, root);
       if (!dirNode.children) dirNode.children = [];
       dirNode.children.push({
         id: nodeIdCounter++,
@@ -237,33 +169,70 @@ export class DataLoader {
       });
     });
 
+    // --- 2. Build Metadata (Now we can filter directory stats) ---
+    const allTimestamps = Object.values(lifecycle.files)
+      .flat()
+      .map((e) => e.timestamp * 1000);
+
+    const minTime = Math.min(...allTimestamps);
+    const maxTime = Math.max(...allTimestamps);
+
+    // Aggregate File Types
+    const fileTypeMap = new Map<string, number>();
+    Object.keys(fileIndex.files).forEach((path) => {
+      const parts = path.split('/');
+      const filename = parts[parts.length - 1];
+      const extIndex = filename.lastIndexOf('.');
+      const ext = extIndex > 0 ? filename.substring(extIndex) : 'no-extension';
+      fileTypeMap.set(ext, (fileTypeMap.get(ext) || 0) + 1);
+    });
+
+    const fileTypes = Array.from(fileTypeMap.entries())
+      .map(([extension, count]) => ({ extension, count }))
+      .sort((a, b) => b.count - a.count);
+
+    // Process Directory Stats - FILTERED by existence in Directory Tree
+    const directoryStats = Object.values(dirStats.directories)
+      .filter(d => dirPathToId.has(d.path)) // Only include actual directories
+      .map(d => ({
+        path: d.path,
+        total_commits: d.total_commits,
+        activity_score: d.activity_score
+      }));
+
+    const metadata: RepoMetadata = {
+      repository_name: lifecycle.repository_path.split("/").pop() || "Repository",
+      generation_date: lifecycle.generated_at,
+      date_range: {
+        start: new Date(minTime).toISOString(),
+        end: new Date(maxTime).toISOString(),
+      },
+      stats: {
+        total_commits: lifecycle.total_commits,
+        total_files: lifecycle.total_files,
+        total_authors: authorNetwork.nodes.length,
+      },
+      authors: authorNetwork.nodes.map((node) => ({
+        name: node.id,
+        email: node.email,
+        commit_count: node.commit_count,
+      })),
+      file_types: fileTypes,
+      directory_stats: directoryStats,
+    };
+
     // --- 3. Aggregate Activity ---
-    // Map key: "YYYY-MM-DD_dirId" -> Metrics
-    const activityMap = new Map<
-      string,
-      {
-        d: string;
-        id: number;
-        a: number;
-        m: number;
-        del: number;
-        authors: Map<string, number>; // Changed to Map for frequency tracking
-        commits: Set<string>;
-        fileCounts: Map<string, number>; // Track file activity frequency
-      }
-    >();
+    const activityMap = new Map<string, any>();
 
     Object.entries(lifecycle.files).forEach(([filePath, events]) => {
-      // Find parent directory ID
       const parts = filePath.split("/");
-      const fileName = parts.pop()!; // Extract filename
+      const fileName = parts.pop()!;
       const dirPath = parts.join("/");
       const dirId = dirPathToId.get(dirPath);
 
-      if (dirId === undefined) return; // Should not happen if tree logic is correct
+      if (dirId === undefined) return;
 
       events.forEach((event) => {
-        // Format date as YYYY-MM-DD
         const dateStr = format(new Date(event.timestamp * 1000), "yyyy-MM-dd");
         const key = `${dateStr}_${dirId}`;
 
@@ -271,9 +240,7 @@ export class DataLoader {
           activityMap.set(key, {
             d: dateStr,
             id: dirId,
-            a: 0,
-            m: 0,
-            del: 0,
+            a: 0, m: 0, del: 0,
             authors: new Map(),
             commits: new Set(),
             fileCounts: new Map(),
@@ -281,51 +248,27 @@ export class DataLoader {
         }
 
         const entry = activityMap.get(key)!;
-
-        // Track Author Frequency
-        const currentAuthorCount = entry.authors.get(event.author) || 0;
-        entry.authors.set(event.author, currentAuthorCount + 1);
-
-        // Track File Frequency
-        const currentFileCount = entry.fileCounts.get(fileName) || 0;
-        entry.fileCounts.set(fileName, currentFileCount + 1);
-
-        entry.commits.add(event.commit);
+        entry.authors.set(event.author_name, (entry.authors.get(event.author_name) || 0) + 1);
+        entry.fileCounts.set(fileName, (entry.fileCounts.get(fileName) || 0) + 1);
+        entry.commits.add(event.commit_hash);
 
         if (event.operation === "A") entry.a++;
         else if (event.operation === "D") entry.del++;
-        else entry.m++; // Treat 'M' and 'R' as modifications
+        else entry.m++;
       });
     });
 
-    // Convert map to array
-    const activity: ActivityMatrixItem[] = Array.from(activityMap.values()).map(
-      (item) => {
-        // Get Top 3 Authors
-        const topAuthors = Array.from(item.authors.entries())
-          .sort((a, b) => b[1] - a[1])
-          .slice(0, 3)
-          .map((entry) => entry[0]);
-
-        // Get Top 3 Files
-        const topFiles = Array.from(item.fileCounts.entries())
-          .sort((a, b) => b[1] - a[1])
-          .slice(0, 3)
-          .map((entry) => entry[0]);
-
-        return {
-          d: item.d,
-          id: item.id,
-          a: item.a,
-          m: item.m,
-          del: item.del,
-          au: item.authors.size,
-          c: item.commits.size,
-          tc: topAuthors,
-          tf: topFiles,
-        };
-      }
-    );
+    const activity: ActivityMatrixItem[] = Array.from(activityMap.values()).map((item) => ({
+      d: item.d,
+      id: item.id,
+      a: item.a,
+      m: item.m,
+      del: item.del,
+      au: item.authors.size,
+      c: item.commits.size,
+      tc: Array.from(item.authors.entries()).sort((a: any, b: any) => b[1] - a[1]).slice(0, 3).map((e: any) => e[0]),
+      tf: Array.from(item.fileCounts.entries()).sort((a: any, b: any) => b[1] - a[1]).slice(0, 3).map((e: any) => e[0]),
+    }));
 
     return { metadata, tree: root, activity };
   }

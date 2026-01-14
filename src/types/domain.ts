@@ -4,8 +4,6 @@
  * Core domain types for Git repository data
  */
 
-// --- NEW OPTIMIZED TYPES ---
-
 export interface RepoMetadata {
   repository_name: string;
   generation_date: string;
@@ -27,6 +25,12 @@ export interface RepoMetadata {
     extension: string;
     count: number;
   }>;
+  // NEW: Pre-aggregated directory statistics
+  directory_stats?: Array<{
+    path: string;
+    total_commits: number;
+    activity_score: number;
+  }>;
 }
 
 export interface OptimizedDirectoryNode {
@@ -35,27 +39,23 @@ export interface OptimizedDirectoryNode {
   path: string;
   type: 'directory' | 'file';
   children?: OptimizedDirectoryNode[];
-  // Computed fields for visualization
   value?: number;
   size?: number;
 }
 
 export interface ActivityMatrixItem {
   d: string;      // Date (YYYY-MM-DD)
-  id: number;     // Directory ID (matches directory_tree.json)
+  id: number;     // Directory ID
   a: number;      // Added count
   m: number;      // Modified count
   del: number;    // Deleted count
   au: number;     // Unique authors count
   c: number;      // Commits count
-  tc: string[];   // Top Contributors (names)
-  tf: string[];   // Top Files (names)
+  tc: string[];   // Top Contributors
+  tf: string[];   // Top Files
 }
 
-// --- SHARED ENUMS & UTILS ---
-
 export type TimeBinType = 'day' | 'week' | 'month' | 'quarter' | 'year';
-
 export type MetricType = 'commits' | 'events' | 'authors' | 'lines';
 
 export interface TimeRange {
