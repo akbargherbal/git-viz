@@ -1,7 +1,7 @@
 // src/plugins/timeline-heatmap/components/CellDetailPanel.tsx
 
 import React from 'react';
-import { X, Calendar, Folder, GitCommit, User, FilePlus, FileMinus, FileEdit } from 'lucide-react';
+import { X, Calendar, Folder, GitCommit, User, FilePlus, FileMinus, FileEdit, FileText } from 'lucide-react';
 import { format } from 'date-fns';
 // Note: We use the HeatmapCell definition from the plugin, or a compatible shape
 import { HeatmapCell } from '../../TimelineHeatmapPlugin'; 
@@ -19,9 +19,9 @@ export const CellDetailPanel: React.FC<CellDetailPanelProps> = ({ cell, onClose 
   const pMod = totalChanges ? (cell.modifications / totalChanges) * 100 : 0;
 
   return (
-    <div className="absolute top-4 right-4 w-80 bg-zinc-900/95 backdrop-blur border border-zinc-700 rounded-xl shadow-2xl overflow-hidden z-50 flex flex-col animate-in slide-in-from-right-10 duration-200">
+    <div className="absolute top-4 right-4 w-80 bg-zinc-900/95 backdrop-blur border border-zinc-700 rounded-xl shadow-2xl overflow-hidden z-50 flex flex-col animate-in slide-in-from-right-10 duration-200 max-h-[calc(100vh-2rem)] overflow-y-auto sleek-scrollbar">
       {/* Header */}
-      <div className="p-4 border-b border-zinc-800 bg-zinc-950/50 flex justify-between items-start">
+      <div className="p-4 border-b border-zinc-800 bg-zinc-950/50 flex justify-between items-start sticky top-0 z-10 backdrop-blur-md">
         <div className="overflow-hidden">
           <div className="flex items-center gap-2 text-purple-400 mb-1">
             <Folder size={14} />
@@ -86,6 +86,38 @@ export const CellDetailPanel: React.FC<CellDetailPanelProps> = ({ cell, onClose 
         </div>
       </div>
 
+      {/* Top Contributors Section */}
+      {cell.topContributors && cell.topContributors.length > 0 && (
+        <div className="p-4 bg-zinc-900 border-b border-zinc-800">
+          <div className="text-xs text-zinc-400 mb-2 font-medium flex items-center gap-2">
+            <User size={12} /> Top Contributors
+          </div>
+          <div className="space-y-1.5">
+            {cell.topContributors.map((author, idx) => (
+              <div key={idx} className="text-xs text-zinc-300 truncate pl-3 border-l-2 border-zinc-700 hover:border-purple-500 transition-colors">
+                {author}
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
+
+      {/* Top Files Section */}
+      {cell.topFiles && cell.topFiles.length > 0 && (
+        <div className="p-4 bg-zinc-900 border-b border-zinc-800">
+          <div className="text-xs text-zinc-400 mb-2 font-medium flex items-center gap-2">
+            <FileText size={12} /> Most Active Files
+          </div>
+          <div className="space-y-1.5">
+            {cell.topFiles.map((file, idx) => (
+              <div key={idx} className="text-xs text-zinc-300 truncate pl-3 border-l-2 border-zinc-700 font-mono hover:border-purple-500 transition-colors" title={file}>
+                {file}
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
+
       {/* Context Info */}
       <div className="p-4 bg-zinc-900 text-xs text-zinc-500 space-y-2">
         <div className="flex items-center gap-2">
@@ -107,3 +139,4 @@ export const CellDetailPanel: React.FC<CellDetailPanelProps> = ({ cell, onClose 
 };
 
 export default CellDetailPanel;
+

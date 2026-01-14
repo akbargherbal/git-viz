@@ -48,6 +48,8 @@ export interface ActivityMatrixItem {
   del: number;    // Deleted count
   au: number;     // Unique authors count
   c: number;      // Commits count
+  tc: string[];   // Top Contributors (names)
+  tf: string[];   // Top Files (names)
 }
 
 // --- SHARED ENUMS & UTILS ---

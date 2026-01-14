@@ -36,6 +36,9 @@ export interface HeatmapCell {
   modifications: number;
   // Display helper
   value: number; // The value currently being visualized based on metric
+  // Details
+  topContributors: string[];
+  topFiles: string[];
 }
 
 interface HeatmapData {
@@ -122,7 +125,14 @@ export class TimelineHeatmapPlugin
 
     // 2. Aggregate Activity by Directory and TimeBin
     const dirActivity = new Map<string, number>(); // For sorting top N
-    const cellMap = new Map<string, HeatmapCell>();
+    
+    // Intermediate storage to aggregate sets of contributors/files before converting to arrays
+    interface TempCell extends Omit<HeatmapCell, 'topContributors' | 'topFiles'> {
+      contributorsSet: Set<string>;
+      filesSet: Set<string>;
+    }
+    
+    const cellMap = new Map<string, TempCell>();
     const timeBinsSet = new Set<number>();
 
     activity.forEach((item) => {
@@ -151,6 +161,8 @@ export class TimelineHeatmapPlugin
           deletions: 0,
           modifications: 0,
           value: 0,
+          contributorsSet: new Set(),
+          filesSet: new Set()
         });
       }
 
@@ -162,6 +174,10 @@ export class TimelineHeatmapPlugin
       cell.modifications += item.m;
       // Authors is pre-calculated unique count in matrix, we take the max for the bin
       cell.authors = Math.max(cell.authors, item.au);
+      
+      // Aggregate top contributors and files
+      if (item.tc) item.tc.forEach(c => cell.contributorsSet.add(c));
+      if (item.tf) item.tf.forEach(f => cell.filesSet.add(f));
     });
 
     // 3. Get Top N Directories
@@ -181,16 +197,20 @@ export class TimelineHeatmapPlugin
     const cells = topDirectories.map((dir) => {
       return timeBins.map((bin) => {
         const key = `${dir}|${bin.getTime()}`;
-        const cell = cellMap.get(key) || {
+        const tempCell = cellMap.get(key);
+        
+        const cell: HeatmapCell = {
           directory: dir,
           timeBin: bin,
-          events: 0,
-          commits: 0,
-          authors: 0,
-          creations: 0,
-          deletions: 0,
-          modifications: 0,
+          events: tempCell ? tempCell.events : 0,
+          commits: tempCell ? tempCell.commits : 0,
+          authors: tempCell ? tempCell.authors : 0,
+          creations: tempCell ? tempCell.creations : 0,
+          deletions: tempCell ? tempCell.deletions : 0,
+          modifications: tempCell ? tempCell.modifications : 0,
           value: 0,
+          topContributors: tempCell ? Array.from(tempCell.contributorsSet).slice(0, 5) : [],
+          topFiles: tempCell ? Array.from(tempCell.filesSet).slice(0, 5) : []
         };
 
         // Determine value based on selected metric
@@ -383,3 +403,4 @@ export class TimelineHeatmapPlugin
     return {};
   }
 }
+
