@@ -100,6 +100,29 @@ const App: React.FC = () => {
     loadData();
   }, []);
 
+  // Apply Filters
+  useEffect(() => {
+    if (!data.metadata) return; // Don't run if data isn't loaded
+
+    try {
+      // Reprocess dataset with current filters
+      const filteredDataset = dataLoader.filterDataset(filters);
+      setOptimizedData(
+        filteredDataset.metadata,
+        filteredDataset.tree,
+        filteredDataset.activity
+      );
+    } catch (error) {
+      console.error("Error applying filters:", error);
+    }
+  }, [
+    filters.authors,
+    filters.fileTypes,
+    filters.directories,
+    filters.eventTypes,
+    filters.timeRange,
+  ]);
+
   // Update active plugin instance
   useEffect(() => {
     if (ui.activePluginId) {
