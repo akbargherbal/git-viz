@@ -5,6 +5,7 @@ import {
   RepoMetadata,
   OptimizedDirectoryNode,
   ActivityMatrixItem,
+  FileStat,
 } from "@/types/domain";
 import { FilterState } from "@/types/visualization";
 import { format } from "date-fns";
@@ -50,6 +51,12 @@ interface V2FileIndex {
     string,
     {
       total_commits: number;
+      last_modified: string;
+      primary_author?: {
+        email: string;
+        commit_count: number;
+        percentage: number;
+      };
     }
   >;
 }
@@ -287,6 +294,20 @@ export class DataLoader {
         activity_score: d.activity_score,
       }));
 
+    // NEW: Process File Stats for Metadata
+    const fileStats: Record<string, FileStat> = {};
+    Object.entries(fileIndex.files).forEach(([path, stats]) => {
+      fileStats[path] = {
+        path,
+        total_commits: stats.total_commits,
+        primary_author: stats.primary_author ? {
+          email: stats.primary_author.email,
+          percentage: stats.primary_author.percentage
+        } : undefined,
+        last_modified: stats.last_modified
+      };
+    });
+
     const metadata: RepoMetadata = {
       repository_name:
         lifecycle.repository_path.split("/").pop() || "Repository",
@@ -307,6 +328,7 @@ export class DataLoader {
       })),
       file_types: fileTypes,
       directory_stats: directoryStats,
+      file_stats: fileStats, // Attach new stats
     };
 
     // --- 3. Aggregate Activity ---

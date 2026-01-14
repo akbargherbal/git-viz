@@ -4,6 +4,16 @@
  * Core domain types for Git repository data
  */
 
+export interface FileStat {
+  path: string;
+  total_commits: number;
+  primary_author?: {
+    email: string;
+    percentage: number;
+  };
+  last_modified?: string;
+}
+
 export interface RepoMetadata {
   repository_name: string;
   generation_date: string;
@@ -25,12 +35,14 @@ export interface RepoMetadata {
     extension: string;
     count: number;
   }>;
-  // NEW: Pre-aggregated directory statistics
+  // Pre-aggregated directory statistics
   directory_stats?: Array<{
     path: string;
     total_commits: number;
     activity_score: number;
   }>;
+  // NEW: File-level statistics from V2 index
+  file_stats?: Record<string, FileStat>;
 }
 
 export interface OptimizedDirectoryNode {
