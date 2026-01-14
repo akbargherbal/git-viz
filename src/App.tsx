@@ -48,6 +48,14 @@ const App: React.FC = () => {
     filters,
   } = useAppStore();
 
+  // Check for active filters
+  const hasActiveFilters = 
+    filters.authors.size > 0 ||
+    filters.directories.size > 0 ||
+    filters.fileTypes.size > 0 ||
+    filters.eventTypes.size > 0 ||
+    filters.timeRange !== null;
+
   // Initialize scroll hooks
   const mainScroll = useScrollIndicators(containerRef, {
     containerRef: mainContainerRef,
@@ -251,13 +259,19 @@ const App: React.FC = () => {
 
               <button
                 onClick={() => setShowFilters(!ui.showFilters)}
-                className={`p-2 rounded-lg transition-colors ${
+                className={`relative p-2 rounded-lg transition-all duration-200 ${
                   ui.showFilters
-                    ? "bg-purple-600 text-white"
-                    : "bg-zinc-800 text-zinc-400 hover:text-white"
+                    ? "bg-purple-600 text-white shadow-lg shadow-purple-900/20"
+                    : hasActiveFilters
+                    ? "bg-zinc-800 text-purple-400 ring-1 ring-purple-500/50 hover:bg-zinc-700 hover:text-purple-300"
+                    : "bg-zinc-800 text-zinc-400 hover:text-white hover:bg-zinc-700"
                 }`}
+                title={hasActiveFilters ? "Filters Active" : "Filters"}
               >
                 <Filter size={18} />
+                {hasActiveFilters && !ui.showFilters && (
+                  <span className="absolute top-2 right-2 w-1.5 h-1.5 bg-purple-500 rounded-full shadow-[0_0_8px_rgba(168,85,247,0.8)]" />
+                )}
               </button>
             </div>
           </div>
