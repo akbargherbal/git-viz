@@ -284,13 +284,14 @@ export class TimelineHeatmapPlugin
       th.style.position = "sticky";
       th.style.left = "0";
       th.style.zIndex = "20";
-      th.style.background = "#18181b";
+      th.style.background = "#242429";
       th.style.padding = "8px 12px";
       th.style.color = "#e4e4e7";
       th.style.fontSize = "11px";
       th.style.textAlign = "left";
       th.style.whiteSpace = "nowrap";
       th.style.borderRight = "1px solid #27272a";
+      th.style.borderBottom = "2px dashed #27272a";
       row.appendChild(th);
 
       // Cells
