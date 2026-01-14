@@ -1,4 +1,3 @@
-// README.md
 # Git Repository Visualization - Phase 3 Implementation
 
 ## Overview
