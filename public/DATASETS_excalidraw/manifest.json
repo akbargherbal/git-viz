@@ -1,0 +1,70 @@
+{
+  "generator_version": "2.0.0",
+  "schema_version": "1.0.0",
+  "generated_at": "2026-01-14T16:04:33.135330+00:00",
+  "repository": "/home/akbar/Jupyter_Notebooks/SOFTWARE_ARCHEOLOGY/excalidraw",
+  "performance_metrics": {
+    "commits_processed": 5137,
+    "files_tracked": 2739,
+    "aggregator_times": {},
+    "memory_peak_mb": 0.0,
+    "total_time_seconds": 0.58,
+    "cache_statistics": {
+      "hits": 0,
+      "misses": 0,
+      "hit_rate_percent": 0
+    },
+    "chunks_processed": 0
+  },
+  "datasets": {
+    "core_lifecycle": {
+      "file": "file_lifecycle.json",
+      "schema_version": "1.0.0",
+      "file_size_bytes": 10020079,
+      "sha256": "c4b4ab6c35b263b8d04ed00642235095c3c64b9ef81fb6d0aab8ef08726a3a2b",
+      "production_ready": true
+    },
+    "file_metadata": {
+      "file": "metadata/file_index.json",
+      "schema_version": "1.0.0",
+      "file_size_bytes": 1351027,
+      "sha256": "8201b8e6ca263a81df3071629585dd39d077df183705dac56ae452e42e196118",
+      "production_ready": false
+    },
+    "temporal_daily": {
+      "file": "aggregations/temporal_daily.json",
+      "schema_version": "1.0.0",
+      "file_size_bytes": 251392,
+      "sha256": "6a3c42adc74d46a4f3690990f7f95aa5572b9ea3f7e15c938f07e5de7789a389",
+      "production_ready": false
+    },
+    "author_network": {
+      "file": "networks/author_network.json",
+      "schema_version": "1.0.0",
+      "file_size_bytes": 1857260,
+      "sha256": "f9941c87f68bf52c21bc288bcf2b2d55b14448571bd65309ea9010a0949c3908",
+      "production_ready": false
+    },
+    "cochange_network": {
+      "file": "networks/cochange_network.json",
+      "schema_version": "1.0.0",
+      "file_size_bytes": 22474122,
+      "sha256": "5779fde53c215970ac3779ce2e4c03065659af3ece3ca4895023e31019532df6",
+      "production_ready": false
+    },
+    "directory_stats": {
+      "file": "aggregations/directory_stats.json",
+      "schema_version": "1.0.0",
+      "file_size_bytes": 871656,
+      "sha256": "0f1275dbf77d053817de7615701cc55c525a168fc2b381ad661b424851e4e635",
+      "production_ready": false
+    },
+    "milestone_snapshots": {
+      "file": "milestones/release_snapshots.json",
+      "schema_version": "1.0.0",
+      "file_size_bytes": 10644,
+      "sha256": "ecd15e6f4137589dd1daf57363e82a42a5b7d93ccf1f414df898a5b85897e2b4",
+      "production_ready": false
+    }
+  }
+}
