@@ -138,7 +138,7 @@ const App: React.FC = () => {
     loadPluginData();
   }, [ui.activePluginId]);
 
-  // Process data with filters
+  // Process data with filters (Global fallback)
   useEffect(() => {
     if (!rawData) return;
 
@@ -171,6 +171,12 @@ const App: React.FC = () => {
     }
   }, [ui.activePluginId]);
 
+  // Get current plugin state
+  const currentPluginState = useMemo(() => {
+    if (!ui.activePluginId) return {};
+    return pluginStates[ui.activePluginId] || {};
+  }, [ui.activePluginId, pluginStates]);
+
   // Render visualization
   useEffect(() => {
     if (
@@ -183,21 +189,29 @@ const App: React.FC = () => {
       return;
 
     try {
+      // ARCHITECTURE FIX:
+      // 1. Spread currentPluginState into config to override defaults with plugin-controlled values
+      // 2. Pass rawData (if available) to allow plugin to perform its own filtering
       const config = {
         ...activePlugin.defaultConfig,
+        // Legacy fallback
         timeBin: filters.timeBin,
         metric: filters.metric,
+        // Plugin state overrides
+        ...currentPluginState,
         onCellClick: (cell: any) => setSelectedCell(cell),
       };
 
-      const processed = activePlugin.processData(
-        {
-          metadata: data.metadata,
-          tree: data.tree,
-          activity: data.activity,
-        },
-        config,
-      );
+      // Prefer rawData so plugin can filter from scratch, fallback to globally processed data
+      const dataInput = rawData && Object.keys(rawData).length > 0
+        ? rawData
+        : {
+            metadata: data.metadata,
+            tree: data.tree,
+            activity: data.activity,
+          };
+
+      const processed = activePlugin.processData(dataInput, config);
 
       activePlugin.init(containerRef.current, config);
       activePlugin.render(processed, config);
@@ -221,6 +235,8 @@ const App: React.FC = () => {
     activePlugin,
     data.tree,
     data.activity,
+    rawData, // Added rawData dependency
+    currentPluginState, // Added plugin state dependency
     filters.timeBin,
     filters.metric,
     containerRef.current,
@@ -230,12 +246,6 @@ const App: React.FC = () => {
   const usesPluginControls = useMemo(() => {
     return activePlugin && supportsControlOwnership(activePlugin);
   }, [activePlugin]);
-
-  // Get current plugin state
-  const currentPluginState = useMemo(() => {
-    if (!ui.activePluginId) return {};
-    return pluginStates[ui.activePluginId] || {};
-  }, [ui.activePluginId, pluginStates]);
 
   // Plugin state update callback
   const updatePluginState = (updates: Record<string, unknown>) => {

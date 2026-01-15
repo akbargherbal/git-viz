@@ -17,6 +17,7 @@ import { DataProcessor } from "@/services/data/DataProcessor";
 import { MetricSelector } from "@/components/common/MetricSelector";
 import { TimeBinSelector } from "@/components/common/TimeBinSelector";
 import { FilterPanel } from "@/components/common/FilterPanel";
+import { FilterState } from "@/types/visualization";
 
 // ============================================================================
 // PHASE 2: Plugin State Interface
@@ -53,6 +54,9 @@ interface HeatmapConfig {
   colorScheme: "activity" | "intensity";
   timeBin: TimeBinType;
   metric: MetricType;
+  // Added filter fields to config
+  selectedAuthors?: string[];
+  selectedExtensions?: string[];
   onCellClick?: (cell: any) => void;
 }
 
@@ -104,7 +108,7 @@ export class TimelineHeatmapPlugin implements VisualizationPlugin<
     id: "timeline-heatmap",
     name: "Timeline Heatmap",
     description: "Repository activity across time and directory structure",
-    version: "4.0.0", // Bumped for Phase 2 migration
+    version: "4.1.0", // Bumped for legacy styling restoration
     priority: 1,
     dataRequirements: [
       { dataset: "file_lifecycle", required: true, alias: "lifecycle" },
@@ -123,6 +127,8 @@ export class TimelineHeatmapPlugin implements VisualizationPlugin<
     colorScheme: "activity",
     timeBin: "week",
     metric: "events",
+    selectedAuthors: [],
+    selectedExtensions: [],
   };
 
   private container: HTMLElement | null = null;
@@ -222,15 +228,26 @@ export class TimelineHeatmapPlugin implements VisualizationPlugin<
     // Check if we received the raw data map from PluginDataLoader
     // The keys match the 'alias' fields in dataRequirements
     if (dataset.lifecycle && dataset.authors && dataset.files && dataset.dirs) {
+      
+      // Construct FilterState from config to allow plugin-controlled filtering
+      const filters: FilterState = {
+        authors: new Set(config?.selectedAuthors || []),
+        fileTypes: new Set(config?.selectedExtensions || []),
+        directories: new Set(), // Could be added to state later
+        eventTypes: new Set(),
+        timeRange: null
+      };
+
       // Process raw data on the fly using the extracted processor
       optimizedData = DataProcessor.processRawData(
         dataset.lifecycle,
         dataset.authors,
         dataset.files,
-        dataset.dirs
+        dataset.dirs,
+        filters
       );
     } else {
-      // Fallback: Assume legacy OptimizedDataset
+      // Fallback: Assume legacy OptimizedDataset (already processed)
       optimizedData = dataset as OptimizedDataset;
     }
 
@@ -347,190 +364,188 @@ export class TimelineHeatmapPlugin implements VisualizationPlugin<
           modifications: tempCell ? tempCell.modifications : 0,
           value: 0,
           topContributors: tempCell
-            ? Array.from(tempCell.contributorsSet)
+            ? Array.from(tempCell.contributorsSet).slice(0, 5)
             : [],
-          topFiles: tempCell ? Array.from(tempCell.filesSet) : [],
+          topFiles: tempCell ? Array.from(tempCell.filesSet).slice(0, 5) : [],
         };
 
-        // Assign value based on metric
-        if (metric === "commits") cell.value = cell.commits;
-        else if (metric === "events") cell.value = cell.events;
-        else if (metric === "authors") cell.value = cell.authors;
-        else cell.value = cell.events;
+        switch (metric) {
+          case "authors":
+            cell.value = cell.authors;
+            break;
+          case "commits":
+            cell.value = cell.commits;
+            break;
+          case "events":
+          default:
+            cell.value = cell.events;
+            break;
+        }
 
         maxValue = Math.max(maxValue, cell.value);
         return cell;
       });
     });
 
-    return {
-      cells,
-      directories: topDirectories,
-      timeBins,
-      maxValue,
-    };
+    return { cells, directories: topDirectories, timeBins, maxValue };
   }
 
+  /**
+   * Renders the heatmap visualization
+   * Color scheme dynamically changes based on config.metric:
+   * - events: Green (hue 145°)
+   * - authors: Orange/Amber (hue 30°)
+   * - commits: Blue (hue 210°)
+   */
   render(data: HeatmapData, config: HeatmapConfig): void {
     if (!this.container) return;
-
-    const { cells, directories, timeBins, maxValue } = data;
-    const { cellHeight, minCellWidth, colorScheme, onCellClick } = config;
-
-    // Clear container
     this.container.innerHTML = "";
 
-    // Calculate dimensions
-    const cellWidth = Math.max(minCellWidth, 80);
-    const labelWidth = 220;
-    const totalWidth = labelWidth + timeBins.length * cellWidth;
-    const totalHeight = directories.length * cellHeight;
+    const table = document.createElement("table");
+    table.style.borderCollapse = "separate";
+    table.style.borderSpacing = "2px";
+    table.style.fontFamily = "monospace";
 
-    // Create SVG
-    const svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
-    svg.setAttribute("width", totalWidth.toString());
-    svg.setAttribute("height", totalHeight.toString());
-    svg.style.display = "block";
-    svg.style.fontFamily = "ui-monospace, monospace";
+    // Header Row
+    const thead = document.createElement("thead");
+    const headerRow = document.createElement("tr");
 
-    // Directory labels (Y-axis)
-    directories.forEach((dir, i) => {
-      const g = document.createElementNS("http://www.w3.org/2000/svg", "g");
+    // Corner Cell
+    const corner = document.createElement("th");
+    corner.innerHTML = `<div class="flex flex-col items-start">
+      <span class="text-zinc-400">Directory</span>
+      <span class="text-[10px] text-zinc-600 font-normal">Top ${config.topN} by Activity</span>
+    </div>`;
+    corner.style.position = "sticky";
+    corner.style.left = "0";
+    corner.style.top = "0";
+    corner.style.zIndex = "40";
+    corner.style.background = "#18181b";
+    corner.style.padding = "12px";
+    corner.style.textAlign = "left";
+    corner.style.borderBottom = "1px solid #27272a";
+    headerRow.appendChild(corner);
 
-      const text = document.createElementNS(
-        "http://www.w3.org/2000/svg",
-        "text"
-      );
-      text.setAttribute("x", (labelWidth - 10).toString());
-      text.setAttribute("y", (i * cellHeight + cellHeight / 2).toString());
-      text.setAttribute("text-anchor", "end");
-      text.setAttribute("dominant-baseline", "middle");
-      text.setAttribute("fill", "#a1a1aa");
-      text.setAttribute("font-size", "12");
-      text.style.cursor = "default";
-      text.textContent = dir.split("/").pop() || dir;
-
-      const title = document.createElementNS(
-        "http://www.w3.org/2000/svg",
-        "title"
-      );
-      title.textContent = dir;
-      text.appendChild(title);
-
-      g.appendChild(text);
-      svg.appendChild(g);
+    // Time Column Headers
+    data.timeBins.forEach((bin) => {
+      const th = document.createElement("th");
+      th.textContent = formatTimeBin(bin, config.timeBin);
+      th.style.minWidth = `${config.minCellWidth}px`;
+      th.style.padding = "8px";
+      th.style.color = "#71717a";
+      th.style.fontSize = "10px";
+      th.style.textAlign = "center";
+      th.style.fontWeight = "normal";
+      th.style.userSelect = "none";
+      th.style.position = "sticky";
+      th.style.top = "0";
+      th.style.zIndex = "30";
+      th.style.background = "#18181b";
+      th.style.borderBottom = "1px solid #27272a";
+      headerRow.appendChild(th);
     });
+    thead.appendChild(headerRow);
+    table.appendChild(thead);
 
-    // Time labels (X-axis) - only show every nth based on width
-    const labelInterval = Math.ceil(timeBins.length / 12);
-    timeBins.forEach((bin, i) => {
-      if (i % labelInterval === 0 || i === timeBins.length - 1) {
-        const text = document.createElementNS(
-          "http://www.w3.org/2000/svg",
-          "text"
-        );
-        text.setAttribute("x", (labelWidth + i * cellWidth + cellWidth / 2).toString());
-        text.setAttribute("y", "-5");
-        text.setAttribute("text-anchor", "middle");
-        text.setAttribute("fill", "#a1a1aa");
-        text.setAttribute("font-size", "10");
-        text.textContent = formatTimeBin(bin, config.timeBin);
-        svg.appendChild(text);
-      }
-    });
+    // Body Rows
+    const tbody = document.createElement("tbody");
+    data.directories.forEach((dir, i) => {
+      const row = document.createElement("tr");
 
-    // Render cells
-    cells.forEach((row, rowIdx) => {
-      row.forEach((cell, colIdx) => {
-        const x = labelWidth + colIdx * cellWidth;
-        const y = rowIdx * cellHeight;
+      // Directory Label (sticky left column)
+      const th = document.createElement("th");
+      const shortName = dir.length > 40 ? "..." + dir.slice(-37) : dir;
+      th.textContent = shortName;
+      th.title = dir;
+      th.style.position = "sticky";
+      th.style.left = "0";
+      th.style.zIndex = "20";
+      th.style.background = "#242429";
+      th.style.padding = "8px 12px";
+      th.style.color = "#e4e4e7";
+      th.style.fontSize = "11px";
+      th.style.textAlign = "left";
+      th.style.whiteSpace = "nowrap";
+      th.style.borderRight = "1px solid #27272a";
+      th.style.borderBottom = "2px dashed #27272a"; // Distinctive dashed border
+      row.appendChild(th);
 
-        const rect = document.createElementNS(
-          "http://www.w3.org/2000/svg",
-          "rect"
-        );
-        rect.setAttribute("x", x.toString());
-        rect.setAttribute("y", y.toString());
-        rect.setAttribute("width", (cellWidth - 1).toString());
-        rect.setAttribute("height", (cellHeight - 1).toString());
+      // Data Cells
+      data.cells[i].forEach((cell) => {
+        const td = document.createElement("td");
+        const value = cell.value;
 
-        // Color calculation
-        if (cell.value === 0) {
-          rect.setAttribute("fill", "#18181b");
-          rect.setAttribute("stroke", "#27272a");
-        } else {
-          const intensity = maxValue > 0 ? cell.value / maxValue : 0;
+        let bg = "#18181b";
+        let textColor = "transparent";
 
-          let hue: number, saturation: number, lightness: number;
-          if (colorScheme === "activity") {
-            hue = 270 - intensity * 90;
-            saturation = 60 + intensity * 30;
-            lightness = 20 + intensity * 40;
-          } else {
-            hue = 270;
-            saturation = 70;
-            lightness = 15 + intensity * 50;
+        if (value > 0) {
+          // Log-based intensity calculation for better visual distribution
+          const intensity = Math.log(value + 1) / Math.log(data.maxValue + 1);
+          
+          // CRITICAL: Metric-based hue selection - colors change based on header selection
+          let hue: number;
+          switch (config.metric) {
+            case "authors":
+              hue = 30; // Orange/amber for authors
+              break;
+            case "commits":
+              hue = 210; // Blue for commits
+              break;
+            case "events":
+            default:
+              hue = 145; // Green for events (default)
+              break;
           }
 
-          rect.setAttribute("fill", `hsl(${hue}, ${saturation}%, ${lightness}%)`);
-          rect.setAttribute("stroke", "#27272a");
-
-          // Value text
-          if (cellWidth >= 60) {
-            const text = document.createElementNS(
-              "http://www.w3.org/2000/svg",
-              "text"
-            );
-            text.setAttribute("x", (x + cellWidth / 2).toString());
-            text.setAttribute("y", (y + cellHeight / 2).toString());
-            text.setAttribute("text-anchor", "middle");
-            text.setAttribute("dominant-baseline", "middle");
-            text.setAttribute("font-size", "11");
-            text.setAttribute("font-weight", "600");
-            text.setAttribute(
-              "fill",
-              getContrastingTextColor(hue, saturation, lightness)
-            );
-            text.style.pointerEvents = "none";
-            text.textContent = formatNumber(cell.value);
-            svg.appendChild(text);
-          }
+          const saturation = 70;
+          const lightness = 10 + intensity * 50;
+          bg = `hsl(${hue}, ${saturation}%, ${lightness}%)`;
+          textColor = getContrastingTextColor(hue, saturation, lightness);
         }
 
-        rect.style.cursor = "pointer";
-        rect.style.transition = "opacity 0.15s";
+        td.style.background = bg;
+        td.style.height = `${config.cellHeight}px`;
+        td.style.color = textColor;
+        td.style.fontSize = "10px";
+        td.style.textAlign = "center";
+        td.style.verticalAlign = "middle";
+        td.style.transition = "all 0.1s";
+        td.style.userSelect = "none";
 
-        rect.addEventListener("mouseenter", () => {
-          rect.style.opacity = "0.8";
-        });
-
-        rect.addEventListener("mouseleave", () => {
-          rect.style.opacity = "1";
-        });
-
-        if (onCellClick) {
-          rect.addEventListener("click", () => onCellClick(cell));
+        if (value > 0) {
+          td.textContent = formatNumber(value);
         }
+
+        // Visual indicators for file lifecycle events
+        if (cell.creations > 0) td.style.borderBottom = "2px solid green";
+        if (cell.deletions > 0) td.style.borderTop = "2px solid red";
 
         // Tooltip
-        const title = document.createElementNS(
-          "http://www.w3.org/2000/svg",
-          "title"
-        );
-        title.textContent = [
-          `${cell.directory}`,
-          `${formatTimeBin(cell.timeBin, config.timeBin)}`,
-          `Events: ${cell.events}`,
-          `Commits: ${cell.commits}`,
-          `Authors: ${cell.authors}`,
-        ].join("\n");
-        rect.appendChild(title);
+        td.title =
+          `${dir}\n${formatTimeBin(cell.timeBin, config.timeBin)}\n` +
+          `${config.metric}: ${value}\n` +
+          `(+${cell.creations} -${cell.deletions} ~${cell.modifications})`;
 
-        svg.appendChild(rect);
+        // Interactive hover effects
+        if (value > 0) {
+          td.style.cursor = "pointer";
+          td.onclick = () => config.onCellClick?.(cell);
+          td.onmouseenter = () => {
+            td.style.transform = "scale(1.1)";
+            td.style.zIndex = "10";
+          };
+          td.onmouseleave = () => {
+            td.style.transform = "scale(1)";
+            td.style.zIndex = "auto";
+          };
+        }
+        row.appendChild(td);
       });
+      tbody.appendChild(row);
     });
 
-    this.container.appendChild(svg);
+    table.appendChild(tbody);
+    this.container.appendChild(table);
   }
 
   update(data: HeatmapData, config: HeatmapConfig): void {
@@ -547,7 +562,7 @@ export class TimelineHeatmapPlugin implements VisualizationPlugin<
     if (!this.container) {
       return new Blob();
     }
-    // TODO: Implement SVG to PNG conversion
+    // TODO: Implement table to PNG conversion
     return new Blob();
   }
 
