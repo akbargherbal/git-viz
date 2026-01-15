@@ -157,14 +157,10 @@ export class TimelineHeatmapPlugin implements VisualizationPlugin<
    * This gives the plugin full ownership of its UI controls
    */
   renderControls = (props: PluginControlProps<Record<string, unknown>>) => {
-    const { state, updateState, data } = props;
+    const { state, updateState } = props;
     
-    // Cast state to our specific type (safe because we control the initial state)
+    // Cast state to our specific type
     const typedState = state as unknown as TimelineHeatmapState;
-    
-    // Extract available authors and extensions from metadata
-    const authors = data?.metadata?.authors || [];
-    const fileTypes = data?.metadata?.file_types || [];
     
     return React.createElement(
       'div',
@@ -180,26 +176,49 @@ export class TimelineHeatmapPlugin implements VisualizationPlugin<
       React.createElement(TimeBinSelector, {
         value: typedState.timeBin,
         onChange: (timeBin: TimeBinType) => updateState({ timeBin }),
-      }),
-      
-      // Filter Panel (Authors & File Types)
-      React.createElement(FilterPanel, {
-        authors: authors.map((a: any) => ({
-          value: a.email,
-          label: a.name || a.email,
-          count: a.commit_count,
-        })),
-        extensions: fileTypes.map((ft: any) => ({
-          extension: ft.extension,
-          count: ft.count,
-        })),
-        selectedAuthors: typedState.selectedAuthors,
-        selectedExtensions: typedState.selectedExtensions,
-        onAuthorsChange: (authors: string[]) => 
-          updateState({ selectedAuthors: authors }),
-        onExtensionsChange: (extensions: string[]) => 
-          updateState({ selectedExtensions: extensions }),
-      }),
+      })
+    );
+  };
+
+  /**
+   * Renders plugin-specific filters in the sidebar
+   */
+  renderFilters = (props: PluginControlProps<Record<string, unknown>> & { onClose: () => void }) => {
+    const { state, updateState, data, onClose } = props;
+    const typedState = state as unknown as TimelineHeatmapState;
+
+    // Extract available authors and extensions from metadata
+    const authors = data?.metadata?.authors || [];
+    const fileTypes = data?.metadata?.file_types || [];
+
+    return React.createElement(FilterPanel, {
+      authors: authors.map((a: any) => ({
+        value: a.email,
+        label: a.name || a.email,
+        count: a.commit_count,
+      })),
+      extensions: fileTypes.map((ft: any) => ({
+        extension: ft.extension,
+        count: ft.count,
+      })),
+      selectedAuthors: typedState.selectedAuthors,
+      selectedExtensions: typedState.selectedExtensions,
+      onAuthorsChange: (authors: string[]) => 
+        updateState({ selectedAuthors: authors }),
+      onExtensionsChange: (extensions: string[]) => 
+        updateState({ selectedExtensions: extensions }),
+      onClose: onClose
+    });
+  };
+
+  /**
+   * Checks if there are any active filters
+   */
+  checkActiveFilters = (state: Record<string, unknown>): boolean => {
+    const typedState = state as unknown as TimelineHeatmapState;
+    return (
+      (typedState.selectedAuthors && typedState.selectedAuthors.length > 0) ||
+      (typedState.selectedExtensions && typedState.selectedExtensions.length > 0)
     );
   };
 

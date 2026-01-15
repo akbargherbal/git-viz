@@ -53,13 +53,29 @@ const App: React.FC = () => {
     initPluginState,
   } = useAppStore();
 
+  // Get current plugin state
+  const currentPluginState = useMemo(() => {
+    if (!ui.activePluginId) return {};
+    return pluginStates[ui.activePluginId] || {};
+  }, [ui.activePluginId, pluginStates]);
+
   // Active filter detection
-  const hasActiveFilters =
-    filters.authors.size > 0 ||
-    filters.directories.size > 0 ||
-    filters.fileTypes.size > 0 ||
-    filters.eventTypes.size > 0 ||
-    filters.timeRange !== null;
+  const hasActiveFilters = useMemo(() => {
+    // Check global filters
+    const globalActive = 
+      filters.authors.size > 0 ||
+      filters.directories.size > 0 ||
+      filters.fileTypes.size > 0 ||
+      filters.eventTypes.size > 0 ||
+      filters.timeRange !== null;
+
+    // Check plugin-specific filters if supported
+    if (activePlugin?.checkActiveFilters) {
+      return globalActive || activePlugin.checkActiveFilters(currentPluginState);
+    }
+
+    return globalActive;
+  }, [filters, activePlugin, currentPluginState]);
 
   // Scroll indicators
   const mainScroll = useScrollIndicators(containerRef, {
@@ -170,12 +186,6 @@ const App: React.FC = () => {
       }
     }
   }, [ui.activePluginId]);
-
-  // Get current plugin state
-  const currentPluginState = useMemo(() => {
-    if (!ui.activePluginId) return {};
-    return pluginStates[ui.activePluginId] || {};
-  }, [ui.activePluginId, pluginStates]);
 
   // Render visualization
   useEffect(() => {
@@ -379,10 +389,25 @@ const App: React.FC = () => {
             !ui.showFilters ? "panel-hidden" : ""
           }`}
         >
-          <FilterPanel
-            metadata={data.metadata}
-            onClose={() => setShowFilters(false)}
-          />
+          {/* Render plugin-specific filters if available, otherwise fallback to global */}
+          {activePlugin?.renderFilters ? (
+            activePlugin.renderFilters({
+              state: currentPluginState,
+              updateState: updatePluginState,
+              data: {
+                metadata: data.metadata,
+                tree: data.tree,
+                activity: data.activity,
+              },
+              config: activePlugin.defaultConfig,
+              onClose: () => setShowFilters(false)
+            })
+          ) : (
+            <FilterPanel
+              metadata={data.metadata}
+              onClose={() => setShowFilters(false)}
+            />
+          )}
         </aside>
 
         {/* Detail Panel */}

@@ -1,5 +1,3 @@
-// src/types/plugin.ts
-
 import {
   RepoMetadata,
   OptimizedDirectoryNode,
@@ -140,6 +138,20 @@ export interface VisualizationPlugin<TConfig = any, TData = any, TState = Record
    * @returns React element to render in the control area
    */
   renderControls?: (props: PluginControlProps<TState>) => React.ReactNode;
+
+  /**
+   * Render custom filter panel for this plugin
+   * If provided, replaces the default filter panel in the sidebar
+   * 
+   * @param props - Control rendering props plus onClose callback
+   */
+  renderFilters?: (props: PluginControlProps<TState> & { onClose: () => void }) => React.ReactNode;
+
+  /**
+   * Check if the plugin has active filters
+   * Used to style the filter toggle button
+   */
+  checkActiveFilters?: (state: TState) => boolean;
   
   /**
    * Get initial state for this plugin
