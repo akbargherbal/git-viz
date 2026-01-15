@@ -1,540 +1,398 @@
 # Understanding Check
 
-## What I see you're building
+**What I see you're building**: A multi-visualization platform for Git repository analysis that started as a timeline heatmap and is now evolving to support multiple interactive visualizations. You're at a critical architectural crossroads: how to scale the control/filter system without coupling every plugin to the same interface.
 
-A **Git repository visualization platform** that started as a focused timeline heatmap tool and is evolving into a multi-visualization system. You're pivoting from a single-purpose tool to a plugin-based architecture where different visualizations can coexist and leverage rich, pre-computed datasets.
+**Key constraints I'm respecting**: 
+- No backend (static datasets in public folder)
+- Heatmap timeline is feature-complete and locked
+- Need to ship new visualizations quickly
+- Data loading architecture is already working well
 
-## Key constraints I'm respecting
-
-- **No backend (short-term)**: All data served from public folder as static JSON
-- **POC origins**: Timeline heatmap is mature; newer visualizations like treemap are nascent
-- **V2 dataset upgrade**: You've moved computation upstream - frontend no longer needs to derive/calculate data
-- **Real-world momentum**: You need to ship new visualizations without rewriting what works
-
-## Trade-offs I recognize
-
-- **Plugin architecture exists but might be underutilized** - You laid the foundation, but the treemap being "static/inactive" suggests the plugin interface isn't fully enabling new visualizations yet
-- **Centralized vs distributed data loading** - A single DataLoader made sense for one viz; now it might be creating friction for adding diverse visualizations
-- **State management scope** - A single appStore worked initially, but as plugins multiply, this could become a bottleneck
+**Trade-offs I recognize**: 
+- You built a plugin architecture early (smart!)
+- Controls are currently universal but becoming a bottleneck
+- The current coupling to App.tsx works for one visualization but won't scale
+- You're prioritizing flexibility for future visualizations over optimizing the existing one
 
 ---
 
-# Core Strengths
+## Core Strengths
 
-## 1. **Plugin architecture foundation is EXACTLY right**
+1. **Plugin architecture foundation is excellent** - You have the right abstraction layer (`PluginRegistry`, clear plugin interface). This is the hardest part and you've already solved it. Most developers would be stuck with a monolithic visualization component right now.
 
-You made the correct architectural bet. Having `PluginRegistry.ts` and organizing visualizations as plugins is the path to scaling. This is not premature abstraction - this is appropriate foresight for a multi-viz platform.
+2. **Data layer is well-separated** - `DatasetRegistry`, `PluginDataLoader`, and the services layer are clean and decoupled. Adding new data sources or transformations will be straightforward.
 
-## 2. **V2 dataset richness is a massive unlock**
-
-Moving computation upstream is brilliant. You have:
-
-- Pre-aggregated temporal data (daily/monthly)
-- Network graphs ready to render (author/cochange)
-- Directory statistics pre-calculated
-- File metadata indexed
-
-This means **new visualizations should be trivial to add** - just wire up the right dataset. The fact that this isn't happening yet means the _connection layer_ needs evolution, not the data.
-
-## 3. **Separation of concerns is solid**
-
-Your folder structure (`components/`, `services/`, `plugins/`, `types/`) shows good instincts. You're not throwing everything in one place. This discipline will pay dividends.
+3. **You're asking the right question at the right time** - Recognizing the control layer as the next bottleneck *before* adding 5 more plugins is the mark of experienced architectural thinking. Many developers would have copy-pasted App.tsx logic into chaos first.
 
 ---
 
-# High-Impact Opportunities
+## High-Impact Opportunities
 
-## 1. **Make plugins self-sufficient data consumers**
+### 1. Let Plugins Own Their Controls
 
-### Why this matters
+**Why this matters**: Right now, adding a new visualization requires modifying `App.tsx` to add conditional logic for new filters/controls. By the time you have 5 plugins, App.tsx will be an unmaintainable mess of switch statements. This change makes each plugin completely self-contained.
 
-Right now, the treemap is "static/inactive" likely because there's friction in getting it the data it needs. If each plugin could declare "I need `directory_stats.json`" and the system automatically provides it, adding new visualizations becomes copy-paste-customize.
+**Current approach**: App.tsx renders universal controls (MetricSelector, TimeBinSelector, FilterPanel) and passes state to plugins
 
-### Current approach
-
-I suspect you have something like this:
+**Suggested evolution**: Split controls into **App-level** (dataset/plugin selection) and **Plugin-level** (everything else)
 
 ```typescript
-// DataLoader.ts - centralized, knows about all datasets
-export class DataLoader {
-  async loadAllData() {
-    // Loads everything, or specific datasets
-    const temporal = await fetch('/public/.../temporal_daily.json');
-    const directory = await fetch('/public/.../directory_stats.json');
-    // ...
-    return { temporal, directory, ... };
-  }
-}
-
-// appStore.ts - global state with all data
-interface AppState {
-  data: AllDataTypes; // Big blob
-  activePlugin: string;
-  // ...
-}
-```
-
-### Suggested evolution
-
-```typescript
-// plugins/core/PluginManifest.ts
-export interface PluginDataRequirement {
-  dataset: string; // e.g., 'temporal_daily', 'directory_stats'
-  required: boolean;
-  transform?: (raw: any) => any; // Optional plugin-specific transform
-}
-
-export interface PluginManifest {
+// src/types/plugin.ts - Enhanced plugin interface
+export interface Plugin {
   id: string;
   name: string;
   description: string;
-  dataRequirements: PluginDataRequirement[];
-  component: React.ComponentType<PluginProps>;
+  supportedDatasets: string[];
+  
+  // NEW: Plugin provides its own controls
+  renderControls?: (props: PluginControlProps) => React.ReactNode;
+  
+  // Existing render method
+  render: (props: PluginRenderProps) => React.ReactNode;
+  
+  // NEW: Plugin manages its own state
+  getInitialState?: () => Record<string, unknown>;
 }
 
-// plugins/core/PluginRegistry.ts (enhanced)
-export class PluginRegistry {
-  private plugins = new Map<string, PluginManifest>();
-
-  register(manifest: PluginManifest) {
-    this.plugins.set(manifest.id, manifest);
-  }
-
-  getDataRequirements(pluginId: string): PluginDataRequirement[] {
-    return this.plugins.get(pluginId)?.dataRequirements || [];
-  }
-}
-
-// services/data/DatasetRegistry.ts (NEW)
-export class DatasetRegistry {
-  private static datasets = {
-    temporal_daily: "/DATASETS_excalidraw/aggregations/temporal_daily.json",
-    temporal_monthly: "/DATASETS_excalidraw/aggregations/temporal_monthly.json",
-    directory_stats: "/DATASETS_excalidraw/aggregations/directory_stats.json",
-    file_index: "/DATASETS_excalidraw/metadata/file_index.json",
-    author_network: "/DATASETS_excalidraw/networks/author_network.json",
-    cochange_network: "/DATASETS_excalidraw/networks/cochange_network.json",
-    // ... all your V2 datasets
-  };
-
-  static getPath(datasetId: string): string | null {
-    return this.datasets[datasetId] || null;
-  }
-
-  static listAvailable(): string[] {
-    return Object.keys(this.datasets);
-  }
-}
-
-// services/data/PluginDataLoader.ts (NEW - replaces centralized DataLoader)
-export class PluginDataLoader {
-  private cache = new Map<string, any>();
-
-  async loadForPlugin(
-    requirements: PluginDataRequirement[]
-  ): Promise<Record<string, any>> {
-    const data: Record<string, any> = {};
-
-    for (const req of requirements) {
-      const path = DatasetRegistry.getPath(req.dataset);
-      if (!path && req.required) {
-        throw new Error(`Required dataset '${req.dataset}' not found`);
-      }
-
-      if (path) {
-        // Check cache first
-        if (!this.cache.has(req.dataset)) {
-          const response = await fetch(path);
-          const raw = await response.json();
-          this.cache.set(req.dataset, raw);
-        }
-
-        let dataset = this.cache.get(req.dataset);
-
-        // Apply plugin-specific transform if provided
-        if (req.transform) {
-          dataset = req.transform(dataset);
-        }
-
-        data[req.dataset] = dataset;
-      }
-    }
-
-    return data;
-  }
-
-  clearCache() {
-    this.cache.clear();
-  }
+export interface PluginControlProps {
+  // Plugin-specific state from store
+  state: Record<string, unknown>;
+  // Function to update plugin state
+  updateState: (updates: Record<string, unknown>) => void;
+  // Available data for controls to use
+  data: ProcessedDataset;
 }
 ```
 
-### How plugins use this
-
 ```typescript
-// plugins/timeline-heatmap/TimelineHeatmapPlugin.ts
-export const TimelineHeatmapManifest: PluginManifest = {
-  id: "timeline-heatmap",
-  name: "Timeline Heatmap",
-  description: "Daily commit activity heatmap",
-  dataRequirements: [
-    {
-      dataset: "temporal_daily",
-      required: true,
-      transform: (raw) => {
-        // Plugin-specific data shaping if needed
-        return raw.days.map((d) => ({
-          date: d.date,
-          value: d.commits,
-          files: d.files_changed,
-        }));
-      },
-    },
-  ],
-  component: TimelineHeatmapView,
-};
-
-// plugins/treemap-animation/TreemapPlugin.ts
-export const TreemapManifest: PluginManifest = {
-  id: "treemap",
-  name: "Directory Treemap",
-  description: "Hierarchical view of repository structure",
-  dataRequirements: [
-    {
-      dataset: "directory_stats",
-      required: true,
-      transform: (raw) => {
-        // Transform flat directory list into hierarchy
-        return buildHierarchy(raw.directories);
-      },
-    },
-    {
-      dataset: "file_index",
-      required: false, // Optional - for enhanced tooltips
-    },
-  ],
-  component: TreemapView,
-};
-```
-
-### What this unlocks
-
-- **Adding a new visualization takes 5 minutes**: Copy a plugin template, declare data needs, done
-- **Plugins are portable**: Each plugin is self-contained with its own data requirements
-- **No more central bottleneck**: You don't update DataLoader every time you add a visualization
-- **Smart caching**: Data is cached, multiple plugins can share datasets efficiently
-- **V2 dataset leverage**: Plugins directly consume rich, pre-computed data without transformation friction
-
-### Migration path
-
-1. **Phase 1**: Create `DatasetRegistry` and `PluginDataLoader` (no breaking changes)
-2. **Phase 2**: Enhance `PluginManifest` to include `dataRequirements`
-3. **Phase 3**: Refactor timeline-heatmap to use new pattern (proves it works)
-4. **Phase 4**: Activate treemap using new pattern (shows scalability)
-5. **Phase 5**: Deprecate old centralized DataLoader
-
----
-
-## 2. **Plugin-scoped state management**
-
-### Why this matters
-
-A single `appStore.ts` will become unwieldy as you add more plugins. Each plugin should manage its own state (filters, selections, UI state) while global state handles plugin switching and shared UI.
-
-### Current approach (assumed)
-
-```typescript
-// store/appStore.ts
+// src/store/appStore.ts - Add plugin state management
 interface AppState {
-  // Global
-  activePlugin: string;
-
-  // Timeline-specific (shouldn't be here)
-  selectedCell: CellData | null;
-  timelineFilters: FilterState;
-
-  // Treemap-specific (shouldn't be here either)
-  selectedNode: NodeData | null;
-  treemapZoomLevel: number;
-
-  // This grows unbounded as you add plugins
+  currentDataset: string | null;
+  currentPlugin: string | null;
+  
+  // NEW: Each plugin gets its own state slice
+  pluginStates: Record<string, Record<string, unknown>>;
+  
+  setPluginState: (pluginId: string, updates: Record<string, unknown>) => void;
 }
+
+export const useAppStore = create<AppState>((set) => ({
+  // ... existing state ...
+  pluginStates: {},
+  
+  setPluginState: (pluginId, updates) =>
+    set((state) => ({
+      pluginStates: {
+        ...state.pluginStates,
+        [pluginId]: {
+          ...state.pluginStates[pluginId],
+          ...updates,
+        },
+      },
+    })),
+}));
 ```
 
-### Suggested evolution
-
 ```typescript
-// store/appStore.ts (slimmed down to global concerns)
-interface AppState {
-  // Global state only
-  activePluginId: string | null;
-  availablePlugins: string[];
-  isLoading: boolean;
-  error: string | null;
-
-  // Actions
-  setActivePlugin: (id: string) => void;
-  setError: (error: string | null) => void;
-}
-
-// types/plugin.ts (enhanced)
-export interface PluginProps {
-  data: Record<string, any>; // Loaded data from requirements
-  pluginState: PluginStateHook; // Plugin-specific state management
-}
-
-export interface PluginStateHook {
-  getState: <T>() => T;
-  setState: <T>(state: T | ((prev: T) => T)) => void;
-  resetState: () => void;
-}
-
-// hooks/usePluginState.ts (NEW)
-export function usePluginState<T>(
-  pluginId: string,
-  initialState: T
-): PluginStateHook {
-  const [state, setState] = useState<T>(initialState);
-
-  useEffect(() => {
-    // Reset when plugin changes
-    const unsubscribe = useAppStore.subscribe(
-      (state) => state.activePluginId,
-      (activeId) => {
-        if (activeId !== pluginId) {
-          setState(initialState);
-        }
-      }
-    );
-    return unsubscribe;
-  }, [pluginId, initialState]);
-
-  return {
-    getState: () => state,
-    setState: setState as any,
-    resetState: () => setState(initialState),
-  };
-}
-```
-
-### How plugins use this
-
-```typescript
-// plugins/timeline-heatmap/components/TimelineHeatmapView.tsx
-interface TimelineState {
-  selectedCell: CellData | null;
-  filters: FilterConfig;
-  zoomLevel: number;
-}
-
-export function TimelineHeatmapView({ data, pluginState }: PluginProps) {
-  const state = pluginState as PluginStateHook<TimelineState>;
-  const { selectedCell, filters, zoomLevel } = state.getState();
-
-  const handleCellClick = (cell: CellData) => {
-    state.setState({ ...state.getState(), selectedCell: cell });
-  };
-
-  // Rest of component logic...
-}
-```
-
-### What this unlocks
-
-- **Clean separation**: Global concerns stay global, plugin concerns stay local
-- **No store pollution**: Adding a plugin doesn't bloat the main store
-- **Easy debugging**: Each plugin's state is isolated and inspectable
-- **Plugin independence**: Plugins can't accidentally affect each other's state
-
----
-
-## 3. **Leverage manifest.json for plugin discoverability**
-
-### Why this matters
-
-You already have `/public/DATASETS_excalidraw/manifest.json`. This file should become the **source of truth** for what data exists and what plugins are available. Make the system self-documenting.
-
-### Suggested evolution
-
-```typescript
-// public/DATASETS_excalidraw/manifest.json (enhanced)
-{
-  "version": "2.0.0",
-  "repository": "excalidraw",
-  "generated_at": "2026-01-14T16:04:33.158151+00:00",
-
-  "datasets": {
-    "temporal_daily": {
-      "path": "/aggregations/temporal_daily.json",
-      "type": "time_series",
-      "description": "Daily commit activity",
-      "size_bytes": 251392,
-      "record_count": 1384,
-      "schema": {
-        "key": "string",
-        "date": "ISO8601",
-        "commits": "integer",
-        "files_changed": "integer",
-        "unique_authors": "integer"
-      }
-    },
-    "directory_stats": {
-      "path": "/aggregations/directory_stats.json",
-      "type": "hierarchical",
-      "description": "Directory-level aggregated statistics",
-      "size_bytes": 871656,
-      "record_count": 3030
-    },
-    // ... all datasets
-  },
-
-  "suggested_visualizations": [
-    {
-      "type": "timeline",
-      "datasets": ["temporal_daily", "temporal_monthly"]
-    },
-    {
-      "type": "treemap",
-      "datasets": ["directory_stats", "file_index"]
-    },
-    {
-      "type": "network",
-      "datasets": ["author_network", "cochange_network"]
-    }
-  ]
-}
-```
-
-### What this unlocks
-
-- **Dynamic dataset loading**: Read manifest, discover what's available
-- **Validation**: Check dataset compatibility before loading
-- **Plugin suggestions**: System can suggest which plugins work with available data
-- **Documentation**: Manifest becomes living documentation of data structure
-
----
-
-# Optional Enhancements
-
-These are lower priority but will become valuable as the system matures:
-
-## 1. **Plugin lazy loading**
-
-Once you have 5+ plugins, bundle size matters. Use dynamic imports:
-
-```typescript
-// plugins/core/PluginRegistry.ts
-export interface PluginManifest {
-  // ... existing fields ...
-  loader: () => Promise<{ default: React.ComponentType<PluginProps> }>;
-}
-
-// Usage
-register({
-  id: "timeline-heatmap",
-  // ... other fields ...
-  loader: () => import("./timeline-heatmap/TimelineHeatmapView"),
-});
-```
-
-## 2. **Plugin error boundaries**
-
-Isolate plugin failures so one broken plugin doesn't crash the app:
-
-```typescript
-// components/layout/PluginContainer.tsx
-function PluginContainer({ plugin, data }: Props) {
+// src/App.tsx - Simplified to app-level concerns only
+export function App() {
+  const { currentDataset, currentPlugin, pluginStates, setPluginState } = useAppStore();
+  const plugin = currentPlugin ? PluginRegistry.getPlugin(currentPlugin) : null;
+  
+  // Data loading remains here (app-level concern)
+  const { data, loading, error } = usePluginData(currentPlugin, currentDataset);
+  
   return (
-    <ErrorBoundary fallback={<PluginErrorView pluginId={plugin.id} />}>
-      <plugin.component data={data} />
-    </ErrorBoundary>
+    <div className="app">
+      <header>
+        {/* App-level controls only */}
+        <DatasetSelector />
+        <PluginSelector />
+        
+        {/* Plugin renders its own controls */}
+        {plugin?.renderControls && data && (
+          <div className="plugin-controls">
+            {plugin.renderControls({
+              state: pluginStates[plugin.id] || plugin.getInitialState?.() || {},
+              updateState: (updates) => setPluginState(plugin.id, updates),
+              data,
+            })}
+          </div>
+        )}
+      </header>
+      
+      <main>
+        {loading && <LoadingSpinner />}
+        {error && <ErrorDisplay error={error} />}
+        {plugin && data && (
+          plugin.render({
+            data,
+            state: pluginStates[plugin.id] || plugin.getInitialState?.() || {},
+          })
+        )}
+      </main>
+    </div>
   );
 }
 ```
 
-## 3. **URL state for plugins**
+```typescript
+// src/plugins/timeline-heatmap/TimelineHeatmapPlugin.ts
+export const TimelineHeatmapPlugin: Plugin = {
+  id: 'timeline-heatmap',
+  name: 'Timeline Heatmap',
+  supportedDatasets: ['DATASETS_excalidraw'],
+  
+  getInitialState: () => ({
+    metric: 'commits' as const,
+    timeBin: 'day' as const,
+    selectedAuthors: [] as string[],
+    selectedExtensions: [] as string[],
+  }),
+  
+  // Plugin owns its controls
+  renderControls: ({ state, updateState, data }) => (
+    <div className="flex gap-4">
+      <MetricSelector
+        value={state.metric}
+        onChange={(metric) => updateState({ metric })}
+        metrics={['commits', 'events', 'authors']}
+      />
+      <TimeBinSelector
+        value={state.timeBin}
+        onChange={(timeBin) => updateState({ timeBin })}
+      />
+      <FilterPanel
+        authors={data.metadata.authors}
+        extensions={data.metadata.extensions}
+        selectedAuthors={state.selectedAuthors}
+        selectedExtensions={state.selectedExtensions}
+        onAuthorsChange={(authors) => updateState({ selectedAuthors: authors })}
+        onExtensionsChange={(ext) => updateState({ selectedExtensions: ext })}
+      />
+    </div>
+  ),
+  
+  render: ({ data, state }) => {
+    // Use state.metric, state.timeBin, etc.
+    // Existing heatmap rendering logic
+  },
+};
+```
 
-Save selected plugin and state in URL for shareability:
+**What this unlocks**:
+- **New visualizations require ZERO changes to App.tsx** - just register the plugin
+- **Plugin-specific controls** are trivial - each plugin decides what it needs
+- **No more conditional logic** - no "if heatmap show these filters, if treemap show those"
+- **Controls can be complex** - a network graph plugin could render a sophisticated node filtering UI without touching shared code
+
+**Migration path**:
+1. **Phase 1** (2-3 hours): Add `renderControls` and `getInitialState` to plugin interface, update store with `pluginStates`
+2. **Phase 2** (1 hour): Refactor TimelineHeatmapPlugin to use `renderControls`, move control rendering from App.tsx
+3. **Phase 3** (30 mins): Clean up App.tsx, remove old filter/control state
+4. **Phase 4** (ongoing): New plugins get controls "for free" - just implement `renderControls`
+
+---
+
+### 2. Extract Header Layout Control to Plugins
+
+**Why this matters**: Right now the header layout is fixed (controls in one spot). Different visualizations might want different layouts - some might want a sidebar, some might want controls at the bottom, some might want split panels. Don't force every visualization into the same UI pattern.
+
+**Current approach**: App.tsx controls header structure with fixed layout
+
+**Suggested evolution**: Let plugins define their own layout patterns
 
 ```typescript
-// hooks/usePluginFromURL.ts
-export function usePluginFromURL() {
-  const [params, setParams] = useSearchParams();
-  const pluginId = params.get("plugin") || "timeline-heatmap";
-
-  const setActivePlugin = (id: string) => {
-    setParams({ plugin: id });
+// src/types/plugin.ts
+export interface Plugin {
+  // ... existing fields ...
+  
+  // NEW: Plugin can specify layout preference
+  layoutConfig?: {
+    controlsPosition: 'header' | 'sidebar' | 'bottom' | 'custom';
+    customLayout?: (props: PluginLayoutProps) => React.ReactNode;
   };
-
-  return { pluginId, setActivePlugin };
 }
+
+export interface PluginLayoutProps {
+  controls: React.ReactNode;  // The plugin's rendered controls
+  visualization: React.ReactNode;  // The plugin's rendered viz
+}
+```
+
+```typescript
+// src/App.tsx
+export function App() {
+  // ... data loading ...
+  
+  const layout = plugin?.layoutConfig?.controlsPosition || 'header';
+  
+  const controls = plugin?.renderControls?.({ state, updateState, data });
+  const visualization = plugin?.render({ data, state });
+  
+  // Custom layout takes precedence
+  if (plugin?.layoutConfig?.customLayout) {
+    return plugin.layoutConfig.customLayout({ controls, visualization });
+  }
+  
+  // Standard layouts
+  return (
+    <div className="app">
+      {layout === 'header' && (
+        <>
+          <header>
+            <AppControls />
+            {controls}
+          </header>
+          <main>{visualization}</main>
+        </>
+      )}
+      
+      {layout === 'sidebar' && (
+        <div className="flex">
+          <aside className="w-64">
+            <AppControls />
+            {controls}
+          </aside>
+          <main className="flex-1">{visualization}</main>
+        </div>
+      )}
+      
+      {layout === 'bottom' && (
+        <>
+          <header><AppControls /></header>
+          <main>{visualization}</main>
+          <footer>{controls}</footer>
+        </>
+      )}
+    </div>
+  );
+}
+```
+
+**What this unlocks**:
+- **Network graph plugin** could use sidebar for node filtering
+- **Comparison view** could use bottom controls with split panels above
+- **Timeline heatmap** keeps current header layout (specify `controlsPosition: 'header'`)
+- **Full custom layouts** for complex multi-panel visualizations
+
+**Migration path**: 
+- Optional change - add `layoutConfig` to interface but make it optional
+- Timeline heatmap doesn't need to specify anything (defaults to 'header')
+- New plugins can opt into different layouts as needed
+
+---
+
+## Architectural Decision: Your Key Question
+
+> "Should controls be universal across all visualizations, or context-specific?"
+
+**Answer: Hybrid approach, but lean heavily toward context-specific**
+
+**Universal (App-level)**:
+- ✅ Dataset selection - all visualizations need data
+- ✅ Plugin selection - navigation between visualizations
+- ✅ Global app settings (if you add theme, etc.)
+
+**Context-Specific (Plugin-level)**:
+- ✅ Metrics (commits/events/authors) - heatmap specific
+- ✅ Time binning (day/week/month) - heatmap specific
+- ✅ Author filters - heatmap specific
+- ✅ File type filters - heatmap specific
+- ✅ Everything else plugins will need
+
+**Why this is right for your codebase**:
+1. **Your visualizations will be different** - A treemap animation doesn't need time binning. A network graph doesn't need metric selection. Forcing universal controls creates UI clutter and maintenance burden.
+
+2. **Your plugin architecture is already there** - You have the abstraction layer. Just give plugins more responsibility.
+
+3. **You'll ship visualizations faster** - No more "figure out how this fits into App.tsx filter logic" friction.
+
+4. **The heatmap proves the pattern** - It has 4 different control types. Those will NOT be universal across other visualizations. Don't pretend they will be.
+
+---
+
+## Optional Enhancements (Defer These)
+
+### Control Panel Composition
+If multiple plugins start sharing control components (e.g., everyone needs author filtering), you could create a `ControlPanelBuilder` utility:
+
+```typescript
+const controls = new ControlPanelBuilder()
+  .addMetricSelector(['commits', 'events'])
+  .addAuthorFilter(data.metadata.authors)
+  .addCustom(<MySpecialControl />)
+  .build();
+```
+
+**Don't do this yet** - wait until you have 3+ plugins sharing controls. Right now it's premature abstraction.
+
+### Shareable Control State
+If plugins need to share state (e.g., author filter selection across multiple views), add `sharedState` to store alongside `pluginStates`.
+
+**Don't do this yet** - wait until you actually need it.
+
+---
+
+## What to Keep Doing
+
+1. **Data layer separation** - `DataProcessor`, `PluginDataLoader`, `DatasetRegistry` are excellent. Don't touch these.
+
+2. **Type safety** - Your TypeScript usage is strong. Maintain those domain types.
+
+3. **Simple state management** - Zustand is perfect for this scale. Don't upgrade to Redux/MobX/etc.
+
+4. **Static data approach** - No backend is a feature, not a limitation. Keep it simple.
+
+---
+
+## Visual Structure After Refactor
+
+```
+App.tsx (20-30 lines)
+├─ Dataset Selector (universal)
+├─ Plugin Selector (universal)
+└─ Current Plugin Container
+   ├─ Plugin.renderControls() → Plugin owns its UI
+   └─ Plugin.render() → Plugin owns its viz
+
+plugins/
+├─ timeline-heatmap/
+│  ├─ TimelineHeatmapPlugin.ts (defines controls + rendering)
+│  └─ components/ (heatmap-specific components)
+├─ treemap-animation/
+│  ├─ TreemapPlugin.ts (defines its own controls)
+│  └─ components/ (treemap-specific components)
+└─ network-graph/  ← Adding this is now trivial
+   ├─ NetworkPlugin.ts (defines its own controls)
+   └─ components/ (network-specific components)
 ```
 
 ---
 
-# What to Keep Doing
+## Implementation Priority
 
-1. **Your dataset evolution strategy is excellent** - Keep moving computation upstream. The more pre-computed data you provide, the easier new visualizations become.
+**Do This First (Highest ROI)**:
+1. ✅ Add `renderControls` to plugin interface (1 hour)
+2. ✅ Add `pluginStates` to store (30 mins)
+3. ✅ Refactor TimelineHeatmapPlugin to use new pattern (2 hours)
+4. ✅ Simplify App.tsx to just app-level concerns (1 hour)
 
-2. **Component extraction discipline** - Your `/components/common` folder shows good instincts. Keep extracting reusable UI components.
+**Do This Second (High Value)**:
+5. ✅ Add `layoutConfig` to plugin interface (30 mins)
+6. ✅ Test with TreemapPlugin - verify it works for a different visualization (1 hour)
 
-3. **TypeScript typing** - You're typing your domain properly. This will prevent bugs as complexity grows.
-
----
-
-# Migration Roadmap
-
-Here's how to evolve incrementally without disrupting the working timeline heatmap:
-
-### Week 1: Foundation
-
-- [ ] Create `DatasetRegistry` (catalog of available datasets)
-- [ ] Create `PluginDataLoader` (loads data based on requirements)
-- [ ] Enhance `PluginManifest` interface (add `dataRequirements`)
-
-### Week 2: Proof of Concept
-
-- [ ] Refactor timeline-heatmap to use new data loading pattern
-- [ ] Verify everything still works (no functionality lost)
-- [ ] Add basic plugin state management hook
-
-### Week 3: Activation
-
-- [ ] Implement treemap using new pattern (shows it scales)
-- [ ] Extract plugin-scoped state from appStore
-- [ ] Document the plugin creation pattern
-
-### Week 4: Polish
-
-- [ ] Add dataset manifest parsing
-- [ ] Create plugin error boundaries
-- [ ] Add plugin selection UI improvements
+**Nice to Have (Wait Until Needed)**:
+- Control composition utilities
+- Shared state between plugins
+- Advanced layout features
 
 ---
 
-# Success Metrics
+## Final Thought: You're at the Right Inflection Point
 
-You'll know this evolution is working when:
+The transition you're making (single visualization → multi-visualization platform) is THE classic moment where architecture matters. You caught it early. Most projects realize this 5 plugins later when App.tsx is 1000 lines of spaghetti.
 
-✅ **New plugins take < 1 hour to scaffold** - From idea to working visualization
-✅ **The treemap becomes active** - If it doesn't, the pattern needs adjustment
-✅ **Adding a third plugin feels trivial** - The pattern is proven
-✅ **State management doesn't grow with plugins** - Plugin state stays isolated
-✅ **You're excited to add more visualizations** - Low friction = high momentum
+The refactor I'm suggesting isn't a rewrite - it's moving responsibility from App to plugins. You'll delete more code than you add. And when you finish, adding your 3rd, 4th, 5th visualization will take 1/10th the effort.
 
----
-
-# Final Thoughts
-
-Your codebase is at a **critical inflection point**. You have:
-
-- ✅ The right architectural foundation (plugins)
-- ✅ Rich, pre-computed datasets (V2)
-- ✅ One mature visualization (timeline heatmap)
-- ❌ Friction preventing the second visualization from activating (treemap)
-
-The recommendations above focus on **removing that friction**. Once plugins can declare "I need this data" and the system provides it automatically, you'll be able to add visualizations at a rapid pace. The V2 dataset richness you've created upstream is a **force multiplier** waiting to be unleashed - you just need to make the connection layer match that quality.
-
-You're not far from having a truly extensible platform. Focus on making the treemap active using the new pattern, and the path forward will become clear.
-
-**You're building something genuinely useful. Let's make it easier to grow.**
+**Core principle**: Make the common case (adding a new visualization) ridiculously easy. Make App.tsx boring. Let plugins be interesting.
