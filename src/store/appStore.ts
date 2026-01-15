@@ -1,15 +1,15 @@
 // src/store/appStore.ts
 
-import { create } from 'zustand';
-import { 
-  RepoMetadata, 
-  OptimizedDirectoryNode, 
+import { create } from "zustand";
+import {
+  RepoMetadata,
+  OptimizedDirectoryNode,
   ActivityMatrixItem,
-  TimeRange, 
-  TimeBinType, 
-  MetricType 
-} from '@/types/domain';
-import { FilterState } from '@/types/visualization';
+  TimeRange,
+  TimeBinType,
+  MetricType,
+} from "@/types/domain";
+import { FilterState } from "@/types/visualization";
 
 interface DataState {
   metadata: RepoMetadata | null;
@@ -35,13 +35,13 @@ interface AppState {
   // Data
   data: DataState;
   setOptimizedData: (
-    metadata: RepoMetadata, 
-    tree: OptimizedDirectoryNode, 
-    activity: ActivityMatrixItem[]
+    metadata: RepoMetadata,
+    tree: OptimizedDirectoryNode,
+    activity: ActivityMatrixItem[],
   ) => void;
   setLoading: (loading: boolean) => void;
   setError: (error: string | null) => void;
-  
+
   // Filters
   filters: FilterStateStore;
   setTimeBin: (timeBin: TimeBinType) => void;
@@ -50,7 +50,7 @@ interface AppState {
   toggleAuthor: (author: string) => void;
   toggleFileType: (type: string) => void;
   clearFilters: () => void;
-  
+
   // UI
   ui: UIState;
   setActivePlugin: (pluginId: string) => void;
@@ -67,22 +67,29 @@ export const useAppStore = create<AppState>((set) => ({
     loading: false,
     error: null,
   },
-  
+
   setOptimizedData: (metadata, tree, activity) =>
     set((state) => ({
-      data: { ...state.data, metadata, tree, activity, loading: false, error: null },
+      data: {
+        ...state.data,
+        metadata,
+        tree,
+        activity,
+        loading: false,
+        error: null,
+      },
     })),
-  
+
   setLoading: (loading) =>
     set((state) => ({
       data: { ...state.data, loading },
     })),
-  
+
   setError: (error) =>
     set((state) => ({
       data: { ...state.data, error, loading: false },
     })),
-  
+
   // Filter state
   filters: {
     authors: new Set(),
@@ -90,25 +97,25 @@ export const useAppStore = create<AppState>((set) => ({
     fileTypes: new Set(),
     eventTypes: new Set(),
     timeRange: null,
-    timeBin: 'week',
-    metric: 'commits',
+    timeBin: "week",
+    metric: "commits",
   },
-  
+
   setTimeBin: (timeBin) =>
     set((state) => ({
       filters: { ...state.filters, timeBin },
     })),
-  
+
   setMetric: (metric) =>
     set((state) => ({
       filters: { ...state.filters, metric },
     })),
-  
+
   setTimeRange: (timeRange) =>
     set((state) => ({
       filters: { ...state.filters, timeRange },
     })),
-  
+
   toggleAuthor: (author) =>
     set((state) => {
       const authors = new Set(state.filters.authors);
@@ -119,7 +126,7 @@ export const useAppStore = create<AppState>((set) => ({
       }
       return { filters: { ...state.filters, authors } };
     }),
-  
+
   toggleFileType: (type) =>
     set((state) => {
       const fileTypes = new Set(state.filters.fileTypes);
@@ -130,7 +137,7 @@ export const useAppStore = create<AppState>((set) => ({
       }
       return { filters: { ...state.filters, fileTypes } };
     }),
-  
+
   clearFilters: () =>
     set((state) => ({
       filters: {
@@ -141,7 +148,7 @@ export const useAppStore = create<AppState>((set) => ({
         eventTypes: new Set(),
       },
     })),
-  
+
   // UI state
   ui: {
     activePluginId: null,
@@ -149,17 +156,17 @@ export const useAppStore = create<AppState>((set) => ({
     showFilters: false,
     collapsedDirs: new Set(),
   },
-  
+
   setActivePlugin: (pluginId) =>
     set((state) => ({
       ui: { ...state.ui, activePluginId: pluginId },
     })),
-  
+
   setSelectedCell: (cell) =>
     set((state) => ({
       ui: { ...state.ui, selectedCell: cell },
     })),
-  
+
   setShowFilters: (show) =>
     set((state) => ({
       ui: { ...state.ui, showFilters: show },

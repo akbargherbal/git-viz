@@ -1,6 +1,6 @@
 // src/services/data/PluginDataLoader.ts
 
-import { DatasetRegistry } from './DatasetRegistry';
+import { DatasetRegistry } from "./DatasetRegistry";
 
 /**
  * Plugin data requirement specification
@@ -34,7 +34,7 @@ export class PluginDataLoaderClass {
    * Load datasets required by a plugin
    */
   async loadForPlugin(
-    requirements: PluginDataRequirement[]
+    requirements: PluginDataRequirement[],
   ): Promise<PluginDataLoadResult> {
     const result: PluginDataLoadResult = {
       success: true,
@@ -45,12 +45,12 @@ export class PluginDataLoaderClass {
 
     // Validate all required datasets exist in registry
     const validation = DatasetRegistry.validateDatasets(
-      requirements.map((req) => req.dataset)
+      requirements.map((req) => req.dataset),
     );
 
     if (!validation.valid) {
       result.errors.push(
-        `Missing datasets in registry: ${validation.missing.join(', ')}`
+        `Missing datasets in registry: ${validation.missing.join(", ")}`,
       );
     }
 
@@ -110,7 +110,9 @@ export class PluginDataLoaderClass {
 
     // If already loading, return the existing promise
     if (this.loadingPromises.has(datasetId)) {
-      console.log(`[PluginDataLoader] Waiting for in-flight load: ${datasetId}`);
+      console.log(
+        `[PluginDataLoader] Waiting for in-flight load: ${datasetId}`,
+      );
       return this.loadingPromises.get(datasetId);
     }
 
@@ -148,7 +150,7 @@ export class PluginDataLoaderClass {
 
     if (!response.ok) {
       throw new Error(
-        `Failed to fetch ${datasetId}: ${response.status} ${response.statusText}`
+        `Failed to fetch ${datasetId}: ${response.status} ${response.statusText}`,
       );
     }
 
@@ -159,7 +161,9 @@ export class PluginDataLoaderClass {
    * Preload multiple datasets (for performance optimization)
    */
   async preloadDatasets(datasetIds: string[]): Promise<void> {
-    console.log(`[PluginDataLoader] Preloading ${datasetIds.length} datasets...`);
+    console.log(
+      `[PluginDataLoader] Preloading ${datasetIds.length} datasets...`,
+    );
 
     const loadPromises = datasetIds.map((id) => {
       // Only load if not already cached
@@ -180,7 +184,7 @@ export class PluginDataLoaderClass {
    */
   clearCache(): void {
     console.log(
-      `[PluginDataLoader] Clearing cache (${this.cache.size} datasets)`
+      `[PluginDataLoader] Clearing cache (${this.cache.size} datasets)`,
     );
     this.cache.clear();
     this.loadingPromises.clear();
@@ -237,12 +241,12 @@ export class PluginDataLoaderClass {
         if (match) {
           const value = parseFloat(match[1]);
           const unit = match[2].toUpperCase();
-          
-          if (unit === 'KB') {
+
+          if (unit === "KB") {
             totalEstimate += value;
-          } else if (unit === 'MB') {
+          } else if (unit === "MB") {
             totalEstimate += value * 1024;
-          } else if (unit === 'GB') {
+          } else if (unit === "GB") {
             totalEstimate += value * 1024 * 1024;
           }
         }
@@ -263,7 +267,7 @@ export class PluginDataLoaderClass {
    */
   async loadMultiple(datasetIds: string[]): Promise<Record<string, any>> {
     const results: Record<string, any> = {};
-    
+
     const loadPromises = datasetIds.map(async (id) => {
       try {
         results[id] = await this.loadDataset(id);
@@ -283,13 +287,13 @@ export class PluginDataLoaderClass {
    */
   async warmupCache(
     commonDatasets: string[] = [
-      'file_lifecycle',
-      'directory_stats',
-      'file_index',
-      'temporal_daily',
-    ]
+      "file_lifecycle",
+      "directory_stats",
+      "file_index",
+      "temporal_daily",
+    ],
   ): Promise<void> {
-    console.log('[PluginDataLoader] Warming up cache...');
+    console.log("[PluginDataLoader] Warming up cache...");
     await this.preloadDatasets(commonDatasets);
   }
 }

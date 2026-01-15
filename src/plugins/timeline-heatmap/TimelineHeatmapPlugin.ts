@@ -45,7 +45,7 @@ interface HeatmapData {
 function getContrastingTextColor(
   hue: number,
   saturation: number,
-  lightness: number
+  lightness: number,
 ): string {
   const luminance = lightness / 100;
   let threshold = 0.5;
@@ -56,9 +56,10 @@ function getContrastingTextColor(
   return luminance > threshold ? "#000000" : "#ffffff";
 }
 
-export class TimelineHeatmapPlugin
-  implements VisualizationPlugin<HeatmapConfig, HeatmapData>
-{
+export class TimelineHeatmapPlugin implements VisualizationPlugin<
+  HeatmapConfig,
+  HeatmapData
+> {
   metadata = {
     id: "timeline-heatmap",
     name: "Timeline Heatmap",
@@ -97,7 +98,7 @@ export class TimelineHeatmapPlugin
     const idToPath = new Map<number, string>();
     const traverse = (node: OptimizedDirectoryNode) => {
       if (node.type === "directory") {
-        idToPath.set(node.id, node.path); 
+        idToPath.set(node.id, node.path);
         node.children?.forEach(traverse);
       }
     };
@@ -110,7 +111,7 @@ export class TimelineHeatmapPlugin
       topDirectories = metadata.directory_stats
         .sort((a, b) => b.activity_score - a.activity_score)
         .slice(0, topN)
-        .map(d => d.path);
+        .map((d) => d.path);
     } else {
       const dirActivity = new Map<string, number>();
       activity.forEach((item) => {
@@ -127,11 +128,14 @@ export class TimelineHeatmapPlugin
     }
 
     // 3. Aggregate Activity for Selected Directories
-    interface TempCell extends Omit<HeatmapCell, 'topContributors' | 'topFiles'> {
+    interface TempCell extends Omit<
+      HeatmapCell,
+      "topContributors" | "topFiles"
+    > {
       contributorsSet: Set<string>;
       filesSet: Set<string>;
     }
-    
+
     const cellMap = new Map<string, TempCell>();
     const timeBinsSet = new Set<number>();
     const topDirsSet = new Set(topDirectories);
@@ -158,20 +162,20 @@ export class TimelineHeatmapPlugin
           modifications: 0,
           value: 0,
           contributorsSet: new Set(),
-          filesSet: new Set()
+          filesSet: new Set(),
         });
       }
 
       const cell = cellMap.get(key)!;
-      cell.events += (item.a + item.m + item.del);
+      cell.events += item.a + item.m + item.del;
       cell.commits += item.c;
       cell.creations += item.a;
       cell.deletions += item.del;
       cell.modifications += item.m;
       cell.authors = Math.max(cell.authors, item.au);
-      
-      if (item.tc) item.tc.forEach(c => cell.contributorsSet.add(c));
-      if (item.tf) item.tf.forEach(f => cell.filesSet.add(f));
+
+      if (item.tc) item.tc.forEach((c) => cell.contributorsSet.add(c));
+      if (item.tf) item.tf.forEach((f) => cell.filesSet.add(f));
     });
 
     // 4. Sort Time Bins
@@ -186,7 +190,7 @@ export class TimelineHeatmapPlugin
       return timeBins.map((bin) => {
         const key = `${dir}|${bin.getTime()}`;
         const tempCell = cellMap.get(key);
-        
+
         const cell: HeatmapCell = {
           directory: dir,
           timeBin: bin,
@@ -197,14 +201,23 @@ export class TimelineHeatmapPlugin
           deletions: tempCell ? tempCell.deletions : 0,
           modifications: tempCell ? tempCell.modifications : 0,
           value: 0,
-          topContributors: tempCell ? Array.from(tempCell.contributorsSet).slice(0, 5) : [],
-          topFiles: tempCell ? Array.from(tempCell.filesSet).slice(0, 5) : []
+          topContributors: tempCell
+            ? Array.from(tempCell.contributorsSet).slice(0, 5)
+            : [],
+          topFiles: tempCell ? Array.from(tempCell.filesSet).slice(0, 5) : [],
         };
 
         switch (metric) {
-          case "authors": cell.value = cell.authors; break;
-          case "commits": cell.value = cell.commits; break;
-          case "events": default: cell.value = cell.events; break;
+          case "authors":
+            cell.value = cell.authors;
+            break;
+          case "commits":
+            cell.value = cell.commits;
+            break;
+          case "events":
+          default:
+            cell.value = cell.events;
+            break;
         }
 
         maxValue = Math.max(maxValue, cell.value);
@@ -325,7 +338,8 @@ export class TimelineHeatmapPlugin
         if (cell.creations > 0) td.style.borderBottom = "2px solid green";
         if (cell.deletions > 0) td.style.borderTop = "2px solid red";
 
-        td.title = `${dir}\n${formatTimeBin(cell.timeBin, config.timeBin)}\n` +
+        td.title =
+          `${dir}\n${formatTimeBin(cell.timeBin, config.timeBin)}\n` +
           `${config.metric}: ${value}\n` +
           `(+${cell.creations} -${cell.deletions} ~${cell.modifications})`;
 
@@ -354,6 +368,10 @@ export class TimelineHeatmapPlugin
   destroy() {
     if (this.container) this.container.innerHTML = "";
   }
-  async exportImage() { return new Blob(); }
-  exportData() { return {}; }
+  async exportImage() {
+    return new Blob();
+  }
+  exportData() {
+    return {};
+  }
 }

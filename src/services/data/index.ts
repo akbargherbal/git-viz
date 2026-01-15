@@ -4,11 +4,11 @@ export {
   DatasetRegistry,
   DatasetRegistryClass,
   type DatasetDefinition,
-} from './DatasetRegistry';
+} from "./DatasetRegistry";
 
 export {
   PluginDataLoader,
   PluginDataLoaderClass,
   type PluginDataRequirement,
   type PluginDataLoadResult,
-} from './PluginDataLoader';
+} from "./PluginDataLoader";

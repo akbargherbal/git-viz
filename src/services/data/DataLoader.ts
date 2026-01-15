@@ -100,7 +100,7 @@ export class DataLoader {
 
   async loadOptimizedDataset(
     baseUrl: string = "/DATASETS_excalidraw",
-    onProgress?: (progress: LoadProgress) => void
+    onProgress?: (progress: LoadProgress) => void,
   ): Promise<OptimizedDataset> {
     const startTime = performance.now();
 
@@ -111,19 +111,19 @@ export class DataLoader {
         await Promise.all([
           this.fetchJson<RawLifecycleData>(
             `${baseUrl}/file_lifecycle.json`,
-            "File Lifecycle"
+            "File Lifecycle",
           ),
           this.fetchJson<V2AuthorNetwork>(
             `${baseUrl}/networks/author_network.json`,
-            "Author Network"
+            "Author Network",
           ),
           this.fetchJson<V2FileIndex>(
             `${baseUrl}/metadata/file_index.json`,
-            "File Index"
+            "File Index",
           ),
           this.fetchJson<V2DirectoryStats>(
             `${baseUrl}/aggregations/directory_stats.json`,
-            "Directory Stats"
+            "Directory Stats",
           ),
         ]);
 
@@ -141,7 +141,7 @@ export class DataLoader {
         lifecycleData,
         authorNetwork,
         fileIndex,
-        dirStats
+        dirStats,
       );
 
       const totalTime = performance.now() - startTime;
@@ -165,7 +165,7 @@ export class DataLoader {
       this.rawData.authorNetwork,
       this.rawData.fileIndex,
       this.rawData.dirStats,
-      filters
+      filters,
     );
   }
 
@@ -174,7 +174,7 @@ export class DataLoader {
     authorNetwork: V2AuthorNetwork,
     fileIndex: V2FileIndex,
     dirStats: V2DirectoryStats,
-    filters?: FilterState
+    filters?: FilterState,
   ): OptimizedDataset {
     // Helper to check file filters
     const isFileVisible = (filePath: string): boolean => {
@@ -220,14 +220,14 @@ export class DataLoader {
 
     const getOrCreateDir = (
       pathParts: string[],
-      parent: OptimizedDirectoryNode
+      parent: OptimizedDirectoryNode,
     ): OptimizedDirectoryNode => {
       if (pathParts.length === 0) return parent;
       const currentName = pathParts[0];
       const remainingParts = pathParts.slice(1);
 
       let child = parent.children?.find(
-        (c) => c.name === currentName && c.type === "directory"
+        (c) => c.name === currentName && c.type === "directory",
       );
 
       if (!child) {
@@ -300,11 +300,13 @@ export class DataLoader {
       fileStats[path] = {
         path,
         total_commits: stats.total_commits,
-        primary_author: stats.primary_author ? {
-          email: stats.primary_author.email,
-          percentage: stats.primary_author.percentage
-        } : undefined,
-        last_modified: stats.last_modified
+        primary_author: stats.primary_author
+          ? {
+              email: stats.primary_author.email,
+              percentage: stats.primary_author.percentage,
+            }
+          : undefined,
+        last_modified: stats.last_modified,
       };
     });
 
@@ -388,11 +390,11 @@ export class DataLoader {
         const entry = activityMap.get(key)!;
         entry.authors.set(
           event.author_name,
-          (entry.authors.get(event.author_name) || 0) + 1
+          (entry.authors.get(event.author_name) || 0) + 1,
         );
         entry.fileCounts.set(
           fileName,
-          (entry.fileCounts.get(fileName) || 0) + 1
+          (entry.fileCounts.get(fileName) || 0) + 1,
         );
         entry.commits.add(event.commit_hash);
 
@@ -419,7 +421,7 @@ export class DataLoader {
           .sort((a: any, b: any) => b[1] - a[1])
           .slice(0, 3)
           .map((e: any) => e[0]),
-      })
+      }),
     );
 
     return { metadata, tree: root, activity };

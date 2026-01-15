@@ -49,7 +49,7 @@ const App: React.FC = () => {
   } = useAppStore();
 
   // Check for active filters
-  const hasActiveFilters = 
+  const hasActiveFilters =
     filters.authors.size > 0 ||
     filters.directories.size > 0 ||
     filters.fileTypes.size > 0 ||
@@ -95,13 +95,13 @@ const App: React.FC = () => {
         setLoading(true);
         const dataset = await dataLoader.loadOptimizedDataset(
           "/DATASETS_excalidraw",
-          (progress) => setLoadingProgress(progress)
+          (progress) => setLoadingProgress(progress),
         );
         setOptimizedData(dataset.metadata, dataset.tree, dataset.activity);
       } catch (error) {
         console.error("Error loading data:", error);
         setError(
-          error instanceof Error ? error.message : "Failed to load data"
+          error instanceof Error ? error.message : "Failed to load data",
         );
       }
     };
@@ -118,7 +118,7 @@ const App: React.FC = () => {
       setOptimizedData(
         filteredDataset.metadata,
         filteredDataset.tree,
-        filteredDataset.activity
+        filteredDataset.activity,
       );
     } catch (error) {
       console.error("Error applying filters:", error);
@@ -167,7 +167,7 @@ const App: React.FC = () => {
           tree: data.tree,
           activity: data.activity,
         },
-        config
+        config,
       );
 
       activePlugin.init(containerRef.current, config);
@@ -180,7 +180,7 @@ const App: React.FC = () => {
       setError(
         error instanceof Error
           ? error.message
-          : "Failed to render visualization"
+          : "Failed to render visualization",
       );
     }
 
@@ -263,8 +263,8 @@ const App: React.FC = () => {
                   ui.showFilters
                     ? "bg-purple-600 text-white shadow-lg shadow-purple-900/20"
                     : hasActiveFilters
-                    ? "bg-zinc-800 text-purple-400 ring-1 ring-purple-500/50 hover:bg-zinc-700 hover:text-purple-300"
-                    : "bg-zinc-800 text-zinc-400 hover:text-white hover:bg-zinc-700"
+                      ? "bg-zinc-800 text-purple-400 ring-1 ring-purple-500/50 hover:bg-zinc-700 hover:text-purple-300"
+                      : "bg-zinc-800 text-zinc-400 hover:text-white hover:bg-zinc-700"
                 }`}
                 title={hasActiveFilters ? "Filters Active" : "Filters"}
               >

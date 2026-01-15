@@ -11,7 +11,7 @@ interface UseScrollIndicatorsOptions {
 
 export const useScrollIndicators = (
   ref: RefObject<HTMLElement>,
-  options: UseScrollIndicatorsOptions = {}
+  options: UseScrollIndicatorsOptions = {},
 ) => {
   const {
     enableDrag = false,
@@ -104,7 +104,7 @@ export const useScrollIndicators = (
       // Force immediate check after scroll is initiated
       setTimeout(() => checkScrollability(), 50);
     },
-    [ref, checkScrollability]
+    [ref, checkScrollability],
   );
 
   // Use LayoutEffect to attach listeners immediately after DOM updates

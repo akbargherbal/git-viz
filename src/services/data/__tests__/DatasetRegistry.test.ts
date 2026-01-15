@@ -7,13 +7,13 @@ describe("DatasetRegistry", () => {
   it("should return correct paths for existing datasets", () => {
     // Verify critical paths that were previously broken
     expect(DatasetRegistry.getPath("file_lifecycle")).toBe(
-      "/DATASETS_excalidraw/file_lifecycle.json"
+      "/DATASETS_excalidraw/file_lifecycle.json",
     );
     expect(DatasetRegistry.getPath("file_index")).toBe(
-      "/DATASETS_excalidraw/metadata/file_index.json"
+      "/DATASETS_excalidraw/metadata/file_index.json",
     );
     expect(DatasetRegistry.getPath("release_snapshots")).toBe(
-      "/DATASETS_excalidraw/milestones/release_snapshots.json"
+      "/DATASETS_excalidraw/milestones/release_snapshots.json",
     );
   });
 

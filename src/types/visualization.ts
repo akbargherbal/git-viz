@@ -22,7 +22,7 @@ export interface FilterState {
 }
 
 export interface ExportOptions {
-  format: 'png' | 'svg' | 'json' | 'csv';
+  format: "png" | "svg" | "json" | "csv";
   filename?: string;
   includeMetadata?: boolean;
 }

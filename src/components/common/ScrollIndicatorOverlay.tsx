@@ -1,7 +1,12 @@
 // src/components/common/ScrollIndicatorOverlay.tsx
 
-import React, { useRef, useEffect, useCallback } from 'react';
-import { ChevronLeft, ChevronRight, ChevronUp, ChevronDown } from 'lucide-react';
+import React, { useRef, useEffect, useCallback } from "react";
+import {
+  ChevronLeft,
+  ChevronRight,
+  ChevronUp,
+  ChevronDown,
+} from "lucide-react";
 
 interface ScrollIndicatorOverlayProps {
   state: {
@@ -14,7 +19,10 @@ interface ScrollIndicatorOverlayProps {
     isHoveringTop: boolean;
     isHoveringBottom: boolean;
   };
-  onScroll: (direction: 'left' | 'right' | 'up' | 'down', amount?: number) => void;
+  onScroll: (
+    direction: "left" | "right" | "up" | "down",
+    amount?: number,
+  ) => void;
 }
 
 export const ScrollIndicatorOverlay: React.FC<ScrollIndicatorOverlayProps> = ({
@@ -22,19 +30,24 @@ export const ScrollIndicatorOverlay: React.FC<ScrollIndicatorOverlayProps> = ({
   onScroll,
 }) => {
   const scrollIntervalRef = useRef<NodeJS.Timeout | null>(null);
-  const scrollDirectionRef = useRef<'left' | 'right' | 'up' | 'down' | null>(null);
+  const scrollDirectionRef = useRef<"left" | "right" | "up" | "down" | null>(
+    null,
+  );
 
   // Continuous scroll on hold
-  const startContinuousScroll = useCallback((direction: 'left' | 'right' | 'up' | 'down') => {
-    onScroll(direction, 200);
-    scrollDirectionRef.current = direction;
-    
-    scrollIntervalRef.current = setInterval(() => {
-      if (scrollDirectionRef.current) {
-        onScroll(scrollDirectionRef.current, 200);
-      }
-    }, 150);
-  }, [onScroll]);
+  const startContinuousScroll = useCallback(
+    (direction: "left" | "right" | "up" | "down") => {
+      onScroll(direction, 200);
+      scrollDirectionRef.current = direction;
+
+      scrollIntervalRef.current = setInterval(() => {
+        if (scrollDirectionRef.current) {
+          onScroll(scrollDirectionRef.current, 200);
+        }
+      }, 150);
+    },
+    [onScroll],
+  );
 
   const stopContinuousScroll = useCallback(() => {
     if (scrollIntervalRef.current) {
@@ -53,8 +66,8 @@ export const ScrollIndicatorOverlay: React.FC<ScrollIndicatorOverlayProps> = ({
   }, []);
 
   const baseClasses =
-    'absolute z-50 flex items-center justify-center transition-all duration-300 cursor-pointer select-none';
-  
+    "absolute z-50 flex items-center justify-center transition-all duration-300 cursor-pointer select-none";
+
   /**
    * FIXED: 3-STATE LOGIC with proper visibility control
    * State A: Hidden - when scrolling is not available in this direction
@@ -64,16 +77,16 @@ export const ScrollIndicatorOverlay: React.FC<ScrollIndicatorOverlayProps> = ({
   const getClasses = (isHovering: boolean, canScroll: boolean) => {
     // State A: Unavailable (Completely Hidden)
     if (!canScroll) {
-      return 'opacity-0 scale-75 pointer-events-none';
+      return "opacity-0 scale-75 pointer-events-none";
     }
-    
+
     // State C: Active (Hover / "Ready")
     if (isHovering) {
-      return 'opacity-100 bg-purple-600/95 text-white shadow-2xl shadow-purple-900/50 border-purple-400 scale-110 border-2 backdrop-blur-md';
+      return "opacity-100 bg-purple-600/95 text-white shadow-2xl shadow-purple-900/50 border-purple-400 scale-110 border-2 backdrop-blur-md";
     }
-    
+
     // State B: Available (Passive / "Ghost")
-    return 'opacity-40 bg-zinc-800/60 text-zinc-300 border-zinc-600/70 hover:opacity-80 hover:scale-105 scale-100 border backdrop-blur-sm';
+    return "opacity-40 bg-zinc-800/60 text-zinc-300 border-zinc-600/70 hover:opacity-80 hover:scale-105 scale-100 border backdrop-blur-sm";
   };
 
   return (
@@ -90,10 +103,10 @@ export const ScrollIndicatorOverlay: React.FC<ScrollIndicatorOverlayProps> = ({
           rounded-xl
           ${getClasses(state.isHoveringLeft, state.canScrollLeft)}
         `}
-        style={{ 
-          pointerEvents: state.canScrollLeft ? 'auto' : 'none',
+        style={{
+          pointerEvents: state.canScrollLeft ? "auto" : "none",
         }}
-        onMouseDown={() => startContinuousScroll('left')}
+        onMouseDown={() => startContinuousScroll("left")}
         onMouseUp={stopContinuousScroll}
         onMouseLeave={stopContinuousScroll}
         aria-label="Scroll left"
@@ -115,10 +128,10 @@ export const ScrollIndicatorOverlay: React.FC<ScrollIndicatorOverlayProps> = ({
           rounded-xl
           ${getClasses(state.isHoveringRight, state.canScrollRight)}
         `}
-        style={{ 
-          pointerEvents: state.canScrollRight ? 'auto' : 'none',
+        style={{
+          pointerEvents: state.canScrollRight ? "auto" : "none",
         }}
-        onMouseDown={() => startContinuousScroll('right')}
+        onMouseDown={() => startContinuousScroll("right")}
         onMouseUp={stopContinuousScroll}
         onMouseLeave={stopContinuousScroll}
         aria-label="Scroll right"
@@ -140,10 +153,10 @@ export const ScrollIndicatorOverlay: React.FC<ScrollIndicatorOverlayProps> = ({
           rounded-xl
           ${getClasses(state.isHoveringTop, state.canScrollTop)}
         `}
-        style={{ 
-          pointerEvents: state.canScrollTop ? 'auto' : 'none',
+        style={{
+          pointerEvents: state.canScrollTop ? "auto" : "none",
         }}
-        onMouseDown={() => startContinuousScroll('up')}
+        onMouseDown={() => startContinuousScroll("up")}
         onMouseUp={stopContinuousScroll}
         onMouseLeave={stopContinuousScroll}
         aria-label="Scroll up"
@@ -165,10 +178,10 @@ export const ScrollIndicatorOverlay: React.FC<ScrollIndicatorOverlayProps> = ({
           rounded-xl
           ${getClasses(state.isHoveringBottom, state.canScrollBottom)}
         `}
-        style={{ 
-          pointerEvents: state.canScrollBottom ? 'auto' : 'none',
+        style={{
+          pointerEvents: state.canScrollBottom ? "auto" : "none",
         }}
-        onMouseDown={() => startContinuousScroll('down')}
+        onMouseDown={() => startContinuousScroll("down")}
         onMouseUp={stopContinuousScroll}
         onMouseLeave={stopContinuousScroll}
         aria-label="Scroll down"

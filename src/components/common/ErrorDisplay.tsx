@@ -1,14 +1,17 @@
 // src/components/common/ErrorDisplay.tsx
 
-import React from 'react';
-import { X } from 'lucide-react';
+import React from "react";
+import { X } from "lucide-react";
 
 interface ErrorDisplayProps {
   error: string;
   onDismiss?: () => void;
 }
 
-export const ErrorDisplay: React.FC<ErrorDisplayProps> = ({ error, onDismiss }) => {
+export const ErrorDisplay: React.FC<ErrorDisplayProps> = ({
+  error,
+  onDismiss,
+}) => {
   return (
     <div className="flex items-center justify-center h-full p-8">
       <div className="bg-red-950/50 border border-red-800 rounded-lg p-6 max-w-md">
