@@ -72,10 +72,39 @@ export interface PluginProps<TConfig = any, TData = any> {
 }
 
 /**
+ * PHASE 1 ADDITION: Props passed to plugin control rendering
+ * Enables plugins to own their control UI and state management
+ */
+export interface PluginControlProps<TState = Record<string, unknown>> {
+  /** Current plugin state (managed by store) */
+  state: TState;
+  
+  /** Update function for plugin state (merges updates) */
+  updateState: (updates: Partial<TState>) => void;
+  
+  /** Processed data available to the plugin */
+  data: any;
+  
+  /** Plugin configuration */
+  config?: any;
+}
+
+/**
+ * PHASE 1 ADDITION: Layout configuration for plugin controls
+ * Allows plugins to specify where their controls should be positioned
+ */
+export interface PluginLayoutConfig {
+  /** Position of plugin controls in the UI */
+  controlsPosition: 'header' | 'sidebar' | 'bottom';
+}
+
+/**
  * Main visualization plugin interface
  * Supports both legacy direct data access and new declarative data loading
+ * 
+ * PHASE 1 EXTENSION: Added optional methods for self-contained control management
  */
-export interface VisualizationPlugin<TConfig = any, TData = any> {
+export interface VisualizationPlugin<TConfig = any, TData = any, TState = Record<string, unknown>> {
   metadata: EnhancedPluginMetadata;
 
   // Configuration
@@ -100,15 +129,46 @@ export interface VisualizationPlugin<TConfig = any, TData = any> {
     config: TConfig;
     onChange: (config: TConfig) => void;
   }>;
+
+  // PHASE 1 ADDITIONS: Optional methods for plugin control ownership
+  
+  /**
+   * Render custom controls for this plugin
+   * If not provided, app will render universal controls (backward compatible)
+   * 
+   * @param props - Control rendering props including state and update callback
+   * @returns React element to render in the control area
+   */
+  renderControls?: (props: PluginControlProps<TState>) => React.ReactNode;
+  
+  /**
+   * Get initial state for this plugin
+   * Called when plugin is first activated or when state is missing
+   * 
+   * @returns Initial state object for the plugin
+   */
+  getInitialState?: () => TState;
+  
+  /**
+   * Layout configuration for this plugin
+   * Specifies where controls should be positioned in the UI
+   * If not provided, defaults to 'header' layout
+   */
+  layoutConfig?: PluginLayoutConfig;
 }
 
 /**
- * Plugin registry interface
+ * Type guard to check if a plugin supports the new control ownership pattern
  */
-export interface PluginRegistry {
-  plugins: Map<string, VisualizationPlugin>;
-  register(plugin: VisualizationPlugin): void;
-  unregister(id: string): void;
-  get(id: string): VisualizationPlugin | undefined;
-  getAll(): VisualizationPlugin[];
+export function supportsControlOwnership(
+  plugin: VisualizationPlugin<any, any, any>
+): plugin is VisualizationPlugin<any, any, any> & Required<Pick<VisualizationPlugin, 'renderControls'>> {
+  return typeof plugin.renderControls === 'function';
+}
+
+/**
+ * Helper to get plugin layout configuration with sensible defaults
+ */
+export function getPluginLayout(plugin: VisualizationPlugin<any, any, any>): PluginLayoutConfig {
+  return plugin.layoutConfig || { controlsPosition: 'header' };
 }

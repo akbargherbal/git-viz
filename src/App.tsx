@@ -1,6 +1,6 @@
 // src/App.tsx
 
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState, useMemo } from "react";
 import { Filter } from "lucide-react";
 import { PluginRegistry } from "@/plugins/core/PluginRegistry";
 import { TimelineHeatmapPlugin } from "@/plugins/timeline-heatmap/TimelineHeatmapPlugin";
@@ -19,6 +19,7 @@ import { CellDetailPanel } from "@/plugins/timeline-heatmap/components/CellDetai
 import { useScrollIndicators } from "@/hooks/useScrollIndicators";
 import { LoadProgress } from "@/services/data/types";
 import type { VisualizationPlugin } from "@/types/plugin";
+import { supportsControlOwnership } from "@/types/plugin";
 
 const App: React.FC = () => {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -48,6 +49,10 @@ const App: React.FC = () => {
     setShowFilters,
     setSelectedCell,
     filters,
+    // PHASE 1: Plugin state management
+    pluginStates,
+    setPluginState,
+    initPluginState,
   } = useAppStore();
 
   // Check for active filters
@@ -89,6 +94,17 @@ const App: React.FC = () => {
       PluginRegistry.clear();
     };
   }, []);
+
+  // PHASE 1: Initialize plugin state when plugin changes
+  useEffect(() => {
+    if (!ui.activePluginId || !activePlugin) return;
+
+    // If plugin supports control ownership and has getInitialState
+    if (supportsControlOwnership(activePlugin) && activePlugin.getInitialState) {
+      const initialState = activePlugin.getInitialState();
+      initPluginState(ui.activePluginId, initialState);
+    }
+  }, [ui.activePluginId, activePlugin, initPluginState]);
 
   // Load data based on Active Plugin
   useEffect(() => {
@@ -223,6 +239,40 @@ const App: React.FC = () => {
     containerRef.current,
   ]);
 
+  // PHASE 1: Determine if plugin uses new control ownership pattern
+  const usesPluginControls = useMemo(() => {
+    return activePlugin && supportsControlOwnership(activePlugin);
+  }, [activePlugin]);
+
+  // PHASE 1: Get plugin state for active plugin
+  const currentPluginState = useMemo(() => {
+    if (!ui.activePluginId) return {};
+    return pluginStates[ui.activePluginId] || {};
+  }, [ui.activePluginId, pluginStates]);
+
+  // PHASE 1: Plugin state update callback
+  const updatePluginState = (updates: Record<string, unknown>) => {
+    if (ui.activePluginId) {
+      setPluginState(ui.activePluginId, updates);
+    }
+  };
+
+  // PHASE 1: Render plugin controls if available
+  const renderPluginControls = () => {
+    if (!activePlugin || !usesPluginControls) return null;
+
+    return activePlugin.renderControls?.({
+      state: currentPluginState,
+      updateState: updatePluginState,
+      data: {
+        metadata: data.metadata,
+        tree: data.tree,
+        activity: data.activity,
+      },
+      config: activePlugin.defaultConfig,
+    });
+  };
+
   if (data.loading) {
     return (
       <div className="h-screen bg-zinc-950 text-white flex items-center justify-center">
@@ -278,8 +328,20 @@ const App: React.FC = () => {
             </div>
 
             <div className="flex items-center gap-2 flex-shrink-0">
-              <TimeBinSelector />
-              <MetricSelector />
+              {/* PHASE 1: Dual Mode Control Rendering */}
+              {usesPluginControls ? (
+                // New pattern: Plugin owns its controls
+                <div className="flex items-center gap-2">
+                  {renderPluginControls()}
+                </div>
+              ) : (
+                // Legacy pattern: Universal controls
+                <>
+                  <TimeBinSelector />
+                  <MetricSelector />
+                </>
+              )}
+
               <div className="h-8 w-px bg-zinc-800"></div>
 
               <button

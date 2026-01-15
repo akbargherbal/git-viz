@@ -56,9 +56,49 @@ interface AppState {
   setActivePlugin: (pluginId: string) => void;
   setSelectedCell: (cell: any | null) => void;
   setShowFilters: (show: boolean) => void;
+
+  // PHASE 1 ADDITION: Plugin State Management
+  /**
+   * Per-plugin state storage
+   * Key: plugin ID, Value: plugin-specific state object
+   */
+  pluginStates: Record<string, Record<string, unknown>>;
+
+  /**
+   * Update state for a specific plugin
+   * Merges the provided updates with existing state
+   * 
+   * @param pluginId - ID of the plugin to update state for
+   * @param updates - Partial state object to merge with current state
+   */
+  setPluginState: (pluginId: string, updates: Record<string, unknown>) => void;
+
+  /**
+   * Get state for a specific plugin
+   * Returns empty object if no state exists
+   * 
+   * @param pluginId - ID of the plugin to get state for
+   * @returns Plugin state object
+   */
+  getPluginState: (pluginId: string) => Record<string, unknown>;
+
+  /**
+   * Initialize state for a plugin if it doesn't exist
+   * 
+   * @param pluginId - ID of the plugin
+   * @param initialState - Initial state to set if no state exists
+   */
+  initPluginState: (pluginId: string, initialState: Record<string, unknown>) => void;
+
+  /**
+   * Clear state for a specific plugin
+   * 
+   * @param pluginId - ID of the plugin to clear state for
+   */
+  clearPluginState: (pluginId: string) => void;
 }
 
-export const useAppStore = create<AppState>((set) => ({
+export const useAppStore = create<AppState>((set, get) => ({
   // Data state
   data: {
     metadata: null,
@@ -171,4 +211,42 @@ export const useAppStore = create<AppState>((set) => ({
     set((state) => ({
       ui: { ...state.ui, showFilters: show },
     })),
+
+  // PHASE 1 ADDITION: Plugin state management
+  pluginStates: {},
+
+  setPluginState: (pluginId, updates) =>
+    set((state) => ({
+      pluginStates: {
+        ...state.pluginStates,
+        [pluginId]: {
+          ...(state.pluginStates[pluginId] || {}),
+          ...updates,
+        },
+      },
+    })),
+
+  getPluginState: (pluginId) => {
+    const state = get();
+    return state.pluginStates[pluginId] || {};
+  },
+
+  initPluginState: (pluginId, initialState) => {
+    const state = get();
+    // Only initialize if state doesn't exist
+    if (!state.pluginStates[pluginId]) {
+      set((state) => ({
+        pluginStates: {
+          ...state.pluginStates,
+          [pluginId]: initialState,
+        },
+      }));
+    }
+  },
+
+  clearPluginState: (pluginId) =>
+    set((state) => {
+      const { [pluginId]: _, ...restStates } = state.pluginStates;
+      return { pluginStates: restStates };
+    }),
 }));
