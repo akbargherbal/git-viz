@@ -84,6 +84,94 @@ src/
 │   ├── timeline-heatmap/ # The interactive heatmap implementation
 │   └── treemap-animation/ # The structural treemap implementation
 ├── services/           # Data fetching & schema parsing
+│   └── data/           # NEW: Plugin-aware data loading infrastructure
 ├── store/              # Global state management
 └── types/              # Domain & Visualization type definitions
 ```
+
+## 🆕 Recent Development (Phase 1 - V2.X Refactor)
+
+### Data Infrastructure Foundation (January 2026)
+
+The project has undergone a significant infrastructure upgrade to support a more extensible plugin architecture:
+
+**New Data Services** (`/src/services/data/`)
+
+- **DatasetRegistry**: Central catalog of all V2 datasets with metadata, type classification, and validation utilities
+- **PluginDataLoader**: Cache-aware data loading system with support for declarative plugin requirements, transforms, and preloading
+
+**Key Improvements:**
+- All 12 V2 datasets now cataloged and accessible through a unified registry
+- Declarative data loading pattern for future plugins
+- Intelligent caching reduces redundant network requests
+- Support for required vs optional datasets with proper error handling
+- Dataset transforms allow plugins to receive pre-processed data
+
+**No Breaking Changes:**
+- Existing Timeline Heatmap continues to work with current data loading
+- New infrastructure is opt-in for future plugins
+- Zero regression risk
+
+**Next Steps:**
+- Phase 2: Enhance plugin types to use declarative data requirements
+- Phase 3: Refactor Timeline Heatmap to use new data infrastructure
+- Phase 4: Activate Treemap visualization with proper data wiring
+
+For detailed information, see `/src/services/data/README.md`
+
+## 📊 Available Datasets
+
+The application now has 12 V2 datasets available through the DatasetRegistry:
+
+**Time Series:** temporal_daily, temporal_weekly, temporal_monthly, temporal_quarterly, temporal_yearly  
+**Core Data:** file_lifecycle, file_index  
+**Hierarchy:** directory_stats  
+**Networks:** author_network, cochange_network  
+**Snapshots:** release_snapshots
+
+## 🧪 Development
+
+### Running Examples
+
+```typescript
+// Test the new data infrastructure
+import { runAllExamples } from '@/services/data/example';
+runAllExamples();
+```
+
+### Type Checking
+
+```bash
+npm run type-check
+```
+
+### Building for Production
+
+```bash
+npm run build
+npm run preview
+```
+
+## 📖 Documentation
+
+- [Main README](README.md) - This file
+- [Data Services](src/services/data/README.md) - New data infrastructure
+- [Phase 1 Summary](PHASE_1_COMPLETE.md) - V2.X refactor details
+
+## 🤝 Contributing
+
+This project is actively being refactored to support a more extensible plugin system. Current development follows a phased approach:
+
+1. ✅ **Phase 1:** Data Infrastructure Foundation (Complete)
+2. 🔄 **Phase 2:** Enhanced Plugin Manifest (In Progress)
+3. 📅 **Phase 3:** Timeline Heatmap Refactor
+4. 📅 **Phase 4:** Treemap Activation
+5. 📅 **Phase 5+:** Plugin State Management & Discovery
+
+## 📄 License
+
+[Add license information here]
+
+## 🙏 Acknowledgments
+
+Built to analyze Git repositories with rich, pre-computed datasets that enable fast, client-side visualizations without requiring a backend server.

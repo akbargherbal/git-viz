@@ -1,6 +1,5 @@
 // src/plugins/timeline-heatmap/TimelineHeatmapPlugin.ts
 
-import { format } from "date-fns";
 import type { VisualizationPlugin, OptimizedDataset } from "@/types/plugin";
 import type {
   TimeBinType,
@@ -81,7 +80,7 @@ export class TimelineHeatmapPlugin
 
   private container: HTMLElement | null = null;
 
-  init(container: HTMLElement, config: HeatmapConfig): void {
+  init(container: HTMLElement, _config: HeatmapConfig): void {
     this.container = container;
     this.container.innerHTML = "";
     this.container.style.overflow = "auto";

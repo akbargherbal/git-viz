@@ -7,7 +7,7 @@ import {
 } from 'lucide-react';
 import { format } from 'date-fns';
 import { useAppStore } from '@/store/appStore';
-import { HeatmapCell } from '../../TimelineHeatmapPlugin';
+import { HeatmapCell } from '../TimelineHeatmapPlugin';
 import { formatNumber } from '@/utils/formatting';
 
 interface CellDetailPanelProps {
@@ -35,7 +35,7 @@ export const CellDetailPanel: React.FC<CellDetailPanelProps> = ({ cell, onClose 
   const enrichedFiles = useMemo(() => {
     if (!cell.topFiles || !metadata?.file_stats) return [];
     
-    return cell.topFiles.map(filename => {
+    return cell.topFiles.map((filename: string) => {
       const fullPath = cell.directory ? `${cell.directory}/${filename}` : filename;
       const stats = metadata.file_stats?.[fullPath];
       return {
@@ -172,7 +172,7 @@ export const CellDetailPanel: React.FC<CellDetailPanelProps> = ({ cell, onClose 
             {metric === 'authors' ? 'Active Contributors' : 'Top Contributors'}
           </div>
           <div className="space-y-1.5">
-            {cell.topContributors.map((author, idx) => (
+            {cell.topContributors.map((author: string, idx: number) => (
               <div key={idx} className="text-xs text-zinc-300 truncate pl-3 border-l-2 border-zinc-700 hover:border-orange-500 transition-colors">
                 {author}
               </div>
@@ -188,7 +188,7 @@ export const CellDetailPanel: React.FC<CellDetailPanelProps> = ({ cell, onClose 
             <FileText size={12} /> Most Active Files
           </div>
           <div className="space-y-2">
-            {enrichedFiles.map((file, idx) => (
+            {enrichedFiles.map((file: any, idx: number) => (
               <div key={idx} className="group">
                 <div className="text-xs text-zinc-300 truncate pl-3 border-l-2 border-zinc-700 font-mono group-hover:border-purple-500 transition-colors" title={file.name}>
                   {file.name}

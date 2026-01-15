@@ -1,6 +1,7 @@
 // src/plugins/treemap-animation/TreemapPlugin.ts
 
 import * as d3 from 'd3';
+import type { HierarchyRectangularNode } from 'd3';
 import { VisualizationPlugin, OptimizedDataset } from '@/types/plugin';
 import { OptimizedDirectoryNode } from '@/types/domain';
 
@@ -25,7 +26,7 @@ export class TreemapPlugin implements VisualizationPlugin<TreemapConfig, any> {
 
   private container: HTMLElement | null = null;
 
-  init(container: HTMLElement, config: TreemapConfig): void {
+  init(container: HTMLElement, _config: TreemapConfig): void {
     this.container = container;
     this.container.style.width = '100%';
     this.container.style.height = '100%';
@@ -40,7 +41,7 @@ export class TreemapPlugin implements VisualizationPlugin<TreemapConfig, any> {
     return root;
   }
 
-  render(root: d3.HierarchyNode<OptimizedDirectoryNode>, config: TreemapConfig): void {
+  render(root: HierarchyRectangularNode<OptimizedDirectoryNode>, config: TreemapConfig): void {
     if (!this.container) return;
     this.container.innerHTML = '';
 
@@ -67,12 +68,21 @@ export class TreemapPlugin implements VisualizationPlugin<TreemapConfig, any> {
     const cell = svg.selectAll('g')
       .data(root.descendants())
       .join('g')
-      .attr('transform', d => `translate(${d.x0},${d.y0})`);
+      .attr('transform', d => {
+        const rectNode = d as HierarchyRectangularNode<OptimizedDirectoryNode>;
+        return `translate(${rectNode.x0},${rectNode.y0})`;
+      });
 
     // Rectangles
     cell.append('rect')
-      .attr('width', d => d.x1 - d.x0)
-      .attr('height', d => d.y1 - d.y0)
+      .attr('width', d => {
+        const rectNode = d as HierarchyRectangularNode<OptimizedDirectoryNode>;
+        return rectNode.x1 - rectNode.x0;
+      })
+      .attr('height', d => {
+        const rectNode = d as HierarchyRectangularNode<OptimizedDirectoryNode>;
+        return rectNode.y1 - rectNode.y0;
+      })
       .attr('fill', d => {
         if (d.depth === 0) return 'none';
         // Color by top-level parent
@@ -85,9 +95,10 @@ export class TreemapPlugin implements VisualizationPlugin<TreemapConfig, any> {
 
     // Labels (only for directories with enough space)
     cell.each(function(d) {
+      const rectNode = d as HierarchyRectangularNode<OptimizedDirectoryNode>;
       const node = d3.select(this);
-      const w = d.x1 - d.x0;
-      const h = d.y1 - d.y0;
+      const w = rectNode.x1 - rectNode.x0;
+      const h = rectNode.y1 - rectNode.y0;
       
       if (d.depth === 1 && w > 50 && h > 20) {
         node.append('text')
