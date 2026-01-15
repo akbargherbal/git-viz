@@ -12,3 +12,5 @@ export {
   type PluginDataRequirement,
   type PluginDataLoadResult,
 } from "./PluginDataLoader";
+
+export type { LoadProgress } from "./types";

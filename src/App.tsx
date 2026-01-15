@@ -17,7 +17,7 @@ import { ErrorDisplay } from "@/components/common/ErrorDisplay";
 import { ScrollIndicatorOverlay } from "@/components/common/ScrollIndicatorOverlay";
 import { CellDetailPanel } from "@/plugins/timeline-heatmap/components/CellDetailPanel";
 import { useScrollIndicators } from "@/hooks/useScrollIndicators";
-import { LoadProgress } from "@/services/data/DataLoader";
+import { LoadProgress } from "@/services/data/types";
 import type { VisualizationPlugin } from "@/types/plugin";
 
 const App: React.FC = () => {
