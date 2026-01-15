@@ -5,7 +5,8 @@ import { Filter } from "lucide-react";
 import { PluginRegistry } from "@/plugins/core/PluginRegistry";
 import { TimelineHeatmapPlugin } from "@/plugins/timeline-heatmap/TimelineHeatmapPlugin";
 import { TreemapPlugin } from "@/plugins/treemap-animation/TreemapPlugin";
-import { DataLoader } from "@/services/data/DataLoader";
+import { PluginDataLoader } from "@/services/data/PluginDataLoader";
+import { DataProcessor } from "@/services/data/DataProcessor";
 import { useAppStore } from "@/store/appStore";
 import { PluginSelector } from "@/components/layout/PluginSelector";
 import { FilterPanel } from "@/components/common/FilterPanel";
@@ -19,8 +20,6 @@ import { useScrollIndicators } from "@/hooks/useScrollIndicators";
 import { LoadProgress } from "@/services/data/DataLoader";
 import type { VisualizationPlugin } from "@/types/plugin";
 
-const dataLoader = DataLoader.getInstance();
-
 const App: React.FC = () => {
   const containerRef = useRef<HTMLDivElement>(null);
   const mainContainerRef = useRef<HTMLElement>(null);
@@ -29,6 +28,9 @@ const App: React.FC = () => {
   const [plugins, setPlugins] = useState<VisualizationPlugin[]>([]);
   const [activePlugin, setActivePluginInstance] =
     useState<VisualizationPlugin | null>(null);
+
+  // Store raw data loaded from PluginDataLoader
+  const [rawData, setRawData] = useState<Record<string, any> | null>(null);
 
   const [loadingProgress, setLoadingProgress] = useState<LoadProgress>({
     loaded: 0,
@@ -88,48 +90,68 @@ const App: React.FC = () => {
     };
   }, []);
 
-  // Load data
+  // Load data based on Active Plugin
   useEffect(() => {
-    const loadData = async () => {
+    const loadPluginData = async () => {
+      if (!ui.activePluginId) return;
+      
+      const plugin = PluginRegistry.get(ui.activePluginId);
+      if (!plugin) return;
+
+      setLoading(true);
+      setError(null);
+      setRawData(null); // Clear previous data
+
       try {
-        setLoading(true);
-        const dataset = await dataLoader.loadOptimizedDataset(
-          "/DATASETS_excalidraw",
-          (progress) => setLoadingProgress(progress),
-        );
-        setOptimizedData(dataset.metadata, dataset.tree, dataset.activity);
-      } catch (error) {
-        console.error("Error loading data:", error);
-        setError(
-          error instanceof Error ? error.message : "Failed to load data",
-        );
+        setLoadingProgress({ loaded: 0, total: 1, phase: "metadata" });
+        
+        // 1. Get requirements
+        const requirements = PluginRegistry.getDataRequirements(ui.activePluginId);
+        
+        // 2. Load data using the new PluginDataLoader
+        const result = await PluginDataLoader.loadForPlugin(requirements);
+        
+        if (!result.success) {
+          throw new Error(`Failed to load data: ${result.errors.join(", ")}`);
+        }
+
+        setLoadingProgress({ loaded: 1, total: 1, phase: "complete" });
+        setRawData(result.data);
+
+      } catch (err) {
+        console.error("Error loading plugin data:", err);
+        setError(err instanceof Error ? err.message : "Unknown error");
+      } finally {
+        setLoading(false);
       }
     };
-    loadData();
-  }, []);
 
-  // Apply Filters
+    loadPluginData();
+  }, [ui.activePluginId]);
+
+  // Process Data (Apply Filters & Transform)
   useEffect(() => {
-    if (!data.metadata) return; // Don't run if data isn't loaded
+    if (!rawData) return;
 
     try {
-      // Reprocess dataset with current filters
-      const filteredDataset = dataLoader.filterDataset(filters);
-      setOptimizedData(
-        filteredDataset.metadata,
-        filteredDataset.tree,
-        filteredDataset.activity,
-      );
+      // If we have the core datasets required for the global store/heatmap, process them
+      // This logic bridges the raw data to the OptimizedDataset expected by the store
+      if (rawData.lifecycle && rawData.authors && rawData.files && rawData.dirs) {
+        const optimized = DataProcessor.processRawData(
+          rawData.lifecycle,
+          rawData.authors,
+          rawData.files,
+          rawData.dirs,
+          filters // Apply current filters
+        );
+        
+        setOptimizedData(optimized.metadata, optimized.tree, optimized.activity);
+      }
     } catch (error) {
-      console.error("Error applying filters:", error);
+      console.error("Error processing data:", error);
+      setError(error instanceof Error ? error.message : "Failed to process data");
     }
-  }, [
-    filters.authors,
-    filters.fileTypes,
-    filters.directories,
-    filters.eventTypes,
-    filters.timeRange,
-  ]);
+  }, [rawData, filters]);
 
   // Update active plugin instance
   useEffect(() => {
@@ -142,7 +164,7 @@ const App: React.FC = () => {
     }
   }, [ui.activePluginId]);
 
-  // Process and Render
+  // Render Visualization
   useEffect(() => {
     if (
       !activePlugin ||
@@ -161,6 +183,9 @@ const App: React.FC = () => {
         onCellClick: (cell: any) => setSelectedCell(cell),
       };
 
+      // We pass the OptimizedDataset from the store to the plugin
+      // This hits the "fallback" path in TimelineHeatmapPlugin.processData
+      // which is efficient because we processed it once in the effect above.
       const processed = activePlugin.processData(
         {
           metadata: data.metadata,
@@ -305,7 +330,7 @@ const App: React.FC = () => {
 
         {/* Detail Panel */}
         <aside
-          className={`w-96 bg-zinc-900 border-l border-zinc-800 flex-none panel-transition relative ${
+          className={`bg-zinc-900 border-l border-zinc-800 flex-none panel-transition relative ${
             !ui.selectedCell ? "panel-hidden" : ""
           }`}
         >

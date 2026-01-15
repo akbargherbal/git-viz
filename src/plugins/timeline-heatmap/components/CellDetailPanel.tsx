@@ -90,7 +90,7 @@ export const CellDetailPanel: React.FC<CellDetailPanelProps> = ({
   const HeaderIcon = headerConfig.icon;
 
   return (
-    <div className="absolute top-4 right-4 w-80 bg-zinc-900/95 backdrop-blur border border-zinc-700 rounded-xl shadow-2xl overflow-hidden z-50 flex flex-col animate-in slide-in-from-right-10 duration-200 max-h-[calc(100vh-2rem)] overflow-y-auto sleek-scrollbar">
+    <div className="absolute top-0 right-0 w-80 bg-zinc-900/95 backdrop-blur border border-zinc-700 rounded-xl shadow-2xl overflow-hidden z-50 flex flex-col animate-in slide-in-from-right-10 duration-200 max-h-[calc(100vh-2rem)] overflow-y-auto sleek-scrollbar pb-8">
       {/* Header */}
       <div className="p-4 border-b border-zinc-800 bg-zinc-950/50 flex justify-between items-start sticky top-0 z-10 backdrop-blur-md">
         <div className="overflow-hidden">

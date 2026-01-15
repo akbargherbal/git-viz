@@ -8,6 +8,7 @@ import type {
 } from "@/types/domain";
 import { getTimeBinStart, formatTimeBin } from "@/utils/dateHelpers";
 import { formatNumber } from "@/utils/formatting";
+import { DataProcessor } from "@/services/data/DataProcessor";
 
 interface HeatmapConfig {
   topN: number;
@@ -66,6 +67,12 @@ export class TimelineHeatmapPlugin implements VisualizationPlugin<
     description: "Repository activity across time and directory structure",
     version: "3.2.1",
     priority: 1,
+    dataRequirements: [
+      { dataset: "file_lifecycle", required: true, alias: "lifecycle" },
+      { dataset: "author_network", required: true, alias: "authors" },
+      { dataset: "file_index", required: true, alias: "files" },
+      { dataset: "directory_stats", required: true, alias: "dirs" },
+    ],
   };
 
   defaultConfig: HeatmapConfig = {
@@ -88,8 +95,25 @@ export class TimelineHeatmapPlugin implements VisualizationPlugin<
     this.container.style.background = "#09090b";
   }
 
-  processData(dataset: OptimizedDataset, config?: HeatmapConfig): HeatmapData {
-    const { tree, activity, metadata } = dataset;
+  processData(dataset: any, config?: HeatmapConfig): HeatmapData {
+    let optimizedData: OptimizedDataset;
+
+    // Check if we received the raw data map from PluginDataLoader
+    // The keys match the 'alias' fields in dataRequirements
+    if (dataset.lifecycle && dataset.authors && dataset.files && dataset.dirs) {
+      // Process raw data on the fly using the extracted processor
+      optimizedData = DataProcessor.processRawData(
+        dataset.lifecycle,
+        dataset.authors,
+        dataset.files,
+        dataset.dirs
+      );
+    } else {
+      // Fallback: Assume legacy OptimizedDataset
+      optimizedData = dataset as OptimizedDataset;
+    }
+
+    const { tree, activity, metadata } = optimizedData;
     const timeBinType = config?.timeBin || this.defaultConfig.timeBin;
     const metric = config?.metric || this.defaultConfig.metric;
     const topN = config?.topN || this.defaultConfig.topN;
