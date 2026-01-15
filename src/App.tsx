@@ -279,17 +279,6 @@ const App: React.FC = () => {
       </header>
 
       <div className="flex-1 flex overflow-hidden">
-        <aside
-          className={`w-80 bg-zinc-900 border-r border-zinc-800 overflow-y-auto flex-none panel-transition ${
-            !ui.showFilters ? "panel-hidden" : ""
-          }`}
-        >
-          <FilterPanel
-            metadata={data.metadata}
-            onClose={() => setShowFilters(false)}
-          />
-        </aside>
-
         {/* Main Content */}
         <main
           ref={mainContainerRef}
@@ -302,6 +291,19 @@ const App: React.FC = () => {
           <div ref={containerRef} className="flex-1 overflow-auto"></div>
         </main>
 
+        {/* Filter Panel - Moved to Right */}
+        <aside
+          className={`w-80 bg-zinc-900 border-l border-zinc-800 overflow-y-auto flex-none panel-transition ${
+            !ui.showFilters ? "panel-hidden" : ""
+          }`}
+        >
+          <FilterPanel
+            metadata={data.metadata}
+            onClose={() => setShowFilters(false)}
+          />
+        </aside>
+
+        {/* Detail Panel */}
         <aside
           className={`w-96 bg-zinc-900 border-l border-zinc-800 flex-none panel-transition relative ${
             !ui.selectedCell ? "panel-hidden" : ""
