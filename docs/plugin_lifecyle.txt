@@ -1,0 +1,118 @@
+---
+config:
+  theme: forest
+  layout: elk
+---
+flowchart TB
+ subgraph subGraph0["Plugin Development - Zero App.tsx Changes"]
+    direction TB
+        DEV["Developer Creates<br>New Plugin"]
+        IMPL["Implement Interface<br>━━━━━━━━━━━━━<br>VisualizationPlugin"]
+        OPT{"Need Controls?"}
+        CTRL["Add Control Methods<br>━━━━━━━━━━━━━<br>getInitialState<br>renderControls"]
+        SIMPLE["Just Core Methods<br>━━━━━━━━━━━━━<br>processData<br>render"]
+        REQ["Declare Data<br>Requirements<br>━━━━━━━━━━━━━<br>dataRequirements"]
+        REG["Register Plugin<br>━━━━━━━━━━━━━<br>PluginRegistry.register"]
+        DONE["✓ Plugin Available<br>in Selector"]
+  end
+ subgraph subGraph1["Plugin Lifecycle - Automatic Management"]
+    direction LR
+        L1["1. Registration<br>━━━━━━━━━<br>Plugin added<br>to registry"]
+        L2["2. Selection<br>━━━━━━━━━<br>User picks<br>from UI"]
+        L3["3. Data Loading<br>━━━━━━━━━<br>Auto-load<br>requirements"]
+        L4["4. Initialization<br>━━━━━━━━━<br>init + state<br>setup"]
+        L5["5. Rendering<br>━━━━━━━━━<br>Controls +<br>visualization"]
+        L6["6. Updates<br>━━━━━━━━━<br>State changes<br>trigger render"]
+        L7["7. Cleanup<br>━━━━━━━━━<br>destroy on<br>switch"]
+  end
+ subgraph subGraph2["Pattern A: Interactive Plugin"]
+        PA1["Plugin with Controls<br>━━━━━━━━━━━━━━━━"]
+        PA2["getInitialState<br>Returns default state"]
+        PA3["renderControls<br>Returns React elements"]
+        PA4["State in Zustand<br>Isolated by plugin ID"]
+        PA5["Controls trigger<br>state updates"]
+        PA6["Updates trigger<br>re-render"]
+  end
+ subgraph subGraph3["Pattern B: Static Plugin"]
+        PB1["Plugin without Controls<br>━━━━━━━━━━━━━━━━"]
+        PB2["No getInitialState<br>No renderControls"]
+        PB3["Just processData<br>and render"]
+        PB4["Renders immediately<br>No state needed"]
+  end
+ subgraph subGraph4["Plugin Patterns - Two Approaches"]
+    direction TB
+        subGraph2
+        subGraph3
+  end
+ subgraph subGraph5["Modularity Benefits"]
+    direction LR
+        B1["🔌 Self-Contained<br>━━━━━━━━━<br>Each plugin is<br>independent"]
+        B2["🎯 Focused<br>━━━━━━━━━<br>Single responsibility<br>per plugin"]
+        B3["🔄 Reusable<br>━━━━━━━━━<br>Share common<br>components"]
+        B4["🧪 Testable<br>━━━━━━━━━<br>Test plugins<br>in isolation"]
+        B5["📦 Deployable<br>━━━━━━━━━<br>Add/remove<br>plugins easily"]
+  end
+    DEV --> IMPL
+    IMPL --> OPT
+    OPT -- Yes --> CTRL
+    OPT -- No --> SIMPLE
+    CTRL --> REQ
+    SIMPLE --> REQ
+    REQ --> REG
+    REG --> DONE
+    L1 --> L2
+    L2 --> L3
+    L3 --> L4
+    L4 --> L5
+    L5 --> L6
+    L6 -. Loop .-> L5
+    L2 -. New Selection .-> L7
+    L7 -. Then .-> L3
+    PA1 --> PA2
+    PA2 --> PA3
+    PA3 --> PA4
+    PA4 --> PA5
+    PA5 --> PA6
+    PA6 -. Loop .-> PA5
+    PB1 --> PB2
+    PB2 --> PB3
+    PB3 --> PB4
+    B1 --> B2
+    B2 --> B3
+    B3 --> B4
+    B4 --> B5
+    DONE -. Plugin Ready .-> L1
+
+     DEV:::devClass
+     IMPL:::devClass
+     CTRL:::devClass
+     SIMPLE:::devClass
+     REQ:::devClass
+     REG:::devClass
+     DONE:::devClass
+     L1:::lifecycleClass
+     L2:::lifecycleClass
+     L3:::lifecycleClass
+     L4:::lifecycleClass
+     L5:::lifecycleClass
+     L6:::lifecycleClass
+     L7:::lifecycleClass
+     PA1:::patternClass
+     PA2:::patternClass
+     PA3:::patternClass
+     PA4:::patternClass
+     PA5:::patternClass
+     PA6:::patternClass
+     PB1:::patternClass
+     PB2:::patternClass
+     PB3:::patternClass
+     PB4:::patternClass
+     B1:::benefitClass
+     B2:::benefitClass
+     B3:::benefitClass
+     B4:::benefitClass
+     B5:::benefitClass
+    classDef devClass fill:#9333ea,stroke:#7c3aed,stroke-width:2px,color:#fff
+    classDef lifecycleClass fill:#3b82f6,stroke:#2563eb,stroke-width:2px,color:#fff
+    classDef patternClass fill:#10b981,stroke:#059669,stroke-width:2px,color:#fff
+    classDef benefitClass fill:#f59e0b,stroke:#d97706,stroke-width:2px,color:#fff

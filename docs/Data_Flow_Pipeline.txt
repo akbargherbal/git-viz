@@ -1,0 +1,120 @@
+---
+config:
+  layout: elk
+  theme: dark
+---
+graph TB
+    subgraph "Data Flow Pipeline"
+        direction TB
+        
+        START[User Selects Plugin]
+        START --> REQ["Get Plugin<br/>Data Requirements"]
+        
+        REQ --> LOAD{Load Datasets}
+        
+        LOAD -->|Required| R1[temporal_daily]
+        LOAD -->|Required| R2[file_lifecycle]
+        LOAD -->|Optional| O1[author_network]
+        LOAD -->|Optional| O2[file_index]
+        
+        R1 --> MERGE["Merge Raw Data"]
+        R2 --> MERGE
+        O1 -.->|If Available| MERGE
+        O2 -.->|If Available| MERGE
+        
+        MERGE --> FILTER{Apply Filters}
+        
+        subgraph "Filter Types"
+            F1["📅 Time Range<br/>Start/End dates"]
+            F2["👤 Authors<br/>Selected users"]
+            F3["📁 Directories<br/>Path filters"]
+            F4["📄 File Types<br/>Extensions"]
+            F5["⚡ Event Types<br/>M/A/D/R"]
+        end
+        
+        FILTER --> F1
+        FILTER --> F2
+        FILTER --> F3
+        FILTER --> F4
+        FILTER --> F5
+        
+        F1 --> PROCESS["Data Processor<br/>━━━━━━━━━━━<br/>Transform & Optimize"]
+        F2 --> PROCESS
+        F3 --> PROCESS
+        F4 --> PROCESS
+        F5 --> PROCESS
+        
+        PROCESS --> OPT["Optimized Dataset<br/>━━━━━━━━━━━<br/>metadata<br/>tree<br/>activity"]
+        
+        OPT --> STORE[(Zustand Store)]
+        
+        STORE --> PLUGIN[Active Plugin]
+        
+        PLUGIN --> VIZ[Visualization]
+    end
+
+    subgraph "State Management Architecture"
+        direction LR
+        
+        subgraph "Global State"
+            GS1["🌍 Data State<br/>━━━━━━━━━<br/>metadata<br/>tree<br/>activity<br/>loading<br/>error"]
+            
+            GS2["🎛️ Filter State<br/>━━━━━━━━━<br/>authors<br/>directories<br/>fileTypes<br/>eventTypes<br/>timeRange<br/>metric<br/>timeBin"]
+            
+            GS3["🖥️ UI State<br/>━━━━━━━━━<br/>activePluginId<br/>showFilters<br/>selectedCell"]
+        end
+        
+        subgraph "Plugin States - Isolated"
+            PS1["Plugin State: timeline-heatmap<br/>━━━━━━━━━━━━━━━━━<br/>metric: commits<br/>timeBin: day<br/>selectedAuthors: empty<br/>selectedExtensions: empty"]
+            
+            PS2["Plugin State: treemap<br/>━━━━━━━━━━━━━━━━━<br/>Empty - no controls needed"]
+            
+            PS3["Plugin State: future-plugin<br/>━━━━━━━━━━━━━━━━━<br/>Custom state shape<br/>Isolated from others"]
+        end
+    end
+
+    subgraph "Filter Application Flow"
+        direction TB
+        
+        U1["User Changes Filter<br/>in FilterPanel"]
+        U1 --> U2["Update Store<br/>filters.authors.add"]
+        U2 --> U3["Effect Triggers<br/>Data Re-processing"]
+        U3 --> U4["DataProcessor<br/>filters raw data"]
+        U4 --> U5["New Optimized Dataset<br/>stored in state"]
+        U5 --> U6["Plugin Re-renders<br/>with filtered data"]
+        
+        U7["Plugin Control Update<br/>e.g., metric change"]
+        U7 --> U8["Update Plugin State<br/>setPluginState"]
+        U8 --> U9["Plugin Re-renders<br/>with new config"]
+    end
+
+    subgraph "Flexibility & Extensibility"
+        direction LR
+        
+        EX1["🔀 Multiple Data Sources<br/>━━━━━━━━━━━━━<br/>Plugins can request<br/>different datasets"]
+        
+        EX2["🎨 Custom Processing<br/>━━━━━━━━━━━━━<br/>Each plugin transforms<br/>data its own way"]
+        
+        EX3["⚡ Incremental Filters<br/>━━━━━━━━━━━━━<br/>Global filters apply<br/>before plugin processing"]
+        
+        EX4["🔌 Plugin Independence<br/>━━━━━━━━━━━━━<br/>State changes don't<br/>affect other plugins"]
+        
+        EX1 --> EX2 --> EX3 --> EX4
+    end
+
+    STORE -.->|Provide Global State| GS1
+    STORE -.->|Provide Global State| GS2
+    STORE -.->|Provide Global State| GS3
+    STORE -.->|Isolate Plugin State| PS1
+    STORE -.->|Isolate Plugin State| PS2
+    STORE -.->|Isolate Plugin State| PS3
+
+    classDef flowClass fill:#9333ea,stroke:#7c3aed,stroke-width:2px,color:#fff
+    classDef filterClass fill:#3b82f6,stroke:#2563eb,stroke-width:2px,color:#fff
+    classDef stateClass fill:#10b981,stroke:#059669,stroke-width:2px,color:#fff
+    classDef extendClass fill:#f59e0b,stroke:#d97706,stroke-width:2px,color:#fff
+    
+    class START,REQ,LOAD,R1,R2,O1,O2,MERGE,FILTER,PROCESS,OPT,STORE,PLUGIN,VIZ flowClass
+    class F1,F2,F3,F4,F5,U1,U2,U3,U4,U5,U6,U7,U8,U9 filterClass
+    class GS1,GS2,GS3,PS1,PS2,PS3 stateClass
+    class EX1,EX2,EX3,EX4 extendClass
