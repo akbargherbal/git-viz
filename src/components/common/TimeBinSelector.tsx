@@ -9,8 +9,34 @@ import {
   CalendarClock,
 } from "lucide-react";
 
-export const TimeBinSelector: React.FC = () => {
+/**
+ * Props for controlled mode (when used by plugins)
+ */
+interface ControlledTimeBinSelectorProps {
+  value: TimeBinType;
+  onChange: (timeBin: TimeBinType) => void;
+}
+
+/**
+ * TimeBinSelector component
+ * Supports both controlled (plugin-owned) and uncontrolled (store-connected) modes
+ * 
+ * Usage:
+ * - Controlled: <TimeBinSelector value={state.timeBin} onChange={updateTimeBin} />
+ * - Uncontrolled: <TimeBinSelector /> (reads/writes to store)
+ */
+export const TimeBinSelector: React.FC<Partial<ControlledTimeBinSelectorProps>> = ({
+  value: controlledValue,
+  onChange: controlledOnChange,
+}) => {
+  // Uncontrolled mode: use store
   const { filters, setTimeBin } = useAppStore();
+  
+  // Determine if we're in controlled or uncontrolled mode
+  const isControlled = controlledValue !== undefined && controlledOnChange !== undefined;
+  
+  const currentValue = isControlled ? controlledValue : filters.timeBin;
+  const handleChange = isControlled ? controlledOnChange : setTimeBin;
 
   const options: {
     value: TimeBinType;
@@ -28,11 +54,11 @@ export const TimeBinSelector: React.FC = () => {
       {options.map((option) => (
         <button
           key={option.value}
-          onClick={() => setTimeBin(option.value)}
+          onClick={() => handleChange(option.value)}
           className={`
             flex items-center gap-2 px-3 py-1.5 rounded-md text-xs font-medium transition-all
             ${
-              filters.timeBin === option.value
+              currentValue === option.value
                 ? "bg-zinc-700 text-white shadow-sm"
                 : "text-zinc-400 hover:text-zinc-200 hover:bg-zinc-800"
             }

@@ -1,12 +1,37 @@
 // src/components/common/FilterPanel.tsx
 import React, { useMemo } from "react";
 import { useAppStore } from "@/store/appStore";
-import { X, Filter, User, File, RotateCcw } from "lucide-react"; // Removed unused icons
+import { X, Filter, User, File, RotateCcw } from "lucide-react";
 import { RepoMetadata } from "@/types/domain";
 
-interface FilterPanelProps {
+/**
+ * Props for controlled mode (when used by plugins)
+ */
+interface ControlledFilterPanelProps {
+  authors: Array<{ value: string; label: string; count: number }>;
+  extensions: Array<{ extension: string; count: number }>;
+  selectedAuthors: string[];
+  selectedExtensions: string[];
+  onAuthorsChange: (authors: string[]) => void;
+  onExtensionsChange: (extensions: string[]) => void;
+  onClose?: () => void;
+}
+
+/**
+ * Props for uncontrolled mode (legacy, store-connected)
+ */
+interface UncontrolledFilterPanelProps {
   metadata: RepoMetadata | null;
   onClose: () => void;
+}
+
+type FilterPanelProps = ControlledFilterPanelProps | UncontrolledFilterPanelProps;
+
+/**
+ * Type guard to check if props are for controlled mode
+ */
+function isControlledMode(props: FilterPanelProps): props is ControlledFilterPanelProps {
+  return 'authors' in props && 'extensions' in props;
 }
 
 interface FilterSectionProps {
@@ -58,44 +83,140 @@ const FilterSection: React.FC<FilterSectionProps> = ({
   </div>
 );
 
-export const FilterPanel: React.FC<FilterPanelProps> = ({
-  metadata,
-  onClose,
-}) => {
-  // REMOVED: toggleDirectory, toggleEventType (unused)
-  const { filters, toggleAuthor, toggleFileType, clearFilters } = useAppStore();
-
-  // Memoize and aggregate data to ensure uniqueness and performance
-  const { authorItems, fileTypeItems } = useMemo(() => {
-    if (!metadata) return { authorItems: [], fileTypeItems: [] };
-
-    // Aggregate authors by name to handle duplicates (same name, different emails)
-    const authorMap = new Map<string, number>();
-    metadata.authors.forEach((a) => {
-      const current = authorMap.get(a.name) || 0;
-      authorMap.set(a.name, current + a.commit_count);
-    });
-
-    const aggregatedAuthors = Array.from(authorMap.entries())
-      .map(([name, count]) => ({ label: name, count }))
-      .sort((a, b) => b.count - a.count);
-
-    const fileTypes = metadata.file_types.map((f) => ({
-      label: f.extension,
-      count: f.count,
-    }));
-
-    return { authorItems: aggregatedAuthors, fileTypeItems: fileTypes };
-  }, [metadata]);
-
-  if (!metadata) return null;
-
-  // Check if any filters are active
+/**
+ * FilterPanel component
+ * Supports both controlled (plugin-owned) and uncontrolled (store-connected) modes
+ * 
+ * Controlled usage (by plugins):
+ * <FilterPanel 
+ *   authors={authorsList}
+ *   extensions={extensionsList}
+ *   selectedAuthors={state.selectedAuthors}
+ *   selectedExtensions={state.selectedExtensions}
+ *   onAuthorsChange={updateAuthors}
+ *   onExtensionsChange={updateExtensions}
+ * />
+ * 
+ * Uncontrolled usage (legacy):
+ * <FilterPanel metadata={metadata} onClose={onClose} />
+ */
+export const FilterPanel: React.FC<FilterPanelProps> = (props) => {
+  // Check if we're in controlled or uncontrolled mode
+  const isControlled = isControlledMode(props);
+  
+  // Uncontrolled mode: use store
+  const storeData = useAppStore();
+  
+  // Prepare data based on mode
+  const {
+    authorItems,
+    fileTypeItems,
+    selectedAuthors,
+    selectedExtensions,
+    handleAuthorToggle,
+    handleExtensionToggle,
+    handleClearFilters,
+    handleClose,
+  }: {
+    authorItems: { label: string; count: number }[];
+    fileTypeItems: { label: string; count: number }[];
+    selectedAuthors: Set<string>;
+    selectedExtensions: Set<string>;
+    handleAuthorToggle: (author: string) => void;
+    handleExtensionToggle: (ext: string) => void;
+    handleClearFilters: () => void;
+    handleClose: () => void;
+  } = useMemo(() => {
+    if (isControlled) {
+      // Controlled mode: use props
+      const authorItems = props.authors.map(a => ({
+        label: a.label || a.value,
+        count: a.count,
+      }));
+      
+      const fileTypeItems = props.extensions.map(e => ({
+        label: e.extension,
+        count: e.count,
+      }));
+      
+      const selectedAuthorsSet: Set<string> = new Set(props.selectedAuthors);
+      const selectedExtensionsSet: Set<string> = new Set(props.selectedExtensions);
+      
+      return {
+        authorItems,
+        fileTypeItems,
+        selectedAuthors: selectedAuthorsSet,
+        selectedExtensions: selectedExtensionsSet,
+        handleAuthorToggle: (author: string) => {
+          const newAuthors = props.selectedAuthors.includes(author)
+            ? props.selectedAuthors.filter(a => a !== author)
+            : [...props.selectedAuthors, author];
+          props.onAuthorsChange(newAuthors);
+        },
+        handleExtensionToggle: (ext: string) => {
+          const newExtensions = props.selectedExtensions.includes(ext)
+            ? props.selectedExtensions.filter(e => e !== ext)
+            : [...props.selectedExtensions, ext];
+          props.onExtensionsChange(newExtensions);
+        },
+        handleClearFilters: () => {
+          props.onAuthorsChange([]);
+          props.onExtensionsChange([]);
+        },
+        handleClose: props.onClose || (() => {}),
+      };
+    } else {
+      // Uncontrolled mode: use store
+      const { metadata } = props;
+      if (!metadata) {
+        return {
+          authorItems: [] as { label: string; count: number }[],
+          fileTypeItems: [] as { label: string; count: number }[],
+          selectedAuthors: new Set<string>(),
+          selectedExtensions: new Set<string>(),
+          handleAuthorToggle: () => {},
+          handleExtensionToggle: () => {},
+          handleClearFilters: () => {},
+          handleClose: () => {},
+        };
+      }
+      
+      // Aggregate authors by name
+      const authorMap = new Map<string, number>();
+      metadata.authors.forEach((a) => {
+        const current = authorMap.get(a.name) || 0;
+        authorMap.set(a.name, current + a.commit_count);
+      });
+      
+      const authorItems = Array.from(authorMap.entries())
+        .map(([name, count]) => ({ label: name, count }))
+        .sort((a, b) => b.count - a.count);
+      
+      const fileTypeItems = metadata.file_types.map((f) => ({
+        label: f.extension,
+        count: f.count,
+      }));
+      
+      return {
+        authorItems,
+        fileTypeItems,
+        selectedAuthors: storeData.filters.authors,
+        selectedExtensions: storeData.filters.fileTypes,
+        handleAuthorToggle: storeData.toggleAuthor,
+        handleExtensionToggle: storeData.toggleFileType,
+        handleClearFilters: storeData.clearFilters,
+        handleClose: props.onClose,
+      };
+    }
+  }, [isControlled, props, storeData]);
+  
+  // Don't render if no data in uncontrolled mode
+  if (!isControlled && !(props as UncontrolledFilterPanelProps).metadata) {
+    return null;
+  }
+  
   const hasActiveFilters =
-    filters.authors.size > 0 ||
-    filters.directories.size > 0 ||
-    filters.fileTypes.size > 0 ||
-    filters.eventTypes.size > 0;
+    selectedAuthors.size > 0 || selectedExtensions.size > 0;
 
   return (
     <div className="w-80 bg-zinc-900 border-l border-zinc-800 h-full flex flex-col shadow-xl">
@@ -109,12 +230,14 @@ export const FilterPanel: React.FC<FilterPanelProps> = ({
             </span>
           )}
         </div>
-        <button
-          onClick={onClose}
-          className="text-zinc-400 hover:text-white transition-colors"
-        >
-          <X size={18} />
-        </button>
+        {handleClose && (
+          <button
+            onClick={handleClose}
+            className="text-zinc-400 hover:text-white transition-colors"
+          >
+            <X size={18} />
+          </button>
+        )}
       </div>
 
       <div className="flex-1 overflow-y-auto p-4 custom-scrollbar">
@@ -122,22 +245,22 @@ export const FilterPanel: React.FC<FilterPanelProps> = ({
           title="Authors"
           icon={User}
           items={authorItems}
-          selected={filters.authors}
-          onToggle={toggleAuthor}
+          selected={selectedAuthors}
+          onToggle={handleAuthorToggle}
         />
 
         <FilterSection
           title="File Types"
           icon={File}
           items={fileTypeItems}
-          selected={filters.fileTypes}
-          onToggle={toggleFileType}
+          selected={selectedExtensions}
+          onToggle={handleExtensionToggle}
         />
       </div>
 
       <div className="p-4 border-t border-zinc-800">
         <button
-          onClick={clearFilters}
+          onClick={handleClearFilters}
           disabled={!hasActiveFilters}
           className={`
             w-full py-2.5 px-4 rounded-lg text-sm font-medium transition-all

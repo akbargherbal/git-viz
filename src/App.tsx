@@ -1,4 +1,5 @@
 // src/App.tsx
+// Phase 3: Cleaned up - Plugin controls ownership, no universal control state
 
 import React, { useEffect, useRef, useState, useMemo } from "react";
 import { Filter } from "lucide-react";
@@ -10,8 +11,6 @@ import { DataProcessor } from "@/services/data/DataProcessor";
 import { useAppStore } from "@/store/appStore";
 import { PluginSelector } from "@/components/layout/PluginSelector";
 import { FilterPanel } from "@/components/common/FilterPanel";
-import { TimeBinSelector } from "@/components/common/TimeBinSelector";
-import { MetricSelector } from "@/components/common/MetricSelector";
 import { LoadingSpinner } from "@/components/common/LoadingSpinner";
 import { ErrorDisplay } from "@/components/common/ErrorDisplay";
 import { ScrollIndicatorOverlay } from "@/components/common/ScrollIndicatorOverlay";
@@ -22,23 +21,23 @@ import type { VisualizationPlugin } from "@/types/plugin";
 import { supportsControlOwnership } from "@/types/plugin";
 
 const App: React.FC = () => {
+  // Refs
   const containerRef = useRef<HTMLDivElement>(null);
   const mainContainerRef = useRef<HTMLElement>(null);
   const headerScrollRef = useRef<HTMLDivElement>(null);
   const headerContainerRef = useRef<HTMLElement>(null);
+
+  // Local state - only for plugin management
   const [plugins, setPlugins] = useState<VisualizationPlugin[]>([]);
-  const [activePlugin, setActivePluginInstance] =
-    useState<VisualizationPlugin | null>(null);
-
-  // Store raw data loaded from PluginDataLoader
+  const [activePlugin, setActivePluginInstance] = useState<VisualizationPlugin | null>(null);
   const [rawData, setRawData] = useState<Record<string, any> | null>(null);
-
   const [loadingProgress, setLoadingProgress] = useState<LoadProgress>({
     loaded: 0,
     total: 0,
     phase: "metadata",
   });
 
+  // Zustand store - handles data, filters, UI, and plugin states
   const {
     data,
     setOptimizedData,
@@ -49,13 +48,12 @@ const App: React.FC = () => {
     setShowFilters,
     setSelectedCell,
     filters,
-    // PHASE 1: Plugin state management
     pluginStates,
     setPluginState,
     initPluginState,
   } = useAppStore();
 
-  // Check for active filters
+  // Active filter detection
   const hasActiveFilters =
     filters.authors.size > 0 ||
     filters.directories.size > 0 ||
@@ -63,7 +61,7 @@ const App: React.FC = () => {
     filters.eventTypes.size > 0 ||
     filters.timeRange !== null;
 
-  // Initialize scroll hooks
+  // Scroll indicators
   const mainScroll = useScrollIndicators(containerRef, {
     containerRef: mainContainerRef,
   });
@@ -75,7 +73,7 @@ const App: React.FC = () => {
     containerRef: headerContainerRef,
   });
 
-  // Initialize plugins
+  // Initialize plugins (once)
   useEffect(() => {
     const heatmapPlugin = new TimelineHeatmapPlugin();
     const treemapPlugin = new TreemapPlugin();
@@ -95,45 +93,40 @@ const App: React.FC = () => {
     };
   }, []);
 
-  // PHASE 1: Initialize plugin state when plugin changes
+  // Initialize plugin state when plugin changes
   useEffect(() => {
     if (!ui.activePluginId || !activePlugin) return;
 
-    // If plugin supports control ownership and has getInitialState
     if (supportsControlOwnership(activePlugin) && activePlugin.getInitialState) {
       const initialState = activePlugin.getInitialState();
       initPluginState(ui.activePluginId, initialState);
     }
   }, [ui.activePluginId, activePlugin, initPluginState]);
 
-  // Load data based on Active Plugin
+  // Load data for active plugin
   useEffect(() => {
     const loadPluginData = async () => {
       if (!ui.activePluginId) return;
-      
+
       const plugin = PluginRegistry.get(ui.activePluginId);
       if (!plugin) return;
 
       setLoading(true);
       setError(null);
-      setRawData(null); // Clear previous data
+      setRawData(null);
 
       try {
         setLoadingProgress({ loaded: 0, total: 1, phase: "metadata" });
-        
-        // 1. Get requirements
+
         const requirements = PluginRegistry.getDataRequirements(ui.activePluginId);
-        
-        // 2. Load data using the new PluginDataLoader
         const result = await PluginDataLoader.loadForPlugin(requirements);
-        
+
         if (!result.success) {
           throw new Error(`Failed to load data: ${result.errors.join(", ")}`);
         }
 
         setLoadingProgress({ loaded: 1, total: 1, phase: "complete" });
         setRawData(result.data);
-
       } catch (err) {
         console.error("Error loading plugin data:", err);
         setError(err instanceof Error ? err.message : "Unknown error");
@@ -145,22 +138,20 @@ const App: React.FC = () => {
     loadPluginData();
   }, [ui.activePluginId]);
 
-  // Process Data (Apply Filters & Transform)
+  // Process data with filters
   useEffect(() => {
     if (!rawData) return;
 
     try {
-      // If we have the core datasets required for the global store/heatmap, process them
-      // This logic bridges the raw data to the OptimizedDataset expected by the store
       if (rawData.lifecycle && rawData.authors && rawData.files && rawData.dirs) {
         const optimized = DataProcessor.processRawData(
           rawData.lifecycle,
           rawData.authors,
           rawData.files,
           rawData.dirs,
-          filters // Apply current filters
+          filters
         );
-        
+
         setOptimizedData(optimized.metadata, optimized.tree, optimized.activity);
       }
     } catch (error) {
@@ -180,7 +171,7 @@ const App: React.FC = () => {
     }
   }, [ui.activePluginId]);
 
-  // Render Visualization
+  // Render visualization
   useEffect(() => {
     if (
       !activePlugin ||
@@ -199,9 +190,6 @@ const App: React.FC = () => {
         onCellClick: (cell: any) => setSelectedCell(cell),
       };
 
-      // We pass the OptimizedDataset from the store to the plugin
-      // This hits the "fallback" path in TimelineHeatmapPlugin.processData
-      // which is efficient because we processed it once in the effect above.
       const processed = activePlugin.processData(
         {
           metadata: data.metadata,
@@ -214,7 +202,6 @@ const App: React.FC = () => {
       activePlugin.init(containerRef.current, config);
       activePlugin.render(processed, config);
 
-      // Force check after render to ensure indicators are correct
       mainScroll.checkScrollability();
     } catch (error) {
       console.error("Error processing/rendering:", error);
@@ -239,25 +226,25 @@ const App: React.FC = () => {
     containerRef.current,
   ]);
 
-  // PHASE 1: Determine if plugin uses new control ownership pattern
+  // Check if plugin uses new control pattern
   const usesPluginControls = useMemo(() => {
     return activePlugin && supportsControlOwnership(activePlugin);
   }, [activePlugin]);
 
-  // PHASE 1: Get plugin state for active plugin
+  // Get current plugin state
   const currentPluginState = useMemo(() => {
     if (!ui.activePluginId) return {};
     return pluginStates[ui.activePluginId] || {};
   }, [ui.activePluginId, pluginStates]);
 
-  // PHASE 1: Plugin state update callback
+  // Plugin state update callback
   const updatePluginState = (updates: Record<string, unknown>) => {
     if (ui.activePluginId) {
       setPluginState(ui.activePluginId, updates);
     }
   };
 
-  // PHASE 1: Render plugin controls if available
+  // Render plugin-owned controls
   const renderPluginControls = () => {
     if (!activePlugin || !usesPluginControls) return null;
 
@@ -273,6 +260,7 @@ const App: React.FC = () => {
     });
   };
 
+  // Loading state
   if (data.loading) {
     return (
       <div className="h-screen bg-zinc-950 text-white flex items-center justify-center">
@@ -286,6 +274,7 @@ const App: React.FC = () => {
     );
   }
 
+  // Error state
   if (data.error) {
     return (
       <div className="h-screen bg-zinc-950 text-white">
@@ -296,12 +285,12 @@ const App: React.FC = () => {
 
   return (
     <div className="h-screen bg-zinc-950 text-white flex flex-col overflow-hidden">
-      {/* Header */}
+      {/* Header - Universal controls only */}
       <header
         ref={headerContainerRef}
         className="bg-zinc-900 border-b border-zinc-800 h-14 min-h-14 max-h-14 flex-none z-50 relative select-none"
       >
-        {/* Gradient fade hints */}
+        {/* Scroll fade hints */}
         {headerScroll.canScrollLeft && (
           <div className="absolute left-0 top-0 bottom-0 w-12 bg-gradient-to-r from-zinc-900 via-zinc-900/80 to-transparent pointer-events-none z-10" />
         )}
@@ -314,6 +303,7 @@ const App: React.FC = () => {
           className="h-full w-full overflow-x-auto overflow-y-hidden px-4 sleek-scrollbar"
         >
           <div className="flex items-center justify-between gap-4 h-full min-w-max">
+            {/* Left: App title and plugin selector */}
             <div className="flex items-center gap-4 flex-shrink-0">
               <div className="flex flex-col">
                 <h1 className="text-base font-bold leading-tight">
@@ -327,19 +317,13 @@ const App: React.FC = () => {
               <PluginSelector plugins={plugins} />
             </div>
 
+            {/* Right: Plugin-owned controls + filter button */}
             <div className="flex items-center gap-2 flex-shrink-0">
-              {/* PHASE 1: Dual Mode Control Rendering */}
-              {usesPluginControls ? (
-                // New pattern: Plugin owns its controls
+              {/* Phase 3: Plugin controls only (no fallback to universal controls) */}
+              {usesPluginControls && (
                 <div className="flex items-center gap-2">
                   {renderPluginControls()}
                 </div>
-              ) : (
-                // Legacy pattern: Universal controls
-                <>
-                  <TimeBinSelector />
-                  <MetricSelector />
-                </>
               )}
 
               <div className="h-8 w-px bg-zinc-800"></div>
@@ -365,8 +349,9 @@ const App: React.FC = () => {
         </div>
       </header>
 
+      {/* Main layout */}
       <div className="flex-1 flex overflow-hidden">
-        {/* Main Content */}
+        {/* Visualization area */}
         <main
           ref={mainContainerRef}
           className="flex-1 flex flex-col overflow-hidden relative"
@@ -378,7 +363,7 @@ const App: React.FC = () => {
           <div ref={containerRef} className="flex-1 overflow-auto"></div>
         </main>
 
-        {/* Filter Panel - Moved to Right */}
+        {/* Filter Panel */}
         <aside
           className={`w-80 bg-zinc-900 border-l border-zinc-800 overflow-y-auto flex-none panel-transition ${
             !ui.showFilters ? "panel-hidden" : ""
