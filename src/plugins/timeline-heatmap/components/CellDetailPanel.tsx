@@ -2,8 +2,7 @@
 
 import React, { useMemo } from 'react';
 import { 
-  X, Calendar, Folder, GitCommit, User, 
-  FilePlus, FileMinus, FileEdit, FileText,
+  X, Calendar, GitCommit, User, FileText,
   Activity, TrendingUp, Crown
 } from 'lucide-react';
 import { format } from 'date-fns';

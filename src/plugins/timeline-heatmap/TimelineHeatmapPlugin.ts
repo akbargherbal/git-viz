@@ -64,7 +64,7 @@ export class TimelineHeatmapPlugin
     id: "timeline-heatmap",
     name: "Timeline Heatmap",
     description: "Repository activity across time and directory structure",
-    version: "3.2.1", // Bumped version
+    version: "3.2.1",
     priority: 1,
   };
 
@@ -98,8 +98,6 @@ export class TimelineHeatmapPlugin
     const idToPath = new Map<number, string>();
     const traverse = (node: OptimizedDirectoryNode) => {
       if (node.type === "directory") {
-        // FIX: Use the pre-calculated path from the node directly
-        // This ensures consistency with DataLoader's path generation
         idToPath.set(node.id, node.path); 
         node.children?.forEach(traverse);
       }
@@ -109,14 +107,12 @@ export class TimelineHeatmapPlugin
     // 2. Determine Top Directories
     let topDirectories: string[] = [];
 
-    // OPTIMIZATION: Use pre-calculated directory stats if available
     if (metadata.directory_stats && metadata.directory_stats.length > 0) {
       topDirectories = metadata.directory_stats
         .sort((a, b) => b.activity_score - a.activity_score)
         .slice(0, topN)
         .map(d => d.path);
     } else {
-      // Fallback: Iterate activity to calculate top directories
       const dirActivity = new Map<string, number>();
       activity.forEach((item) => {
         const path = idToPath.get(item.id);
@@ -143,7 +139,6 @@ export class TimelineHeatmapPlugin
 
     activity.forEach((item) => {
       const path = idToPath.get(item.id);
-      // FIX: Ensure we have a path and it's in our top list
       if (!path || !topDirsSet.has(path)) return;
 
       const date = new Date(item.d);
@@ -291,6 +286,7 @@ export class TimelineHeatmapPlugin
       th.style.textAlign = "left";
       th.style.whiteSpace = "nowrap";
       th.style.borderRight = "1px solid #27272a";
+      // RESTORED: Dashed border for directory column only
       th.style.borderBottom = "2px dashed #27272a";
       row.appendChild(th);
 
@@ -307,7 +303,6 @@ export class TimelineHeatmapPlugin
           let hue = 145;
           if (config.metric === "authors") hue = 30;
           if (config.metric === "commits") hue = 210;
-          if (config.metric === "lines") hue = 340;
 
           const saturation = 70;
           const lightness = 10 + intensity * 50;

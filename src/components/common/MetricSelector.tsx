@@ -2,7 +2,7 @@
 import React from 'react';
 import { useAppStore } from '@/store/appStore';
 import { MetricType } from '@/types/domain';
-import { GitCommit, Activity, Users, FileText } from 'lucide-react';
+import { GitCommit, Activity, Users } from 'lucide-react';
 
 export const MetricSelector: React.FC = () => {
   const { filters, setMetric } = useAppStore();
@@ -11,7 +11,6 @@ export const MetricSelector: React.FC = () => {
     { value: 'commits', label: 'Commits', icon: <GitCommit size={14} /> },
     { value: 'events', label: 'Events', icon: <Activity size={14} /> },
     { value: 'authors', label: 'Authors', icon: <Users size={14} /> },
-    { value: 'lines', label: 'Lines', icon: <FileText size={14} /> },
   ];
 
   return (

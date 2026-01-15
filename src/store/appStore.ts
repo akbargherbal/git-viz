@@ -31,12 +31,6 @@ interface UIState {
   collapsedDirs: Set<string>;
 }
 
-interface TimelineState {
-  isPlaying: boolean;
-  currentTime: Date | null;
-  playbackSpeed: number;
-}
-
 interface AppState {
   // Data
   data: DataState;
@@ -54,9 +48,7 @@ interface AppState {
   setMetric: (metric: MetricType) => void;
   setTimeRange: (range: TimeRange | null) => void;
   toggleAuthor: (author: string) => void;
-  toggleDirectory: (dir: string) => void;
   toggleFileType: (type: string) => void;
-  toggleEventType: (type: string) => void;
   clearFilters: () => void;
   
   // UI
@@ -64,13 +56,6 @@ interface AppState {
   setActivePlugin: (pluginId: string) => void;
   setSelectedCell: (cell: any | null) => void;
   setShowFilters: (show: boolean) => void;
-  // REMOVED DUPLICATE toggleDirectory HERE
-  
-  // Timeline
-  timeline: TimelineState;
-  setPlaying: (playing: boolean) => void;
-  setCurrentTime: (time: Date | null) => void;
-  setPlaybackSpeed: (speed: number) => void;
 }
 
 export const useAppStore = create<AppState>((set) => ({
@@ -135,17 +120,6 @@ export const useAppStore = create<AppState>((set) => ({
       return { filters: { ...state.filters, authors } };
     }),
   
-  toggleDirectory: (dir) =>
-    set((state) => {
-      const directories = new Set(state.filters.directories);
-      if (directories.has(dir)) {
-        directories.delete(dir);
-      } else {
-        directories.add(dir);
-      }
-      return { filters: { ...state.filters, directories } };
-    }),
-  
   toggleFileType: (type) =>
     set((state) => {
       const fileTypes = new Set(state.filters.fileTypes);
@@ -155,17 +129,6 @@ export const useAppStore = create<AppState>((set) => ({
         fileTypes.add(type);
       }
       return { filters: { ...state.filters, fileTypes } };
-    }),
-  
-  toggleEventType: (type) =>
-    set((state) => {
-      const eventTypes = new Set(state.filters.eventTypes);
-      if (eventTypes.has(type)) {
-        eventTypes.delete(type);
-      } else {
-        eventTypes.add(type);
-      }
-      return { filters: { ...state.filters, eventTypes } };
     }),
   
   clearFilters: () =>
@@ -200,27 +163,5 @@ export const useAppStore = create<AppState>((set) => ({
   setShowFilters: (show) =>
     set((state) => ({
       ui: { ...state.ui, showFilters: show },
-    })),
-  
-  // Timeline state
-  timeline: {
-    isPlaying: false,
-    currentTime: null,
-    playbackSpeed: 1,
-  },
-  
-  setPlaying: (playing) =>
-    set((state) => ({
-      timeline: { ...state.timeline, isPlaying: playing },
-    })),
-  
-  setCurrentTime: (time) =>
-    set((state) => ({
-      timeline: { ...state.timeline, currentTime: time },
-    })),
-  
-  setPlaybackSpeed: (speed) =>
-    set((state) => ({
-      timeline: { ...state.timeline, playbackSpeed: speed },
     })),
 }));
