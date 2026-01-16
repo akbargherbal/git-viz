@@ -1,0 +1,435 @@
+{
+  "application": {
+    "name": "Git Repository Visualization - Timeline Heatmap Plugin",
+    "specification_date": "2024-05-22",
+    "version": "1.0",
+    "analyzed_sources": [
+      "Screenshots of the Timeline Heatmap UI",
+      "Bundled application files (HTML, CSS, JS)"
+    ]
+  },
+  "interaction_patterns": [
+    {
+      "id": "metric_selection",
+      "pattern_name": "Heatmap Metric Selection",
+      "trigger": {
+        "user_action": "click",
+        "target_element": "Metric selector button ('Commits', 'Events', 'Authors')",
+        "ui_location": "header toolbar"
+      },
+      "response": {
+        "primary_effect": "The selected metric button becomes visually active, and others become inactive.",
+        "affected_elements": [
+          {
+            "element": "heatmap grid cells",
+            "behavior": "The numerical values and background colors of all cells update to reflect the data for the selected metric.",
+            "position": "main content area"
+          },
+          {
+            "element": "cell tooltips",
+            "behavior": "The content of tooltips on cell hover updates to show the value for the new metric.",
+            "position": "over hovered cell"
+          }
+        ],
+        "secondary_effects": [
+          "The color hue used for the heatmap's color scale changes based on the selected metric."
+        ],
+        "timing": {
+          "transition_duration": "instant",
+          "delay": "none"
+        }
+      },
+      "state_changes": {
+        "element_states": {
+          "before": "A different metric button is active.",
+          "after": "The clicked metric button is active."
+        },
+        "persistence": "Selection does not persist across page refresh.",
+        "reset_conditions": [
+          "Page reload"
+        ]
+      },
+      "conditional_logic": {
+        "prerequisites": [],
+        "variants": []
+      },
+      "interaction_flow": {
+        "sequence_position": "standalone",
+        "next_likely_actions": [
+          "Select a different time bin",
+          "Open filters",
+          "Interact with a heatmap cell"
+        ],
+        "escape_actions": []
+      },
+      "feedback_mechanisms": {
+        "loading_states": "Data re-rendering is effectively instant.",
+        "success_indicators": "The UI updates immediately, confirming the change.",
+        "error_handling": "Not specified.",
+        "validation": "N/A"
+      },
+      "edge_cases": [],
+      "notes": "This is a mutually exclusive choice (radio button-like behavior)."
+    },
+    {
+      "id": "time_bin_selection",
+      "pattern_name": "Heatmap Time Aggregation Selection",
+      "trigger": {
+        "user_action": "click",
+        "target_element": "Time bin selector button ('Day', 'Week', 'Month', 'Quarter')",
+        "ui_location": "header toolbar"
+      },
+      "response": {
+        "primary_effect": "The selected time bin button becomes visually active.",
+        "affected_elements": [
+          {
+            "element": "heatmap grid",
+            "behavior": "The grid columns are regenerated to match the selected time aggregation. Column headers update (e.g., from 'W1, 2020' to 'Jan 2020'). Cell data is re-aggregated and re-rendered.",
+            "position": "main content area"
+          }
+        ],
+        "secondary_effects": [],
+        "timing": {
+          "transition_duration": "instant",
+          "delay": "none"
+        }
+      },
+      "state_changes": {
+        "element_states": {
+          "before": "A different time bin is selected.",
+          "after": "The clicked time bin is selected."
+        },
+        "persistence": "Selection does not persist across page refresh.",
+        "reset_conditions": [
+          "Page reload"
+        ]
+      },
+      "conditional_logic": {
+        "prerequisites": [],
+        "variants": []
+      },
+      "interaction_flow": {
+        "sequence_position": "standalone",
+        "next_likely_actions": [
+          "Select a metric",
+          "Scroll the heatmap"
+        ],
+        "escape_actions": []
+      },
+      "feedback_mechanisms": {
+        "loading_states": "Data re-rendering is effectively instant.",
+        "success_indicators": "The UI updates immediately.",
+        "error_handling": "Not specified.",
+        "validation": "N/A"
+      },
+      "edge_cases": [],
+      "notes": "This is a mutually exclusive choice."
+    },
+    {
+      "id": "filter_panel_toggle",
+      "pattern_name": "Filter Panel Toggle",
+      "trigger": {
+        "user_action": "click",
+        "target_element": "Filter icon button",
+        "ui_location": "top-right header"
+      },
+      "response": {
+        "primary_effect": "A filter side panel slides into view from the right edge of the screen.",
+        "affected_elements": [
+          {
+            "element": "filter panel",
+            "behavior": "Slides in from the right edge, docking to the right side of the viewport.",
+            "position": "right side of the screen"
+          }
+        ],
+        "secondary_effects": [
+          "If the cell detail panel is open, it is closed.",
+          "The filter icon button may change its visual state to appear active."
+        ],
+        "timing": {
+          "transition_duration": "fast",
+          "delay": "none"
+        }
+      },
+      "state_changes": {
+        "element_states": {
+          "before": "Filter panel is hidden.",
+          "after": "Filter panel is visible."
+        },
+        "persistence": "Visibility state is not persistent.",
+        "reset_conditions": [
+          "Page reload"
+        ]
+      },
+      "conditional_logic": {
+        "prerequisites": [],
+        "variants": []
+      },
+      "interaction_flow": {
+        "sequence_position": "standalone",
+        "next_likely_actions": [
+          "Apply a filter",
+          "Reset filters",
+          "Close the panel"
+        ],
+        "escape_actions": [
+          "Clicking the filter icon button again",
+          "Clicking the 'X' close button inside the panel"
+        ]
+      },
+      "feedback_mechanisms": {
+        "loading_states": "N/A",
+        "success_indicators": "Panel appears smoothly.",
+        "error_handling": "Not specified.",
+        "validation": "N/A"
+      },
+      "edge_cases": [],
+      "notes": "The filter icon displays an indicator when filters are active, even if the panel is closed."
+    },
+    {
+      "id": "apply_filters",
+      "pattern_name": "Apply or Remove a Filter",
+      "trigger": {
+        "user_action": "click",
+        "target_element": "A filter item button (e.g., an author name or a file type)",
+        "ui_location": "inside the filter panel"
+      },
+      "response": {
+        "primary_effect": "The clicked filter item toggles its visual selection state.",
+        "affected_elements": [
+          {
+            "element": "heatmap grid",
+            "behavior": "The entire dataset is re-filtered and the grid re-renders to show only data matching the active filter set.",
+            "position": "main content area"
+          },
+          {
+            "element": "'Filters Active' counter",
+            "behavior": "The numerical count updates to reflect the new total number of active filters.",
+            "position": "inside the filter panel"
+          },
+          {
+            "element": "Filter icon indicator",
+            "behavior": "A visual indicator on the main filter icon appears or disappears depending on whether any filters are active.",
+            "position": "top-right header"
+          }
+        ],
+        "secondary_effects": [
+          "The 'Reset All Filters' button becomes enabled if it was disabled."
+        ],
+        "timing": {
+          "transition_duration": "instant",
+          "delay": "none"
+        }
+      },
+      "state_changes": {
+        "element_states": {
+          "before": "Filter item is selected or not selected.",
+          "after": "Filter item's selection state is inverted."
+        },
+        "persistence": "Filter state does not persist across page refresh.",
+        "reset_conditions": [
+          "Clicking 'Reset All Filters'",
+          "Page reload"
+        ]
+      },
+      "conditional_logic": {
+        "prerequisites": [
+          "Filter panel must be open."
+        ],
+        "variants": []
+      },
+      "interaction_flow": {
+        "sequence_position": "part of larger flow",
+        "next_likely_actions": [
+          "Apply another filter",
+          "Close the filter panel"
+        ],
+        "escape_actions": []
+      },
+      "feedback_mechanisms": {
+        "loading_states": "Data re-rendering is effectively instant.",
+        "success_indicators": "UI updates immediately.",
+        "error_handling": "Not specified.",
+        "validation": "N/A"
+      },
+      "edge_cases": [],
+      "notes": "Filters for authors and file types are multi-select."
+    },
+    {
+      "id": "cell_interaction",
+      "pattern_name": "Heatmap Cell Interaction",
+      "trigger": {
+        "user_action": "hover | click",
+        "target_element": "A non-empty heatmap grid cell",
+        "ui_location": "main content area"
+      },
+      "response": {
+        "primary_effect": "Varies based on hover or click.",
+        "affected_elements": [],
+        "secondary_effects": [],
+        "timing": {
+          "transition_duration": "fast",
+          "delay": "none"
+        }
+      },
+      "state_changes": {
+        "element_states": {
+          "before": "Cell is in default state.",
+          "after": "Cell is hovered or selected."
+        },
+        "persistence": "Selection state is not persistent.",
+        "reset_conditions": [
+          "Clicking another cell",
+          "Closing the detail panel",
+          "Page reload"
+        ]
+      },
+      "conditional_logic": {
+        "prerequisites": [
+          "Cell must contain data (value > 0)."
+        ],
+        "variants": [
+          {
+            "condition": "User hovers over the cell",
+            "behavior": "The cell visually scales up slightly. A native browser tooltip appears showing detailed stats for that cell (directory, time period, metric value, creations/deletions/modifications)."
+          },
+          {
+            "condition": "User clicks the cell",
+            "behavior": "A detail panel slides into view from the right edge of the screen, displaying in-depth information about the cell's data. If another cell's detail panel was open, it is replaced."
+          }
+        ]
+      },
+      "interaction_flow": {
+        "sequence_position": "standalone",
+        "next_likely_actions": [
+          "Examine detail panel",
+          "Close detail panel"
+        ],
+        "escape_actions": [
+          "For detail panel: clicking the 'X' close button in the panel."
+        ]
+      },
+      "feedback_mechanisms": {
+        "loading_states": "N/A",
+        "success_indicators": "Visual feedback is immediate.",
+        "error_handling": "Not specified.",
+        "validation": "N/A"
+      },
+      "edge_cases": [],
+      "notes": "The detail panel and filter panel are mutually exclusive."
+    },
+    {
+      "id": "heatmap_scrolling",
+      "pattern_name": "Heatmap Grid Scrolling",
+      "trigger": {
+        "user_action": "scroll",
+        "target_element": "Main content area containing the heatmap",
+        "ui_location": "main content area"
+      },
+      "response": {
+        "primary_effect": "The grid of cells scrolls horizontally and/or vertically.",
+        "affected_elements": [
+          {
+            "element": "Scroll hint arrows",
+            "behavior": "Directional arrow controls appear at the edges of the viewport (top, bottom, left, right) when there is more content to scroll in that direction. They disappear when the edge is reached.",
+            "position": "edges of the main content area"
+          }
+        ],
+        "secondary_effects": [
+          "Clicking and holding a scroll hint arrow scrolls the content in that direction."
+        ],
+        "timing": {
+          "transition_duration": "instant",
+          "delay": "none"
+        }
+      },
+      "state_changes": {
+        "element_states": {
+          "before": "Content is at a specific scroll position.",
+          "after": "Content is at a new scroll position."
+        },
+        "persistence": "Scroll position is not persistent.",
+        "reset_conditions": [
+          "Page reload",
+          "Applying filters or changing metrics/time bins may reset scroll position."
+        ]
+      },
+      "conditional_logic": {
+        "prerequisites": [
+          "The heatmap grid content must be larger than the visible viewport."
+        ],
+        "variants": []
+      },
+      "interaction_flow": {
+        "sequence_position": "standalone",
+        "next_likely_actions": [
+          "Interacting with a cell that has scrolled into view."
+        ],
+        "escape_actions": []
+      },
+      "feedback_mechanisms": {
+        "loading_states": "N/A",
+        "success_indicators": "Content scrolls smoothly.",
+        "error_handling": "Not specified.",
+        "validation": "N/A"
+      },
+      "edge_cases": [],
+      "notes": "The directory column (Y-axis) is sticky on the left. The time bin row (X-axis) is sticky on the top."
+    }
+  ],
+  "ui_structure": {
+    "layout_regions": [
+      {
+        "region": "header",
+        "position": "fixed",
+        "contains": [
+          "Application Title",
+          "Plugin Selector Dropdown",
+          "Metric Selector Buttons",
+          "Time Bin Selector Buttons",
+          "Filter Button"
+        ],
+        "behavior": "Remains fixed at the top of the viewport, does not scroll with content."
+      },
+      {
+        "region": "main content",
+        "position": "scrollable",
+        "contains": [
+          "Heatmap Grid"
+        ],
+        "behavior": "Occupies the main area of the screen. Content within this region can be scrolled both horizontally and vertically. Contains sticky headers for rows and columns."
+      },
+      {
+        "region": "overlay",
+        "position": "floating",
+        "contains": [
+          "Filter Panel",
+          "Cell Detail Panel"
+        ],
+        "behavior": "Panels slide in from the right edge of the viewport, docking to the right side. They overlay a portion of the main content area. Only one panel can be visible at a time."
+      }
+    ],
+    "navigation_model": {
+      "type": "single-page",
+      "transitions": "UI state changes happen in-place without page loads.",
+      "persistence": "UI state such as selected metric, time bin, and filters are reset on page reload."
+    }
+  },
+  "global_behaviors": [
+    {
+      "pattern": "Right-side panels (Filters, Cell Detail) are mutually exclusive; opening one closes the other.",
+      "scope": "application-wide",
+      "priority": "high"
+    },
+    {
+      "pattern": "Heatmap cells with file creations have a green bottom border.",
+      "scope": "main content grid",
+      "priority": "normal"
+    },
+    {
+      "pattern": "Heatmap cells with file deletions have a red top border.",
+      "scope": "main content grid",
+      "priority": "normal"
+    }
+  ]
+}
