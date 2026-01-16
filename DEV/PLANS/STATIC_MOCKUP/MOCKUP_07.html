@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Git-Viz: Refined Coupling X-Ray</title>
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body { background-color: #09090b; color: white; overflow: hidden; }
+        .node { transition: all 0.3s ease; cursor: crosshair; }
+        .node.dimmed { opacity: 0.1; fill: #333 !important; }
+        .node.highlighted { opacity: 1; stroke: #fff; stroke-width: 2px; filter: drop-shadow(0 0 8px rgba(255,255,255,0.5)); }
+        .node.source { fill: #fff !important; }
+        .link-line { fill: none; stroke: rgba(255, 255, 255, 0.4); stroke-width: 1.5px; pointer-events: none; }
+        #filter-panel { position: absolute; top: 10px; right: 10px; background: #18181b; padding: 1rem; border: 1px solid #27272a; display: none; }
+        #details { position: absolute; bottom: 0; left: 0; width: 100%; background: #18181b; border-top: 1px solid #27272a; padding: 1rem; transform: translateY(100%); transition: transform 0.3s; }
+        #details.visible { transform: translateY(0); }
+    </style>
+</head>
+<body class="h-screen flex flex-col">
+    <div class="p-4 border-b border-zinc-800 bg-zinc-900 z-10">
+        <div class="flex justify-between items-center">
+            <div>
+                <h1 class="font-bold text-lg flex items-center gap-2">
+                    <span class="text-purple-500">⚡</span> Refined Coupling X-Ray
+                </h1>
+                <p class="text-zinc-400 text-xs">Hover to preview couplings, click to lock and view details. Filter for stronger ties.</p>
+            </div>
+            <button id="filter-toggle" class="text-zinc-500 hover:text-white">Filters ⚙️</button>
+        </div>
+    </div>
+    <div id="chart" class="flex-1 relative"></div>
+    <div id="filter-panel">
+        <label>Min Coupling Strength: <input type="range" id="strength-threshold" min="0" max="1" step="0.1" value="0.3" class="accent-purple-500"></label>
+    </div>
+    <div id="details">
+        <button id="close-details" class="absolute top-2 right-2 text-zinc-400 hover:text-white">Close</button>
+        <div id="details-content"></div>
+    </div>
+
+    <script>
+        // Fake Data (Excalidraw-inspired)
+        function generateTree(name, depth=0) {
+            if (depth > 3) return { name: `file_${Math.random().toString(36).substr(2, 5)}.ts`, value: Math.random() * 100 };
+            const children = [];
+            const count = Math.floor(Math.random() * 3) + 2;
+            for(let i=0; i<count; i++) children.push(generateTree(`${name}_${i}`, depth+1));
+            return { name, children };
+        }
+        const data = generateTree("root");
+
+        const leaves = [];
+        function traverse(node) {
+            if(!node.children) leaves.push(node.name);
+            else node.children.forEach(traverse);
+        }
+        traverse(data);
+
+        const coupling = {};
+        leaves.forEach(leaf => {
+            coupling[leaf] = [];
+            const count = Math.floor(Math.random() * 5) + 1;
+            for(let i=0; i<count; i++) {
+                const target = leaves[Math.floor(Math.random() * leaves.length)];
+                if(target !== leaf) coupling[leaf].push({target, strength: Math.random().toFixed(2)});
+            }
+        });
+
+        // Render
+        const width = window.innerWidth;
+        const height = window.innerHeight - 80;
+        const svg = d3.select("#chart").append("svg").attr("width", width).attr("height", height);
+
+        const root = d3.hierarchy(data).sum(d => d.value).sort((a, b) => b.value - a.value);
+        d3.treemap().size([width, height]).padding(1).round(true)(root);
+
+        const nodes = svg.selectAll("rect")
+            .data(root.leaves())
+            .join("rect")
+            .attr("x", d => d.x0)
+            .attr("y", d => d.y0)
+            .attr("width", d => d.x1 - d.x0)
+            .attr("height", d => d.y1 - d.y0)
+            .attr("fill", "#27272a")
+            .attr("stroke", "#000")
+            .attr("class", "node")
+            .attr("id", d => `node-${d.data.name}`);
+
+        let locked = false;
+        let currentFile = null;
+        let threshold = 0.3;
+
+        function updateHighlights(fileName, persist = false) {
+            svg.selectAll('.link-line').remove();
+            const partners = coupling[fileName].filter(p => p.strength >= threshold);
+            nodes.classed("dimmed", true);
+            d3.select(`#node-${fileName}`).classed("dimmed", false).classed("source highlighted", true);
+            partners.forEach(p => {
+                const targetNode = svg.select(`#node-${p.target}`);
+                targetNode.classed("dimmed", false).classed("highlighted", true).attr("fill", "#9333ea");
+                const sourceD = root.leaves().find(l => l.data.name === fileName);
+                const targetD = root.leaves().find(l => l.data.name === p.target);
+                if (sourceD && targetD) {
+                    const sourceCenter = { x: (sourceD.x0 + sourceD.x1)/2, y: (sourceD.y0 + sourceD.y1)/2 };
+                    const targetCenter = { x: (targetD.x0 + targetD.x1)/2, y: (targetD.y0 + targetD.y1)/2 };
+                    svg.append("path")
+                        .attr("d", `M${sourceCenter.x},${sourceCenter.y} Q${(sourceCenter.x+targetCenter.x)/2},${sourceCenter.y-50} ${targetCenter.x},${targetCenter.y}`)
+                        .attr("class", "link-line");
+                }
+            });
+            if (persist) showDetails(fileName, partners);
+        }
+
+        nodes.on("mouseenter", (event, d) => {
+            if (!locked) updateHighlights(d.data.name);
+        }).on("mouseleave", () => {
+            if (!locked) resetView();
+        }).on("click", (event, d) => {
+            locked = !locked;
+            currentFile = d.data.name;
+            if (locked) updateHighlights(currentFile, true);
+            else resetView();
+        });
+
+        function resetView() {
+            nodes.classed("dimmed highlighted source", false).attr("fill", "#27272a");
+            svg.selectAll(".link-line").remove();
+            hideDetails();
+        }
+
+        function showDetails(fileName, partners) {
+            const content = document.getElementById('details-content');
+            content.innerHTML = `<h3>${fileName}</h3><p>Top Partners:</p><ul>${partners.map(p => `<li>${p.target} (Strength: ${p.strength})</li>`).join('')}</ul>`;
+            document.getElementById('details').classList.add('visible');
+        }
+
+        function hideDetails() {
+            document.getElementById('details').classList.remove('visible');
+        }
+
+        document.getElementById('close-details').addEventListener('click', hideDetails);
+
+        // Filter Panel
+        const filterPanel = document.getElementById('filter-panel');
+        document.getElementById('filter-toggle').addEventListener('click', () => {
+            filterPanel.style.display = filterPanel.style.display === 'block' ? 'none' : 'block';
+        });
+        document.getElementById('strength-threshold').addEventListener('input', e => {
+            threshold = +e.target.value;
+            if (locked) updateHighlights(currentFile, true);
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Git-Viz: Refined Evolutionary Timelapse</title>
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body { background-color: #09090b; color: white; overflow: hidden; }
+        .node { transition: fill 0.5s ease, opacity 0.5s ease; }
+        #timeline-axis { position: absolute; bottom: 0; left: 0; width: 100%; height: 40px; background: #18181b; display: none; }
+        #filter-panel { position: absolute; top: 10px; right: 10px; background: #18181b; padding: 1rem; border: 1px solid #27272a; display: none; }
+        #details { position: absolute; bottom: 0; left: 0; width: 100%; background: #18181b; border-top: 1px solid #27272a; padding: 1rem; transform: translateY(100%); transition: transform 0.3s; }
+        #details.visible { transform: translateY(0); }
+    </style>
+</head>
+<body class="h-screen flex flex-col">
+    <div class="p-4 border-b border-zinc-800 bg-zinc-900">
+        <div class="flex justify-between items-center mb-4">
+            <h1 class="font-bold text-lg">⏳ Refined Evolutionary Timelapse</h1>
+            <button id="filter-toggle" class="text-zinc-500 hover:text-white">Filters ⚙️</button>
+        </div>
+        <p class="text-zinc-400 text-xs">Hover timeline axis (bottom) to scrub time. Nodes cue recent events. Click for node history.</p>
+    </div>
+    <div id="chart" class="flex-1 relative"></div>
+    <div id="timeline-axis">
+        <input type="range" id="time-scrubber" min="0" max="100" value="100" class="w-full accent-purple-500 h-2">
+    </div>
+    <div id="filter-panel">
+        <label><input type="checkbox" id="highlight-creations" checked> Highlight Creations</label><br>
+        <label><input type="checkbox" id="fade-deletions" checked> Fade Deletions</label>
+    </div>
+    <div id="details">
+        <button id="close-details" class="absolute top-2 right-2 text-zinc-400 hover:text-white">Close</button>
+        <div id="details-content"></div>
+    </div>
+
+    <script>
+        // Fake Data
+        const files = [];
+        for(let i=0; i<100; i++) {
+            files.push({
+                name: `module_${i}.ts`,
+                value: Math.random() * 100,
+                created: Math.floor(Math.random() * 50),
+                deleted: Math.random() > 0.8 ? Math.floor(Math.random() * 50) + 50 : 101,
+                modifications: Array.from({length: 5}, () => Math.floor(Math.random() * 100))
+            });
+        }
+        const data = { name: "root", children: files };
+
+        const width = window.innerWidth;
+        const height = window.innerHeight - 120;
+        const svg = d3.select("#chart").append("svg").attr("width", width).attr("height", height);
+
+        const root = d3.hierarchy(data).sum(d => d.value).sort((a, b) => b.value - a.value);
+        d3.treemap().size([width, height]).padding(1)(root);
+
+        const nodes = svg.selectAll("rect")
+            .data(root.leaves())
+            .join("rect")
+            .attr("x", d => d.x0)
+            .attr("y", d => d.y0)
+            .attr("width", d => d.x1 - d.x0)
+            .attr("height", d => d.y1 - d.y0)
+            .attr("fill", "#27272a")
+            .attr("stroke", "#000")
+            .attr("class", "node")
+            .on("click", (event, d) => showDetails(d.data));
+
+        let currentTime = 100; // Default to now
+        let showCreations = true;
+        let showDeletions = true;
+
+        function updateView() {
+            nodes.attr("fill", d => {
+                const f = d.data;
+                if (currentTime < f.created) return "#000";
+                if (currentTime > f.deleted && showDeletions) return "#1f1f22";
+                if (showCreations && Math.abs(currentTime - f.created) < 10) return "#22c55e"; // Subtle cue
+                if (f.modifications.some(m => Math.abs(currentTime - m) < 5)) return "#3b82f6";
+                return "#27272a";
+            }).attr("opacity", d => {
+                const f = d.data;
+                if (currentTime < f.created || (currentTime > f.deleted && showDeletions)) return 0.3;
+                return 1;
+            });
+        }
+
+        // Timeline Discovery
+        const timeline = document.getElementById('timeline-axis');
+        svg.on('mouseenter', () => timeline.style.display = 'block');
+        svg.on('mouseleave', () => { if (!document.activeElement.id === 'time-scrubber') timeline.style.display = 'none'; });
+        document.getElementById('time-scrubber').addEventListener('input', e => {
+            currentTime = +e.target.value;
+            updateView();
+        });
+
+        // Filters
+        const filterPanel = document.getElementById('filter-panel');
+        document.getElementById('filter-toggle').addEventListener('click', () => {
+            filterPanel.style.display = filterPanel.style.display === 'block' ? 'none' : 'block';
+        });
+        document.getElementById('highlight-creations').addEventListener('change', e => { showCreations = e.target.checked; updateView(); });
+        document.getElementById('fade-deletions').addEventListener('change', e => { showDeletions = e.target.checked; updateView(); });
+
+        function showDetails(data) {
+            const content = document.getElementById('details-content');
+            content.innerHTML = `
+                <h3>${data.name}</h3>
+                <p>Created: Time ${data.created} | Deleted: ${data.deleted > 100 ? 'Active' : data.deleted}</p>
+                <p>Modifications: ${data.modifications.join(', ')}</p>
+                <svg id="sparkline" width="300" height="50"></svg>
+            `;
+            document.getElementById('details').classList.add('visible');
+            // Fake sparkline
+            const sparkSvg = d3.select('#sparkline');
+            const line = d3.line()([ [0,25], [50,10], [100,40], [150,20], [200,30], [250,15], [300,25] ]);
+            sparkSvg.append('path').attr('d', line).attr('stroke', '#3b82f6').attr('fill', 'none');
+        }
+
+        document.getElementById('close-details').addEventListener('click', () => document.getElementById('details').classList.remove('visible'));
+
+        updateView();
+    </script>
+</body>
+</html>

@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Git-Viz: Refined Technical Debt Radar</title>
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body { background-color: #09090b; color: white; overflow: hidden; }
+        .node:hover { stroke: white; stroke-width: 2px; }
+        #filter-panel { position: absolute; top: 10px; right: 10px; background: #18181b; padding: 1rem; border: 1px solid #27272a; display: none; }
+        #details { position: absolute; bottom: 0; left: 0; width: 100%; background: #18181b; border-top: 1px solid #27272a; padding: 1rem; transform: translateY(100%); transition: transform 0.3s; }
+        #details.visible { transform: translateY(0); }
+    </style>
+</head>
+<body class="h-screen flex flex-col">
+    <div class="p-4 border-b border-zinc-800 bg-zinc-900 flex justify-between items-center">
+        <div>
+            <h1 class="font-bold text-lg flex items-center gap-2">
+                <span class="text-red-500">☢️</span> Refined Technical Debt Radar
+            </h1>
+            <p class="text-zinc-400 text-xs">Hover for metric previews, click for trends. Filters highlight risks.</p>
+        </div>
+        <button id="filter-toggle" class="text-zinc-500 hover:text-white">Filters ⚙️</button>
+    </div>
+    <div id="chart" class="flex-1 relative"></div>
+    <div id="filter-panel">
+        <label><input type="checkbox" id="filter-critical" class="accent-red-500"> Critical Only</label><br>
+        <label><input type="checkbox" id="filter-low-bus" class="accent-yellow-500"> Low Bus Factor (<2)</label>
+    </div>
+    <div id="details">
+        <button id="close-details" class="absolute top-2 right-2 text-zinc-400 hover:text-white">Close</button>
+        <div id="details-content"></div>
+    </div>
+
+    <script>
+        // Fake Data
+        function generateTree(name, depth=0) {
+            if (depth > 3) {
+                const authors = Math.floor(Math.random() * 10) + 1;
+                const churn = Math.random();
+                const age = Math.random();
+                const healthScore = (churn * 50) + (authors * 2) + (age < 0.1 ? 20 : 0);
+                const busFactor = authors > 4 ? 'Low Risk' : authors < 2 ? 'High Risk' : 'Medium';
+                return { 
+                    name: `File_${Math.floor(Math.random()*1000)}.ts`,
+                    value: authors * 10,
+                    metrics: { authors, churn, age, healthScore, busFactor }
+                };
+            }
+            const children = [];
+            for(let i=0; i<3; i++) children.push(generateTree(`${name}_${i}`, depth+1));
+            return { name, children };
+        }
+        const data = generateTree("root");
+
+        const colorScale = d3.scaleDiverging(d3.interpolateRdYlGn).domain([100, 50, 0]);
+
+        const width = window.innerWidth;
+        const height = window.innerHeight - 80;
+        const svg = d3.select("#chart").append("svg").attr("width", width).attr("height", height);
+
+        const root = d3.hierarchy(data).sum(d => d.value).sort((a, b) => b.value - a.value);
+        d3.treemap().size([width, height]).padding(1).round(true)(root);
+
+        const nodes = svg.selectAll("rect")
+            .data(root.leaves())
+            .join("rect")
+            .attr("x", d => d.x0)
+            .attr("y", d => d.y0)
+            .attr("width", d => d.x1 - d.x0)
+            .attr("height", d => d.y1 - d.y0)
+            .attr("fill", d => colorScale(d.data.metrics.healthScore))
+            .attr("class", "node")
+            .on("mouseenter", (event, d) => {
+                d3.select(event.target).attr("stroke", d.data.metrics.busFactor === 'High Risk' ? "#ff0000" : "#ffffff");
+                // Tooltip (fake)
+                console.log(`Quick: Health ${d.data.metrics.healthScore.toFixed(0)}, Bus ${d.data.metrics.busFactor}`); // In real, use div tooltip
+            })
+            .on("mouseleave", (event) => d3.select(event.target).attr("stroke", "#000"))
+            .on("click", (event, d) => showDetails(d.data));
+
+        let showCritical = false;
+        let showLowBus = false;
+
+        function updateFilters() {
+            nodes.attr("opacity", d => {
+                if (showCritical && d.data.metrics.healthScore <= 70) return 0.1;
+                if (showLowBus && d.data.metrics.busFactor !== 'High Risk') return 0.1;
+                return 1;
+            });
+        }
+
+        // Filters
+        const filterPanel = document.getElementById('filter-panel');
+        document.getElementById('filter-toggle').addEventListener('click', () => {
+            filterPanel.style.display = filterPanel.style.display === 'block' ? 'none' : 'block';
+        });
+        document.getElementById('filter-critical').addEventListener('change', e => { showCritical = e.target.checked; updateFilters(); });
+        document.getElementById('filter-low-bus').addEventListener('change', e => { showLowBus = e.target.checked; updateFilters(); });
+
+        function showDetails(data) {
+            const content = document.getElementById('details-content');
+            content.innerHTML = `
+                <h3>${data.name}</h3>
+                <p>Health Score: ${data.metrics.healthScore.toFixed(0)} (Churn: ${(data.metrics.churn*100).toFixed(0)}%, Authors: ${data.metrics.authors})</p>
+                <p>Bus Factor: ${data.metrics.busFactor}</p>
+                <p>Trend: Complexity Drift Increasing (Fake Insight)</p>
+            `;
+            document.getElementById('details').classList.add('visible');
+        }
+
+        document.getElementById('close-details').addEventListener('click', () => document.getElementById('details').classList.remove('visible'));
+    </script>
+</body>
+</html>

@@ -1,39 +1,38 @@
-# Context: Treemap Visualization Evolution (Phase 3)
+# Session Summary: Treemap Visualization Refinement (Phase 3 Continuation)
 
-## 🎯 Strategic Objective
-**Transform the Treemap from a static "File Browser" (1/10) into a multi-dimensional "Ecosystem MRI" (10/10).**
+**Date:** January 16, 2026  
+**Participants:** Grok (AI) and ghurbal (User)  
+**Focus:** Brainstorming and prototyping enhancements to the treemap plugin in git-viz, emphasizing user-driven exploration and multi-dimensional storytelling, inspired by the heatmap timeline's success (rated 9/10 for depth and engagement).
 
-We are moving beyond simple `Size=Lines` / `Color=Type` mappings. The goal is to use the Treemap as a canvas to tell complex stories about **Risk**, **Time**, and **Hidden Dependencies** by leveraging the rich V2 datasets.
+## Recap of Session Goals and Starting Point
+- **Objective:** Continue from previous session's "Concept Refinement" stage (per CONTEXT.md), focusing on evolving the treemap from a basic structure (1/10) into an "Ecosystem MRI" that reveals risk, time, and dependencies using V2 datasets (e.g., file_lifecycle.json, cochange_network.json).
+- **Inputs Reviewed:** Three mockups (Coupling X-Ray, Evolutionary Timelapse, Technical Debt Radar), V2 schema migration guide, metrics glossary, dataset metadata for Excalidraw repo, and overall architecture.
+- **User Guidance:** Shift away from scripted flows (e.g., no "play button" animations); prioritize discovery via hover/click/filters. Emulate heatmap's layered narratives: base visuals with cues, detail panels on interaction, filters for deeper insights.
 
-## 🧪 Concepts Explored (The "Lenses")
-We have prototyped three distinct narrative directions via static mockups. These are not mutually exclusive and might be combined into a single "Lens" selector.
+## Key Discussions and Iterations
+- **Initial Brainstorm (Grok's Response):** Proposed unifying the three lenses into a "Super-Treemap" with mode switches, incorporating glossary metrics (e.g., churn, bus factor). Provided a prototype (MOCKUP_07_UNIFIED_LENS.html) combining elements, but with a play button in timelapse mode.
+- **User Feedback:** Rejected unified prototype's "play button" approach as too prescriptive; prefers self-guided exploration. Redirected to refine the original three mockups individually, aiming for heatmap-like experiences: multi-stories (e.g., event cues via styling), detail panels, and filters for gradual insight discovery.
+- **Refined Brainstorm and Prototypes (Grok's Follow-Up):** 
+  - Structured ideas around structure (layout/encoding), behavior (interactions), and metrics integration.
+  - Emphasized principles: Discovery-first (passive cues + active probes), no forced flows, progressive disclosure.
+  - Delivered three refined prototypes (single HTML files with fake Excalidraw-inspired data):
+    - **Coupling X-Ray:** Added click-to-lock highlights, strength threshold filter, detail panel with partners/metrics.
+    - **Evolutionary Timelapse:** Removed play; made scrubber discoverable on hover; added event cues, type filters, per-node timeline panels.
+    - **Technical Debt Radar:** Enhanced with hover tooltips, expanded filters (e.g., low bus factor), panels with trends/insights.
+  - Unification explored as "Lens Overlays" (e.g., base debt view with hover-activated coupling), but kept prototypes separate for evaluation.
 
-1.  **⚡ The Coupling X-Ray (Structure + Network)**
-    *   **Concept:** Hovering a file dims the tree and highlights logically coupled files (via `cochange_network.json`), regardless of their directory location.
-    *   **Value:** Reveals "Spaghetti Code" and hidden dependencies that standard hierarchy views conceal.
+## What We Learned
+- **User Preferences:** Strong aversion to predefined animations/flows; favor organic discovery (e.g., hover reveals, filters unlock layers). This aligns with heatmap's success: rewarding prolonged interaction without guidance overload.
+- **Design Insights:** Treemap needs layering for multi-dimensionality—e.g., combine time (fades/flashes), risk (colors/borders), dependencies (lines/panels)—while avoiding clutter. V2 data enables rich cues (e.g., cochange_strength thresholds, release milestones).
+- **Strengths and Gaps:** Mockups are solid bases; refinements added heatmap-like depth (panels, filters). But treemap still lags in inherent storytelling—needs more passive narratives (e.g., default cues for hot/dormant files per glossary).
+- **Technical Notes:** Prototypes use D3.js for consistency; fake data mirrors real metadata (e.g., high couplings). For impl, leverage PluginRegistry and DataProcessor.ts for perf.
+- **Overall Progress:** Moved from broad unification to targeted refinements; confirmed "we're on to something" but "far from knowing exactly what we want"—prototypes provide testable artifacts.
 
-2.  **⏳ The Evolutionary Timelapse (Time + Growth)**
-    *   **Concept:** A scrubbable timeline that replays the repository's history. Files flash Green (Created), Blue (Modified), or fade out (Deleted).
-    *   **Value:** Visualizes the *process* of growth, identifying when "God Classes" formed or when major refactors occurred.
+## Open Questions for Next Session
+- **Prototype Evaluation:** Which of the three refined prototypes best captures the multi-dimensional feel? (E.g., test Coupling for dependency stories, Timelapse for temporal depth.)
+- **Unification Strategy:** Should we merge elements (e.g., add temporal cues to Debt Radar) into one plugin with overlays, or keep as modes/selectable lenses? How to avoid overwhelming users?
+- **Specific Refinements:** What additional filters/metrics (e.g., velocity from temporal_daily.json, knowledge silos from author_network) to integrate? How to handle large repos like Excalidraw (2.7k files) for perf?
+- **User Testing Angle:** How might users "spend time" discovering insights—e.g., add more hover previews or sparkline trends in panels?
+- **Next Direction:** Prototype a hybrid (e.g., Debt + Coupling overlay) or dive deeper into one? Incorporate real Excalidraw data for validation?
 
-3.  **☢️ The Technical Debt Radar (Composite Metrics)**
-    *   **Concept:** Uses composite metrics (e.g., `Health Score = Churn × Age + BugFixes`) to highlight "Rot". Includes filtering for "Critical Zones".
-    *   **Value:** Acts as a prioritized to-do list for refactoring, ignoring safe legacy code to focus on active risks.
-
-## 📂 Data Assets Available (V2)
-We have confirmed access to these datasets in `src/services/data/`:
-*   **`file_index.json`**: Rich metadata (primary author, total commits, age, unique authors).
-*   **`directory_stats.json`**: Aggregated activity scores for directory nodes.
-*   **`cochange_network.json`**: The "hidden" graph edges between files.
-*   **`file_lifecycle.json`**: The raw event stream needed for the Timelapse view.
-
-## 🏗️ Architectural State
-*   **Plugin System:** We are using the **Phase 2 Control Ownership** pattern. The Treemap plugin will own its own state (`TreemapState`) and render its own UI controls (Lens selector, Timeline scrubber, Filters) via `renderControls`.
-*   **Current Code:** `TreemapPlugin.ts` is currently a basic D3 placeholder. It needs a complete rewrite to support these new modes.
-
-## 🚀 Agenda for Next Session
-1.  **Review & Refine:** Critically evaluate the three mockups. Decide which features to keep, combine, or discard.
-2.  **Unification:** Determine if these should be separate plugins or distinct "Modes/Lenses" within a single Super-Treemap (likely the latter).
-3.  **Implementation Strategy:** Plan the D3 update logic to handle switching between these drastically different visual modes without performance penalties.
-
-**Starting Point:** We are at the "Concept Refinement" stage. Do not start coding the final plugin immediately. First, solidify the feature set based on the "Multi-Dimensional" direction.
+This summary sets us up to pick up seamlessly—let's iterate on the prototypes or explore hybrids next!
