@@ -204,12 +204,22 @@ export const useAppStore = create<AppState>((set, get) => ({
 
   setSelectedCell: (cell) =>
     set((state) => ({
-      ui: { ...state.ui, selectedCell: cell },
+      ui: {
+        ...state.ui,
+        selectedCell: cell,
+        // Mutual exclusivity: If opening detail panel (cell != null), close filters
+        showFilters: cell ? false : state.ui.showFilters,
+      },
     })),
 
   setShowFilters: (show) =>
     set((state) => ({
-      ui: { ...state.ui, showFilters: show },
+      ui: {
+        ...state.ui,
+        showFilters: show,
+        // Mutual exclusivity: If opening filters (show == true), close detail panel
+        selectedCell: show ? null : state.ui.selectedCell,
+      },
     })),
 
   // PHASE 1 ADDITION: Plugin state management

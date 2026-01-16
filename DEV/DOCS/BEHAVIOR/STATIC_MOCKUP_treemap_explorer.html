@@ -1,0 +1,681 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Git Treemap Explorer - High Fidelity Mockup</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        [x-cloak] { display: none !important; }
+        
+        body { background-color: #09090b; color: #fafafa; }
+        ::-webkit-scrollbar { width: 10px; height: 10px; }
+        ::-webkit-scrollbar-track { background: #18181b; }
+        ::-webkit-scrollbar-thumb { background: #3f3f46; border-radius: 5px; }
+        ::-webkit-scrollbar-thumb:hover { background: #52525b; }
+
+        .panel-transition { transition: all 0.3s ease-in-out; }
+        
+        .treemap-cell { 
+            transition: all 0.15s ease;
+            cursor: pointer;
+            stroke: #000;
+            stroke-width: 1px;
+        }
+        .treemap-cell:hover { 
+            stroke: #fff;
+            stroke-width: 2px;
+            filter: brightness(1.2);
+        }
+        .treemap-cell.selected {
+            stroke: #fff;
+            stroke-width: 3px;
+        }
+        .treemap-cell.dimmed {
+            opacity: 0.1;
+        }
+        
+        .coupling-line {
+            fill: none;
+            stroke: rgba(255, 255, 255, 0.6);
+            stroke-width: 2px;
+            pointer-events: none;
+            opacity: 0;
+            transition: opacity 0.2s;
+        }
+        .coupling-line.visible {
+            opacity: 1;
+        }
+        
+        .cell-label {
+            pointer-events: none;
+            font-family: monospace;
+            font-size: 10px;
+            fill: white;
+            text-anchor: middle;
+            dominant-baseline: middle;
+        }
+        
+        #timeline-scrubber {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 60px;
+            background: linear-gradient(to top, #18181b 0%, transparent 100%);
+            display: flex;
+            align-items: center;
+            padding: 0 2rem;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+        #timeline-scrubber.visible {
+            opacity: 1;
+        }
+    </style>
+</head>
+<body x-data="treemapApp()" class="h-screen flex flex-col overflow-hidden">
+
+<!-- HEADER -->
+    <header class="h-14 bg-zinc-900 border-b border-zinc-800 flex items-center justify-between px-4 flex-none z-50">
+        <div class="flex items-center gap-4">
+            <div class="flex flex-col">
+                <h1 class="text-sm font-bold leading-tight">Git Repository Visualization</h1>
+                <p class="text-[10px] text-zinc-500 font-mono leading-tight">excalidraw</p>
+            </div>
+            <div class="h-8 w-px bg-zinc-800"></div>
+            
+            <!-- Plugin Selector (Global) -->
+            <div class="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-zinc-900 border border-zinc-800 text-zinc-300 text-sm">
+                <i data-lucide="layout-grid" class="w-4 h-4 text-purple-500"></i>
+                <span>Treemap Explorer</span>
+                <i data-lucide="chevron-down" class="w-3 h-3 text-zinc-500"></i>
+            </div>
+            
+            <!-- Lens Mode Buttons (App-Specific Controls) -->
+            <div class="flex gap-2">
+                <template x-for="lens in lenses">
+                    <button @click="state.lens = lens.id"
+                        :class="state.lens === lens.id ? 'bg-purple-900/50 text-purple-200 border-purple-700/50' : 'bg-zinc-800 text-zinc-500 hover:text-zinc-300'"
+                        class="px-2 py-1 rounded text-[10px] font-medium transition-all border">
+                        <span x-text="lens.short"></span>
+                    </button>
+                </template>
+            </div>
+        </div>
+
+        <div class="flex items-center gap-4">
+            <!-- Size Metric Selector -->
+            <div class="flex bg-zinc-950 rounded-lg p-1 border border-zinc-800">
+                <template x-for="m in sizeMetrics">
+                    <button @click="state.sizeMetric = m.id"
+                        :class="state.sizeMetric === m.id ? 'bg-zinc-700 text-white' : 'text-zinc-400 hover:text-zinc-200'"
+                        class="px-3 py-1 rounded-md text-xs font-medium transition-all"
+                        x-text="m.label"></button>
+                </template>
+            </div>
+
+            <div class="h-8 w-px bg-zinc-800"></div>
+
+            <!-- Filter Toggle -->
+            <button @click="ui.showFilters = !ui.showFilters; if(ui.showFilters) ui.selectedCell = null" 
+                :class="ui.showFilters ? 'bg-purple-600 text-white' : 'bg-zinc-800 text-zinc-400'"
+                class="p-2 rounded-lg relative transition-all">
+                <i data-lucide="filter" class="w-4.5 h-4.5"></i>
+                <span x-show="state.filters.criticalOnly || state.filters.lowBusFactor" 
+                    class="absolute top-1 right-1 w-1.5 h-1.5 bg-purple-400 rounded-full shadow-[0_0_8px_rgba(168,85,247,0.8)]"></span>
+            </button>
+        </div>
+    </header>
+
+    <!-- MAIN CONTENT -->
+    <div class="flex-1 flex overflow-hidden relative">
+        
+        <!-- TREEMAP VISUALIZATION -->
+        <main class="flex-1 relative bg-[#09090b]" 
+            @mouseenter="if(state.lens === 'timelapse') ui.showTimeline = true"
+            @mouseleave="ui.showTimeline = false">
+            <svg id="treemap" class="w-full h-full"></svg>
+            
+            <!-- Timeline Scrubber (Evolutionary Lens) -->
+            <div id="timeline-scrubber" :class="ui.showTimeline && state.lens === 'timelapse' ? 'visible' : ''">
+                <div class="flex-1 flex items-center gap-4">
+                    <span class="text-xs text-zinc-500 font-mono">2020-01</span>
+                    <input type="range" x-model="state.timePosition" min="0" max="100" 
+                        class="flex-1 accent-purple-500 h-2"
+                        @input="updateTimePosition()">
+                    <span class="text-xs text-zinc-500 font-mono">2024-01</span>
+                    <span class="text-xs text-zinc-400">Commit: <span x-text="Math.floor(state.timePosition * 51.37)"></span>/5137</span>
+                </div>
+            </div>
+        </main>
+
+        <!-- FILTER PANEL -->
+        <aside x-show="ui.showFilters" x-cloak
+            class="w-80 bg-zinc-900 border-l border-zinc-800 flex flex-col panel-transition shadow-xl">
+            <div class="p-4 border-b border-zinc-800 flex items-center justify-between">
+                <div class="flex items-center gap-2">
+                    <i data-lucide="filter" class="w-4 h-4 text-purple-400"></i>
+                    <h2 class="font-bold text-sm">Filters & Options</h2>
+                </div>
+                <button @click="ui.showFilters = false"><i data-lucide="x" class="w-4 h-4 text-zinc-500"></i></button>
+            </div>
+            
+            <div class="flex-1 overflow-y-auto p-4 space-y-6">
+                <!-- Risk Filters (Debt Radar) -->
+                <div x-show="state.lens === 'debt'">
+                    <label class="text-[10px] uppercase text-zinc-500 font-bold tracking-widest mb-3 block">Risk Filters</label>
+                    <div class="space-y-2">
+                        <label class="flex items-center gap-2 text-xs text-zinc-300 cursor-pointer hover:text-white transition-colors">
+                            <input type="checkbox" x-model="state.filters.criticalOnly" @change="updateVisualization()"
+                                class="rounded border-zinc-700 bg-zinc-800 text-red-600 focus:ring-red-500">
+                            <span>Critical Only (Health ≤ 30)</span>
+                        </label>
+                        <label class="flex items-center gap-2 text-xs text-zinc-300 cursor-pointer hover:text-white transition-colors">
+                            <input type="checkbox" x-model="state.filters.lowBusFactor" @change="updateVisualization()"
+                                class="rounded border-zinc-700 bg-zinc-800 text-yellow-600 focus:ring-yellow-500">
+                            <span>Low Bus Factor (&lt;2 authors)</span>
+                        </label>
+                        <label class="flex items-center gap-2 text-xs text-zinc-300 cursor-pointer hover:text-white transition-colors">
+                            <input type="checkbox" x-model="state.filters.highChurn" @change="updateVisualization()"
+                                class="rounded border-zinc-700 bg-zinc-800 text-orange-600 focus:ring-orange-500">
+                            <span>High Churn (&gt;70%)</span>
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Coupling Filter (Coupling Lens) -->
+                <div x-show="state.lens === 'coupling'">
+                    <label class="text-[10px] uppercase text-zinc-500 font-bold tracking-widest mb-3 block">Coupling Strength</label>
+                    <div class="space-y-3">
+                        <input type="range" x-model="state.couplingThreshold" min="0" max="1" step="0.1"
+                            @input="updateVisualization()"
+                            class="w-full accent-purple-500">
+                        <div class="flex justify-between text-[10px] text-zinc-500 font-mono">
+                            <span>Weak (0.0)</span>
+                            <span class="text-purple-400 font-bold" x-text="state.couplingThreshold"></span>
+                            <span>Strong (1.0)</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Time Range (Timelapse) -->
+                <div x-show="state.lens === 'timelapse'">
+                    <label class="text-[10px] uppercase text-zinc-500 font-bold tracking-widest mb-3 block">Display Options</label>
+                    <div class="space-y-2">
+                        <label class="flex items-center gap-2 text-xs text-zinc-300 cursor-pointer hover:text-white transition-colors">
+                            <input type="checkbox" x-model="state.filters.showCreations" @change="updateVisualization()"
+                                class="rounded border-zinc-700 bg-zinc-800 text-green-600 focus:ring-green-500" checked>
+                            <span>Highlight Creations</span>
+                        </label>
+                        <label class="flex items-center gap-2 text-xs text-zinc-300 cursor-pointer hover:text-white transition-colors">
+                            <input type="checkbox" x-model="state.filters.fadeDormant" @change="updateVisualization()"
+                                class="rounded border-zinc-700 bg-zinc-800 text-zinc-600 focus:ring-zinc-500" checked>
+                            <span>Fade Dormant Files</span>
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Directory Filter -->
+                <div>
+                    <label class="text-[10px] uppercase text-zinc-500 font-bold tracking-widest mb-3 block">Top Directories</label>
+                    <div class="space-y-1.5">
+                        <template x-for="dir in data.topDirs">
+                            <div class="flex items-center justify-between p-2 bg-zinc-800 border border-zinc-700 rounded text-xs hover:border-purple-500 transition-colors cursor-pointer">
+                                <span class="text-zinc-300 font-mono truncate" x-text="dir.path"></span>
+                                <span class="text-zinc-500 text-[10px]" x-text="dir.files"></span>
+                            </div>
+                        </template>
+                    </div>
+                </div>
+            </div>
+
+            <div class="p-4 border-t border-zinc-800">
+                <button @click="resetFilters()" class="w-full py-2.5 bg-purple-600 hover:bg-purple-700 text-white rounded-lg text-xs font-medium flex items-center justify-center gap-2">
+                    <i data-lucide="rotate-ccw" class="w-3.5 h-3.5"></i> Reset All Filters
+                </button>
+            </div>
+        </aside>
+
+        <!-- DETAIL PANEL -->
+        <aside x-show="ui.selectedCell" x-cloak
+            class="w-96 bg-zinc-900/95 backdrop-blur border-l border-zinc-700 flex flex-col shadow-2xl panel-transition">
+            
+            <!-- Header -->
+            <div class="p-4 border-b border-zinc-800 bg-zinc-950/50 flex justify-between items-start">
+                <div class="flex-1 min-w-0">
+                    <div class="flex items-center gap-2 text-purple-400 mb-1">
+                        <i :data-lucide="lenses.find(l => l.id === state.lens).icon" class="w-3.5 h-3.5"></i>
+                        <span class="text-[10px] font-bold uppercase tracking-wider" x-text="lenses.find(l => l.id === state.lens).label"></span>
+                    </div>
+                    <h3 class="text-sm font-bold text-white font-mono truncate" x-text="ui.selectedCell?.name"></h3>
+                    <div class="text-[10px] text-zinc-500 truncate" x-text="ui.selectedCell?.fullPath"></div>
+                </div>
+                <button @click="ui.selectedCell = null" class="ml-2"><i data-lucide="x" class="w-4 h-4 text-zinc-500"></i></button>
+            </div>
+
+            <!-- Stats Grid (Debt Radar) -->
+            <div x-show="state.lens === 'debt'" class="grid grid-cols-2 gap-px bg-zinc-800 border-b border-zinc-800">
+                <div class="bg-zinc-900 p-4 text-center">
+                    <div class="text-2xl font-bold" 
+                        :class="ui.selectedCell?.health > 70 ? 'text-green-400' : ui.selectedCell?.health > 40 ? 'text-yellow-400' : 'text-red-400'"
+                        x-text="ui.selectedCell?.health"></div>
+                    <div class="text-zinc-500 text-[10px] uppercase tracking-wider mt-1">Health Score</div>
+                </div>
+                <div class="bg-zinc-900 p-4 text-center">
+                    <div class="text-2xl font-bold text-white" x-text="ui.selectedCell?.authors"></div>
+                    <div class="text-zinc-500 text-[10px] uppercase tracking-wider mt-1">Authors</div>
+                </div>
+            </div>
+
+            <!-- Coupling Stats -->
+            <div x-show="state.lens === 'coupling'" class="grid grid-cols-2 gap-px bg-zinc-800 border-b border-zinc-800">
+                <div class="bg-zinc-900 p-4 text-center">
+                    <div class="text-2xl font-bold text-purple-400" x-text="ui.selectedCell?.couplingCount"></div>
+                    <div class="text-zinc-500 text-[10px] uppercase tracking-wider mt-1">Coupled Files</div>
+                </div>
+                <div class="bg-zinc-900 p-4 text-center">
+                    <div class="text-2xl font-bold text-white" x-text="ui.selectedCell?.maxStrength"></div>
+                    <div class="text-zinc-500 text-[10px] uppercase tracking-wider mt-1">Max Strength</div>
+                </div>
+            </div>
+
+            <!-- Metrics Section -->
+            <div class="p-4 bg-zinc-900 border-b border-zinc-800 space-y-3">
+                <div class="text-[10px] text-zinc-400 font-bold uppercase tracking-widest">Key Metrics</div>
+                
+                <template x-if="state.lens === 'debt'">
+                    <div class="space-y-2">
+                        <div class="flex justify-between text-xs">
+                            <span class="text-zinc-400">Churn Rate</span>
+                            <span class="font-mono" :class="ui.selectedCell?.churn > 70 ? 'text-red-400' : 'text-zinc-300'" 
+                                x-text="ui.selectedCell?.churn + '%'"></span>
+                        </div>
+                        <div class="flex justify-between text-xs">
+                            <span class="text-zinc-400">Bus Factor</span>
+                            <span class="font-mono" :class="ui.selectedCell?.authors < 2 ? 'text-yellow-400' : 'text-zinc-300'" 
+                                x-text="ui.selectedCell?.authors < 2 ? 'High Risk' : ui.selectedCell?.authors < 4 ? 'Medium' : 'Low Risk'"></span>
+                        </div>
+                        <div class="flex justify-between text-xs">
+                            <span class="text-zinc-400">Age</span>
+                            <span class="text-zinc-300 font-mono" x-text="ui.selectedCell?.age + ' days'"></span>
+                        </div>
+                        <div class="flex justify-between text-xs">
+                            <span class="text-zinc-400">Total Commits</span>
+                            <span class="text-zinc-300 font-mono" x-text="ui.selectedCell?.commits"></span>
+                        </div>
+                    </div>
+                </template>
+
+                <template x-if="state.lens === 'timelapse'">
+                    <div class="space-y-2">
+                        <div class="flex justify-between text-xs">
+                            <span class="text-zinc-400">Created</span>
+                            <span class="text-zinc-300 font-mono" x-text="ui.selectedCell?.created"></span>
+                        </div>
+                        <div class="flex justify-between text-xs">
+                            <span class="text-zinc-400">Last Modified</span>
+                            <span class="text-zinc-300 font-mono" x-text="ui.selectedCell?.lastMod"></span>
+                        </div>
+                        <div class="flex justify-between text-xs">
+                            <span class="text-zinc-400">Status</span>
+                            <span class="font-mono" :class="ui.selectedCell?.dormant ? 'text-zinc-500' : 'text-green-400'" 
+                                x-text="ui.selectedCell?.dormant ? 'Dormant' : 'Active'"></span>
+                        </div>
+                    </div>
+                </template>
+            </div>
+
+            <!-- Coupling Partners -->
+            <div x-show="state.lens === 'coupling'" class="p-4 bg-zinc-900 flex-1 overflow-y-auto">
+                <div class="text-[10px] text-zinc-400 mb-3 font-bold uppercase tracking-widest flex items-center gap-2">
+                    <i data-lucide="link" class="w-3 h-3"></i> Top Coupling Partners
+                </div>
+                <div class="space-y-2">
+                    <template x-for="partner in ui.selectedCell?.partners || []">
+                        <div class="p-2 bg-zinc-800 border border-zinc-700 rounded">
+                            <div class="text-xs text-zinc-300 font-mono truncate" x-text="partner.name"></div>
+                            <div class="flex items-center gap-2 mt-1">
+                                <div class="flex-1 h-1.5 bg-zinc-700 rounded-full overflow-hidden">
+                                    <div class="h-full bg-purple-500" :style="`width: ${partner.strength * 100}%`"></div>
+                                </div>
+                                <span class="text-[10px] text-zinc-500 font-mono" x-text="partner.strength"></span>
+                            </div>
+                        </div>
+                    </template>
+                </div>
+            </div>
+
+            <!-- Insight Box -->
+            <div class="p-4 bg-zinc-950 border-t border-zinc-800">
+                <div class="text-[10px] text-purple-400 font-bold uppercase tracking-widest mb-2">
+                    <i data-lucide="lightbulb" class="w-3 h-3 inline"></i> Insight
+                </div>
+                <p class="text-xs text-zinc-400 leading-relaxed" x-text="ui.selectedCell?.insight"></p>
+            </div>
+        </aside>
+    </div>
+
+    <script>
+        function treemapApp() {
+            return {
+                state: {
+                    lens: 'debt',
+                    sizeMetric: 'commits',
+                    filters: {
+                        criticalOnly: false,
+                        lowBusFactor: false,
+                        highChurn: false,
+                        showCreations: true,
+                        fadeDormant: true
+                    },
+                    couplingThreshold: 0.3,
+                    timePosition: 100
+                },
+                ui: {
+                    showFilters: true,
+                    showTimeline: false,
+                    selectedCell: null
+                },
+                lenses: [
+                    { id: 'debt', label: 'Technical Debt Radar', short: 'Debt', icon: 'alert-triangle' },
+                    { id: 'coupling', label: 'Coupling X-Ray', short: 'Coupling', icon: 'link' },
+                    { id: 'timelapse', label: 'Evolutionary Timelapse', short: 'Time', icon: 'clock' }
+                ],
+                sizeMetrics: [
+                    { id: 'commits', label: 'Commits' },
+                    { id: 'events', label: 'Events' },
+                    { id: 'authors', label: 'Authors' }
+                ],
+                data: {
+                    files: [],
+                    topDirs: [
+                        { path: 'src/packages/excalidraw', files: 45 },
+                        { path: 'src/components', files: 32 },
+                        { path: 'src/element', files: 28 },
+                        { path: 'excalidraw-app', files: 73 },
+                        { path: 'src/actions', files: 19 }
+                    ]
+                },
+                svg: null,
+                treemapLayout: null,
+
+                init() {
+                    this.generateFakeData();
+                    this.setupTreemap();
+                    this.$nextTick(() => lucide.createIcons());
+                    
+                    // Watch for lens changes
+                    this.$watch('state.lens', () => {
+                        this.updateVisualization();
+                        this.$nextTick(() => lucide.createIcons());
+                    });
+                },
+
+                generateFakeData() {
+                    const paths = [
+                        'src/packages/excalidraw/App.tsx',
+                        'src/components/Canvas.tsx',
+                        'src/element/types.ts',
+                        'src/types.ts',
+                        'src/actions/actionFlip.tsx',
+                        'src/renderer/renderScene.ts',
+                        'src/legacy/oldRenderer.js',
+                        'excalidraw-app/index.tsx',
+                        'package-lock.json',
+                        'src/locales/en.json',
+                        'src/css/styles.scss',
+                        'src/tests/App.test.tsx',
+                        'src/utils/export.ts',
+                        'src/data/restore.ts',
+                        'src/packages/excalidraw/index.tsx',
+                        'src/scene/Scene.ts',
+                        'src/renderer/renderElement.ts',
+                        'src/components/Modal.tsx',
+                        'src/element/collision.ts',
+                        'src/actions/actionAlign.tsx'
+                    ];
+
+                    this.data.files = paths.map((path, i) => {
+                        const commits = Math.floor(Math.random() * 500) + 10;
+                        const authors = Math.floor(Math.random() * 15) + 1;
+                        const churn = Math.floor(Math.random() * 100);
+                        const age = Math.floor(Math.random() * 1400) + 50;
+                        const health = 100 - (churn * 0.4) - (authors < 2 ? 30 : authors < 4 ? 10 : 0) - (age > 1000 ? 10 : 0);
+                        
+                        return {
+                            name: path.split('/').pop(),
+                            fullPath: path,
+                            commits,
+                            events: commits * 2,
+                            authors,
+                            health: Math.max(10, Math.min(95, Math.floor(health))),
+                            churn,
+                            age,
+                            created: '2020-' + (Math.floor(Math.random() * 12) + 1).toString().padStart(2, '0') + '-15',
+                            lastMod: '2024-' + (Math.floor(Math.random() * 12) + 1).toString().padStart(2, '0') + '-' + (Math.floor(Math.random() * 28) + 1).toString().padStart(2, '0'),
+                            dormant: Math.random() > 0.7,
+                            couplings: []
+                        };
+                    });
+
+                    // Generate coupling relationships
+                    this.data.files.forEach((file, i) => {
+                        const partnerCount = Math.floor(Math.random() * 5) + 1;
+                        for (let j = 0; j < partnerCount; j++) {
+                            const targetIdx = Math.floor(Math.random() * this.data.files.length);
+                            if (targetIdx !== i) {
+                                file.couplings.push({
+                                    target: targetIdx,
+                                    strength: parseFloat((Math.random() * 0.8 + 0.2).toFixed(2))
+                                });
+                            }
+                        }
+                    });
+                },
+
+                setupTreemap() {
+                    const container = document.getElementById('treemap');
+                    const width = container.clientWidth;
+                    const height = container.clientHeight;
+
+                    this.svg = d3.select('#treemap')
+                        .attr('width', width)
+                        .attr('height', height);
+
+                    this.treemapLayout = d3.treemap()
+                        .size([width, height])
+                        .padding(2)
+                        .round(true);
+
+                    this.updateVisualization();
+                },
+
+                updateVisualization() {
+                    if (!this.svg) return;
+
+                    const sizeValue = this.state.sizeMetric;
+                    let filteredFiles = [...this.data.files];
+
+                    // Apply filters
+                    if (this.state.filters.criticalOnly) {
+                        filteredFiles = filteredFiles.filter(f => f.health <= 30);
+                    }
+                    if (this.state.filters.lowBusFactor) {
+                        filteredFiles = filteredFiles.filter(f => f.authors < 2);
+                    }
+                    if (this.state.filters.highChurn) {
+                        filteredFiles = filteredFiles.filter(f => f.churn > 70);
+                    }
+
+                    const root = d3.hierarchy({ children: filteredFiles })
+                        .sum(d => d[sizeValue] || 0)
+                        .sort((a, b) => b.value - a.value);
+
+                    this.treemapLayout(root);
+
+                    // Remove old elements
+                    this.svg.selectAll('*').remove();
+
+                    const cells = this.svg.selectAll('g')
+                        .data(root.leaves())
+                        .join('g')
+                        .attr('class', 'treemap-cell-group');
+
+                    cells.append('rect')
+                        .attr('class', 'treemap-cell')
+                        .attr('x', d => d.x0)
+                        .attr('y', d => d.y0)
+                        .attr('width', d => d.x1 - d.x0)
+                        .attr('height', d => d.y1 - d.y0)
+                        .attr('fill', d => this.getCellColor(d.data))
+                        .on('click', (event, d) => this.selectCell(d));
+
+                    // Add labels for larger cells
+                    cells.filter(d => (d.x1 - d.x0) > 60 && (d.y1 - d.y0) > 30)
+                        .append('text')
+                        .attr('class', 'cell-label')
+                        .attr('x', d => (d.x0 + d.x1) / 2)
+                        .attr('y', d => (d.y0 + d.y1) / 2)
+                        .text(d => d.data.name)
+                        .style('font-size', d => Math.min(10, (d.x1 - d.x0) / 8) + 'px');
+
+                    // Add coupling lines if in coupling mode and cell selected
+                    if (this.state.lens === 'coupling' && this.ui.selectedCell) {
+                        this.drawCouplingLines(root.leaves());
+                    }
+                },
+
+                getCellColor(file) {
+                    switch(this.state.lens) {
+                        case 'debt':
+                            const h = file.health;
+                            if (h >= 70) return `hsl(145, 60%, ${30 + h/5}%)`;
+                            if (h >= 40) return `hsl(45, 70%, ${40 + h/4}%)`;
+                            return `hsl(0, 70%, ${30 + h/3}%)`;
+                        
+                        case 'coupling':
+                            if (this.ui.selectedCell?.fullPath === file.fullPath) return '#fff';
+                            const maxStrength = Math.max(...file.couplings.map(c => c.strength), 0);
+                            if (maxStrength >= this.state.couplingThreshold) {
+                                return `hsl(270, 70%, ${30 + maxStrength * 40}%)`;
+                            }
+                            return '#27272a';
+                        
+                        case 'timelapse':
+                            const pos = this.state.timePosition;
+                            if (file.dormant && this.state.filters.fadeDormant) return '#1a1a1d';
+                            if (pos < 30 && this.state.filters.showCreations) return '#22c55e';
+                            if (pos > 70 && file.dormant) return '#3f3f46';
+                            return '#3b82f6';
+                        
+                        default:
+                            return '#27272a';
+                    }
+                },
+
+                selectCell(d) {
+                    const file = d.data;
+                    const partners = file.couplings
+                        .filter(c => c.strength >= this.state.couplingThreshold)
+                        .sort((a, b) => b.strength - a.strength)
+                        .slice(0, 5)
+                        .map(c => ({
+                            name: this.data.files[c.target].name,
+                            strength: c.strength
+                        }));
+
+                    let insight = '';
+                    if (this.state.lens === 'debt') {
+                        if (file.health < 30) {
+                            insight = 'Critical technical debt detected. High churn with low contributor diversity suggests reactive maintenance rather than planned evolution.';
+                        } else if (file.authors < 2) {
+                            insight = 'Bus factor risk: This file has limited expertise distribution. Consider knowledge sharing initiatives.';
+                        } else {
+                            insight = 'Healthy file with sustainable maintenance patterns and good contributor distribution.';
+                        }
+                    } else if (this.state.lens === 'coupling') {
+                        insight = `${partners.length} strong coupling relationships detected. Changes here may ripple to ${partners.length} other files. Consider decoupling before major refactoring.`;
+                    } else {
+                        if (file.dormant) {
+                            insight = 'This file has been dormant for extended period. May be stable/complete, or candidate for deprecation review.';
+                        } else {
+                            insight = 'Active file with recent modifications. Part of current development focus area.';
+                        }
+                    }
+
+                    this.ui.selectedCell = {
+                        name: file.name,
+                        fullPath: file.fullPath,
+                        health: file.health,
+                        authors: file.authors,
+                        churn: file.churn,
+                        age: file.age,
+                        commits: file.commits,
+                        created: file.created,
+                        lastMod: file.lastMod,
+                        dormant: file.dormant,
+                        couplingCount: file.couplings.length,
+                        maxStrength: Math.max(...file.couplings.map(c => c.strength), 0).toFixed(2),
+                        partners,
+                        insight
+                    };
+
+                    this.ui.showFilters = false;
+                    this.updateVisualization();
+                    this.$nextTick(() => lucide.createIcons());
+                },
+
+                drawCouplingLines(leaves) {
+                    if (!this.ui.selectedCell) return;
+
+                    const selectedFile = this.data.files.find(f => f.fullPath === this.ui.selectedCell.fullPath);
+                    if (!selectedFile) return;
+
+                    selectedFile.couplings
+                        .filter(c => c.strength >= this.state.couplingThreshold)
+                        .forEach(coupling => {
+                            const sourceLeaf = leaves.find(l => l.data.fullPath === selectedFile.fullPath);
+                            const targetLeaf = leaves.find(l => l.data === this.data.files[coupling.target]);
+                            
+                            if (sourceLeaf && targetLeaf) {
+                                const sx = (sourceLeaf.x0 + sourceLeaf.x1) / 2;
+                                const sy = (sourceLeaf.y0 + sourceLeaf.y1) / 2;
+                                const tx = (targetLeaf.x0 + targetLeaf.x1) / 2;
+                                const ty = (targetLeaf.y0 + targetLeaf.y1) / 2;
+                                
+                                const cx = (sx + tx) / 2;
+                                const cy = Math.min(sy, ty) - 50;
+
+                                this.svg.append('path')
+                                    .attr('class', 'coupling-line visible')
+                                    .attr('d', `M${sx},${sy} Q${cx},${cy} ${tx},${ty}`)
+                                    .attr('stroke-width', coupling.strength * 3);
+                            }
+                        });
+                },
+
+                updateTimePosition() {
+                    this.updateVisualization();
+                },
+
+                resetFilters() {
+                    this.state.filters = {
+                        criticalOnly: false,
+                        lowBusFactor: false,
+                        highChurn: false,
+                        showCreations: true,
+                        fadeDormant: true
+                    };
+                    this.state.couplingThreshold = 0.3;
+                    this.state.timePosition = 100;
+                    this.updateVisualization();
+                }
+            }
+        }
+    </script>
+</body>
+</html>
