@@ -2,22 +2,19 @@
 
 import React from 'react';
 import { PluginControlProps } from '@/types/plugin';
-import { TreemapExplorerState } from '../TreemapExplorerPlugin';
 import { LensModeSelector } from './LensModeSelector';
+import { TreemapExplorerState } from '../TreemapExplorerPlugin';
 
+/**
+ * Header controls for Treemap Explorer
+ * Renders inline controls: Lens Mode buttons + Size Metric selector
+ */
 export const TreemapExplorerControls: React.FC<PluginControlProps> = ({
   state,
-  updateState,
+  updateState
 }) => {
-  const pluginState = state as TreemapExplorerState;
-
-  const handleLensChange = (lens: 'debt' | 'coupling' | 'time') => {
-    updateState({ lensMode: lens });
-  };
-
-  const handleSizeMetricChange = (metric: 'commits' | 'authors' | 'events') => {
-    updateState({ sizeMetric: metric });
-  };
+  const typedState = state as unknown as TreemapExplorerState;
+  const { lensMode, sizeMetric } = typedState;
 
   const sizeMetrics = [
     { id: 'commits', label: 'Commits' },
@@ -26,34 +23,31 @@ export const TreemapExplorerControls: React.FC<PluginControlProps> = ({
   ];
 
   return (
-    <div className="flex items-center gap-4">
+    <>
       {/* Lens Mode Selector */}
       <LensModeSelector
-        currentLens={pluginState.lensMode}
-        onLensChange={handleLensChange}
+        currentLens={lensMode}
+        onLensChange={(lens) => updateState({ lensMode: lens })}
       />
-
-      <div className="h-6 w-px bg-zinc-700" />
 
       {/* Size Metric Selector */}
       <div className="flex bg-zinc-950 rounded-lg p-1 border border-zinc-800">
-        {sizeMetrics.map((metric) => (
+        {sizeMetrics.map(metric => (
           <button
             key={metric.id}
-            onClick={() => handleSizeMetricChange(metric.id as 'commits' | 'authors' | 'events')}
+            onClick={() => updateState({ sizeMetric: metric.id as any })}
             className={`
               px-3 py-1 rounded-md text-xs font-medium transition-all
-              ${pluginState.sizeMetric === metric.id
+              ${sizeMetric === metric.id
                 ? 'bg-zinc-700 text-white'
                 : 'text-zinc-400 hover:text-zinc-200'
               }
             `}
-            title={`Size cells by ${metric.label.toLowerCase()}`}
           >
             {metric.label}
           </button>
         ))}
       </div>
-    </div>
+    </>
   );
 };

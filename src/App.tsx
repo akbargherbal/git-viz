@@ -1,6 +1,6 @@
 // src/App.tsx
 // Phase 3: Cleaned up - Plugin controls ownership, no universal control state
-// Updated to support TreemapExplorer detail panel
+// Updated to support TreemapExplorer detail panel with coupling support
 
 import React, { useEffect, useRef, useState, useMemo } from "react";
 import { Filter } from "lucide-react";
@@ -284,10 +284,18 @@ const App: React.FC = () => {
 
     if (activePlugin?.metadata.id === 'treemap-explorer') {
       const lensMode = (currentPluginState as any).lensMode || 'debt';
+      const couplingThreshold = (currentPluginState as any).couplingThreshold || 0.3;
+      
+      // Get coupling index from plugin
+      const treemapPlugin = activePlugin as any;
+      const couplingIndex = treemapPlugin.getCouplingIndex ? treemapPlugin.getCouplingIndex() : new Map();
+      
       return (
         <TreemapDetailPanel
           file={ui.selectedCell}
           lensMode={lensMode}
+          couplingIndex={couplingIndex}
+          couplingThreshold={couplingThreshold}
           onClose={() => setSelectedCell(null)}
         />
       );

@@ -1,10 +1,14 @@
-// src/plugins/treemap-explorer/TreemapExplorerPlugin.ts
+// src/plugins/treemap-explorer/TreemapExplorerPlugin.tsx
 
 import * as d3 from "d3";
 import type { HierarchyRectangularNode } from "d3";
 import { VisualizationPlugin, PluginControlProps } from "@/types/plugin";
 import { HealthScoreCalculator, HealthScoreResult } from "@/services/data/HealthScoreCalculator";
+import { CouplingDataProcessor, CouplingIndex } from "@/services/data/CouplingDataProcessor";
 import { TreemapExplorerControls } from "./components/TreemapExplorerControls";
+import { TreemapExplorerFilters } from "./components/TreemapExplorerFilters";
+import { CouplingArcRenderer } from "./renderers/CouplingArcRenderer";
+import { getCellColor } from "./utils/colorScales";
 
 export interface TreemapExplorerState extends Record<string, unknown> {
   lensMode: 'debt' | 'coupling' | 'time';
@@ -35,13 +39,27 @@ export interface EnrichedFileData {
   lastModified: string;
   healthScore?: HealthScoreResult;
   
+  // Coupling Metrics (Phase 2)
+  couplingMetrics?: {
+    maxStrength: number;
+    totalPartners: number;
+  };
+  
   // For treemap layout
-  value: number; // Size based on selected metric
+  value: number; 
+}
+
+// Wrapper structure used for D3 hierarchy leaves
+export interface TreemapHierarchyDatum {
+  name: string;
+  value: number;
+  data: EnrichedFileData;
 }
 
 interface TreemapConfig {
   width: number;
   height: number;
+  onCellClick?: (data: any) => void;
 }
 
 export class TreemapExplorerPlugin implements VisualizationPlugin<TreemapConfig, EnrichedFileData[]> {
@@ -49,12 +67,12 @@ export class TreemapExplorerPlugin implements VisualizationPlugin<TreemapConfig,
     id: "treemap-explorer",
     name: "Treemap Explorer",
     description: "Spatial code health and coupling analysis",
-    version: "2.0.0",
+    version: "2.1.0",
     priority: 2,
     dataRequirements: [
       { dataset: 'file_index', required: true },
-      { dataset: 'cochange_network', required: false }, // For coupling lens
-      { dataset: 'temporal_daily', required: false }    // For time lens
+      { dataset: 'cochange_network', required: false },
+      { dataset: 'temporal_daily', required: false }
     ]
   };
 
@@ -64,7 +82,8 @@ export class TreemapExplorerPlugin implements VisualizationPlugin<TreemapConfig,
   };
 
   private container: HTMLElement | null = null;
-  private enrichedData: EnrichedFileData[] = [];
+  private couplingIndex: CouplingIndex = new Map();
+  private arcRenderer: CouplingArcRenderer | null = null;
 
   getInitialState(): TreemapExplorerState {
     return {
@@ -84,33 +103,53 @@ export class TreemapExplorerPlugin implements VisualizationPlugin<TreemapConfig,
     this.container.style.width = "100%";
     this.container.style.height = "100%";
     this.container.style.overflow = "hidden";
+    this.container.style.position = "relative";
+  }
+
+  // Expose coupling index for Detail Panel
+  public getCouplingIndex(): CouplingIndex {
+    return this.couplingIndex;
   }
 
   renderControls(props: PluginControlProps): JSX.Element {
     return <TreemapExplorerControls {...props} />;
   }
 
+  renderFilters = (props: PluginControlProps<Record<string, unknown>> & { onClose: () => void }) => {
+    const { state, updateState, onClose } = props;
+    const typedState = state as unknown as TreemapExplorerState;
+
+    return (
+      <TreemapExplorerFilters
+        state={typedState}
+        onStateChange={updateState}
+        onClose={onClose}
+      />
+    );
+  };
+
   processData(dataset: any): EnrichedFileData[] {
-    // Extract file_index data - can come directly or as part of dataset
     const fileIndex = dataset.file_index || dataset;
     if (!fileIndex || !fileIndex.files) {
       console.warn('TreemapExplorer: file_index dataset not found or invalid');
       return [];
     }
 
-    // Transform file_index into enriched file data with health scores
+    // Process coupling data
+    if (dataset.cochange_network) {
+      this.couplingIndex = CouplingDataProcessor.process(dataset.cochange_network);
+    }
+
     const files: EnrichedFileData[] = Object.entries(fileIndex.files).map(([key, fileData]: [string, any]) => {
       const totalCommits = fileData.total_commits || 0;
       const uniqueAuthors = fileData.unique_authors || 0;
       const operations = fileData.operations || {};
       const ageDays = fileData.age_days || 0;
 
-      // Calculate days since last modification
       const lastModifiedDate = new Date(fileData.last_modified);
       const now = new Date();
       const lastModifiedDaysAgo = Math.floor((now.getTime() - lastModifiedDate.getTime()) / (1000 * 60 * 60 * 24));
 
-      // Calculate health score
       const healthScore = HealthScoreCalculator.calculate({
         totalCommits,
         uniqueAuthors,
@@ -119,7 +158,16 @@ export class TreemapExplorerPlugin implements VisualizationPlugin<TreemapConfig,
         lastModifiedDaysAgo
       });
 
-      // Extract file name from key
+      // Get coupling metrics if available
+      let couplingMetrics;
+      if (this.couplingIndex.size > 0) {
+        const metrics = CouplingDataProcessor.getFileCouplingMetrics(this.couplingIndex, key);
+        couplingMetrics = {
+          maxStrength: metrics.maxStrength,
+          totalPartners: metrics.totalPartners
+        };
+      }
+
       const pathParts = key.split('/');
       const name = pathParts[pathParts.length - 1];
 
@@ -134,11 +182,11 @@ export class TreemapExplorerPlugin implements VisualizationPlugin<TreemapConfig,
         firstSeen: fileData.first_seen,
         lastModified: fileData.last_modified,
         healthScore,
-        value: totalCommits // Default size metric
+        couplingMetrics,
+        value: totalCommits
       };
     });
 
-    this.enrichedData = files;
     return files;
   }
 
@@ -148,7 +196,6 @@ export class TreemapExplorerPlugin implements VisualizationPlugin<TreemapConfig,
   ): void {
     if (!this.container || files.length === 0) return;
 
-    // Get current state from config which includes plugin state
     const currentState: TreemapExplorerState = {
       lensMode: (config as any).lensMode || 'debt',
       sizeMetric: (config as any).sizeMetric || 'commits',
@@ -160,9 +207,9 @@ export class TreemapExplorerPlugin implements VisualizationPlugin<TreemapConfig,
       playing: (config as any).playing || false
     };
     
-    // Update values based on size metric
     const updatedFiles = this.applySizeMetric(files, currentState.sizeMetric);
     
+    // Clear container
     this.container.innerHTML = "";
 
     const width = this.container.clientWidth || config.width;
@@ -176,7 +223,9 @@ export class TreemapExplorerPlugin implements VisualizationPlugin<TreemapConfig,
       .style("font-family", "monospace")
       .style("background-color", "#09090b");
 
-    // Create flat treemap structure (no hierarchy, just files)
+    // Initialize Arc Renderer
+    this.arcRenderer = new CouplingArcRenderer(svg);
+
     const root = d3.hierarchy({
       name: "root",
       children: updatedFiles.map(f => ({
@@ -196,67 +245,88 @@ export class TreemapExplorerPlugin implements VisualizationPlugin<TreemapConfig,
       .round(true);
 
     treemap(root as any);
+    
+    // Correctly cast leaves to the wrapper type
+    const leaves = root.leaves() as unknown as HierarchyRectangularNode<TreemapHierarchyDatum>[];
 
     // Draw cells
     const cells = svg
-      .selectAll("g")
-      .data(root.leaves())
+      .selectAll("g.cell")
+      .data(leaves)
       .join("g")
-      .attr("transform", (d: any) => {
-        const rectNode = d as HierarchyRectangularNode<any>;
-        return `translate(${rectNode.x0},${rectNode.y0})`;
-      })
-      .attr("class", "treemap-cell")
-      .style("cursor", "pointer");
+      .attr("class", "cell")
+      .attr("transform", d => `translate(${d.x0},${d.y0})`)
+      .style("cursor", "pointer")
+      .on("click", (_event, d) => {
+        if (config.onCellClick) {
+          config.onCellClick(d.data.data);
+        }
+      });
 
-    // Rectangles
+    // Determine coupling partners for coloring if a file is selected
+    let coupledFilesSet = new Set<string>();
+    if (currentState.selectedFile && currentState.lensMode === 'coupling') {
+      const partners = CouplingDataProcessor.getTopCouplings(
+        this.couplingIndex, 
+        currentState.selectedFile, 
+        50
+      );
+      partners.forEach(p => {
+        if (p.strength >= currentState.couplingThreshold) {
+          coupledFilesSet.add(p.filePath);
+        }
+      });
+    }
+
     cells
       .append("rect")
-      .attr("width", (d: any) => {
-        const rectNode = d as HierarchyRectangularNode<any>;
-        return rectNode.x1 - rectNode.x0;
+      .attr("width", d => Math.max(0, d.x1 - d.x0))
+      .attr("height", d => Math.max(0, d.y1 - d.y0))
+      .attr("fill", d => {
+        // Custom color logic for coupling lens to handle "coupled" state
+        if (currentState.lensMode === 'coupling' && currentState.selectedFile) {
+          if (d.data.data.path === currentState.selectedFile) return '#ffffff';
+          if (coupledFilesSet.has(d.data.data.path)) {
+             // Find strength
+             const partners = CouplingDataProcessor.getTopCouplings(this.couplingIndex, currentState.selectedFile, 100);
+             const p = partners.find(x => x.filePath === d.data.data.path);
+             const strength = p ? p.strength : 0;
+             return `hsl(270, ${40 + strength * 30}%, ${20 + strength * 20}%)`;
+          }
+          return '#18181b'; // Dimmed
+        }
+        return getCellColor(d.data.data, currentState.lensMode, currentState);
       })
-      .attr("height", (d: any) => {
-        const rectNode = d as HierarchyRectangularNode<any>;
-        return rectNode.y1 - rectNode.y0;
-      })
-      .attr("fill", (d: any) => this.getCellColor(d.data.data, currentState))
       .attr("stroke", "#18181b")
-      .attr("stroke-width", 1)
-      .style("transition", "all 0.15s ease");
+      .attr("stroke-width", 1);
 
-    // Labels (only for cells with enough space)
-    cells.each(function (d: any) {
-      const rectNode = d as HierarchyRectangularNode<any>;
-      const node = d3.select(this);
-      const w = rectNode.x1 - rectNode.x0;
-      const h = rectNode.y1 - rectNode.y0;
-
+    // Labels
+    cells.each(function (d) {
+      const w = d.x1 - d.x0;
+      const h = d.y1 - d.y0;
       if (w > 50 && h > 20) {
-        node
+        d3.select(this)
           .append("text")
           .attr("x", w / 2)
           .attr("y", h / 2)
           .attr("text-anchor", "middle")
           .attr("dominant-baseline", "middle")
-          .attr("fill", "white")
+          .attr("fill", d.data.data.path === currentState.selectedFile ? "#000" : "white")
           .attr("font-size", "10px")
-          .attr("font-weight", "500")
           .style("pointer-events", "none")
-          .text((d: any) => {
-            const fileName = d.data.data.name;
-            // Truncate long names
-            return fileName.length > 20 ? fileName.substring(0, 17) + '...' : fileName;
-          });
+          .text(d.data.data.name.length > 20 ? d.data.data.name.substring(0, 17) + '...' : d.data.data.name);
       }
     });
 
-    // Tooltips
-    cells.append("title").text((d: any) => {
-      const file = d.data.data as EnrichedFileData;
-      const healthScore = file.healthScore?.score || 0;
-      return `${file.path}\nHealth: ${healthScore}\nCommits: ${file.totalCommits}\nAuthors: ${file.uniqueAuthors}`;
-    });
+    // Render Arcs if enabled
+    if (currentState.lensMode === 'coupling' && currentState.showArcs && currentState.selectedFile) {
+      this.arcRenderer?.render(
+        currentState.selectedFile,
+        leaves,
+        this.couplingIndex,
+        currentState.couplingThreshold
+      );
+    }
   }
 
   private applySizeMetric(files: EnrichedFileData[], metric: string): EnrichedFileData[] {
@@ -268,55 +338,16 @@ export class TreemapExplorerPlugin implements VisualizationPlugin<TreemapConfig,
 
   private getMetricValue(file: EnrichedFileData, metric: string): number {
     switch (metric) {
-      case 'commits':
-        return Math.max(1, file.totalCommits);
-      case 'authors':
-        return Math.max(1, file.uniqueAuthors);
+      case 'commits': return Math.max(1, file.totalCommits);
+      case 'authors': return Math.max(1, file.uniqueAuthors);
       case 'events':
         const ops = file.operations;
-        const total = (ops.M || 0) + (ops.A || 0) + (ops.D || 0) + (ops.R || 0);
-        return Math.max(1, total);
-      default:
-        return Math.max(1, file.totalCommits);
+        return Math.max(1, (ops.M || 0) + (ops.A || 0) + (ops.D || 0) + (ops.R || 0));
+      default: return Math.max(1, file.totalCommits);
     }
   }
 
-  private getCellColor(file: EnrichedFileData, state: TreemapExplorerState): string {
-    switch (state.lensMode) {
-      case 'debt':
-        return this.getDebtColor(file);
-      case 'coupling':
-        return this.getCouplingColor(file, state);
-      case 'time':
-        return this.getTimeColor(file, state);
-      default:
-        return '#27272a'; // zinc-800
-    }
-  }
-
-  private getDebtColor(file: EnrichedFileData): string {
-    if (!file.healthScore) return '#27272a';
-    return HealthScoreCalculator.getHealthColor(file.healthScore.score);
-  }
-
-  private getCouplingColor(_file: EnrichedFileData, _state: TreemapExplorerState): string {
-    // Placeholder for Phase 2
-    // Will use cochange_network data to determine coupling strength
-    return '#7c3aed'; // purple-600
-  }
-
-  private getTimeColor(_file: EnrichedFileData, _state: TreemapExplorerState): string {
-    // Placeholder for Phase 3
-    // Will use temporal_daily data to show activity over time
-    return '#3b82f6'; // blue-500
-  }
-
-  update(
-    files: EnrichedFileData[],
-    config: TreemapConfig
-  ): void {
-    // For now, just re-render
-    // In future phases, we'll implement more efficient updates
+  update(files: EnrichedFileData[], config: TreemapConfig): void {
     this.render(files, config);
   }
 
@@ -327,20 +358,10 @@ export class TreemapExplorerPlugin implements VisualizationPlugin<TreemapConfig,
   }
 
   async exportImage(): Promise<Blob> {
-    // TODO: Implement SVG to PNG export
     return new Blob();
   }
 
-  exportData(): Record<string, any> {
-    return {
-      files: this.enrichedData.map(f => ({
-        path: f.path,
-        healthScore: f.healthScore?.score,
-        category: f.healthScore?.category,
-        commits: f.totalCommits,
-        authors: f.uniqueAuthors,
-        churnRate: f.healthScore?.churnRate
-      }))
-    };
+  exportData(): any {
+    return {};
   }
 }
