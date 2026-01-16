@@ -1,4 +1,39 @@
 1 - CellDetailPanel seems not snappy when one switch between context; like switching between Events and Author; once a cell is clicked, directory name has some latency in displaying; everything else display instantly.
+
+The following part seems to have latency in some cases; like it's calculating things!
+```
+<div class="p-4 border-b border-zinc-800 bg-zinc-950/50 flex justify-between items-start sticky top-0 z-10 backdrop-blur-md"><div class="overflow-hidden"><div class="flex items-center gap-2 text-blue-400 mb-1"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-git-commit"><circle cx="12" cy="12" r="3"></circle><line x1="3" x2="9" y1="12" y2="12"></line><line x1="15" x2="21" y1="12" y2="12"></line></svg><span class="text-[10px] font-bold uppercase tracking-wider">Commit Activity</span></div><h3 class="text-sm font-bold text-white break-all leading-tight font-mono" title="packages/excalidraw/tests/__snapshots__">__snapshots__</h3><div class="text-xs text-zinc-500 truncate">packages/excalidraw/tests/__snapshots__</div></div><button class="text-zinc-400 hover:text-white p-1 hover:bg-zinc-800 rounded transition-colors"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-x"><path d="M18 6 6 18"></path><path d="m6 6 12 12"></path></svg></button></div>
+```
+
+
+```
+      {/* Header */}
+      <div className="p-4 border-b border-zinc-800 bg-zinc-950/50 flex justify-between items-start sticky top-0 z-10 backdrop-blur-md">
+        <div className="overflow-hidden">
+          <div className={`flex items-center gap-2 ${headerConfig.color} mb-1`}>
+            <HeaderIcon size={14} />
+            <span className="text-[10px] font-bold uppercase tracking-wider">
+              {headerConfig.label}
+            </span>
+          </div>
+          <h3
+            className="text-sm font-bold text-white break-all leading-tight font-mono"
+            title={cell.directory}
+          >
+            {cell.directory.split("/").pop()}
+          </h3>
+          <div className="text-xs text-zinc-500 truncate">{cell.directory}</div>
+        </div>
+        <button
+          onClick={onClose}
+          className="text-zinc-400 hover:text-white p-1 hover:bg-zinc-800 rounded transition-colors"
+        >
+          <X size={18} />
+        </button>
+      </div>
+```
+
+
 2 - Switching from Timeline Heatmap --> Treemap Structure --> back to Timeline Heatmap produces the following error:
 
 ```

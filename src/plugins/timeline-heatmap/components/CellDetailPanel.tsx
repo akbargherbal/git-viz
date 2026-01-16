@@ -35,6 +35,12 @@ export const CellDetailPanel: React.FC<CellDetailPanelProps> = ({
   const pDelete = totalChanges ? (cell.deletions / totalChanges) * 100 : 0;
   const pMod = totalChanges ? (cell.modifications / totalChanges) * 100 : 0;
 
+  // 🔧 FIX: Memoize directory name to prevent recalculation on every render
+  // This resolves the latency issue when switching between tabs (Events ↔ Author)
+  const directoryName = useMemo(() => {
+    return cell.directory.split("/").pop() || cell.directory;
+  }, [cell.directory]);
+
   // Get Lifetime Stats for this directory
   const lifetimeStats = useMemo(() => {
     return metadata?.directory_stats?.find((d) => d.path === cell.directory);
@@ -104,7 +110,7 @@ export const CellDetailPanel: React.FC<CellDetailPanelProps> = ({
             className="text-sm font-bold text-white break-all leading-tight font-mono"
             title={cell.directory}
           >
-            {cell.directory.split("/").pop()}
+            {directoryName}
           </h3>
           <div className="text-xs text-zinc-500 truncate">{cell.directory}</div>
         </div>
