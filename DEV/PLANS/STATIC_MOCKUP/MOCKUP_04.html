@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Git-Viz: Coupling X-Ray</title>
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body { background-color: #09090b; color: white; overflow: hidden; }
+        .node { transition: all 0.3s ease; cursor: crosshair; }
+        .node.dimmed { opacity: 0.1; fill: #333 !important; }
+        .node.highlighted { opacity: 1; stroke: #fff; stroke-width: 2px; filter: drop-shadow(0 0 8px rgba(255,255,255,0.5)); }
+        .node.source { fill: #fff !important; }
+        .link-line { fill: none; stroke: rgba(255, 255, 255, 0.4); stroke-width: 1.5px; pointer-events: none; }
+    </style>
+</head>
+<body class="h-screen flex flex-col">
+    <div class="p-4 border-b border-zinc-800 bg-zinc-900 z-10">
+        <div class="flex justify-between items-center">
+            <div>
+                <h1 class="font-bold text-lg flex items-center gap-2">
+                    <span class="text-purple-500">⚡</span> Coupling X-Ray
+                </h1>
+                <p class="text-zinc-400 text-xs">Hover a file to reveal its hidden logical dependencies (Co-change Network)</p>
+            </div>
+            <div class="text-xs text-zinc-500 bg-zinc-800 px-3 py-1 rounded border border-zinc-700">
+                Dataset: <span class="text-zinc-300 font-mono">cochange_network.json</span>
+            </div>
+        </div>
+    </div>
+    
+    <div id="chart" class="flex-1 relative"></div>
+
+    <script>
+        // 1. Generate Structure (Treemap)
+        function generateTree(name, depth=0) {
+            if (depth > 3) return { name: `file_${Math.random().toString(36).substr(2, 5)}.ts`, value: Math.random() * 100 };
+            const children = [];
+            const count = Math.floor(Math.random() * 3) + 2;
+            for(let i=0; i<count; i++) children.push(generateTree(`${name}_${i}`, depth+1));
+            return { name, children };
+        }
+        const data = generateTree("root");
+
+        // 2. Generate Network (Coupling Edges)
+        // In reality, this comes from cochange_network.json
+        const leaves = [];
+        function traverse(node) {
+            if(!node.children) leaves.push(node.name);
+            else node.children.forEach(traverse);
+        }
+        traverse(data);
+
+        const coupling = {};
+        leaves.forEach(leaf => {
+            coupling[leaf] = [];
+            // Randomly couple with 2-5 other files anywhere in the repo
+            const count = Math.floor(Math.random() * 4);
+            for(let i=0; i<count; i++) {
+                const target = leaves[Math.floor(Math.random() * leaves.length)];
+                if(target !== leaf) coupling[leaf].push(target);
+            }
+        });
+
+        // 3. Render
+        const width = window.innerWidth;
+        const height = window.innerHeight - 80;
+        const svg = d3.select("#chart").append("svg").attr("width", width).attr("height", height);
+
+        const root = d3.hierarchy(data).sum(d => d.value).sort((a, b) => b.value - a.value);
+        d3.treemap().size([width, height]).padding(1).round(true)(root);
+
+        // Draw Nodes
+        const nodes = svg.selectAll("rect")
+            .data(root.leaves())
+            .join("rect")
+            .attr("x", d => d.x0)
+            .attr("y", d => d.y0)
+            .attr("width", d => d.x1 - d.x0)
+            .attr("height", d => d.y1 - d.y0)
+            .attr("fill", "#27272a") // Default Zinc-800
+            .attr("stroke", "#000")
+            .attr("class", "node")
+            .attr("id", d => `node-${d.data.name}`);
+
+        // Interaction Logic
+        nodes.on("mouseenter", function(event, d) {
+            const fileName = d.data.name;
+            const partners = coupling[fileName] || [];
+
+            // Dim everyone
+            nodes.classed("dimmed", true);
+
+            // Highlight Source
+            d3.select(this)
+                .classed("dimmed", false)
+                .classed("source", true)
+                .classed("highlighted", true);
+
+            // Highlight Partners
+            partners.forEach(partnerName => {
+                svg.select(`#node-${partnerName}`)
+                    .classed("dimmed", false)
+                    .classed("highlighted", true)
+                    .attr("fill", "#9333ea"); // Purple highlight
+            });
+
+            // Draw Lines (Optional visual flair)
+            const sourceCenter = { x: (d.x0+d.x1)/2, y: (d.y0+d.y1)/2 };
+            partners.forEach(partnerName => {
+                const targetNode = root.leaves().find(n => n.data.name === partnerName);
+                if(targetNode) {
+                    const targetCenter = { x: (targetNode.x0+targetNode.x1)/2, y: (targetNode.y0+targetNode.y1)/2 };
+                    svg.append("path")
+                        .attr("d", `M${sourceCenter.x},${sourceCenter.y} Q${(sourceCenter.x+targetCenter.x)/2},${sourceCenter.y-50} ${targetCenter.x},${targetCenter.y}`)
+                        .attr("class", "link-line")
+                        .attr("stroke-dasharray", "5,5")
+                        .transition().duration(500).attr("stroke-dashoffset", -10);
+                }
+            });
+        })
+        .on("mouseleave", () => {
+            nodes.classed("dimmed", false)
+                 .classed("highlighted", false)
+                 .classed("source", false)
+                 .attr("fill", "#27272a");
+            svg.selectAll(".link-line").remove();
+        });
+
+    </script>
+</body>
+</html>

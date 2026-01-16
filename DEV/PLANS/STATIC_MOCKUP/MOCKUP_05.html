@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Git-Viz: Evolutionary Timelapse</title>
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body { background-color: #09090b; color: white; overflow: hidden; }
+        .node { transition: fill 0.5s ease; }
+    </style>
+</head>
+<body class="h-screen flex flex-col">
+    <div class="p-4 border-b border-zinc-800 bg-zinc-900">
+        <div class="flex justify-between items-center mb-4">
+            <h1 class="font-bold text-lg">⏳ Evolutionary Timelapse</h1>
+            <div class="font-mono text-xl text-purple-400" id="date-display">2020-01-01</div>
+        </div>
+        <div class="flex items-center gap-4">
+            <button id="play-btn" class="bg-purple-600 hover:bg-purple-500 px-4 py-1 rounded text-sm font-bold">PLAY</button>
+            <input type="range" id="timeline" min="0" max="100" value="0" class="flex-1 accent-purple-500 h-2 bg-zinc-700 rounded-lg appearance-none cursor-pointer">
+        </div>
+    </div>
+    
+    <div id="chart" class="flex-1 relative"></div>
+
+    <script>
+        // 1. Fake Data: A stable tree structure, but we track "events"
+        const files = [];
+        for(let i=0; i<100; i++) {
+            files.push({
+                id: i,
+                name: `module_${i}.ts`,
+                size: Math.random() * 100,
+                // Random lifecycle events
+                created: Math.floor(Math.random() * 30),
+                deleted: Math.random() > 0.8 ? Math.floor(Math.random() * 30) + 50 : 999,
+                modifications: Array.from({length: 5}, () => Math.floor(Math.random() * 100))
+            });
+        }
+
+        // Build a flat hierarchy for simplicity of the mockup
+        const data = { name: "root", children: files };
+
+        // 2. Render Base Treemap
+        const width = window.innerWidth;
+        const height = window.innerHeight - 120;
+        const svg = d3.select("#chart").append("svg").attr("width", width).attr("height", height);
+
+        const root = d3.hierarchy(data).sum(d => d.size).sort((a, b) => b.value - a.value);
+        d3.treemap().size([width, height]).padding(1)(root);
+
+        const nodes = svg.selectAll("rect")
+            .data(root.leaves())
+            .join("rect")
+            .attr("x", d => d.x0)
+            .attr("y", d => d.y0)
+            .attr("width", d => d.x1 - d.x0)
+            .attr("height", d => d.y1 - d.y0)
+            .attr("fill", "#18181b")
+            .attr("stroke", "#000");
+
+        // 3. Animation Logic
+        let currentTime = 0;
+        let isPlaying = false;
+        const maxTime = 100;
+
+        function update(time) {
+            currentTime = time;
+            document.getElementById("timeline").value = time;
+            document.getElementById("date-display").innerText = `Week ${time}`;
+
+            nodes.attr("fill", d => {
+                const f = d.data;
+                
+                // Not created yet
+                if (time < f.created) return "#000"; 
+                
+                // Deleted
+                if (time > f.deleted) return "#1f1f22"; // Fade out
+                
+                // Just Created (Flash Green)
+                if (Math.abs(time - f.created) < 2) return "#22c55e";
+
+                // Just Modified (Flash Blue)
+                if (f.modifications.some(m => Math.abs(time - m) < 2)) return "#3b82f6";
+
+                // Stable State (Zinc)
+                return "#27272a";
+            })
+            .attr("opacity", d => {
+                const f = d.data;
+                if (time < f.created) return 0;
+                if (time > f.deleted) return 0.1;
+                return 1;
+            });
+        }
+
+        // Loop
+        setInterval(() => {
+            if(isPlaying) {
+                currentTime = (currentTime + 0.5) % maxTime;
+                update(currentTime);
+            }
+        }, 50);
+
+        // Controls
+        document.getElementById("play-btn").onclick = () => {
+            isPlaying = !isPlaying;
+            document.getElementById("play-btn").innerText = isPlaying ? "PAUSE" : "PLAY";
+        };
+        document.getElementById("timeline").oninput = (e) => {
+            isPlaying = false;
+            update(parseFloat(e.target.value));
+            document.getElementById("play-btn").innerText = "PLAY";
+        };
+
+        update(0);
+
+    </script>
+</body>
+</html>

@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Git-Viz: Debt Radar</title>
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body { background-color: #09090b; color: white; overflow: hidden; }
+        .node:hover { stroke: white; stroke-width: 2px; }
+    </style>
+</head>
+<body class="h-screen flex flex-col">
+    <div class="p-4 border-b border-zinc-800 bg-zinc-900 flex justify-between items-center">
+        <div>
+            <h1 class="font-bold text-lg flex items-center gap-2">
+                <span class="text-red-500">☢️</span> Technical Debt Radar
+            </h1>
+            <p class="text-zinc-400 text-xs">
+                Size = Complexity (Authors) | Color = Health Score (Churn × Age)
+            </p>
+        </div>
+        <div class="flex items-center gap-4">
+            <label class="flex items-center gap-2 cursor-pointer">
+                <input type="checkbox" id="filter-critical" class="accent-red-500 w-4 h-4">
+                <span class="text-sm font-bold text-red-400">Show Critical Only</span>
+            </label>
+            <div class="flex items-center gap-1 text-xs bg-zinc-800 p-2 rounded">
+                <span class="w-3 h-3 bg-emerald-500 rounded-full"></span> Healthy
+                <span class="w-3 h-3 bg-yellow-500 rounded-full ml-2"></span> Warning
+                <span class="w-3 h-3 bg-red-600 rounded-full ml-2"></span> Critical
+            </div>
+        </div>
+    </div>
+    
+    <div id="chart" class="flex-1 relative"></div>
+    <div id="details" class="absolute bottom-0 left-0 w-full bg-zinc-900 border-t border-zinc-800 p-4 transform translate-y-full transition-transform duration-300">
+        <!-- Details populated by JS -->
+    </div>
+
+    <script>
+        // 1. Fake Data with Composite Metrics
+        function generateTree(name, depth=0) {
+            if (depth > 3) {
+                // Generate raw metrics
+                const authors = Math.floor(Math.random() * 20) + 1;
+                const churn = Math.random(); // 0 to 1
+                const age = Math.random(); // 0 (new) to 1 (old)
+                
+                // Calculate Composite Health Score (0 = Good, 100 = Bad)
+                // Bad = High Churn + High Authors
+                let healthScore = (churn * 50) + (authors * 2);
+                if (age < 0.1) healthScore += 20; // New code is risky
+                
+                return { 
+                    name: `File_${Math.floor(Math.random()*1000)}.ts`,
+                    value: authors * 10, // Size by complexity
+                    metrics: { authors, churn, age, healthScore }
+                };
+            }
+            const children = [];
+            for(let i=0; i<3; i++) children.push(generateTree(`${name}_${i}`, depth+1));
+            return { name, children };
+        }
+        const data = generateTree("root");
+
+        // 2. Color Scale (Diverging)
+        const colorScale = d3.scaleDiverging(d3.interpolateRdYlGn)
+            .domain([100, 50, 0]); // Red (100) -> Yellow (50) -> Green (0)
+
+        // 3. Render
+        const width = window.innerWidth;
+        const height = window.innerHeight - 80;
+        const svg = d3.select("#chart").append("svg").attr("width", width).attr("height", height);
+
+        const root = d3.hierarchy(data).sum(d => d.value).sort((a, b) => b.value - a.value);
+        d3.treemap().size([width, height]).padding(1).round(true)(root);
+
+        const nodes = svg.selectAll("rect")
+            .data(root.leaves())
+            .join("rect")
+            .attr("x", d => d.x0)
+            .attr("y", d => d.y0)
+            .attr("width", d => d.x1 - d.x0)
+            .attr("height", d => d.y1 - d.y0)
+            .attr("fill", d => colorScale(d.data.metrics.healthScore))
+            .attr("class", "node")
+            .on("click", (e, d) => showDetails(d.data));
+
+        // 4. Filter Logic
+        document.getElementById("filter-critical").onchange = (e) => {
+            const showCritical = e.target.checked;
+            nodes.transition().duration(500)
+                .attr("opacity", d => {
+                    if (!showCritical) return 1;
+                    return d.data.metrics.healthScore > 70 ? 1 : 0.1;
+                })
+                .attr("fill", d => {
+                    // Greyscale non-critical items when filtered
+                    if (showCritical && d.data.metrics.healthScore <= 70) return "#333";
+                    return colorScale(d.data.metrics.healthScore);
+                });
+        };
+
+        function showDetails(data) {
+            const panel = document.getElementById("details");
+            panel.innerHTML = `
+                <div class="flex justify-between items-start">
+                    <div>
+                        <h3 class="font-bold text-lg">${data.name}</h3>
+                        <div class="flex gap-4 mt-2 text-sm">
+                            <div class="bg-zinc-800 px-3 py-1 rounded">Authors: <span class="text-white font-bold">${data.metrics.authors}</span></div>
+                            <div class="bg-zinc-800 px-3 py-1 rounded">Churn Rate: <span class="text-white font-bold">${(data.metrics.churn*100).toFixed(0)}%</span></div>
+                            <div class="bg-zinc-800 px-3 py-1 rounded">Health Score: <span class="font-bold" style="color:${colorScale(data.metrics.healthScore)}">${data.metrics.healthScore.toFixed(0)}</span></div>
+                        </div>
+                    </div>
+                    <button onclick="document.getElementById('details').classList.remove('translate-y-0'); document.getElementById('details').classList.add('translate-y-full')" class="text-zinc-500 hover:text-white">Close</button>
+                </div>
+            `;
+            panel.classList.remove("translate-y-full");
+            panel.classList.add("translate-y-0");
+        }
+
+    </script>
+</body>
+</html>

@@ -117,7 +117,6 @@ export const FilterPanel: React.FC<FilterPanelProps> = (props) => {
   const {
     displayedAuthorItems,
     totalAuthors,
-    hiddenAuthorsCount,
     fileTypeItems,
     selectedAuthors,
     selectedExtensions,
@@ -297,24 +296,11 @@ export const FilterPanel: React.FC<FilterPanelProps> = (props) => {
             />
           </div>
           
-          {/* Author List */}
-          <div className="space-y-2 mb-2">
-            {displayedAuthorItems.map(({ label, count }) => (
-              <AuthorItem
-                key={label}
-                name={label}
-                count={count}
-                isSelected={selectedAuthors.has(label)}
-                onToggle={() => handleAuthorToggle(label)}
-              />
-            ))}
-          </div>
-          
-          {/* Expand/Collapse Toggle */}
-          {hiddenAuthorsCount > 0 && (
+          {/* Expand/Collapse Toggle - MOVED TO TOP */}
+          {!authorSearch.trim() && totalAuthors > TOP_AUTHORS_LIMIT && (
             <button
               onClick={() => setAuthorsExpanded(!authorsExpanded)}
-              className="w-full py-2 px-3 text-xs font-medium text-zinc-400 border border-zinc-700 rounded-lg hover:border-purple-500 hover:text-purple-400 hover:bg-zinc-800 transition-all flex items-center justify-center gap-2"
+              className="w-full py-2 px-3 text-xs font-medium text-zinc-400 border border-zinc-700 rounded-lg hover:border-purple-500 hover:text-purple-400 hover:bg-zinc-800 transition-all flex items-center justify-center gap-2 mb-3"
             >
               {authorsExpanded ? (
                 <>
@@ -329,6 +315,19 @@ export const FilterPanel: React.FC<FilterPanelProps> = (props) => {
               )}
             </button>
           )}
+          
+          {/* Author List */}
+          <div className="space-y-2">
+            {displayedAuthorItems.map(({ label, count }) => (
+              <AuthorItem
+                key={label}
+                name={label}
+                count={count}
+                isSelected={selectedAuthors.has(label)}
+                onToggle={() => handleAuthorToggle(label)}
+              />
+            ))}
+          </div>
           
           {/* No Results */}
           {authorSearch.trim() && displayedAuthorItems.length === 0 && (
