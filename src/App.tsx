@@ -1,11 +1,10 @@
 // src/App.tsx
 // Phase 3: Cleaned up - Plugin controls ownership, no universal control state
+// Updated to support TreemapExplorer detail panel
 
 import React, { useEffect, useRef, useState, useMemo } from "react";
 import { Filter } from "lucide-react";
 import { PluginRegistry } from "@/plugins/core/PluginRegistry";
-import { TimelineHeatmapPlugin } from "@/plugins/timeline-heatmap/TimelineHeatmapPlugin";
-import { TreemapPlugin } from "@/plugins/treemap-animation/TreemapPlugin";
 import { PluginDataLoader } from "@/services/data/PluginDataLoader";
 import { DataProcessor } from "@/services/data/DataProcessor";
 import { useAppStore } from "@/store/appStore";
@@ -15,10 +14,12 @@ import { LoadingSpinner } from "@/components/common/LoadingSpinner";
 import { ErrorDisplay } from "@/components/common/ErrorDisplay";
 import { ScrollIndicatorOverlay } from "@/components/common/ScrollIndicatorOverlay";
 import { CellDetailPanel } from "@/plugins/timeline-heatmap/components/CellDetailPanel";
+import { TreemapDetailPanel } from "@/plugins/treemap-explorer/components/TreemapDetailPanel";
 import { useScrollIndicators } from "@/hooks/useScrollIndicators";
 import { LoadProgress } from "@/services/data/types";
 import type { VisualizationPlugin } from "@/types/plugin";
 import { supportsControlOwnership } from "@/types/plugin";
+import "@/plugins/init"; // Initialize plugins
 
 const App: React.FC = () => {
   // Refs
@@ -91,23 +92,13 @@ const App: React.FC = () => {
 
   // Initialize plugins (once)
   useEffect(() => {
-    const heatmapPlugin = new TimelineHeatmapPlugin();
-    const treemapPlugin = new TreemapPlugin();
-
-    PluginRegistry.register(heatmapPlugin);
-    PluginRegistry.register(treemapPlugin);
-
     const allPlugins = PluginRegistry.getAll();
     setPlugins(allPlugins);
 
     if (allPlugins.length > 0) {
       setActivePlugin(allPlugins[0].metadata.id);
     }
-
-    return () => {
-      PluginRegistry.clear();
-    };
-  }, []);
+  }, [setActivePlugin]);
 
   // Initialize plugin state when plugin changes
   useEffect(() => {
@@ -152,7 +143,7 @@ const App: React.FC = () => {
     };
 
     loadPluginData();
-  }, [ui.activePluginId]);
+  }, [ui.activePluginId, setLoading, setError]);
 
   // Process data with filters (Global fallback)
   useEffect(() => {
@@ -174,7 +165,7 @@ const App: React.FC = () => {
       console.error("Error processing data:", error);
       setError(error instanceof Error ? error.message : "Failed to process data");
     }
-  }, [rawData, filters]);
+  }, [rawData, filters, setOptimizedData, setError]);
 
   // Update active plugin instance
   useEffect(() => {
@@ -185,18 +176,22 @@ const App: React.FC = () => {
         setSelectedCell(null);
       }
     }
-  }, [ui.activePluginId]);
+  }, [ui.activePluginId, setSelectedCell]);
 
   // Render visualization
   useEffect(() => {
     if (
       !activePlugin ||
-      !data.tree ||
-      !data.activity ||
-      !data.metadata ||
       !containerRef.current
-    )
-      return;
+    ) return;
+
+    // For TreemapExplorer, we need file_index data
+    if (activePlugin.metadata.id === 'treemap-explorer') {
+      if (!rawData?.file_index) return;
+    } else {
+      // For other plugins, check traditional data
+      if (!data.tree || !data.activity || !data.metadata) return;
+    }
 
     try {
       // ARCHITECTURE FIX:
@@ -245,11 +240,14 @@ const App: React.FC = () => {
     activePlugin,
     data.tree,
     data.activity,
-    rawData, // Added rawData dependency
-    currentPluginState, // Added plugin state dependency
+    data.metadata,
+    rawData,
+    currentPluginState,
     filters.timeBin,
     filters.metric,
-    containerRef.current,
+    setSelectedCell,
+    setError,
+    mainScroll,
   ]);
 
   // Check if plugin uses new control pattern
@@ -278,6 +276,31 @@ const App: React.FC = () => {
       },
       config: activePlugin.defaultConfig,
     });
+  };
+
+  // Render appropriate detail panel based on active plugin
+  const renderDetailPanel = () => {
+    if (!ui.selectedCell) return null;
+
+    if (activePlugin?.metadata.id === 'treemap-explorer') {
+      const lensMode = (currentPluginState as any).lensMode || 'debt';
+      return (
+        <TreemapDetailPanel
+          file={ui.selectedCell}
+          lensMode={lensMode}
+          onClose={() => setSelectedCell(null)}
+        />
+      );
+    } else if (activePlugin?.metadata.id === 'timeline-heatmap') {
+      return (
+        <CellDetailPanel
+          cell={ui.selectedCell}
+          onClose={() => setSelectedCell(null)}
+        />
+      );
+    }
+
+    return null;
   };
 
   // Loading state
@@ -416,12 +439,7 @@ const App: React.FC = () => {
             !ui.selectedCell ? "panel-hidden" : ""
           }`}
         >
-          {ui.selectedCell && (
-            <CellDetailPanel
-              cell={ui.selectedCell}
-              onClose={() => setSelectedCell(null)}
-            />
-          )}
+          {renderDetailPanel()}
         </aside>
       </div>
     </div>

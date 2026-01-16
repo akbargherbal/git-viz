@@ -16,16 +16,16 @@
 
 import { PluginRegistry } from "@/plugins/core/PluginRegistry";
 import { TimelineHeatmapPlugin } from "@/plugins/timeline-heatmap/TimelineHeatmapPlugin";
-import { TreemapPlugin } from "@/plugins/treemap-animation/TreemapPlugin";
+import { TreemapExplorerPlugin } from "@/plugins/treemap-explorer/TreemapExplorerPlugin";
 
 console.log("🔌 Initializing plugins...");
 
 // Register plugins
 const timelinePlugin = new TimelineHeatmapPlugin();
-const treemapPlugin = new TreemapPlugin();
+const treemapExplorerPlugin = new TreemapExplorerPlugin();
 
 PluginRegistry.register(timelinePlugin);
-PluginRegistry.register(treemapPlugin);
+PluginRegistry.register(treemapExplorerPlugin);
 
 console.log("✅ Plugins registered:", PluginRegistry.getAll().map(p => p.metadata.name).join(", "));
 
@@ -37,14 +37,14 @@ if (import.meta.hot) {
     
     // Re-register plugins
     const newTimelinePlugin = new TimelineHeatmapPlugin();
-    const newTreemapPlugin = new TreemapPlugin();
+    const newTreemapExplorerPlugin = new TreemapExplorerPlugin();
     
     PluginRegistry.register(newTimelinePlugin);
-    PluginRegistry.register(newTreemapPlugin);
+    PluginRegistry.register(newTreemapExplorerPlugin);
     
     console.log("✅ Plugins re-registered after HMR");
   });
 }
 
 // Export for type safety if needed
-export { timelinePlugin, treemapPlugin };
+export { timelinePlugin, treemapExplorerPlugin };
