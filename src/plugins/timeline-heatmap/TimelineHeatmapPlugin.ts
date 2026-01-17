@@ -1,10 +1,10 @@
 // src/plugins/timeline-heatmap/TimelineHeatmapPlugin.ts
 
 import React from "react";
-import type { 
-  VisualizationPlugin, 
-  OptimizedDataset, 
-  PluginControlProps 
+import type {
+  VisualizationPlugin,
+  OptimizedDataset,
+  PluginControlProps,
 } from "@/types/plugin";
 import type {
   TimeBinType,
@@ -30,13 +30,13 @@ import { FilterState } from "@/types/visualization";
 export interface TimelineHeatmapState extends Record<string, unknown> {
   /** Selected metric for visualization */
   metric: MetricType;
-  
+
   /** Time bin granularity */
   timeBin: TimeBinType;
-  
+
   /** Selected authors for filtering (email addresses) */
   selectedAuthors: string[];
-  
+
   /** Selected file extensions for filtering */
   selectedExtensions: string[];
 }
@@ -142,8 +142,8 @@ export class TimelineHeatmapPlugin implements VisualizationPlugin<
    * Called when plugin is first activated or when state needs to be reset
    */
   getInitialState = (): Record<string, unknown> => ({
-    metric: 'events' as MetricType,
-    timeBin: 'week' as TimeBinType,
+    metric: "events" as MetricType,
+    timeBin: "week" as TimeBinType,
     selectedAuthors: [] as string[],
     selectedExtensions: [] as string[],
   });
@@ -158,32 +158,36 @@ export class TimelineHeatmapPlugin implements VisualizationPlugin<
    */
   renderControls = (props: PluginControlProps<Record<string, unknown>>) => {
     const { state, updateState } = props;
-    
+
     // Cast state to our specific type
     const typedState = state as unknown as TimelineHeatmapState;
-    
+
     return React.createElement(
-      'div',
-      { className: 'flex gap-4 items-center flex-wrap' },
-      
+      "div",
+      { className: "flex gap-4 items-center flex-wrap" },
+
       // Metric Selector
       React.createElement(MetricSelector, {
         value: typedState.metric,
         onChange: (metric: MetricType) => updateState({ metric }),
       }),
-      
+
       // Time Bin Selector
       React.createElement(TimeBinSelector, {
         value: typedState.timeBin,
         onChange: (timeBin: TimeBinType) => updateState({ timeBin }),
-      })
+      }),
     );
   };
 
   /**
    * Renders plugin-specific filters in the sidebar
    */
-  renderFilters = (props: PluginControlProps<Record<string, unknown>> & { onClose: () => void }) => {
+  renderFilters = (
+    props: PluginControlProps<Record<string, unknown>> & {
+      onClose: () => void;
+    },
+  ) => {
     const { state, updateState, data, onClose } = props;
     const typedState = state as unknown as TimelineHeatmapState;
 
@@ -203,11 +207,11 @@ export class TimelineHeatmapPlugin implements VisualizationPlugin<
       })),
       selectedAuthors: typedState.selectedAuthors,
       selectedExtensions: typedState.selectedExtensions,
-      onAuthorsChange: (authors: string[]) => 
+      onAuthorsChange: (authors: string[]) =>
         updateState({ selectedAuthors: authors }),
-      onExtensionsChange: (extensions: string[]) => 
+      onExtensionsChange: (extensions: string[]) =>
         updateState({ selectedExtensions: extensions }),
-      onClose: onClose
+      onClose: onClose,
     });
   };
 
@@ -218,7 +222,8 @@ export class TimelineHeatmapPlugin implements VisualizationPlugin<
     const typedState = state as unknown as TimelineHeatmapState;
     return (
       (typedState.selectedAuthors && typedState.selectedAuthors.length > 0) ||
-      (typedState.selectedExtensions && typedState.selectedExtensions.length > 0)
+      (typedState.selectedExtensions &&
+        typedState.selectedExtensions.length > 0)
     );
   };
 
@@ -227,7 +232,7 @@ export class TimelineHeatmapPlugin implements VisualizationPlugin<
   // ============================================================================
 
   layoutConfig = {
-    controlsPosition: 'header' as const,
+    controlsPosition: "header" as const,
   };
 
   // ============================================================================
@@ -247,14 +252,13 @@ export class TimelineHeatmapPlugin implements VisualizationPlugin<
     // Check if we received the raw data map from PluginDataLoader
     // The keys match the 'alias' fields in dataRequirements
     if (dataset.lifecycle && dataset.authors && dataset.files && dataset.dirs) {
-      
       // Construct FilterState from config to allow plugin-controlled filtering
       const filters: FilterState = {
         authors: new Set(config?.selectedAuthors || []),
         fileTypes: new Set(config?.selectedExtensions || []),
         directories: new Set(), // Could be added to state later
         eventTypes: new Set(),
-        timeRange: null
+        timeRange: null,
       };
 
       // Process raw data on the fly using the extracted processor
@@ -263,7 +267,7 @@ export class TimelineHeatmapPlugin implements VisualizationPlugin<
         dataset.authors,
         dataset.files,
         dataset.dirs,
-        filters
+        filters,
       );
     } else {
       // Fallback: Assume legacy OptimizedDataset (already processed)
@@ -278,6 +282,14 @@ export class TimelineHeatmapPlugin implements VisualizationPlugin<
     // 1. Map IDs to Directory Paths
     const idToPath = new Map<number, string>();
     const traverse = (node: OptimizedDirectoryNode) => {
+      // Guard against undefined nodes during rapid plugin switching
+      if (!node?.type) {
+        console.warn(
+          "[TimelineHeatmap] Skipping undefined node during traversal",
+        );
+        return;
+      }
+
       if (node.type === "directory") {
         idToPath.set(node.id, node.path);
         node.children?.forEach(traverse);
@@ -500,7 +512,7 @@ export class TimelineHeatmapPlugin implements VisualizationPlugin<
         if (value > 0) {
           // Log-based intensity calculation for better visual distribution
           const intensity = Math.log(value + 1) / Math.log(data.maxValue + 1);
-          
+
           // CRITICAL: Metric-based hue selection - colors change based on header selection
           let hue: number;
           switch (config.metric) {

@@ -14,7 +14,7 @@ import { LoadingSpinner } from "@/components/common/LoadingSpinner";
 import { ErrorDisplay } from "@/components/common/ErrorDisplay";
 import { ScrollIndicatorOverlay } from "@/components/common/ScrollIndicatorOverlay";
 import { CellDetailPanel } from "@/plugins/timeline-heatmap/components/CellDetailPanel";
-import TreemapDetailPanel  from "@/plugins/treemap-explorer/components/TreemapDetailPanel";
+import TreemapDetailPanel from "@/plugins/treemap-explorer/components/TreemapDetailPanel";
 import { useScrollIndicators } from "@/hooks/useScrollIndicators";
 import { LoadProgress } from "@/services/data/types";
 import type { VisualizationPlugin } from "@/types/plugin";
@@ -30,7 +30,8 @@ const App: React.FC = () => {
 
   // Local state - only for plugin management
   const [plugins, setPlugins] = useState<VisualizationPlugin[]>([]);
-  const [activePlugin, setActivePluginInstance] = useState<VisualizationPlugin | null>(null);
+  const [activePlugin, setActivePluginInstance] =
+    useState<VisualizationPlugin | null>(null);
   const [rawData, setRawData] = useState<Record<string, any> | null>(null);
   const [loadingProgress, setLoadingProgress] = useState<LoadProgress>({
     loaded: 0,
@@ -63,7 +64,7 @@ const App: React.FC = () => {
   // Active filter detection
   const hasActiveFilters = useMemo(() => {
     // Check global filters
-    const globalActive = 
+    const globalActive =
       filters.authors.size > 0 ||
       filters.directories.size > 0 ||
       filters.fileTypes.size > 0 ||
@@ -72,7 +73,9 @@ const App: React.FC = () => {
 
     // Check plugin-specific filters if supported
     if (activePlugin?.checkActiveFilters) {
-      return globalActive || activePlugin.checkActiveFilters(currentPluginState);
+      return (
+        globalActive || activePlugin.checkActiveFilters(currentPluginState)
+      );
     }
 
     return globalActive;
@@ -104,7 +107,10 @@ const App: React.FC = () => {
   useEffect(() => {
     if (!ui.activePluginId || !activePlugin) return;
 
-    if (supportsControlOwnership(activePlugin) && activePlugin.getInitialState) {
+    if (
+      supportsControlOwnership(activePlugin) &&
+      activePlugin.getInitialState
+    ) {
       const initialState = activePlugin.getInitialState();
       initPluginState(ui.activePluginId, initialState);
     }
@@ -125,7 +131,9 @@ const App: React.FC = () => {
       try {
         setLoadingProgress({ loaded: 0, total: 1, phase: "metadata" });
 
-        const requirements = PluginRegistry.getDataRequirements(ui.activePluginId);
+        const requirements = PluginRegistry.getDataRequirements(
+          ui.activePluginId,
+        );
         const result = await PluginDataLoader.loadForPlugin(requirements);
 
         if (!result.success) {
@@ -150,20 +158,31 @@ const App: React.FC = () => {
     if (!rawData) return;
 
     try {
-      if (rawData.lifecycle && rawData.authors && rawData.files && rawData.dirs) {
+      if (
+        rawData.lifecycle &&
+        rawData.authors &&
+        rawData.files &&
+        rawData.dirs
+      ) {
         const optimized = DataProcessor.processRawData(
           rawData.lifecycle,
           rawData.authors,
           rawData.files,
           rawData.dirs,
-          filters
+          filters,
         );
 
-        setOptimizedData(optimized.metadata, optimized.tree, optimized.activity);
+        setOptimizedData(
+          optimized.metadata,
+          optimized.tree,
+          optimized.activity,
+        );
       }
     } catch (error) {
       console.error("Error processing data:", error);
-      setError(error instanceof Error ? error.message : "Failed to process data");
+      setError(
+        error instanceof Error ? error.message : "Failed to process data",
+      );
     }
   }, [rawData, filters, setOptimizedData, setError]);
 
@@ -180,13 +199,13 @@ const App: React.FC = () => {
 
   // Render visualization
   useEffect(() => {
-    if (
-      !activePlugin ||
-      !containerRef.current
-    ) return;
+    // Flag to track if this effect is still mounted
+    let isMounted = true;
+
+    if (!activePlugin || !containerRef.current) return;
 
     // For TreemapExplorer, we need file_index data
-    if (activePlugin.metadata.id === 'treemap-explorer') {
+    if (activePlugin.metadata.id === "treemap-explorer") {
       if (!rawData?.file_index) return;
     } else {
       // For other plugins, check traditional data
@@ -194,44 +213,52 @@ const App: React.FC = () => {
     }
 
     try {
-      // ARCHITECTURE FIX:
-      // 1. Spread currentPluginState into config to override defaults with plugin-controlled values
-      // 2. Pass rawData (if available) to allow plugin to perform its own filtering
       const config = {
         ...activePlugin.defaultConfig,
-        // Legacy fallback
         timeBin: filters.timeBin,
         metric: filters.metric,
-        // Plugin state overrides
         ...currentPluginState,
-        onCellClick: (cell: any) => setSelectedCell(cell),
+        onCellClick: (cell: any) => {
+          // Only handle click if this effect is still active
+          if (isMounted) {
+            setSelectedCell(cell);
+          }
+        },
       };
 
-      // Prefer rawData so plugin can filter from scratch, fallback to globally processed data
-      const dataInput = rawData && Object.keys(rawData).length > 0
-        ? rawData
-        : {
-            metadata: data.metadata,
-            tree: data.tree,
-            activity: data.activity,
-          };
+      const dataInput =
+        rawData && Object.keys(rawData).length > 0
+          ? rawData
+          : {
+              metadata: data.metadata,
+              tree: data.tree,
+              activity: data.activity,
+            };
 
       const processed = activePlugin.processData(dataInput, config);
 
-      activePlugin.init(containerRef.current, config);
-      activePlugin.render(processed, config);
-
-      mainScroll.checkScrollability();
+      // Only proceed with rendering if still mounted
+      if (isMounted) {
+        activePlugin.init(containerRef.current, config);
+        activePlugin.render(processed, config);
+        mainScroll.checkScrollability();
+      }
     } catch (error) {
-      console.error("Error processing/rendering:", error);
-      setError(
-        error instanceof Error
-          ? error.message
-          : "Failed to render visualization",
-      );
+      // Only set error if still mounted
+      if (isMounted) {
+        console.error("Error processing/rendering:", error);
+        setError(
+          error instanceof Error
+            ? error.message
+            : "Failed to render visualization",
+        );
+      }
     }
 
     return () => {
+      // Mark as unmounted to prevent stale updates
+      isMounted = false;
+
       if (activePlugin) {
         activePlugin.destroy();
       }
@@ -282,14 +309,17 @@ const App: React.FC = () => {
   const renderDetailPanel = () => {
     if (!ui.selectedCell) return null;
 
-    if (activePlugin?.metadata.id === 'treemap-explorer') {
-      const lensMode = (currentPluginState as any).lensMode || 'debt';
-      const couplingThreshold = (currentPluginState as any).couplingThreshold || 0.3;
-      
+    if (activePlugin?.metadata.id === "treemap-explorer") {
+      const lensMode = (currentPluginState as any).lensMode || "debt";
+      const couplingThreshold =
+        (currentPluginState as any).couplingThreshold || 0.3;
+
       // Get coupling index from plugin
       const treemapPlugin = activePlugin as any;
-      const couplingIndex = treemapPlugin.getCouplingIndex ? treemapPlugin.getCouplingIndex() : new Map();
-      
+      const couplingIndex = treemapPlugin.getCouplingIndex
+        ? treemapPlugin.getCouplingIndex()
+        : new Map();
+
       return (
         <TreemapDetailPanel
           file={ui.selectedCell}
@@ -299,7 +329,7 @@ const App: React.FC = () => {
           onClose={() => setSelectedCell(null)}
         />
       );
-    } else if (activePlugin?.metadata.id === 'timeline-heatmap') {
+    } else if (activePlugin?.metadata.id === "timeline-heatmap") {
       return (
         <CellDetailPanel
           cell={ui.selectedCell}
@@ -431,7 +461,7 @@ const App: React.FC = () => {
                 activity: data.activity,
               },
               config: activePlugin.defaultConfig,
-              onClose: () => setShowFilters(false)
+              onClose: () => setShowFilters(false),
             })
           ) : (
             <FilterPanel
