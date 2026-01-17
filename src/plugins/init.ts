@@ -3,10 +3,10 @@
 
 /**
  * Plugin Initialization Module
- * 
+ *
  * CRITICAL: This file registers plugins ONCE at application startup,
  * outside of React component lifecycle to avoid re-registration issues.
- * 
+ *
  * Changes from embedded registration:
  * - Plugins registered at module initialization (not in useEffect)
  * - No React StrictMode double-registration
@@ -27,21 +27,26 @@ const treemapExplorerPlugin = new TreemapExplorerPlugin();
 PluginRegistry.register(timelinePlugin);
 PluginRegistry.register(treemapExplorerPlugin);
 
-console.log("✅ Plugins registered:", PluginRegistry.getAll().map(p => p.metadata.name).join(", "));
+console.log(
+  "✅ Plugins registered:",
+  PluginRegistry.getAll()
+    .map((p) => p.metadata.name)
+    .join(", "),
+);
 
 // HMR support: Clear and re-register on hot reload
 if (import.meta.hot) {
   import.meta.hot.accept(() => {
     console.log("🔄 Hot reload detected - clearing plugin registry");
     PluginRegistry.clear();
-    
+
     // Re-register plugins
     const newTimelinePlugin = new TimelineHeatmapPlugin();
     const newTreemapExplorerPlugin = new TreemapExplorerPlugin();
-    
+
     PluginRegistry.register(newTimelinePlugin);
     PluginRegistry.register(newTreemapExplorerPlugin);
-    
+
     console.log("✅ Plugins re-registered after HMR");
   });
 }

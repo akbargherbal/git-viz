@@ -33,9 +33,9 @@ export interface FileData {
 export interface EnrichedFileData extends FileData {
   healthScore?: {
     score: number;
-    category: 'critical' | 'medium' | 'healthy';
+    category: "critical" | "medium" | "healthy";
     churnRate: number;
-    busFactor: 'high-risk' | 'medium-risk' | 'low-risk';
+    busFactor: "high-risk" | "medium-risk" | "low-risk";
     factors: {
       churn: { value: number; score: number; weight: number };
       authors: { value: number; score: number; weight: number };
@@ -69,7 +69,7 @@ export interface TemporalFileData extends EnrichedFileData {
   isDormant: boolean;
   isVisible: boolean;
   createdPosition?: number; // Position in timeline (0-100) when file was created
-  
+
   // Keep base fields for backward compatibility
   ageDays: number;
   totalCommits: number; // camelCase alias often used in components
@@ -90,31 +90,36 @@ export interface TemporalDailyData {
   aggregation_level?: string;
   total_days?: number;
   // Support both Array and Record formats to handle dataset variations
-  days: Array<{
-    key: string;
-    date: string;
-    commits: number;
-    files_changed: number;
-    unique_authors: number;
-    operations: {
-      M?: number;
-      A?: number;
-      D?: number;
-      R?: number;
-    };
-  }> | Record<string, {
-    key: string;
-    date: string;
-    commits: number;
-    files_changed: number;
-    unique_authors: number;
-    operations: {
-      M?: number;
-      A?: number;
-      D?: number;
-      R?: number;
-    };
-  }>;
+  days:
+    | Array<{
+        key: string;
+        date: string;
+        commits: number;
+        files_changed: number;
+        unique_authors: number;
+        operations: {
+          M?: number;
+          A?: number;
+          D?: number;
+          R?: number;
+        };
+      }>
+    | Record<
+        string,
+        {
+          key: string;
+          date: string;
+          commits: number;
+          files_changed: number;
+          unique_authors: number;
+          operations: {
+            M?: number;
+            A?: number;
+            D?: number;
+            R?: number;
+          };
+        }
+      >;
 }
 
 /**
@@ -135,17 +140,17 @@ export interface TreemapHierarchyDatum {
  * Plugin state interface
  */
 export interface TreemapExplorerState extends Record<string, unknown> {
-  lensMode: 'debt' | 'coupling' | 'time';
-  sizeMetric: 'commits' | 'authors' | 'events';
+  lensMode: "debt" | "coupling" | "time";
+  sizeMetric: "commits" | "authors" | "events";
   selectedFile: string | null;
-  
+
   // Debt lens filters
   healthThreshold?: number;
-  
+
   // Coupling lens filters
   couplingThreshold?: number;
   showArcs?: boolean;
-  
+
   // Time lens filters and controls
   timePosition?: number;
   playing?: boolean;

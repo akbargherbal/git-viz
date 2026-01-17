@@ -1,9 +1,13 @@
 // src/plugins/treemap-explorer/components/CouplingView.tsx
 
-import React from 'react';
-import { Link } from 'lucide-react';
-import { EnrichedFileData } from '../types';
-import { CouplingDataProcessor, CouplingIndex, CouplingPartner } from '@/services/data/CouplingDataProcessor';
+import React from "react";
+import { Link } from "lucide-react";
+import { EnrichedFileData } from "../types";
+import {
+  CouplingDataProcessor,
+  CouplingIndex,
+  CouplingPartner,
+} from "@/services/data/CouplingDataProcessor";
 
 interface CouplingViewProps {
   file: EnrichedFileData;
@@ -14,23 +18,26 @@ interface CouplingViewProps {
 export const CouplingView: React.FC<CouplingViewProps> = ({
   file,
   couplingIndex,
-  couplingThreshold
+  couplingThreshold,
 }) => {
   // ... existing implementation ...
   // Get coupling partners filtered by threshold
   const partners = CouplingDataProcessor.getTopCouplings(
     couplingIndex,
     file.key, // Use key instead of path if path is missing
-    10
-  ).filter(p => p.strength >= couplingThreshold);
+    10,
+  ).filter((p) => p.strength >= couplingThreshold);
 
   // Get coupling metrics
-  const metrics = CouplingDataProcessor.getFileCouplingMetrics(couplingIndex, file.key);
+  const metrics = CouplingDataProcessor.getFileCouplingMetrics(
+    couplingIndex,
+    file.key,
+  );
 
   // Generate insight based on coupling strength
   const getInsight = (): string => {
     if (metrics.totalPartners === 0) {
-      return 'This file has no detected coupling relationships. It may be isolated or recently added.';
+      return "This file has no detected coupling relationships. It may be isolated or recently added.";
     }
 
     if (metrics.maxStrength >= 0.7 && metrics.totalPartners >= 5) {
@@ -98,8 +105,18 @@ export const CouplingView: React.FC<CouplingViewProps> = ({
       <div className="bg-purple-950/20 border border-purple-900/50 rounded-lg p-3">
         <div className="flex items-start gap-2">
           <div className="mt-0.5">
-            <svg className="w-4 h-4 text-purple-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+            <svg
+              className="w-4 h-4 text-purple-400"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+              />
             </svg>
           </div>
           <p className="text-xs text-zinc-300 leading-relaxed">
@@ -162,16 +179,22 @@ interface CouplingPartnerCardProps {
   index: number;
 }
 
-const CouplingPartnerCard: React.FC<CouplingPartnerCardProps> = ({ partner, index }) => {
-  const fileName = partner.filePath.split('/').pop() || partner.filePath;
-  const directory = partner.filePath.split('/').slice(0, -1).join('/') || '/';
+const CouplingPartnerCard: React.FC<CouplingPartnerCardProps> = ({
+  partner,
+  index,
+}) => {
+  const fileName = partner.filePath.split("/").pop() || partner.filePath;
+  const directory = partner.filePath.split("/").slice(0, -1).join("/") || "/";
 
   // Determine strength category and color
-  const getStrengthInfo = (strength: number): { label: string; color: string } => {
-    if (strength >= 0.7) return { label: 'Very High', color: 'text-purple-300' };
-    if (strength >= 0.5) return { label: 'High', color: 'text-purple-400' };
-    if (strength >= 0.3) return { label: 'Medium', color: 'text-purple-500' };
-    return { label: 'Low', color: 'text-purple-600' };
+  const getStrengthInfo = (
+    strength: number,
+  ): { label: string; color: string } => {
+    if (strength >= 0.7)
+      return { label: "Very High", color: "text-purple-300" };
+    if (strength >= 0.5) return { label: "High", color: "text-purple-400" };
+    if (strength >= 0.3) return { label: "Medium", color: "text-purple-500" };
+    return { label: "Low", color: "text-purple-600" };
   };
 
   const strengthInfo = getStrengthInfo(partner.strength);
@@ -207,7 +230,9 @@ const CouplingPartnerCard: React.FC<CouplingPartnerCardProps> = ({ partner, inde
                   style={{ width: `${partner.strength * 100}%` }}
                 />
               </div>
-              <span className={`text-[10px] font-mono font-bold ${strengthInfo.color}`}>
+              <span
+                className={`text-[10px] font-mono font-bold ${strengthInfo.color}`}
+              >
                 {partner.strength.toFixed(2)}
               </span>
             </div>

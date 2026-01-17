@@ -1,6 +1,10 @@
 // src/plugins/treemap-explorer/TreemapExplorerPlugin.tsx
 
-import { VisualizationPlugin, PluginControlProps, ExportOptions } from "@/types/plugin";
+import {
+  VisualizationPlugin,
+  PluginControlProps,
+  ExportOptions,
+} from "@/types/plugin";
 import * as d3 from "d3";
 import { DataProcessor } from "@/services/data/DataProcessor";
 import { CouplingDataProcessor } from "@/services/data/CouplingDataProcessor";
@@ -13,9 +17,7 @@ import { TreemapExplorerControls } from "./components/TreemapExplorerControls";
 import { TreemapExplorerFilters } from "./components/TreemapExplorerFilters";
 import TreemapDetailPanel from "./components/TreemapDetailPanel";
 import TimelineScrubber from "./components/TimelineScrubber";
-import {
-  getCellColor,
-} from "./utils/colorScales";
+import { getCellColor } from "./utils/colorScales";
 import { CouplingArcRenderer } from "./renderers/CouplingArcRenderer";
 import { EnrichedFileData, TreemapExplorerState } from "./types";
 
@@ -28,7 +30,11 @@ export class TreemapExplorerPlugin implements VisualizationPlugin<TreemapExplore
     priority: 2,
     dataRequirements: [
       { dataset: "file_index", required: true, alias: "file_index" },
-      { dataset: "cochange_network", required: false, alias: "cochange_network" },
+      {
+        dataset: "cochange_network",
+        required: false,
+        alias: "cochange_network",
+      },
       { dataset: "temporal_daily", required: false, alias: "temporal_daily" },
     ],
   };
@@ -66,7 +72,10 @@ export class TreemapExplorerPlugin implements VisualizationPlugin<TreemapExplore
     this.container.className = "relative w-full h-full bg-zinc-950";
   }
 
-  processData(dataset: Record<string, any>, _config?: TreemapExplorerState): EnrichedFileData[] {
+  processData(
+    dataset: Record<string, any>,
+    _config?: TreemapExplorerState,
+  ): EnrichedFileData[] {
     // 1. Load core file metadata (required)
     const fileIndex = dataset.file_index;
     if (!fileIndex) {
@@ -93,16 +102,14 @@ export class TreemapExplorerPlugin implements VisualizationPlugin<TreemapExplore
     return this.data;
   }
 
-  render(
-    data: EnrichedFileData[],
-    state: TreemapExplorerState,
-  ): void {
+  render(data: EnrichedFileData[], state: TreemapExplorerState): void {
     if (!this.container) return;
 
     this.container.innerHTML = "";
-    
+
     // Create SVG
-    const svg = d3.select(this.container)
+    const svg = d3
+      .select(this.container)
       .append("svg")
       .attr("width", "100%")
       .attr("height", "100%")
@@ -132,11 +139,13 @@ export class TreemapExplorerPlugin implements VisualizationPlugin<TreemapExplore
     const filteredData = this.filterData(enrichedData, state);
 
     // Calculate treemap layout
-    const root = d3.hierarchy({ children: filteredData } as any)
+    const root = d3
+      .hierarchy({ children: filteredData } as any)
       .sum((d: any) => this.getSizeValue(d, state.sizeMetric))
       .sort((a: any, b: any) => (b.value || 0) - (a.value || 0));
 
-    const treemapLayout = d3.treemap<any>()
+    const treemapLayout = d3
+      .treemap<any>()
       .size([width, height])
       .paddingInner(2)
       .paddingOuter(4)
@@ -146,23 +155,35 @@ export class TreemapExplorerPlugin implements VisualizationPlugin<TreemapExplore
 
     // Render cells
     const cells = root.leaves() as d3.HierarchyRectangularNode<any>[];
-    
-    const cellGroups = svg.selectAll("g")
+
+    const cellGroups = svg
+      .selectAll("g")
       .data(cells)
       .join("g")
-      .attr("transform", d => `translate(${d.x0},${d.y0})`);
+      .attr("transform", (d) => `translate(${d.x0},${d.y0})`);
 
-    cellGroups.append("rect")
-      .attr("width", d => d.x1 - d.x0)
-      .attr("height", d => d.y1 - d.y0)
+    cellGroups
+      .append("rect")
+      .attr("width", (d) => d.x1 - d.x0)
+      .attr("height", (d) => d.y1 - d.y0)
       // FIX: Access d.data directly (it is the EnrichedFileData object)
-      .attr("fill", d => this.getCellColor(d.data as EnrichedFileData, state))
-      .attr("stroke", d => state.selectedFile === (d.data as EnrichedFileData).key ? "#fff" : "#000")
-      .attr("stroke-width", d => state.selectedFile === (d.data as EnrichedFileData).key ? 3 : 1)
+      .attr("fill", (d) => this.getCellColor(d.data as EnrichedFileData, state))
+      .attr("stroke", (d) =>
+        state.selectedFile === (d.data as EnrichedFileData).key
+          ? "#fff"
+          : "#000",
+      )
+      .attr("stroke-width", (d) =>
+        state.selectedFile === (d.data as EnrichedFileData).key ? 3 : 1,
+      )
       .style("cursor", "pointer")
-      .style("opacity", d => {
+      .style("opacity", (d) => {
         const fileData = d.data as EnrichedFileData;
-        if (state.selectedFile && state.lensMode === "coupling" && state.selectedFile !== fileData.key) {
+        if (
+          state.selectedFile &&
+          state.lensMode === "coupling" &&
+          state.selectedFile !== fileData.key
+        ) {
           return "0.1";
         }
         return "1";
@@ -175,17 +196,18 @@ export class TreemapExplorerPlugin implements VisualizationPlugin<TreemapExplore
       });
 
     // Add labels for larger cells
-    cellGroups.filter(d => (d.x1 - d.x0) > 40 && (d.y1 - d.y0) > 20)
+    cellGroups
+      .filter((d) => d.x1 - d.x0 > 40 && d.y1 - d.y0 > 20)
       .append("text")
-      .attr("x", d => (d.x1 - d.x0) / 2)
-      .attr("y", d => (d.y1 - d.y0) / 2)
+      .attr("x", (d) => (d.x1 - d.x0) / 2)
+      .attr("y", (d) => (d.y1 - d.y0) / 2)
       .attr("text-anchor", "middle")
       .attr("dominant-baseline", "middle")
       .attr("fill", "#fff")
       .attr("font-size", "10")
       .attr("font-family", "monospace")
       .style("pointer-events", "none")
-      .text(d => (d.data as EnrichedFileData).key.split("/").pop() || "");
+      .text((d) => (d.data as EnrichedFileData).key.split("/").pop() || "");
 
     // Render coupling arcs if in coupling mode and file selected
     if (state.lensMode === "coupling" && state.selectedFile && state.showArcs) {
@@ -228,20 +250,28 @@ export class TreemapExplorerPlugin implements VisualizationPlugin<TreemapExplore
   // Explicitly cast props to satisfy the interface contravariance requirement
   renderControls(props: PluginControlProps<Record<string, unknown>>) {
     const typedProps = props as PluginControlProps<TreemapExplorerState>;
-    return <TreemapExplorerControls 
-      state={typedProps.state} 
-      updateState={typedProps.updateState} 
-      data={typedProps.data}
-    />;
+    return (
+      <TreemapExplorerControls
+        state={typedProps.state}
+        updateState={typedProps.updateState}
+        data={typedProps.data}
+      />
+    );
   }
 
-  renderFilters(props: PluginControlProps<Record<string, unknown>> & { onClose: () => void }) {
-    const typedProps = props as PluginControlProps<TreemapExplorerState> & { onClose: () => void };
+  renderFilters(
+    props: PluginControlProps<Record<string, unknown>> & {
+      onClose: () => void;
+    },
+  ) {
+    const typedProps = props as PluginControlProps<TreemapExplorerState> & {
+      onClose: () => void;
+    };
     return (
-      <TreemapExplorerFilters 
-        state={typedProps.state} 
-        onStateChange={typedProps.updateState} 
-        onClose={typedProps.onClose} 
+      <TreemapExplorerFilters
+        state={typedProps.state}
+        onStateChange={typedProps.updateState}
+        onClose={typedProps.onClose}
       />
     );
   }
@@ -296,7 +326,7 @@ export class TreemapExplorerPlugin implements VisualizationPlugin<TreemapExplore
     return getCellColor(file, state.lensMode, {
       couplingThreshold: state.couplingThreshold,
       timePosition: state.timePosition,
-      timeFilters: state.timeFilters
+      timeFilters: state.timeFilters,
     });
   }
 
@@ -325,7 +355,7 @@ export class TreemapExplorerPlugin implements VisualizationPlugin<TreemapExplore
       this.playbackInterval = null;
     }
   }
-  
+
   // Required for the new UI pattern
   renderUI(
     state: TreemapExplorerState,
@@ -335,13 +365,17 @@ export class TreemapExplorerPlugin implements VisualizationPlugin<TreemapExplore
 
     return (
       <>
-        <TreemapExplorerControls 
-          state={state} 
-          updateState={updateState} 
+        <TreemapExplorerControls
+          state={state}
+          updateState={updateState}
           data={this.data}
         />
 
-        <TreemapExplorerFilters state={state} onStateChange={updateState} onClose={() => {}} />
+        <TreemapExplorerFilters
+          state={state}
+          onStateChange={updateState}
+          onClose={() => {}}
+        />
 
         {selectedFile && (
           <TreemapDetailPanel

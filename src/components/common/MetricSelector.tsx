@@ -15,29 +15,30 @@ interface ControlledMetricSelectorProps {
 /**
  * MetricSelector component
  * Supports both controlled (plugin-owned) and uncontrolled (store-connected) modes
- * 
+ *
  * Usage:
  * - Controlled: <MetricSelector value={state.metric} onChange={updateMetric} />
  * - Uncontrolled: <MetricSelector /> (reads/writes to store)
  */
-export const MetricSelector: React.FC<Partial<ControlledMetricSelectorProps>> = ({ 
-  value: controlledValue, 
-  onChange: controlledOnChange 
-}) => {
+export const MetricSelector: React.FC<
+  Partial<ControlledMetricSelectorProps>
+> = ({ value: controlledValue, onChange: controlledOnChange }) => {
   // Uncontrolled mode: use store
   const { filters, setMetric } = useAppStore();
-  
+
   // Determine if we're in controlled or uncontrolled mode
-  const isControlled = controlledValue !== undefined && controlledOnChange !== undefined;
-  
+  const isControlled =
+    controlledValue !== undefined && controlledOnChange !== undefined;
+
   const currentValue = isControlled ? controlledValue : filters.metric;
   const handleChange = isControlled ? controlledOnChange : setMetric;
 
-  const options: { value: MetricType; label: string; icon: React.ReactNode }[] = [
-    { value: "commits", label: "Commits", icon: <GitCommit size={14} /> },
-    { value: "events", label: "Events", icon: <Activity size={14} /> },
-    { value: "authors", label: "Authors", icon: <Users size={14} /> },
-  ];
+  const options: { value: MetricType; label: string; icon: React.ReactNode }[] =
+    [
+      { value: "commits", label: "Commits", icon: <GitCommit size={14} /> },
+      { value: "events", label: "Events", icon: <Activity size={14} /> },
+      { value: "authors", label: "Authors", icon: <Users size={14} /> },
+    ];
 
   return (
     <div className="flex items-center gap-2">

@@ -1,9 +1,9 @@
 // src/plugins/core/PluginRegistry.ts
 
-import { 
-  VisualizationPlugin, 
+import {
+  VisualizationPlugin,
   PluginDataRequirement,
-  PluginDataValidation 
+  PluginDataValidation,
 } from "@/types/plugin";
 import { DatasetRegistry } from "@/services/data/DatasetRegistry";
 
@@ -30,9 +30,12 @@ class PluginRegistryClass {
     const dataReqs = plugin.metadata.dataRequirements;
     if (dataReqs && dataReqs.length > 0) {
       console.log(
-        `  - Data Requirements: ${dataReqs.map(req => 
-          `${req.dataset}${req.required ? ' (required)' : ' (optional)'}`
-        ).join(', ')}`
+        `  - Data Requirements: ${dataReqs
+          .map(
+            (req) =>
+              `${req.dataset}${req.required ? " (required)" : " (optional)"}`,
+          )
+          .join(", ")}`,
       );
     }
   }
@@ -86,9 +89,11 @@ class PluginRegistryClass {
   /**
    * Validate that all required datasets for a plugin are available
    */
-  async validateDataAvailability(pluginId: string): Promise<PluginDataValidation> {
+  async validateDataAvailability(
+    pluginId: string,
+  ): Promise<PluginDataValidation> {
     const plugin = this.plugins.get(pluginId);
-    
+
     if (!plugin) {
       return {
         valid: false,
@@ -100,7 +105,7 @@ class PluginRegistryClass {
     }
 
     const requirements = plugin.metadata.dataRequirements || [];
-    
+
     // If no requirements, plugin is valid
     if (requirements.length === 0) {
       return {
@@ -108,7 +113,7 @@ class PluginRegistryClass {
         missing: [],
         available: [],
         errors: [],
-        warnings: ['Plugin has no data requirements declared'],
+        warnings: ["Plugin has no data requirements declared"],
       };
     }
 
@@ -120,12 +125,12 @@ class PluginRegistryClass {
 
     for (const req of requirements) {
       const exists = DatasetRegistry.has(req.dataset);
-      
+
       if (exists) {
         available.push(req.dataset);
       } else {
         missing.push(req.dataset);
-        
+
         const message = `Dataset "${req.dataset}" not found in registry`;
         if (req.required) {
           errors.push(message);
@@ -137,11 +142,11 @@ class PluginRegistryClass {
 
     // Plugin is valid if all required datasets are available
     const requiredDatasets = requirements
-      .filter(req => req.required)
-      .map(req => req.dataset);
-    
-    const allRequiredAvailable = requiredDatasets.every(
-      dataset => DatasetRegistry.has(dataset)
+      .filter((req) => req.required)
+      .map((req) => req.dataset);
+
+    const allRequiredAvailable = requiredDatasets.every((dataset) =>
+      DatasetRegistry.has(dataset),
     );
 
     return {
@@ -157,9 +162,9 @@ class PluginRegistryClass {
    * Get all plugins that require a specific dataset
    */
   getPluginsByDataset(datasetId: string): VisualizationPlugin[] {
-    return Array.from(this.plugins.values()).filter(plugin => {
+    return Array.from(this.plugins.values()).filter((plugin) => {
       const requirements = plugin.metadata.dataRequirements || [];
-      return requirements.some(req => req.dataset === datasetId);
+      return requirements.some((req) => req.dataset === datasetId);
     });
   }
 
@@ -177,19 +182,19 @@ class PluginRegistryClass {
     const uniqueDatasets = new Set<string>();
     const requiredDatasets = new Set<string>();
     const optionalDatasets = new Set<string>();
-    
+
     let pluginsWithRequirements = 0;
 
     for (const plugin of allPlugins) {
       const requirements = plugin.metadata.dataRequirements || [];
-      
+
       if (requirements.length > 0) {
         pluginsWithRequirements++;
       }
 
       for (const req of requirements) {
         uniqueDatasets.add(req.dataset);
-        
+
         if (req.required) {
           requiredDatasets.add(req.dataset);
         } else {
@@ -213,11 +218,11 @@ class PluginRegistryClass {
    */
   async validateAllPlugins(): Promise<Record<string, PluginDataValidation>> {
     const results: Record<string, PluginDataValidation> = {};
-    
+
     for (const [pluginId] of this.plugins) {
       results[pluginId] = await this.validateDataAvailability(pluginId);
     }
-    
+
     return results;
   }
 }

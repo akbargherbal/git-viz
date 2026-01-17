@@ -1,5 +1,9 @@
 // src/services/data/TemporalDataProcessor.ts
-import { EnrichedFileData, TemporalFileData, TemporalDailyData } from '@/plugins/treemap-explorer/types';
+import {
+  EnrichedFileData,
+  TemporalFileData,
+  TemporalDailyData,
+} from "@/plugins/treemap-explorer/types";
 
 /**
  * Processes temporal data and enriches files with time-based context
@@ -11,20 +15,20 @@ export class TemporalDataProcessor {
   static enrichFilesWithTemporal(
     files: EnrichedFileData[],
     temporalDaily: TemporalDailyData,
-    currentPosition: number
+    currentPosition: number,
   ): TemporalFileData[] {
     const dateRange = this.getDateRange(temporalDaily);
 
     return files.map((file) => {
-      const createdDate = file.first_seen || '';
-      const lastModifiedDate = file.last_modified || '';
+      const createdDate = file.first_seen || "";
+      const lastModifiedDate = file.last_modified || "";
       const ageDays = file.age_days || 0;
-      
+
       // Calculate dormant days
       const now = new Date();
       const lastModified = new Date(lastModifiedDate);
       const daysSinceModified = Math.floor(
-        (now.getTime() - lastModified.getTime()) / (1000 * 60 * 60 * 24)
+        (now.getTime() - lastModified.getTime()) / (1000 * 60 * 60 * 24),
       );
       const dormantDays = Math.max(0, daysSinceModified - 180);
       const isDormant = daysSinceModified > 180;
@@ -33,11 +37,13 @@ export class TemporalDataProcessor {
       const createdTimestamp = new Date(createdDate).getTime();
       const minTimestamp = new Date(dateRange.min).getTime();
       const maxTimestamp = new Date(dateRange.max).getTime();
-      
+
       // FIX: Clamp position between 0 and 100 to handle dates outside range
       let createdPosition = 0;
       if (maxTimestamp > minTimestamp) {
-        const rawPosition = ((createdTimestamp - minTimestamp) / (maxTimestamp - minTimestamp)) * 100;
+        const rawPosition =
+          ((createdTimestamp - minTimestamp) / (maxTimestamp - minTimestamp)) *
+          100;
         createdPosition = Math.max(0, Math.min(100, rawPosition));
       }
 
@@ -57,7 +63,7 @@ export class TemporalDataProcessor {
         isVisible,
         createdPosition,
         activityTimeline,
-        
+
         // Ensure base fields exist (for backward compatibility with TimeView)
         ageDays,
         totalCommits: file.total_commits,
@@ -72,21 +78,27 @@ export class TemporalDataProcessor {
   /**
    * Get date range from temporal daily data
    */
-  static getDateRange(temporalDaily: TemporalDailyData): { min: string; max: string } {
+  static getDateRange(temporalDaily: TemporalDailyData): {
+    min: string;
+    max: string;
+  } {
     if (!temporalDaily) {
-      return { min: '2020-01-01', max: '2024-12-31' };
+      return { min: "2020-01-01", max: "2024-12-31" };
     }
-    
+
     // Handle both Array and Object formats for 'days'
     let daysArray: any[] = [];
     if (Array.isArray(temporalDaily.days)) {
       daysArray = temporalDaily.days;
-    } else if (typeof temporalDaily.days === 'object' && temporalDaily.days !== null) {
+    } else if (
+      typeof temporalDaily.days === "object" &&
+      temporalDaily.days !== null
+    ) {
       daysArray = Object.values(temporalDaily.days);
     }
 
     if (daysArray.length === 0) {
-      return { min: '2020-01-01', max: '2024-12-31' };
+      return { min: "2020-01-01", max: "2024-12-31" };
     }
 
     const dates = daysArray.map((d) => d.date).sort();
@@ -101,7 +113,7 @@ export class TemporalDataProcessor {
    */
   private static buildActivityTimeline(
     _file: EnrichedFileData,
-    _temporalDaily: TemporalDailyData
+    _temporalDaily: TemporalDailyData,
   ): Array<{ date: string; commits: number }> | undefined {
     // For now, return undefined - activity timeline requires file-level temporal data
     // which isn't available in temporal_daily.json (it's aggregated by day, not by file)

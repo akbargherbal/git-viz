@@ -20,21 +20,21 @@ interface ControlledTimeBinSelectorProps {
 /**
  * TimeBinSelector component
  * Supports both controlled (plugin-owned) and uncontrolled (store-connected) modes
- * 
+ *
  * Usage:
  * - Controlled: <TimeBinSelector value={state.timeBin} onChange={updateTimeBin} />
  * - Uncontrolled: <TimeBinSelector /> (reads/writes to store)
  */
-export const TimeBinSelector: React.FC<Partial<ControlledTimeBinSelectorProps>> = ({
-  value: controlledValue,
-  onChange: controlledOnChange,
-}) => {
+export const TimeBinSelector: React.FC<
+  Partial<ControlledTimeBinSelectorProps>
+> = ({ value: controlledValue, onChange: controlledOnChange }) => {
   // Uncontrolled mode: use store
   const { filters, setTimeBin } = useAppStore();
-  
+
   // Determine if we're in controlled or uncontrolled mode
-  const isControlled = controlledValue !== undefined && controlledOnChange !== undefined;
-  
+  const isControlled =
+    controlledValue !== undefined && controlledOnChange !== undefined;
+
   const currentValue = isControlled ? controlledValue : filters.timeBin;
   const handleChange = isControlled ? controlledOnChange : setTimeBin;
 

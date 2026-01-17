@@ -67,7 +67,7 @@ interface AppState {
   /**
    * Update state for a specific plugin
    * Merges the provided updates with existing state
-   * 
+   *
    * @param pluginId - ID of the plugin to update state for
    * @param updates - Partial state object to merge with current state
    */
@@ -76,7 +76,7 @@ interface AppState {
   /**
    * Get state for a specific plugin
    * Returns empty object if no state exists
-   * 
+   *
    * @param pluginId - ID of the plugin to get state for
    * @returns Plugin state object
    */
@@ -84,15 +84,18 @@ interface AppState {
 
   /**
    * Initialize state for a plugin if it doesn't exist
-   * 
+   *
    * @param pluginId - ID of the plugin
    * @param initialState - Initial state to set if no state exists
    */
-  initPluginState: (pluginId: string, initialState: Record<string, unknown>) => void;
+  initPluginState: (
+    pluginId: string,
+    initialState: Record<string, unknown>,
+  ) => void;
 
   /**
    * Clear state for a specific plugin
-   * 
+   *
    * @param pluginId - ID of the plugin to clear state for
    */
   clearPluginState: (pluginId: string) => void;

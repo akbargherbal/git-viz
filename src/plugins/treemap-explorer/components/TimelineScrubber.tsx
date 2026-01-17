@@ -1,7 +1,7 @@
 // src/plugins/treemap-explorer/components/TimelineScrubber.tsx
 
-import React from 'react';
-import { Play, Pause } from 'lucide-react';
+import React from "react";
+import { Play, Pause } from "lucide-react";
 
 interface TimelineScrubberProps {
   minDate: string;
@@ -26,15 +26,15 @@ export const TimelineScrubber: React.FC<TimelineScrubberProps> = ({
   visible,
   playing,
   onPositionChange,
-  onPlayToggle
+  onPlayToggle,
 }) => {
   // Calculate current commit number based on position
   const currentCommit = Math.floor((currentPosition / 100) * totalCommits);
-  
+
   // FIX: Helper to parse YYYY-MM-DD as local date to avoid timezone shifts
   const parseDate = (dateStr: string) => {
     if (dateStr.match(/^\d{4}-\d{2}-\d{2}$/)) {
-      const [y, m, d] = dateStr.split('-').map(Number);
+      const [y, m, d] = dateStr.split("-").map(Number);
       return new Date(y, m - 1, d);
     }
     return new Date(dateStr);
@@ -43,35 +43,38 @@ export const TimelineScrubber: React.FC<TimelineScrubberProps> = ({
   // Format date for display
   const formatDate = (dateStr: string) => {
     const date = parseDate(dateStr);
-    return date.toLocaleDateString('en-US', { 
-      year: 'numeric', 
-      month: 'short', 
-      day: 'numeric' 
+    return date.toLocaleDateString("en-US", {
+      year: "numeric",
+      month: "short",
+      day: "numeric",
     });
   };
-  
+
   // Calculate current date based on position
   const getCurrentDate = () => {
     const startDate = parseDate(minDate);
     const endDate = parseDate(maxDate);
-    const totalDays = (endDate.getTime() - startDate.getTime()) / (1000 * 60 * 60 * 24);
+    const totalDays =
+      (endDate.getTime() - startDate.getTime()) / (1000 * 60 * 60 * 24);
     const currentDays = (currentPosition / 100) * totalDays;
-    const currentDate = new Date(startDate.getTime() + currentDays * 1000 * 60 * 60 * 24);
-    return currentDate.toLocaleDateString('en-US', { 
-      year: 'numeric', 
-      month: 'short', 
-      day: 'numeric' 
+    const currentDate = new Date(
+      startDate.getTime() + currentDays * 1000 * 60 * 60 * 24,
+    );
+    return currentDate.toLocaleDateString("en-US", {
+      year: "numeric",
+      month: "short",
+      day: "numeric",
     });
   };
 
   return (
-    <div 
+    <div
       className={`
         absolute bottom-0 left-0 w-full h-20 
         flex items-center px-8 gap-4
         bg-gradient-to-t from-zinc-900 via-zinc-900/95 to-transparent
         transition-opacity duration-300
-        ${visible ? 'opacity-100' : 'opacity-0 pointer-events-none'}
+        ${visible ? "opacity-100" : "opacity-0 pointer-events-none"}
       `}
       style={{ zIndex: 10 }}
     >
@@ -86,7 +89,7 @@ export const TimelineScrubber: React.FC<TimelineScrubberProps> = ({
             transition-colors
             text-white
           "
-          aria-label={playing ? 'Pause' : 'Play'}
+          aria-label={playing ? "Pause" : "Play"}
         >
           {playing ? (
             <Pause className="w-4 h-4" />
@@ -95,12 +98,12 @@ export const TimelineScrubber: React.FC<TimelineScrubberProps> = ({
           )}
         </button>
       )}
-      
+
       {/* Start Date */}
       <span className="flex-shrink-0 text-xs text-zinc-500 font-mono w-24 text-left">
         {formatDate(minDate)}
       </span>
-      
+
       {/* Slider */}
       <div className="flex-1 flex flex-col gap-1">
         <input
@@ -130,28 +133,29 @@ export const TimelineScrubber: React.FC<TimelineScrubberProps> = ({
           "
           aria-label="Timeline position"
         />
-        
+
         {/* Progress bar background */}
         <div className="relative w-full h-1 bg-zinc-800 rounded-full overflow-hidden">
-          <div 
+          <div
             className="absolute top-0 left-0 h-full bg-purple-500/30 transition-all duration-100"
             style={{ width: `${currentPosition}%` }}
           />
         </div>
       </div>
-      
+
       {/* End Date */}
       <span className="flex-shrink-0 text-xs text-zinc-500 font-mono w-24 text-right">
         {formatDate(maxDate)}
       </span>
-      
+
       {/* Current Position Info */}
       <div className="flex-shrink-0 flex flex-col items-end gap-0.5 min-w-[120px]">
         <span className="text-xs text-zinc-400 font-mono">
           {getCurrentDate()}
         </span>
         <span className="text-[10px] text-zinc-600 font-mono">
-          Commit {currentCommit.toLocaleString()}/{totalCommits.toLocaleString()}
+          Commit {currentCommit.toLocaleString()}/
+          {totalCommits.toLocaleString()}
         </span>
       </div>
     </div>

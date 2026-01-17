@@ -2,12 +2,12 @@
 
 /**
  * Health Score Calculator
- * 
+ *
  * Computes file health metrics based on three factors:
  * - Churn Rate (40%): How often code is rewritten (low is healthy)
  * - Author Diversity (30%): Number of contributors (more is better, with diminishing returns)
  * - Age Penalty (30%): Dormancy periods indicate technical debt
- * 
+ *
  * Score Range: 0-100
  * - 0-30: Critical (requires immediate attention)
  * - 31-60: Medium (monitor and plan improvements)
@@ -24,9 +24,9 @@ export interface HealthScoreInputs {
 
 export interface HealthScoreResult {
   score: number; // 0-100
-  category: 'critical' | 'medium' | 'healthy';
+  category: "critical" | "medium" | "healthy";
   churnRate: number; // 0-1
-  busFactor: 'high-risk' | 'medium-risk' | 'low-risk';
+  busFactor: "high-risk" | "medium-risk" | "low-risk";
   factors: {
     churn: { value: number; score: number; weight: number };
     authors: { value: number; score: number; weight: number };
@@ -57,8 +57,8 @@ export class HealthScoreCalculator {
 
     const totalScore = Math.round(
       churnScore * this.WEIGHTS.churn +
-      authorScore * this.WEIGHTS.authors +
-      ageScore * this.WEIGHTS.age
+        authorScore * this.WEIGHTS.authors +
+        ageScore * this.WEIGHTS.age,
     );
 
     return {
@@ -67,9 +67,21 @@ export class HealthScoreCalculator {
       churnRate,
       busFactor: this.calculateBusFactor(inputs.uniqueAuthors),
       factors: {
-        churn: { value: churnRate, score: churnScore, weight: this.WEIGHTS.churn },
-        authors: { value: inputs.uniqueAuthors, score: authorScore, weight: this.WEIGHTS.authors },
-        age: { value: inputs.ageDays, score: ageScore, weight: this.WEIGHTS.age },
+        churn: {
+          value: churnRate,
+          score: churnScore,
+          weight: this.WEIGHTS.churn,
+        },
+        authors: {
+          value: inputs.uniqueAuthors,
+          score: authorScore,
+          weight: this.WEIGHTS.authors,
+        },
+        age: {
+          value: inputs.ageDays,
+          score: ageScore,
+          weight: this.WEIGHTS.age,
+        },
       },
     };
   }
@@ -78,7 +90,9 @@ export class HealthScoreCalculator {
    * Calculate churn rate: M / (M + A + D + R)
    * High churn = code frequently rewritten = potential instability
    */
-  private static calculateChurnRate(operations: HealthScoreInputs['operations']): number {
+  private static calculateChurnRate(
+    operations: HealthScoreInputs["operations"],
+  ): number {
     const M = operations.M || 0; // Modifications
     const A = operations.A || 0; // Additions
     const D = operations.D || 0; // Deletions
@@ -130,7 +144,10 @@ export class HealthScoreCalculator {
    * - 180-365 days dormant: 70-90 (10% penalty)
    * - 365+ days dormant: 50-70 (20% penalty)
    */
-  private static scoreAge(_ageDays: number, lastModifiedDaysAgo?: number): number {
+  private static scoreAge(
+    _ageDays: number,
+    lastModifiedDaysAgo?: number,
+  ): number {
     const dormantDays = lastModifiedDaysAgo ?? 0;
 
     if (dormantDays === 0) return 100; // Recently modified
@@ -140,8 +157,12 @@ export class HealthScoreCalculator {
     }
     if (dormantDays <= this.VERY_DORMANT_THRESHOLD_DAYS) {
       // 10% penalty: 80-90 range
-      return 90 - ((dormantDays - this.DORMANT_THRESHOLD_DAYS) / 
-        (this.VERY_DORMANT_THRESHOLD_DAYS - this.DORMANT_THRESHOLD_DAYS)) * 10;
+      return (
+        90 -
+        ((dormantDays - this.DORMANT_THRESHOLD_DAYS) /
+          (this.VERY_DORMANT_THRESHOLD_DAYS - this.DORMANT_THRESHOLD_DAYS)) *
+          10
+      );
     }
     // 20% penalty: 70-80 range
     const excessDays = dormantDays - this.VERY_DORMANT_THRESHOLD_DAYS;
@@ -151,19 +172,21 @@ export class HealthScoreCalculator {
   /**
    * Categorize score into risk levels
    */
-  static categorize(score: number): 'critical' | 'medium' | 'healthy' {
-    if (score <= 30) return 'critical';
-    if (score <= 60) return 'medium';
-    return 'healthy';
+  static categorize(score: number): "critical" | "medium" | "healthy" {
+    if (score <= 30) return "critical";
+    if (score <= 60) return "medium";
+    return "healthy";
   }
 
   /**
    * Calculate bus factor risk based on contributor count
    */
-  static calculateBusFactor(authors: number): 'high-risk' | 'medium-risk' | 'low-risk' {
-    if (authors < 2) return 'high-risk';
-    if (authors < 4) return 'medium-risk';
-    return 'low-risk';
+  static calculateBusFactor(
+    authors: number,
+  ): "high-risk" | "medium-risk" | "low-risk" {
+    if (authors < 2) return "high-risk";
+    if (authors < 4) return "medium-risk";
+    return "low-risk";
   }
 
   /**
@@ -192,7 +215,7 @@ export class HealthScoreCalculator {
    * Batch calculate scores for multiple files
    */
   static batchCalculate(files: HealthScoreInputs[]): HealthScoreResult[] {
-    return files.map(file => this.calculate(file));
+    return files.map((file) => this.calculate(file));
   }
 
   /**
@@ -201,29 +224,29 @@ export class HealthScoreCalculator {
   static getInsight(result: HealthScoreResult): string {
     const { category, churnRate, busFactor } = result;
 
-    if (category === 'critical') {
-      if (churnRate > 0.7 && busFactor === 'high-risk') {
-        return 'Critical technical debt detected. High churn with low contributor diversity suggests reactive maintenance rather than planned evolution.';
+    if (category === "critical") {
+      if (churnRate > 0.7 && busFactor === "high-risk") {
+        return "Critical technical debt detected. High churn with low contributor diversity suggests reactive maintenance rather than planned evolution.";
       }
       if (churnRate > 0.7) {
-        return 'High instability detected. Frequent rewrites indicate the file may need refactoring or has unclear requirements.';
+        return "High instability detected. Frequent rewrites indicate the file may need refactoring or has unclear requirements.";
       }
-      if (busFactor === 'high-risk') {
-        return 'Knowledge silo detected. Single contributor creates organizational risk if they leave the project.';
+      if (busFactor === "high-risk") {
+        return "Knowledge silo detected. Single contributor creates organizational risk if they leave the project.";
       }
-      return 'This file requires immediate attention. Consider refactoring or increasing test coverage.';
+      return "This file requires immediate attention. Consider refactoring or increasing test coverage.";
     }
 
-    if (category === 'medium') {
+    if (category === "medium") {
       if (result.factors.age.score < 70) {
-        return 'File has been dormant for extended period. May be stable/complete, or candidate for deprecation review.';
+        return "File has been dormant for extended period. May be stable/complete, or candidate for deprecation review.";
       }
       if (churnRate > 0.5) {
-        return 'Moderate instability. Monitor for patterns - may need architectural improvements.';
+        return "Moderate instability. Monitor for patterns - may need architectural improvements.";
       }
-      return 'File is in acceptable condition but could benefit from additional contributors or refactoring.';
+      return "File is in acceptable condition but could benefit from additional contributors or refactoring.";
     }
 
-    return 'Healthy file with good maintenance patterns. Continue current practices.';
+    return "Healthy file with good maintenance patterns. Continue current practices.";
   }
 }

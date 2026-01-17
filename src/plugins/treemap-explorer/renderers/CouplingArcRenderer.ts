@@ -45,7 +45,9 @@ export class CouplingArcRenderer {
     if (partners.length === 0) return;
 
     // Find source node - FIX: Access d.data directly
-    const sourceNode = leaves.find((l) => (l.data as EnrichedFileData).key === selectedFilePath);
+    const sourceNode = leaves.find(
+      (l) => (l.data as EnrichedFileData).key === selectedFilePath,
+    );
     if (!sourceNode) return;
 
     // Calculate source center
@@ -99,10 +101,7 @@ export class CouplingArcRenderer {
             .attr("stroke-linecap", "round")
             .style("opacity", 0)
             .call((path) =>
-              path
-                .transition()
-                .duration(300)
-                .style("opacity", 1),
+              path.transition().duration(300).style("opacity", 1),
             ),
         (update) =>
           update
