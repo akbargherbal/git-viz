@@ -1,7 +1,7 @@
 // src/plugins/treemap-explorer/components/TreemapExplorerFilters.tsx
 
 import React from 'react';
-import { TreemapExplorerState } from '../TreemapExplorerPlugin';
+import { TreemapExplorerState } from '../types';
 
 interface TreemapExplorerFiltersProps {
   state: TreemapExplorerState;
@@ -18,7 +18,15 @@ export const TreemapExplorerFilters: React.FC<TreemapExplorerFiltersProps> = ({
   onStateChange,
   onClose
 }) => {
+  // ... existing implementation ...
   const { lensMode, couplingThreshold } = state;
+  
+  // Get time filters with defaults - spread to ensure all properties exist
+  const timeFilters = {
+    showCreations: false,
+    fadeDormant: true,
+    ...state.timeFilters
+  };
 
   return (
     <div className="flex flex-col h-full">
@@ -90,7 +98,7 @@ export const TreemapExplorerFilters: React.FC<TreemapExplorerFiltersProps> = ({
                 <div className="flex justify-between items-center text-[10px] font-mono">
                   <span className="text-zinc-500">Weak (0.0)</span>
                   <span className="text-purple-400 font-bold text-sm">
-                    {couplingThreshold.toFixed(1)}
+                    {couplingThreshold?.toFixed(1)}
                   </span>
                   <span className="text-zinc-500">Strong (1.0)</span>
                 </div>
@@ -125,11 +133,104 @@ export const TreemapExplorerFilters: React.FC<TreemapExplorerFiltersProps> = ({
           <div className="space-y-4">
             <div>
               <label className="text-[10px] uppercase text-zinc-500 font-bold tracking-widest mb-3 block">
-                Display Options
+                Temporal Display Options
               </label>
-              <div className="space-y-2">
-                <div className="text-xs text-zinc-500 bg-zinc-900/50 rounded p-2 border border-zinc-800">
-                  Time lens filters will be available in Phase 3
+              
+              <div className="space-y-3">
+                {/* Highlight New Files */}
+                <div className="bg-zinc-900/50 border border-zinc-800 rounded-lg p-3">
+                  <label className="flex items-start gap-2 cursor-pointer group">
+                    <input
+                      type="checkbox"
+                      checked={timeFilters.showCreations}
+                      onChange={(e) => {
+                        onStateChange({ 
+                          timeFilters: { 
+                            ...timeFilters, 
+                            showCreations: e.target.checked 
+                          }
+                        });
+                      }}
+                      className="mt-0.5 rounded border-zinc-700 bg-zinc-800 text-green-600 focus:ring-green-500"
+                    />
+                    <div className="flex-1">
+                      <div className="text-xs text-zinc-300 group-hover:text-white transition-colors font-medium">
+                        Highlight New Files
+                      </div>
+                      <p className="text-[10px] text-zinc-500 mt-1 leading-relaxed">
+                        Show recently created files in bright green when scrubbing through early timeline (0-30%)
+                      </p>
+                    </div>
+                  </label>
+                </div>
+                
+                {/* Fade Dormant Files */}
+                <div className="bg-zinc-900/50 border border-zinc-800 rounded-lg p-3">
+                  <label className="flex items-start gap-2 cursor-pointer group">
+                    <input
+                      type="checkbox"
+                      checked={timeFilters.fadeDormant}
+                      onChange={(e) => {
+                        onStateChange({ 
+                          timeFilters: { 
+                            ...timeFilters, 
+                            fadeDormant: e.target.checked 
+                          }
+                        });
+                      }}
+                      className="mt-0.5 rounded border-zinc-700 bg-zinc-800 text-blue-600 focus:ring-blue-500"
+                    />
+                    <div className="flex-1">
+                      <div className="text-xs text-zinc-300 group-hover:text-white transition-colors font-medium">
+                        Fade Dormant Files
+                      </div>
+                      <p className="text-[10px] text-zinc-500 mt-1 leading-relaxed">
+                        Dim files with no activity in the last 180+ days to focus on active development
+                      </p>
+                    </div>
+                  </label>
+                </div>
+              </div>
+            </div>
+            
+            {/* Timeline Info */}
+            <div className="bg-blue-950/20 border border-blue-900/50 rounded-lg p-3">
+              <div className="flex items-start gap-2">
+                <svg className="w-4 h-4 text-blue-400 mt-0.5 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+                <p className="text-[10px] text-zinc-400 leading-relaxed">
+                  Use the timeline scrubber at the bottom to travel through repository history. 
+                  Colors change to show file lifecycle at different points in time.
+                </p>
+              </div>
+            </div>
+            
+            {/* Color Legend */}
+            <div>
+              <label className="text-[10px] uppercase text-zinc-500 font-bold tracking-widest mb-2 block">
+                Color Guide
+              </label>
+              <div className="space-y-1.5">
+                <div className="flex items-center gap-2 text-xs">
+                  <div className="w-4 h-4 rounded" style={{ backgroundColor: '#22c55e' }}></div>
+                  <span className="text-zinc-400">New Files (Early Timeline)</span>
+                </div>
+                <div className="flex items-center gap-2 text-xs">
+                  <div className="w-4 h-4 rounded" style={{ backgroundColor: '#06b6d4' }}></div>
+                  <span className="text-zinc-400">Very Recent Activity</span>
+                </div>
+                <div className="flex items-center gap-2 text-xs">
+                  <div className="w-4 h-4 rounded" style={{ backgroundColor: '#3b82f6' }}></div>
+                  <span className="text-zinc-400">Active Files</span>
+                </div>
+                <div className="flex items-center gap-2 text-xs">
+                  <div className="w-4 h-4 rounded" style={{ backgroundColor: '#3f3f46' }}></div>
+                  <span className="text-zinc-400">Dormant (180+ days)</span>
+                </div>
+                <div className="flex items-center gap-2 text-xs">
+                  <div className="w-4 h-4 rounded" style={{ backgroundColor: '#1a1a1d' }}></div>
+                  <span className="text-zinc-400">Very Dormant (1+ year)</span>
                 </div>
               </div>
             </div>
@@ -150,7 +251,14 @@ export const TreemapExplorerFilters: React.FC<TreemapExplorerFiltersProps> = ({
             {lensMode === 'coupling' && (
               <div className="flex items-center justify-between p-2 bg-zinc-800/50 border border-zinc-700 rounded text-xs">
                 <span className="text-zinc-400">Threshold</span>
-                <span className="text-purple-400 font-mono font-bold">{couplingThreshold.toFixed(1)}</span>
+                <span className="text-purple-400 font-mono font-bold">{couplingThreshold?.toFixed(1)}</span>
+              </div>
+            )}
+            
+            {lensMode === 'time' && (
+              <div className="flex items-center justify-between p-2 bg-zinc-800/50 border border-zinc-700 rounded text-xs">
+                <span className="text-zinc-400">Timeline Position</span>
+                <span className="text-blue-400 font-mono font-bold">{state.timePosition?.toFixed(0)}%</span>
               </div>
             )}
           </div>

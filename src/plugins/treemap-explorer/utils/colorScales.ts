@@ -1,75 +1,115 @@
-// src/plugins/treemap-explorer/utils/colorScales.ts
-
-import { EnrichedFileData } from "../TreemapExplorerPlugin";
-import { HealthScoreCalculator } from "@/services/data/HealthScoreCalculator";
+// FILE: src/plugins/treemap-explorer/utils/colorScales.ts
+import * as d3 from 'd3';
+import { EnrichedFileData, TemporalFileData } from '../types';
 
 /**
- * Determines cell color based on the active lens mode
+ * Color scale for debt lens (health-based)
+ * Maps health score (0-100) to color
+ */
+export const getDebtColor = (file: EnrichedFileData): string => {
+  const score = file.healthScore?.score ?? 100;
+
+  if (score >= 75) return '#22c55e'; // Green - healthy
+  if (score >= 50) return '#eab308'; // Yellow - medium
+  if (score >= 25) return '#f97316'; // Orange - concerning
+  return '#ef4444'; // Red - critical
+};
+
+/**
+ * Color scale for coupling lens
+ * Maps coupling strength to color intensity
+ */
+export const getCouplingColor = (
+  file: EnrichedFileData,
+  threshold: number
+): string => {
+  const coupling = file.maxCoupling ?? 0;
+
+  if (coupling === 0) return '#27272a'; // Dark gray - no coupling
+
+  // Above threshold: purple scale
+  if (coupling >= threshold) {
+    const intensity = Math.min(coupling / 0.1, 1); // Cap at 0.1
+    const scale = d3.scaleLinear<string>()
+      .domain([0, 1])
+      .range(['#7c3aed', '#c084fc']);
+    return scale(intensity);
+  }
+
+  // Below threshold: gray scale
+  return '#52525b';
+};
+
+/**
+ * Color scale for time lens
+ * Shows file lifecycle status based on timeline position
+ */
+export const getTimeColor = (
+  file: TemporalFileData,
+  timePosition: number,
+  filters: { showCreations: boolean; fadeDormant: boolean }
+): string => {
+  // Hide files not yet created
+  if (!file.isVisible || (file.createdPosition && file.createdPosition > timePosition)) {
+    return '#09090b'; // Near-black
+  }
+
+  // Fade dormant files if filter enabled
+  if (file.isDormant && filters.fadeDormant) {
+    return '#1a1a1d'; // Very dark gray
+  }
+
+  // Highlight new creations at start of timeline
+  const isNewFile = file.createdPosition !== undefined && file.createdPosition >= timePosition - 10;
+  if (isNewFile && filters.showCreations && timePosition < 30) {
+    return '#22c55e'; // Bright green
+  }
+
+  // Recent activity (modified in last 30 days from timeline position)
+  const daysSinceModified = file.dormantDays || 0;
+  if (daysSinceModified < 30) {
+    return '#06b6d4'; // Cyan - very recent
+  }
+
+  // Dormant at end of timeline
+  if (timePosition > 70 && file.isDormant) {
+    return '#3f3f46'; // Medium gray
+  }
+
+  // Default: active file
+  return '#3b82f6'; // Blue
+};
+
+/**
+ * Get color for a file based on current lens mode
  */
 export const getCellColor = (
-  file: EnrichedFileData,
+  file: EnrichedFileData | TemporalFileData,
   lensMode: 'debt' | 'coupling' | 'time',
-  state: {
-    selectedFile: string | null;
-    couplingThreshold: number;
-    timePosition: number;
-  }
+  options: {
+    couplingThreshold?: number;
+    timePosition?: number;
+    timeFilters?: { showCreations: boolean; fadeDormant: boolean };
+  } = {}
 ): string => {
   switch (lensMode) {
     case 'debt':
       return getDebtColor(file);
+
     case 'coupling':
-      return getCouplingColor(file, state.selectedFile, state.couplingThreshold);
+      return getCouplingColor(file, options.couplingThreshold ?? 0.03);
+
     case 'time':
-      return getTimeColor(file, state.timePosition);
+      if ('isDormant' in file) {
+        return getTimeColor(
+          file as TemporalFileData,
+          options.timePosition ?? 100,
+          options.timeFilters ?? { showCreations: false, fadeDormant: true }
+        );
+      }
+      return '#3b82f6'; // Default blue
+
     default:
-      return '#27272a'; // zinc-800
+      return '#3b82f6';
   }
-};
-
-/**
- * Debt Lens: Colors based on health score
- * Green (Healthy) -> Amber (Medium) -> Red (Critical)
- */
-const getDebtColor = (file: EnrichedFileData): string => {
-  if (!file.healthScore) return '#27272a';
-  return HealthScoreCalculator.getHealthColor(file.healthScore.score);
-};
-
-/**
- * Coupling Lens: Highlights relationships relative to selection
- * - Selected file: White
- * - Coupled files: Purple gradient based on strength
- * - Unrelated files: Dark Gray
- */
-const getCouplingColor = (
-  file: EnrichedFileData,
-  selectedFile: string | null,
-  threshold: number
-): string => {
-  // If no file is selected, show potential coupling hotspots above threshold
-  if (!selectedFile) {
-    if (file.couplingMetrics && file.couplingMetrics.maxStrength > threshold) {
-      const intensity = file.couplingMetrics.maxStrength;
-      return `hsl(270, ${40 + intensity * 30}%, ${15 + intensity * 10}%)`;
-    }
-    return '#27272a';
-  }
-
-  // If this is the selected file
-  if (file.path === selectedFile) {
-    return '#ffffff';
-  }
-
-  // Note: Direct coupling highlighting is handled in the main render loop 
-  // where we have access to the selected file's partners. 
-  // This fallback handles the non-coupled state.
-  return '#18181b'; // Dimmed
-};
-
-/**
- * Time Lens: Colors based on lifecycle (Placeholder for Phase 3)
- */
-const getTimeColor = (_file: EnrichedFileData, _timePosition: number): string => {
-  return '#3b82f6'; // blue-500
 };

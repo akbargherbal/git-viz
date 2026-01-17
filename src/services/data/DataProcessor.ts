@@ -1,15 +1,18 @@
 // src/services/data/DataProcessor.ts
 
-import { 
-  RepoMetadata, 
-  OptimizedDirectoryNode, 
-  ActivityMatrixItem, 
-  FileStat 
+import {
+  RepoMetadata,
+  OptimizedDirectoryNode,
+  ActivityMatrixItem,
+  FileStat,
 } from "@/types/domain";
 import { OptimizedDataset } from "@/types/plugin";
 import { FilterState } from "@/types/visualization";
 import { format } from "date-fns";
+import { EnrichedFileData } from "@/plugins/treemap-explorer/types";
+import { HealthScoreCalculator } from "./HealthScoreCalculator";
 
+// ... existing interfaces ...
 export interface RawLifecycleData {
   generated_at: string;
   repository_path: string;
@@ -49,6 +52,12 @@ export interface V2FileIndex {
         commit_count: number;
         percentage: number;
       };
+      operations?: { M?: number; A?: number; D?: number; R?: number };
+      age_days?: number;
+      commits_per_day?: number;
+      lifecycle_event_count?: number;
+      first_seen?: string;
+      unique_authors?: number;
     }
   >;
 }
@@ -65,6 +74,41 @@ export interface V2DirectoryStats {
 }
 
 export class DataProcessor {
+  /**
+   * Enrich raw file index with health scores for Treemap Explorer
+   */
+  static enrichFiles(fileIndex: V2FileIndex): EnrichedFileData[] {
+    if (!fileIndex || !fileIndex.files) return [];
+
+    return Object.entries(fileIndex.files).map(([key, stats]) => {
+      const name = key.split("/").pop() || key;
+
+      // Calculate health score
+      const healthScore = HealthScoreCalculator.calculate({
+        totalCommits: stats.total_commits,
+        uniqueAuthors: stats.unique_authors || 1,
+        operations: stats.operations || {},
+        ageDays: stats.age_days || 0,
+      });
+
+      return {
+        key,
+        name,
+        path: key,
+        first_seen: stats.first_seen,
+        last_modified: stats.last_modified,
+        total_commits: stats.total_commits,
+        unique_authors: stats.unique_authors || 1,
+        operations: stats.operations,
+        age_days: stats.age_days,
+        commits_per_day: stats.commits_per_day,
+        lifecycle_event_count: stats.lifecycle_event_count,
+        primary_author: stats.primary_author,
+        healthScore,
+      };
+    });
+  }
+
   static processRawData(
     lifecycle: RawLifecycleData,
     authorNetwork: V2AuthorNetwork,
@@ -72,6 +116,7 @@ export class DataProcessor {
     dirStats: V2DirectoryStats,
     filters?: FilterState,
   ): OptimizedDataset {
+    // ... existing implementation ...
     // Helper to check file filters
     const isFileVisible = (filePath: string): boolean => {
       if (!filters) return true;

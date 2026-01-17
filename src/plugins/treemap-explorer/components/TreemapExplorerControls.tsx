@@ -3,18 +3,17 @@
 import React from 'react';
 import { PluginControlProps } from '@/types/plugin';
 import { LensModeSelector } from './LensModeSelector';
-import { TreemapExplorerState } from '../TreemapExplorerPlugin';
+import { TreemapExplorerState } from '../types';
 
 /**
  * Header controls for Treemap Explorer
  * Renders inline controls: Lens Mode buttons + Size Metric selector
  */
-export const TreemapExplorerControls: React.FC<PluginControlProps> = ({
+export const TreemapExplorerControls: React.FC<PluginControlProps<TreemapExplorerState>> = ({
   state,
   updateState
 }) => {
-  const typedState = state as unknown as TreemapExplorerState;
-  const { lensMode, sizeMetric } = typedState;
+  const { lensMode, sizeMetric } = state;
 
   const sizeMetrics = [
     { id: 'commits', label: 'Commits' },

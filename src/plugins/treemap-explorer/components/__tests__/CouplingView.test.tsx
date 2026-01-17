@@ -4,9 +4,9 @@ import { render, screen } from '@testing-library/react';
 import { describe, it, expect } from 'vitest';
 import { CouplingView } from '../CouplingView';
 import { CouplingDataProcessor } from '@/services/data/CouplingDataProcessor';
+import { EnrichedFileData } from '../../types';
 
 describe('CouplingView', () => {
-  // ... rest of the file remains unchanged ...
   // Setup Mock Data
   const mockCouplingIndex = CouplingDataProcessor.process({
     edges: [
@@ -15,18 +15,20 @@ describe('CouplingView', () => {
     ]
   });
 
-  const mockFile = {
+  const mockFile: EnrichedFileData = {
     key: 'src/Core.ts',
     name: 'Core.ts',
     path: 'src/Core.ts',
-    totalCommits: 100,
-    uniqueAuthors: 5,
+    total_commits: 100,
+    unique_authors: 5,
     operations: {},
-    ageDays: 10,
-    firstSeen: '',
-    lastModified: '',
-    value: 100
-  };
+    age_days: 10,
+    first_seen: '',
+    last_modified: '',
+    // Fix: Use snake_case to match EnrichedFileData interface
+    totalCommits: 100, // Kept for backward compat if needed by component
+    uniqueAuthors: 5,  // Kept for backward compat if needed by component
+  } as any; // Cast to any to allow extra props if needed by component internals
 
   it('should render key metrics correctly', () => {
     render(
@@ -86,7 +88,13 @@ describe('CouplingView', () => {
   });
 
   it('should handle isolated files (no coupling)', () => {
-    const isolatedFile = { ...mockFile, path: 'src/Isolated.ts' };
+    // Important: Update key as well, since coupling lookup uses key
+    const isolatedFile = { 
+      ...mockFile, 
+      path: 'src/Isolated.ts',
+      key: 'src/Isolated.ts',
+      name: 'Isolated.ts'
+    };
     
     render(
       <CouplingView 

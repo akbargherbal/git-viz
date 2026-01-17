@@ -5,6 +5,9 @@ import {
 } from "./domain";
 import { PluginMetadata, ExportOptions } from "./visualization";
 
+// Re-export ExportOptions for consumers
+export type { ExportOptions };
+
 /**
  * Plugin system types and interfaces
  */
@@ -22,13 +25,13 @@ export interface OptimizedDataset {
 export interface PluginDataRequirement {
   /** Dataset ID from DatasetRegistry */
   dataset: string;
-  
+
   /** Whether this dataset is required for plugin to function */
   required: boolean;
-  
+
   /** Optional transform function to process raw dataset */
   transform?: (raw: any) => any;
-  
+
   /** Optional alias for the dataset in the plugin data object */
   alias?: string;
 }
@@ -58,13 +61,13 @@ export interface EnhancedPluginMetadata extends PluginMetadata {
 export interface PluginProps<TConfig = any, TData = any> {
   /** Plugin configuration */
   config: TConfig;
-  
+
   /** Processed data for the plugin */
   data?: TData;
-  
+
   /** Callback when configuration changes */
   onConfigChange?: (config: TConfig) => void;
-  
+
   /** Container element reference */
   containerRef?: React.RefObject<HTMLDivElement>;
 }
@@ -76,13 +79,13 @@ export interface PluginProps<TConfig = any, TData = any> {
 export interface PluginControlProps<TState = Record<string, unknown>> {
   /** Current plugin state (managed by store) */
   state: TState;
-  
+
   /** Update function for plugin state (merges updates) */
   updateState: (updates: Partial<TState>) => void;
-  
+
   /** Processed data available to the plugin */
   data: any;
-  
+
   /** Plugin configuration */
   config?: any;
 }
@@ -93,16 +96,20 @@ export interface PluginControlProps<TState = Record<string, unknown>> {
  */
 export interface PluginLayoutConfig {
   /** Position of plugin controls in the UI */
-  controlsPosition: 'header' | 'sidebar' | 'bottom';
+  controlsPosition: "header" | "sidebar" | "bottom";
 }
 
 /**
  * Main visualization plugin interface
  * Supports both legacy direct data access and new declarative data loading
- * 
+ *
  * PHASE 1 EXTENSION: Added optional methods for self-contained control management
  */
-export interface VisualizationPlugin<TConfig = any, TData = any, TState = Record<string, unknown>> {
+export interface VisualizationPlugin<
+  TConfig = any,
+  TData = any,
+  TState = Record<string, unknown>,
+> {
   metadata: EnhancedPluginMetadata;
 
   // Configuration
@@ -129,11 +136,11 @@ export interface VisualizationPlugin<TConfig = any, TData = any, TState = Record
   }>;
 
   // PHASE 1 ADDITIONS: Optional methods for plugin control ownership
-  
+
   /**
    * Render custom controls for this plugin
    * If not provided, app will render universal controls (backward compatible)
-   * 
+   *
    * @param props - Control rendering props including state and update callback
    * @returns React element to render in the control area
    */
@@ -142,25 +149,27 @@ export interface VisualizationPlugin<TConfig = any, TData = any, TState = Record
   /**
    * Render custom filter panel for this plugin
    * If provided, replaces the default filter panel in the sidebar
-   * 
+   *
    * @param props - Control rendering props plus onClose callback
    */
-  renderFilters?: (props: PluginControlProps<TState> & { onClose: () => void }) => React.ReactNode;
+  renderFilters?: (
+    props: PluginControlProps<TState> & { onClose: () => void },
+  ) => React.ReactNode;
 
   /**
    * Check if the plugin has active filters
    * Used to style the filter toggle button
    */
   checkActiveFilters?: (state: TState) => boolean;
-  
+
   /**
    * Get initial state for this plugin
    * Called when plugin is first activated or when state is missing
-   * 
+   *
    * @returns Initial state object for the plugin
    */
   getInitialState?: () => TState;
-  
+
   /**
    * Layout configuration for this plugin
    * Specifies where controls should be positioned in the UI
@@ -170,17 +179,20 @@ export interface VisualizationPlugin<TConfig = any, TData = any, TState = Record
 }
 
 /**
- * Type guard to check if a plugin supports the new control ownership pattern
+ * Type guard to check if the plugin supports the new control ownership pattern
  */
 export function supportsControlOwnership(
-  plugin: VisualizationPlugin<any, any, any>
-): plugin is VisualizationPlugin<any, any, any> & Required<Pick<VisualizationPlugin, 'renderControls'>> {
-  return typeof plugin.renderControls === 'function';
+  plugin: VisualizationPlugin<any, any, any>,
+): plugin is VisualizationPlugin<any, any, any> &
+  Required<Pick<VisualizationPlugin, "renderControls">> {
+  return typeof plugin.renderControls === "function";
 }
 
 /**
  * Helper to get plugin layout configuration with sensible defaults
  */
-export function getPluginLayout(plugin: VisualizationPlugin<any, any, any>): PluginLayoutConfig {
-  return plugin.layoutConfig || { controlsPosition: 'header' };
+export function getPluginLayout(
+  plugin: VisualizationPlugin<any, any, any>,
+): PluginLayoutConfig {
+  return plugin.layoutConfig || { controlsPosition: "header" };
 }

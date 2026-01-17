@@ -2,7 +2,7 @@
 
 import React from 'react';
 import { Link } from 'lucide-react';
-import { EnrichedFileData } from '../TreemapExplorerPlugin';
+import { EnrichedFileData } from '../types';
 import { CouplingDataProcessor, CouplingIndex, CouplingPartner } from '@/services/data/CouplingDataProcessor';
 
 interface CouplingViewProps {
@@ -11,20 +11,21 @@ interface CouplingViewProps {
   couplingThreshold: number;
 }
 
-export const CouplingView: React.FC<CouplingViewProps> = ({ 
-  file, 
+export const CouplingView: React.FC<CouplingViewProps> = ({
+  file,
   couplingIndex,
-  couplingThreshold 
+  couplingThreshold
 }) => {
+  // ... existing implementation ...
   // Get coupling partners filtered by threshold
   const partners = CouplingDataProcessor.getTopCouplings(
     couplingIndex,
-    file.path,
+    file.key, // Use key instead of path if path is missing
     10
   ).filter(p => p.strength >= couplingThreshold);
 
   // Get coupling metrics
-  const metrics = CouplingDataProcessor.getFileCouplingMetrics(couplingIndex, file.path);
+  const metrics = CouplingDataProcessor.getFileCouplingMetrics(couplingIndex, file.key);
 
   // Generate insight based on coupling strength
   const getInsight = (): string => {
@@ -42,8 +43,6 @@ export const CouplingView: React.FC<CouplingViewProps> = ({
 
     return `${metrics.totalPartners} coupling relationships detected with moderate strength. This file co-changes with others but has manageable dependencies.`;
   };
-
-
 
   return (
     <div className="space-y-6">
@@ -72,7 +71,7 @@ export const CouplingView: React.FC<CouplingViewProps> = ({
         <div className="text-[10px] text-zinc-400 font-bold uppercase tracking-widest">
           Coupling Metrics
         </div>
-        
+
         <div className="space-y-2">
           <div className="flex justify-between text-xs">
             <span className="text-zinc-400">Average Strength</span>
@@ -186,24 +185,24 @@ const CouplingPartnerCard: React.FC<CouplingPartnerCardProps> = ({ partner, inde
             {index + 1}
           </span>
         </div>
-        
+
         <div className="flex-1 min-w-0">
           {/* File name */}
           <div className="text-xs text-zinc-200 font-mono truncate font-medium">
             {fileName}
           </div>
-          
+
           {/* Directory path */}
           <div className="text-[10px] text-zinc-500 font-mono truncate mt-0.5">
             {directory}
           </div>
-          
+
           {/* Strength bar and metrics */}
           <div className="mt-2 space-y-1.5">
             {/* Progress bar */}
             <div className="flex items-center gap-2">
               <div className="flex-1 h-1.5 bg-zinc-700 rounded-full overflow-hidden">
-                <div 
+                <div
                   className="h-full bg-gradient-to-r from-purple-500 to-purple-400 rounded-full transition-all"
                   style={{ width: `${partner.strength * 100}%` }}
                 />
@@ -212,7 +211,7 @@ const CouplingPartnerCard: React.FC<CouplingPartnerCardProps> = ({ partner, inde
                 {partner.strength.toFixed(2)}
               </span>
             </div>
-            
+
             {/* Metadata row */}
             <div className="flex items-center justify-between text-[10px]">
               <span className={`font-medium ${strengthInfo.color}`}>

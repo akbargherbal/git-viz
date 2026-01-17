@@ -19,17 +19,16 @@ describe('CouplingArcRenderer', () => {
   });
 
   // Mock D3 Hierarchy Leaves (simplified)
+  // IMPORTANT: Include 'key' in data.data as renderer uses it
   const mockLeaves = [
-    { x0: 0, x1: 100, y0: 0, y1: 100, data: { data: { path: 'file1' } } },
-    { x0: 200, x1: 300, y0: 0, y1: 100, data: { data: { path: 'file2' } } },
-    { x0: 400, x1: 500, y0: 0, y1: 100, data: { data: { path: 'file3' } } }
+    { x0: 0, x1: 100, y0: 0, y1: 100, data: { data: { key: 'file1', path: 'file1' } } },
+    { x0: 200, x1: 300, y0: 0, y1: 100, data: { data: { key: 'file2', path: 'file2' } } },
+    { x0: 400, x1: 500, y0: 0, y1: 100, data: { data: { key: 'file3', path: 'file3' } } }
   ] as any[];
 
   beforeEach(() => {
     container = document.createElement('div');
     document.body.appendChild(container);
-    // Cast to any to satisfy the strict parent-type requirement of the renderer constructor
-    // In a real app, the SVG is usually appended to a root container where D3 types align
     svg = d3.select(container).append('svg') as any;
     renderer = new CouplingArcRenderer(svg);
   });

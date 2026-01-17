@@ -14,7 +14,7 @@ import { LoadingSpinner } from "@/components/common/LoadingSpinner";
 import { ErrorDisplay } from "@/components/common/ErrorDisplay";
 import { ScrollIndicatorOverlay } from "@/components/common/ScrollIndicatorOverlay";
 import { CellDetailPanel } from "@/plugins/timeline-heatmap/components/CellDetailPanel";
-import { TreemapDetailPanel } from "@/plugins/treemap-explorer/components/TreemapDetailPanel";
+import TreemapDetailPanel  from "@/plugins/treemap-explorer/components/TreemapDetailPanel";
 import { useScrollIndicators } from "@/hooks/useScrollIndicators";
 import { LoadProgress } from "@/services/data/types";
 import type { VisualizationPlugin } from "@/types/plugin";

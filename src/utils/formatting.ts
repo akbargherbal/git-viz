@@ -18,3 +18,8 @@ export const formatNumber = (num: number): string => {
   }
   return num.toString();
 };
+
+
+export function cn(...classes: (string | boolean | undefined | null)[]): string {
+  return classes.filter(Boolean).join(' ');
+}
