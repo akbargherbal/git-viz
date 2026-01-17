@@ -31,9 +31,18 @@ export const TimelineScrubber: React.FC<TimelineScrubberProps> = ({
   // Calculate current commit number based on position
   const currentCommit = Math.floor((currentPosition / 100) * totalCommits);
   
+  // FIX: Helper to parse YYYY-MM-DD as local date to avoid timezone shifts
+  const parseDate = (dateStr: string) => {
+    if (dateStr.match(/^\d{4}-\d{2}-\d{2}$/)) {
+      const [y, m, d] = dateStr.split('-').map(Number);
+      return new Date(y, m - 1, d);
+    }
+    return new Date(dateStr);
+  };
+
   // Format date for display
   const formatDate = (dateStr: string) => {
-    const date = new Date(dateStr);
+    const date = parseDate(dateStr);
     return date.toLocaleDateString('en-US', { 
       year: 'numeric', 
       month: 'short', 
@@ -43,8 +52,8 @@ export const TimelineScrubber: React.FC<TimelineScrubberProps> = ({
   
   // Calculate current date based on position
   const getCurrentDate = () => {
-    const startDate = new Date(minDate);
-    const endDate = new Date(maxDate);
+    const startDate = parseDate(minDate);
+    const endDate = parseDate(maxDate);
     const totalDays = (endDate.getTime() - startDate.getTime()) / (1000 * 60 * 60 * 24);
     const currentDays = (currentPosition / 100) * totalDays;
     const currentDate = new Date(startDate.getTime() + currentDays * 1000 * 60 * 60 * 24);

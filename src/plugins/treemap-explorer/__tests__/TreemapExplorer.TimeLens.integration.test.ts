@@ -396,7 +396,9 @@ describe('TreemapExplorer - Time Lens Integration', () => {
         lensMode: 'debt',
         sizeMetric: 'commits',
         selectedFile: null,
-        healthThreshold: 50,
+        // FIX: Set healthThreshold to 100 to ensure all files are visible in Debt mode
+        // This ensures the node count matches Time mode (which shows all files at pos 100)
+        healthThreshold: 100, 
         couplingThreshold: 0.03,
         showArcs: true,
         timePosition: 100,

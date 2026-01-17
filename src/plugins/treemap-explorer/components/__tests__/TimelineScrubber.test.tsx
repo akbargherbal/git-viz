@@ -19,8 +19,8 @@ describe('TimelineScrubber', () => {
     it('should render when visible is true', () => {
       render(<TimelineScrubber {...defaultProps} />);
       
-      expect(screen.getByText('/Jan.*1.*2023/i')).toBeInTheDocument();
-      expect(screen.getByText('/Jan.*15.*2023/i')).toBeInTheDocument();
+      expect(screen.getByText(/Jan.*1.*2023/i)).toBeInTheDocument();
+      expect(screen.getByText(/Jan.*15.*2025/i)).toBeInTheDocument();
     });
 
     it('should have reduced opacity when visible is false', () => {
@@ -36,15 +36,15 @@ describe('TimelineScrubber', () => {
     it('should display min and max dates', () => {
       render(<TimelineScrubber {...defaultProps} />);
       
-      expect(screen.getByText('/Jan.*1.*2023/i')).toBeInTheDocument();
-      expect(screen.getByText('/Jan.*15.*2023/i')).toBeInTheDocument();
+      expect(screen.getByText(/Jan.*1.*2023/i)).toBeInTheDocument();
+      expect(screen.getByText(/Jan.*15.*2025/i)).toBeInTheDocument();
     });
 
     it('should show current date based on position', () => {
       render(<TimelineScrubber {...defaultProps} currentPosition={50} />);
       
       // At position 50, should show date around mid-2024
-      const currentDateElement = screen.getByText(/2024-/);
+      const currentDateElement = screen.getByText(/Jan.*2024/i);
       expect(currentDateElement).toBeInTheDocument();
     });
 
@@ -158,24 +158,26 @@ describe('TimelineScrubber', () => {
     it('should show start date at position 0', () => {
       render(<TimelineScrubber {...defaultProps} currentPosition={0} />);
       
-      // Should show date close to minDate
-      const currentDate = screen.getByText(/2023-01/);
-      expect(currentDate).toBeInTheDocument();
+      // Should show date close to minDate (Jan 1, 2023)
+      // FIX: Use getAllByText because it appears twice (start label + current label)
+      const currentDates = screen.getAllByText(/Jan.*1.*2023/i);
+      expect(currentDates.length).toBeGreaterThan(0);
     });
 
     it('should show end date at position 100', () => {
       render(<TimelineScrubber {...defaultProps} currentPosition={100} />);
       
-      // Should show date close to maxDate
-      const currentDate = screen.getByText(/2025-01/);
-      expect(currentDate).toBeInTheDocument();
+      // Should show date close to maxDate (Jan 15, 2025)
+      // FIX: Use getAllByText because it appears twice (end label + current label)
+      const currentDates = screen.getAllByText(/Jan.*15.*2025/i);
+      expect(currentDates.length).toBeGreaterThan(0);
     });
 
     it('should interpolate date at middle position', () => {
       render(<TimelineScrubber {...defaultProps} currentPosition={50} />);
       
       // Should show date around mid-2024
-      const currentDate = screen.getByText(/2024-/);
+      const currentDate = screen.getByText(/Jan.*2024/i);
       expect(currentDate).toBeInTheDocument();
     });
   });
@@ -262,8 +264,9 @@ describe('TimelineScrubber', () => {
         />
       );
       
-      expect(screen.getByText('/Jan.*1.*2024/i')).toBeInTheDocument();
-      expect(screen.getByText('/Jan.*2.*2024/i')).toBeInTheDocument();
+      // FIX: Use getAllByText for Jan 1 because it appears as Start Date AND Current Date (at 50% of 1 day)
+      expect(screen.getAllByText(/Jan.*1.*2024/i).length).toBeGreaterThan(0);
+      expect(screen.getByText(/Jan.*2.*2024/i)).toBeInTheDocument();
     });
 
     it('should render with very long date range (10 years)', () => {
@@ -275,8 +278,8 @@ describe('TimelineScrubber', () => {
         />
       );
       
-      expect(screen.getByText('/Jan.*1.*2015/i')).toBeInTheDocument();
-      expect(screen.getByText('/Jan.*1.*2025/i')).toBeInTheDocument();
+      expect(screen.getByText(/Jan.*1.*2015/i)).toBeInTheDocument();
+      expect(screen.getByText(/Jan.*1.*2025/i)).toBeInTheDocument();
     });
   });
 

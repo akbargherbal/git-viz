@@ -33,9 +33,13 @@ export class TemporalDataProcessor {
       const createdTimestamp = new Date(createdDate).getTime();
       const minTimestamp = new Date(dateRange.min).getTime();
       const maxTimestamp = new Date(dateRange.max).getTime();
-      const createdPosition = maxTimestamp > minTimestamp
-        ? ((createdTimestamp - minTimestamp) / (maxTimestamp - minTimestamp)) * 100
-        : 0;
+      
+      // FIX: Clamp position between 0 and 100 to handle dates outside range
+      let createdPosition = 0;
+      if (maxTimestamp > minTimestamp) {
+        const rawPosition = ((createdTimestamp - minTimestamp) / (maxTimestamp - minTimestamp)) * 100;
+        createdPosition = Math.max(0, Math.min(100, rawPosition));
+      }
 
       // Determine if file is visible at current timeline position
       const isVisible = createdPosition <= currentPosition;

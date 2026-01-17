@@ -109,14 +109,17 @@ describe('TimeView', () => {
     it('should show high dormant days count', () => {
       render(<TimeView file={mockDormantFile} />);
       
-      expect(screen.getByText(/881 days/i)).toBeInTheDocument();
+      // FIX: Use getAllByText because the text appears in both the metric card and the insight message
+      const elements = screen.getAllByText(/881 days/i);
+      expect(elements.length).toBeGreaterThan(0);
     });
 
     it('should display dormant file insight message', () => {
       render(<TimeView file={mockDormantFile} />);
       
+      // FIX: Use getAllByText for "dormant" as it appears in status badge and text
+      expect(screen.getAllByText(/dormant/i).length).toBeGreaterThan(0);
       expect(screen.getByText(/has been/i)).toBeInTheDocument();
-      expect(screen.getByText(/dormant/i)).toBeInTheDocument();
     });
 
     it('should use different styling for dormant status', () => {
