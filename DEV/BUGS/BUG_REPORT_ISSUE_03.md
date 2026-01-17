@@ -456,3 +456,312 @@ Implement **Option 3 (Lifecycle Controller)**:
 **Reporter:** Development Team  
 **Priority:** P1 (Crashes in production)  
 **Target Resolution:** Phase 1 by end of week, Phase 2 within 2 weeks
+
+
+---
+
+Looking at your bug report and codebase, here's my analysis and recommendation:
+
+## Assessment: The Bug Report is Excellent
+
+Your team has done thorough root cause analysis. The issue is clear: **lack of operation cancellation during plugin transitions**. However, I'd suggest a **pragmatic middle path** that avoids over-engineering.
+
+## Recommended Approach: Simplified Hybrid Solution
+
+Given you have **only 2 plugins currently**, I'd recommend **Option 2.5** - a simplified lifecycle + AbortController pattern that's more pragmatic than the full state machine in Option 3.
+
+### Why Not Full Option 3?
+- **State machine overhead** for 2 plugins is over-engineering
+- **Breaking changes** to plugin API should provide proportional value
+- **2-3 day refactor** is expensive for the problem scope
+- You can always upgrade later if you add 5+ plugins
+
+### Recommended Solution: Lightweight Lifecycle + Cancellation
+
+**Core Principles:**
+1. ✅ Add `cleanup()` lifecycle hook (simpler than full mount/unmount)
+2. ✅ Use AbortController for async operations
+3. ✅ Add transition guard state (prevents concurrent switches)
+4. ❌ Skip full state machine (YAGNI - You Aren't Gonna Need It)
+
+---
+
+## Implementation Plan
+
+### Phase 1: Immediate Fix (30 minutes) 🚑
+
+**Goal:** Stop crashes today
+
+**Changes:**
+1. Add null guard in `TimelineHeatmapPlugin.ts:281`
+2. Add useEffect cleanup in `App.tsx:219`
+
+```typescript
+// TimelineHeatmapPlugin.ts - traverse function
+traverse(node: FileNode) {
+  if (!node?.type) {
+    console.warn('Skipping undefined node during traversal');
+    return;
+  }
+  // ... rest of logic
+}
+```
+
+```typescript
+// App.tsx - add cleanup
+useEffect(() => {
+  let isMounted = true;
+  
+  if (activePlugin && loadedData) {
+    activePlugin.processData(loadedData).then(result => {
+      if (isMounted) {
+        setVisualizationData(result);
+      }
+    });
+  }
+  
+  return () => {
+    isMounted = false;
+  };
+}, [activePlugin, loadedData]);
+```
+
+**Deploy immediately** to stop production crashes.
+
+---
+
+### Phase 2: Proper Solution (1-2 days) ✅
+
+**Goal:** Fix root cause without over-engineering
+
+#### Step 1: Extend Plugin Interface (Minimal)
+
+```typescript
+// src/types/plugin.ts
+export interface Plugin {
+  id: string;
+  name: string;
+  
+  // Existing
+  processData(data: unknown): Promise<VisualizationData>;
+  render(container: HTMLElement, data: VisualizationData): void;
+  
+  // NEW - Minimal lifecycle additions
+  cleanup?(): void;  // Optional for backward compatibility
+  
+  // NEW - Support cancellation
+  processDataCancellable?(
+    data: unknown, 
+    signal: AbortSignal
+  ): Promise<VisualizationData>;
+}
+```
+
+#### Step 2: Update App.tsx with Proper Cancellation
+
+```typescript
+// App.tsx
+const [isSwitching, setIsSwitching] = useState(false);
+const abortControllerRef = useRef<AbortController | null>(null);
+
+useEffect(() => {
+  // Prevent concurrent switches
+  if (isSwitching) return;
+  
+  // Cleanup previous plugin
+  if (previousPluginRef.current) {
+    previousPluginRef.current.cleanup?.();
+  }
+  
+  // Abort any in-flight processing
+  if (abortControllerRef.current) {
+    abortControllerRef.current.abort();
+  }
+  
+  if (!activePlugin || !loadedData) return;
+  
+  // Create new abort controller for this operation
+  const controller = new AbortController();
+  abortControllerRef.current = controller;
+  setIsSwitching(true);
+  
+  // Use cancellable version if available, fallback to regular
+  const processPromise = activePlugin.processDataCancellable
+    ? activePlugin.processDataCancellable(loadedData, controller.signal)
+    : activePlugin.processData(loadedData);
+  
+  processPromise
+    .then(result => {
+      if (!controller.signal.aborted) {
+        setVisualizationData(result);
+      }
+    })
+    .catch(error => {
+      if (error.name !== 'AbortError') {
+        console.error('Data processing failed:', error);
+        setError(error);
+      }
+    })
+    .finally(() => {
+      setIsSwitching(false);
+    });
+  
+  previousPluginRef.current = activePlugin;
+  
+  return () => {
+    controller.abort();
+    activePlugin.cleanup?.();
+  };
+}, [activePlugin, loadedData]);
+```
+
+#### Step 3: Update Both Plugins
+
+**TimelineHeatmapPlugin.ts:**
+```typescript
+export class TimelineHeatmapPlugin implements Plugin {
+  private aborted = false;
+  
+  cleanup(): void {
+    this.aborted = true;
+    // Clear any D3 selections, event listeners, etc.
+  }
+  
+  async processDataCancellable(
+    data: unknown, 
+    signal: AbortSignal
+  ): Promise<VisualizationData> {
+    this.aborted = false;
+    
+    signal.addEventListener('abort', () => {
+      this.aborted = true;
+    });
+    
+    // In traverse and other loops, check abort status
+    return this.processData(data);
+  }
+  
+  private traverse(node: FileNode): void {
+    // Check if aborted
+    if (this.aborted || !node?.type) return;
+    
+    // Process node...
+    
+    // For recursive calls or loops, check periodically
+    if (node.children) {
+      for (const child of node.children) {
+        if (this.aborted) break;  // Early exit
+        this.traverse(child);
+      }
+    }
+  }
+}
+```
+
+**TreemapExplorerPlugin.tsx:**
+```typescript
+export class TreemapExplorerPlugin implements Plugin {
+  private aborted = false;
+  
+  cleanup(): void {
+    this.aborted = true;
+    // Clean up D3 visualization, event listeners
+  }
+  
+  async processDataCancellable(
+    data: unknown,
+    signal: AbortSignal
+  ): Promise<VisualizationData> {
+    this.aborted = false;
+    
+    signal.addEventListener('abort', () => {
+      this.aborted = true;
+    });
+    
+    // Check abort in expensive operations
+    return this.processData(data);
+  }
+}
+```
+
+---
+
+## Why This Approach is Better
+
+### Compared to Option 1 (Quick Fix)
+- ✅ Actually fixes root cause
+- ✅ Prevents wasted computation
+- ✅ Clean cancellation semantics
+
+### Compared to Option 3 (Full Lifecycle)
+- ✅ **80% of benefit, 30% of effort**
+- ✅ No breaking changes (optional interface additions)
+- ✅ Can evolve incrementally
+- ✅ Easier to test and reason about
+- ✅ Backward compatible (cleanup is optional)
+
+### Compared to Option 4 (Queue)
+- ✅ No artificial delays
+- ✅ User gets immediate feedback
+- ✅ Less state management complexity
+
+---
+
+## Testing Strategy
+
+```typescript
+// __tests__/PluginSwitching.integration.test.ts
+describe('Rapid Plugin Switching', () => {
+  it('should abort previous processing when switching plugins', async () => {
+    const { switchPlugin } = renderApp();
+    
+    // Start slow processing
+    await switchPlugin('timeline-heatmap');
+    
+    // Immediately switch before processing completes
+    await switchPlugin('treemap-explorer');
+    
+    // Should not throw errors
+    expect(screen.queryByText(/error/i)).not.toBeInTheDocument();
+  });
+  
+  it('should handle 20 rapid switches without crashes', async () => {
+    const { switchPlugin } = renderApp();
+    
+    for (let i = 0; i < 20; i++) {
+      await switchPlugin(i % 2 === 0 ? 'timeline-heatmap' : 'treemap-explorer');
+    }
+    
+    expect(mockConsoleError).not.toHaveBeenCalled();
+  });
+});
+```
+
+---
+
+## Migration Path to Full Lifecycle (If Needed Later)
+
+If you later add 5+ plugins and need full lifecycle:
+
+1. Your plugins already have `cleanup()` - just add `mount()`
+2. AbortController infrastructure is already there
+3. Add state machine on top of existing hooks
+4. Minimal changes needed
+
+**You're not painting yourself into a corner** - this approach is a stepping stone, not a dead end.
+
+---
+
+## Summary
+
+| Aspect | Quick Fix | My Recommendation | Full Lifecycle |
+|--------|-----------|-------------------|----------------|
+| **Effort** | 30 min | 1-2 days | 2-3 days |
+| **Solves Root Cause** | ❌ | ✅ | ✅ |
+| **Over-engineering** | N/A | ❌ | ⚠️ (for 2 plugins) |
+| **Breaking Changes** | ❌ | ❌ | ✅ |
+| **Testable** | ⚠️ | ✅ | ✅ |
+| **Production Ready** | ⚠️ | ✅ | ✅ |
+
+**Recommendation:** Implement Phase 1 today, Phase 2 this week. Skip Phase 3 unless you're planning 5+ plugins in next quarter.
+
