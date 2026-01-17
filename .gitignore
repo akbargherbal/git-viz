@@ -72,3 +72,5 @@ build/
 .mypy_cache/
 .coverage
 htmlcov/
+
+.gitignore.e2e
