@@ -296,7 +296,13 @@ export class TimelineHeatmapPlugin implements VisualizationPlugin<
 
     // Check if we received the raw data map from PluginDataLoader
     // The keys match the 'alias' fields in dataRequirements
-    if (dataset && dataset.lifecycle && dataset.authors && dataset.files && dataset.dirs) {
+    if (
+      dataset &&
+      dataset.lifecycle &&
+      dataset.authors &&
+      dataset.files &&
+      dataset.dirs
+    ) {
       // Construct FilterState from config to allow plugin-controlled filtering
       const filters: FilterState = {
         authors: new Set(config?.selectedAuthors || []),
@@ -652,10 +658,6 @@ export class TimelineHeatmapPlugin implements VisualizationPlugin<
           td.onmouseenter = () => {
             td.style.transform = "scale(1.1)";
             td.style.zIndex = "10";
-          };
-          td.onmouseleave = () => {
-            td.style.transform = "scale(1)";
-            td.style.zIndex = "auto";
           };
         }
         row.appendChild(td);
