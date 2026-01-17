@@ -67,7 +67,7 @@ export class TreemapExplorerPlugin implements VisualizationPlugin<TreemapConfig,
     id: "treemap-explorer",
     name: "Treemap Explorer",
     description: "Spatial code health and coupling analysis",
-    version: "2.1.0",
+    version: "2.2.0", // Bumped version for refactor
     priority: 2,
     dataRequirements: [
       { dataset: 'file_index', required: true },
@@ -84,6 +84,12 @@ export class TreemapExplorerPlugin implements VisualizationPlugin<TreemapConfig,
   private container: HTMLElement | null = null;
   private couplingIndex: CouplingIndex = new Map();
   private arcRenderer: CouplingArcRenderer | null = null;
+  
+  // ✅ NEW: Persistent SVG element (not recreated on every render)
+  private svg: d3.Selection<SVGSVGElement, unknown, null, undefined> | null = null;
+  
+  // ✅ NEW: Pre-computed coupling strengths cache
+  private couplingStrengthCache: Map<string, number> = new Map();
 
   getInitialState(): TreemapExplorerState {
     return {
@@ -104,6 +110,15 @@ export class TreemapExplorerPlugin implements VisualizationPlugin<TreemapConfig,
     this.container.style.height = "100%";
     this.container.style.overflow = "hidden";
     this.container.style.position = "relative";
+    
+    // ✅ NEW: Create SVG once during initialization
+    this.svg = d3.select(this.container)
+      .append("svg")
+      .style("font-family", "monospace")
+      .style("background-color", "#09090b");
+    
+    // ✅ NEW: Initialize arc renderer once
+    this.arcRenderer = new CouplingArcRenderer(this.svg);
   }
 
   // Expose coupling index for Detail Panel
@@ -194,7 +209,7 @@ export class TreemapExplorerPlugin implements VisualizationPlugin<TreemapConfig,
     files: EnrichedFileData[],
     config: TreemapConfig
   ): void {
-    if (!this.container || files.length === 0) return;
+    if (!this.container || !this.svg || files.length === 0) return;
 
     const currentState: TreemapExplorerState = {
       lensMode: (config as any).lensMode || 'debt',
@@ -209,22 +224,16 @@ export class TreemapExplorerPlugin implements VisualizationPlugin<TreemapConfig,
     
     const updatedFiles = this.applySizeMetric(files, currentState.sizeMetric);
     
-    // Clear container
-    this.container.innerHTML = "";
-
+    // ✅ NEW: Update SVG dimensions (no recreation)
     const width = this.container.clientWidth || config.width;
     const height = this.container.clientHeight || config.height;
-
-    const svg = d3
-      .select(this.container)
-      .append("svg")
+    
+    this.svg
       .attr("width", width)
-      .attr("height", height)
-      .style("font-family", "monospace")
-      .style("background-color", "#09090b");
+      .attr("height", height);
 
-    // Initialize Arc Renderer
-    this.arcRenderer = new CouplingArcRenderer(svg);
+    // ✅ NEW: Pre-compute coupling strengths ONCE before render loop
+    this.precomputeCouplingStrengths(currentState);
 
     const root = d3.hierarchy({
       name: "root",
@@ -246,87 +255,134 @@ export class TreemapExplorerPlugin implements VisualizationPlugin<TreemapConfig,
 
     treemap(root as any);
     
-    // Correctly cast leaves to the wrapper type
     const leaves = root.leaves() as unknown as HierarchyRectangularNode<TreemapHierarchyDatum>[];
 
-    // Draw cells
-    const cells = svg
-      .selectAll("g.cell")
-      .data(leaves)
-      .join("g")
-      .attr("class", "cell")
+    // ✅ NEW: D3 Join Pattern - properly handles enter/update/exit
+    const cells = this.svg
+      .selectAll<SVGGElement, HierarchyRectangularNode<TreemapHierarchyDatum>>("g.cell")
+      .data(leaves, d => d.data.data.key) // Key function for stable identity
+      .join(
+        // Enter: New cells
+        enter => {
+          const cellGroup = enter
+            .append("g")
+            .attr("class", "cell")
+            .style("cursor", "pointer");
+          
+          cellGroup.append("rect");
+          cellGroup.append("text")
+            .attr("class", "cell-label")
+            .attr("text-anchor", "middle")
+            .attr("dominant-baseline", "middle")
+            .attr("font-size", "10px")
+            .style("pointer-events", "none");
+          
+          return cellGroup;
+        },
+        // Update: Existing cells (returns selection as-is)
+        update => update,
+        // Exit: Remove old cells
+        exit => exit.remove()
+      );
+
+    // ✅ NEW: Update positions and attributes (not recreate)
+    cells
       .attr("transform", d => `translate(${d.x0},${d.y0})`)
-      .style("cursor", "pointer")
       .on("click", (_event, d) => {
         if (config.onCellClick) {
           config.onCellClick(d.data.data);
         }
       });
 
-    // Determine coupling partners for coloring if a file is selected
-    let coupledFilesSet = new Set<string>();
-    if (currentState.selectedFile && currentState.lensMode === 'coupling') {
-      const partners = CouplingDataProcessor.getTopCouplings(
-        this.couplingIndex, 
-        currentState.selectedFile, 
-        50
-      );
-      partners.forEach(p => {
-        if (p.strength >= currentState.couplingThreshold) {
-          coupledFilesSet.add(p.filePath);
-        }
-      });
-    }
-
+    // Update rectangles
     cells
-      .append("rect")
+      .select<SVGRectElement>("rect")
       .attr("width", d => Math.max(0, d.x1 - d.x0))
       .attr("height", d => Math.max(0, d.y1 - d.y0))
-      .attr("fill", d => {
-        // Custom color logic for coupling lens to handle "coupled" state
-        if (currentState.lensMode === 'coupling' && currentState.selectedFile) {
-          if (d.data.data.path === currentState.selectedFile) return '#ffffff';
-          if (coupledFilesSet.has(d.data.data.path)) {
-             // Find strength
-             const partners = CouplingDataProcessor.getTopCouplings(this.couplingIndex, currentState.selectedFile, 100);
-             const p = partners.find(x => x.filePath === d.data.data.path);
-             const strength = p ? p.strength : 0;
-             return `hsl(270, ${40 + strength * 30}%, ${20 + strength * 20}%)`;
-          }
-          return '#18181b'; // Dimmed
-        }
-        return getCellColor(d.data.data, currentState.lensMode, currentState);
-      })
+      .attr("fill", d => this.getCellFillColor(d, currentState))
       .attr("stroke", "#18181b")
       .attr("stroke-width", 1);
 
-    // Labels
+    // Update labels
     cells.each(function (d) {
       const w = d.x1 - d.x0;
       const h = d.y1 - d.y0;
+      const textElement = d3.select(this).select<SVGTextElement>("text");
+      
       if (w > 50 && h > 20) {
-        d3.select(this)
-          .append("text")
+        const isSelected = d.data.data.path === currentState.selectedFile;
+        textElement
           .attr("x", w / 2)
           .attr("y", h / 2)
-          .attr("text-anchor", "middle")
-          .attr("dominant-baseline", "middle")
-          .attr("fill", d.data.data.path === currentState.selectedFile ? "#000" : "white")
-          .attr("font-size", "10px")
-          .style("pointer-events", "none")
-          .text(d.data.data.name.length > 20 ? d.data.data.name.substring(0, 17) + '...' : d.data.data.name);
+          .attr("fill", isSelected ? "#000" : "white")
+          .text(d.data.data.name.length > 20 ? d.data.data.name.substring(0, 17) + '...' : d.data.data.name)
+          .style("display", null);
+      } else {
+        textElement.style("display", "none");
       }
     });
 
-    // Render Arcs if enabled
-    if (currentState.lensMode === 'coupling' && currentState.showArcs && currentState.selectedFile) {
-      this.arcRenderer?.render(
-        currentState.selectedFile,
-        leaves,
-        this.couplingIndex,
-        currentState.couplingThreshold
-      );
+    // ✅ NEW: Clear and re-render arcs (renderer instance reused)
+    if (this.arcRenderer) {
+      this.arcRenderer.clear();
+      
+      if (currentState.lensMode === 'coupling' && currentState.showArcs && currentState.selectedFile) {
+        // Limit to top 10 arcs for performance
+        this.arcRenderer.render(
+          currentState.selectedFile,
+          leaves,
+          this.couplingIndex,
+          currentState.couplingThreshold
+        );
+      }
     }
+  }
+
+  // ✅ NEW: Pre-compute coupling strengths to avoid O(n²) lookups
+  private precomputeCouplingStrengths(state: TreemapExplorerState): void {
+    this.couplingStrengthCache.clear();
+    
+    if (state.lensMode === 'coupling' && state.selectedFile) {
+      const partners = CouplingDataProcessor.getTopCouplings(
+        this.couplingIndex,
+        state.selectedFile,
+        100 // Get top 100 partners
+      );
+      
+      partners.forEach(p => {
+        if (p.strength >= state.couplingThreshold) {
+          this.couplingStrengthCache.set(p.filePath, p.strength);
+        }
+      });
+    }
+  }
+
+  // ✅ NEW: Extracted color logic with pre-computed cache lookup
+  private getCellFillColor(
+    d: HierarchyRectangularNode<TreemapHierarchyDatum>,
+    state: TreemapExplorerState
+  ): string {
+    const path = d.data.data.path;
+    
+    // Coupling lens with selection
+    if (state.lensMode === 'coupling' && state.selectedFile) {
+      // Selected file is white
+      if (path === state.selectedFile) {
+        return '#ffffff';
+      }
+      
+      // ✅ NEW: O(1) lookup from pre-computed cache (not O(n) search)
+      if (this.couplingStrengthCache.has(path)) {
+        const strength = this.couplingStrengthCache.get(path)!;
+        return `hsl(270, ${40 + strength * 30}%, ${20 + strength * 20}%)`;
+      }
+      
+      // Not coupled - dimmed
+      return '#18181b';
+    }
+    
+    // Default color scales for debt/time lenses
+    return getCellColor(d.data.data, state.lensMode, state);
   }
 
   private applySizeMetric(files: EnrichedFileData[], metric: string): EnrichedFileData[] {
@@ -348,13 +404,31 @@ export class TreemapExplorerPlugin implements VisualizationPlugin<TreemapConfig,
   }
 
   update(files: EnrichedFileData[], config: TreemapConfig): void {
+    // ✅ NEW: update() now just calls render() (which handles everything efficiently)
     this.render(files, config);
   }
 
+  // ✅ NEW: Proper cleanup of all resources
   destroy(): void {
-    if (this.container) {
-      this.container.innerHTML = "";
+    // Clean up arc renderer
+    if (this.arcRenderer) {
+      this.arcRenderer.destroy();
+      this.arcRenderer = null;
     }
+    
+    // Clean up SVG and all D3 selections
+    if (this.svg) {
+      this.svg.selectAll("*").remove();
+      this.svg.remove();
+      this.svg = null;
+    }
+    
+    // Clear data structures
+    this.couplingIndex.clear();
+    this.couplingStrengthCache.clear();
+    
+    // Clear container reference
+    this.container = null;
   }
 
   async exportImage(): Promise<Blob> {
