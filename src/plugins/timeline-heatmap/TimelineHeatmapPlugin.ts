@@ -108,7 +108,7 @@ export class TimelineHeatmapPlugin implements VisualizationPlugin<
     id: "timeline-heatmap",
     name: "Timeline Heatmap",
     description: "Repository activity across time and directory structure",
-    version: "4.1.0", // Bumped for legacy styling restoration
+    version: "4.2.1", // Bumped for race condition fix
     priority: 1,
     dataRequirements: [
       { dataset: "file_lifecycle", required: true, alias: "lifecycle" },
@@ -133,6 +133,9 @@ export class TimelineHeatmapPlugin implements VisualizationPlugin<
 
   private container: HTMLElement | null = null;
 
+  // PHASE 2: Abort flag for cancellation support
+  private aborted = false;
+
   // ============================================================================
   // PHASE 2: Initial State Definition
   // ============================================================================
@@ -147,6 +150,48 @@ export class TimelineHeatmapPlugin implements VisualizationPlugin<
     selectedAuthors: [] as string[],
     selectedExtensions: [] as string[],
   });
+
+  // ============================================================================
+  // PHASE 2: Lifecycle Methods
+  // ============================================================================
+
+  /**
+   * PHASE 2: Cleanup method called when plugin is unmounted
+   * Aborts any ongoing operations
+   */
+  cleanup(): void {
+    console.log("[TimelineHeatmap] Cleanup called - aborting operations");
+    this.aborted = true;
+    // Clear any DOM event listeners or references if needed
+  }
+
+  /**
+   * PHASE 2: Cancellable version of processData
+   * Checks abort signal periodically during expensive operations
+   */
+  async processDataCancellable(
+    dataset: any,
+    signal: AbortSignal,
+    config?: HeatmapConfig,
+  ): Promise<HeatmapData> {
+    this.aborted = false;
+
+    // Listen for abort signal
+    signal.addEventListener("abort", () => {
+      console.log("[TimelineHeatmap] Abort signal received");
+      this.aborted = true;
+    });
+
+    // Check if already aborted before starting
+    if (signal.aborted) {
+      console.log("[TimelineHeatmap] Already aborted before processing");
+      throw new DOMException("Operation aborted", "AbortError");
+    }
+
+    // Use the regular processData implementation
+    // The traverse function and other methods will check this.aborted
+    return this.processData(dataset, config);
+  }
 
   // ============================================================================
   // PHASE 2: Control Rendering
@@ -251,7 +296,7 @@ export class TimelineHeatmapPlugin implements VisualizationPlugin<
 
     // Check if we received the raw data map from PluginDataLoader
     // The keys match the 'alias' fields in dataRequirements
-    if (dataset.lifecycle && dataset.authors && dataset.files && dataset.dirs) {
+    if (dataset && dataset.lifecycle && dataset.authors && dataset.files && dataset.dirs) {
       // Construct FilterState from config to allow plugin-controlled filtering
       const filters: FilterState = {
         authors: new Set(config?.selectedAuthors || []),
@@ -274,6 +319,16 @@ export class TimelineHeatmapPlugin implements VisualizationPlugin<
       optimizedData = dataset as OptimizedDataset;
     }
 
+    // Guard against incomplete or missing data during plugin transitions
+    if (!optimizedData || !optimizedData.metadata || !optimizedData.tree) {
+      return {
+        cells: [],
+        directories: [],
+        timeBins: [],
+        maxValue: 0,
+      };
+    }
+
     const { tree, activity, metadata } = optimizedData;
     const timeBinType = config?.timeBin || this.defaultConfig.timeBin;
     const metric = config?.metric || this.defaultConfig.metric;
@@ -282,6 +337,12 @@ export class TimelineHeatmapPlugin implements VisualizationPlugin<
     // 1. Map IDs to Directory Paths
     const idToPath = new Map<number, string>();
     const traverse = (node: OptimizedDirectoryNode) => {
+      // PHASE 2: Check abort flag periodically
+      if (this.aborted) {
+        console.log("[TimelineHeatmap] Aborting traverse");
+        return;
+      }
+
       // Guard against undefined nodes during rapid plugin switching
       if (!node?.type) {
         console.warn(
@@ -296,6 +357,12 @@ export class TimelineHeatmapPlugin implements VisualizationPlugin<
       }
     };
     traverse(tree);
+
+    // PHASE 2: Check if aborted after traverse
+    if (this.aborted) {
+      console.log("[TimelineHeatmap] Aborted after tree traversal");
+      throw new DOMException("Operation aborted", "AbortError");
+    }
 
     // 2. Determine Top Directories
     let topDirectories: string[] = [];
@@ -320,6 +387,12 @@ export class TimelineHeatmapPlugin implements VisualizationPlugin<
         .map(([dir]) => dir);
     }
 
+    // PHASE 2: Check abort before heavy processing
+    if (this.aborted) {
+      console.log("[TimelineHeatmap] Aborted before aggregation");
+      throw new DOMException("Operation aborted", "AbortError");
+    }
+
     // 3. Aggregate Activity for Selected Directories
     interface TempCell extends Omit<
       HeatmapCell,
@@ -333,9 +406,16 @@ export class TimelineHeatmapPlugin implements VisualizationPlugin<
     const timeBinsSet = new Set<number>();
     const topDirsSet = new Set(topDirectories);
 
-    activity.forEach((item) => {
+    // PHASE 2: Check abort periodically during iteration
+    let processedCount = 0;
+    for (const item of activity) {
+      if (this.aborted && processedCount % 100 === 0) {
+        console.log("[TimelineHeatmap] Aborted during activity aggregation");
+        throw new DOMException("Operation aborted", "AbortError");
+      }
+
       const path = idToPath.get(item.id);
-      if (!path || !topDirsSet.has(path)) return;
+      if (!path || !topDirsSet.has(path)) continue;
 
       const date = new Date(item.d);
       const binStart = getTimeBinStart(date, timeBinType);
@@ -369,7 +449,15 @@ export class TimelineHeatmapPlugin implements VisualizationPlugin<
 
       if (item.tc) item.tc.forEach((c) => cell.contributorsSet.add(c));
       if (item.tf) item.tf.forEach((f) => cell.filesSet.add(f));
-    });
+
+      processedCount++;
+    }
+
+    // PHASE 2: Final abort check
+    if (this.aborted) {
+      console.log("[TimelineHeatmap] Aborted before building grid");
+      throw new DOMException("Operation aborted", "AbortError");
+    }
 
     // 4. Sort Time Bins
     const timeBins = Array.from(timeBinsSet)

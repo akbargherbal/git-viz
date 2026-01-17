@@ -1,3 +1,5 @@
+// src/types/plugin.ts
+
 import {
   RepoMetadata,
   OptimizedDirectoryNode,
@@ -104,6 +106,7 @@ export interface PluginLayoutConfig {
  * Supports both legacy direct data access and new declarative data loading
  *
  * PHASE 1 EXTENSION: Added optional methods for self-contained control management
+ * PHASE 2 EXTENSION: Added cleanup() and processDataCancellable() for lifecycle management
  */
 export interface VisualizationPlugin<
   TConfig = any,
@@ -176,6 +179,31 @@ export interface VisualizationPlugin<
    * If not provided, defaults to 'header' layout
    */
   layoutConfig?: PluginLayoutConfig;
+
+  // PHASE 2 ADDITIONS: Lifecycle management for cancellation
+
+  /**
+   * PHASE 2: Cleanup method called when plugin is being unmounted
+   * Use this to abort in-flight operations, clear timers, remove event listeners
+   * Optional for backward compatibility
+   */
+  cleanup?(): void;
+
+  /**
+   * PHASE 2: Cancellable version of processData that supports AbortSignal
+   * Falls back to regular processData if not implemented
+   * Optional for backward compatibility
+   *
+   * @param dataset - Data to process
+   * @param signal - AbortSignal to check for cancellation
+   * @param config - Optional configuration
+   * @returns Processed data
+   */
+  processDataCancellable?(
+    dataset: any,
+    signal: AbortSignal,
+    config?: TConfig,
+  ): Promise<TData>;
 }
 
 /**

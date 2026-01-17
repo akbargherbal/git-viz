@@ -26,7 +26,7 @@ export class TreemapExplorerPlugin implements VisualizationPlugin<TreemapExplore
     id: "treemap-explorer",
     name: "Treemap Explorer",
     description: "Multi-lens code health, coupling, and temporal analysis",
-    version: "2.0.0",
+    version: "2.1.0", // Bumped for Phase 2 lifecycle support
     priority: 2,
     dataRequirements: [
       { dataset: "file_index", required: true, alias: "file_index" },
@@ -62,9 +62,65 @@ export class TreemapExplorerPlugin implements VisualizationPlugin<TreemapExplore
   private arcRenderer: CouplingArcRenderer | null = null;
   private couplingIndex: Map<string, any> = new Map();
 
+  // PHASE 2: Abort flag for cancellation support
+  private aborted = false;
+
   getInitialState(): TreemapExplorerState {
     return { ...this.defaultConfig };
   }
+
+  // ============================================================================
+  // PHASE 2: Lifecycle Methods
+  // ============================================================================
+
+  /**
+   * PHASE 2: Cleanup method called when plugin is unmounted
+   * Aborts any ongoing operations and cleans up resources
+   */
+  cleanup(): void {
+    console.log("[TreemapExplorer] Cleanup called - aborting operations");
+    this.aborted = true;
+
+    // Stop playback
+    this.stopPlayback();
+
+    // Clean up D3 visualization
+    if (this.arcRenderer) {
+      this.arcRenderer.destroy();
+    }
+  }
+
+  /**
+   * PHASE 2: Cancellable version of processData
+   * Checks abort signal periodically during expensive operations
+   */
+  async processDataCancellable(
+    dataset: Record<string, any>,
+    signal: AbortSignal,
+    _config?: TreemapExplorerState,
+  ): Promise<EnrichedFileData[]> {
+    this.aborted = false;
+
+    // Listen for abort signal
+    signal.addEventListener("abort", () => {
+      console.log("[TreemapExplorer] Abort signal received");
+      this.aborted = true;
+    });
+
+    // Check if already aborted before starting
+    if (signal.aborted) {
+      console.log("[TreemapExplorer] Already aborted before processing");
+      throw new DOMException("Operation aborted", "AbortError");
+    }
+
+    // Use the regular processData implementation
+    // The methods will check this.aborted periodically
+    return this.processData(dataset, _config);
+  }
+
+  // ============================================================================
+  // Core Plugin Methods
+  // ============================================================================
 
   init(container: HTMLElement, _config: TreemapExplorerState): void {
     this.container = container;
@@ -83,14 +139,32 @@ export class TreemapExplorerPlugin implements VisualizationPlugin<TreemapExplore
       return [];
     }
 
+    // PHASE 2: Check abort before processing
+    if (this.aborted) {
+      console.log("[TreemapExplorer] Aborted before file enrichment");
+      throw new DOMException("Operation aborted", "AbortError");
+    }
+
     // 2. Process base file data
     this.data = DataProcessor.enrichFiles(fileIndex);
+
+    // PHASE 2: Check abort after enrichment
+    if (this.aborted) {
+      console.log("[TreemapExplorer] Aborted after file enrichment");
+      throw new DOMException("Operation aborted", "AbortError");
+    }
 
     // 3. Load optional coupling data
     const cochangeNetwork = dataset.cochange_network;
     if (cochangeNetwork) {
       CouplingDataProcessor.enrichWithCoupling(this.data, cochangeNetwork);
       this.couplingIndex = CouplingDataProcessor.process(cochangeNetwork);
+    }
+
+    // PHASE 2: Check abort after coupling
+    if (this.aborted) {
+      console.log("[TreemapExplorer] Aborted after coupling processing");
+      throw new DOMException("Operation aborted", "AbortError");
     }
 
     // 4. Load optional temporal data
@@ -104,6 +178,12 @@ export class TreemapExplorerPlugin implements VisualizationPlugin<TreemapExplore
 
   render(data: EnrichedFileData[], state: TreemapExplorerState): void {
     if (!this.container) return;
+
+    // PHASE 2: Check abort before rendering
+    if (this.aborted) {
+      console.log("[TreemapExplorer] Aborted - skipping render");
+      return;
+    }
 
     this.container.innerHTML = "";
 
@@ -138,6 +218,12 @@ export class TreemapExplorerPlugin implements VisualizationPlugin<TreemapExplore
     // Filter data based on thresholds
     const filteredData = this.filterData(enrichedData, state);
 
+    // PHASE 2: Check abort before layout calculation
+    if (this.aborted) {
+      console.log("[TreemapExplorer] Aborted - skipping layout calculation");
+      return;
+    }
+
     // Calculate treemap layout
     const root = d3
       .hierarchy({ children: filteredData } as any)
@@ -152,6 +238,12 @@ export class TreemapExplorerPlugin implements VisualizationPlugin<TreemapExplore
       .round(true);
 
     treemapLayout(root);
+
+    // PHASE 2: Check abort before rendering cells
+    if (this.aborted) {
+      console.log("[TreemapExplorer] Aborted - skipping cell rendering");
+      return;
+    }
 
     // Render cells
     const cells = root.leaves() as d3.HierarchyRectangularNode<any>[];

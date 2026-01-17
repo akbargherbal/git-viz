@@ -1,6 +1,4 @@
 // src/App.tsx
-// Phase 3: Cleaned up - Plugin controls ownership, no universal control state
-// Updated to support TreemapExplorer detail panel with coupling support
 
 import React, { useEffect, useRef, useState, useMemo } from "react";
 import { Filter } from "lucide-react";
@@ -28,6 +26,10 @@ const App: React.FC = () => {
   const headerScrollRef = useRef<HTMLDivElement>(null);
   const headerContainerRef = useRef<HTMLElement>(null);
 
+  // PHASE 2: Abort controller and plugin tracking refs
+  const abortControllerRef = useRef<AbortController | null>(null);
+  const previousPluginRef = useRef<VisualizationPlugin | null>(null);
+
   // Local state - only for plugin management
   const [plugins, setPlugins] = useState<VisualizationPlugin[]>([]);
   const [activePlugin, setActivePluginInstance] =
@@ -38,6 +40,9 @@ const App: React.FC = () => {
     total: 0,
     phase: "metadata",
   });
+
+  // PHASE 2: Track if we're currently switching plugins
+  const [isSwitching, setIsSwitching] = useState(false);
 
   // Zustand store - handles data, filters, UI, and plugin states
   const {
@@ -197,10 +202,28 @@ const App: React.FC = () => {
     }
   }, [ui.activePluginId, setSelectedCell]);
 
-  // Render visualization
+  // PHASE 2: Render visualization with proper cancellation support
   useEffect(() => {
-    // Flag to track if this effect is still mounted
-    let isMounted = true;
+    // Prevent concurrent switches
+    if (isSwitching) return;
+
+    // PHASE 2: Cleanup previous plugin
+    if (
+      previousPluginRef.current &&
+      previousPluginRef.current !== activePlugin
+    ) {
+      console.log(
+        "[App] Cleaning up previous plugin:",
+        previousPluginRef.current.metadata.id,
+      );
+      previousPluginRef.current.cleanup?.();
+    }
+
+    // PHASE 2: Abort any in-flight processing
+    if (abortControllerRef.current) {
+      console.log("[App] Aborting previous processing operation");
+      abortControllerRef.current.abort();
+    }
 
     if (!activePlugin || !containerRef.current) return;
 
@@ -212,55 +235,100 @@ const App: React.FC = () => {
       if (!data.tree || !data.activity || !data.metadata) return;
     }
 
-    try {
-      const config = {
-        ...activePlugin.defaultConfig,
-        timeBin: filters.timeBin,
-        metric: filters.metric,
-        ...currentPluginState,
-        onCellClick: (cell: any) => {
-          // Only handle click if this effect is still active
-          if (isMounted) {
-            setSelectedCell(cell);
-          }
-        },
-      };
+    // PHASE 2: Create new abort controller for this operation
+    const controller = new AbortController();
+    abortControllerRef.current = controller;
+    setIsSwitching(true);
 
-      const dataInput =
-        rawData && Object.keys(rawData).length > 0
-          ? rawData
-          : {
-              metadata: data.metadata,
-              tree: data.tree,
-              activity: data.activity,
-            };
+    // Flag to track if this effect is still mounted
+    let isMounted = true;
 
-      const processed = activePlugin.processData(dataInput, config);
+    const processAndRender = async () => {
+      try {
+        const config = {
+          ...activePlugin.defaultConfig,
+          timeBin: filters.timeBin,
+          metric: filters.metric,
+          ...currentPluginState,
+          onCellClick: (cell: any) => {
+            // Only handle click if this effect is still active
+            if (isMounted && !controller.signal.aborted) {
+              setSelectedCell(cell);
+            }
+          },
+        };
 
-      // Only proceed with rendering if still mounted
-      if (isMounted) {
-        activePlugin.init(containerRef.current, config);
-        activePlugin.render(processed, config);
-        mainScroll.checkScrollability();
+        const dataInput =
+          rawData && Object.keys(rawData).length > 0
+            ? rawData
+            : {
+                metadata: data.metadata,
+                tree: data.tree,
+                activity: data.activity,
+              };
+
+        // PHASE 2: Use cancellable version if available, fallback to regular
+        let processed;
+        if (activePlugin.processDataCancellable) {
+          console.log(
+            "[App] Using cancellable processData for:",
+            activePlugin.metadata.id,
+          );
+          processed = await activePlugin.processDataCancellable(
+            dataInput,
+            controller.signal,
+            config,
+          );
+        } else {
+          console.log(
+            "[App] Using regular processData (no cancellation) for:",
+            activePlugin.metadata.id,
+          );
+          processed = activePlugin.processData(dataInput, config);
+        }
+
+        // PHASE 2: Only proceed with rendering if not aborted and still mounted
+        if (!controller.signal.aborted && isMounted) {
+          activePlugin.init(containerRef.current!, config);
+          activePlugin.render(processed, config);
+          mainScroll.checkScrollability();
+        } else {
+          console.log("[App] Skipping render - operation was aborted");
+        }
+      } catch (error) {
+        // PHASE 2: Ignore AbortError, log other errors only if still mounted
+        if (error instanceof Error && error.name === "AbortError") {
+          console.log("[App] Processing aborted (expected)");
+        } else if (isMounted && !controller.signal.aborted) {
+          console.error("Error processing/rendering:", error);
+          setError(
+            error instanceof Error
+              ? error.message
+              : "Failed to render visualization",
+          );
+        }
+      } finally {
+        if (!controller.signal.aborted) {
+          setIsSwitching(false);
+        }
       }
-    } catch (error) {
-      // Only set error if still mounted
-      if (isMounted) {
-        console.error("Error processing/rendering:", error);
-        setError(
-          error instanceof Error
-            ? error.message
-            : "Failed to render visualization",
-        );
-      }
-    }
+    };
+
+    processAndRender();
+
+    // PHASE 2: Update previous plugin reference
+    previousPluginRef.current = activePlugin;
 
     return () => {
       // Mark as unmounted to prevent stale updates
       isMounted = false;
 
+      // PHASE 2: Abort operation on unmount
+      controller.abort();
+
+      // Call plugin cleanup (but don't call destroy yet - that happens on plugin switch)
       if (activePlugin) {
-        activePlugin.destroy();
+        activePlugin.cleanup?.();
       }
     };
   }, [
@@ -275,6 +343,7 @@ const App: React.FC = () => {
     setSelectedCell,
     setError,
     mainScroll,
+    isSwitching,
   ]);
 
   // Check if plugin uses new control pattern
