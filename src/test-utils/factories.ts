@@ -452,3 +452,38 @@ export function createEnrichedFileList(count: number = 3): EnrichedFileData[] {
     ),
   ];
 }
+
+
+// ============================================================================
+// COUPLING DATA FACTORIES
+// ============================================================================
+
+/**
+ * Creates mock coupling network data
+ */
+export function createCouplingData(overrides: any = {}) {
+  return {
+    edges: [
+      {
+        source: "src/A.ts",
+        target: "src/B.ts",
+        cochangeCount: 10,
+        couplingStrength: 0.8,
+      },
+      {
+        source: "src/A.ts",
+        target: "src/C.ts",
+        cochangeCount: 5,
+        couplingStrength: 0.4,
+      },
+      {
+        source: "src/B.ts",
+        target: "src/D.ts",
+        cochangeCount: 2,
+        couplingStrength: 0.2,
+      },
+    ],
+    ...overrides,
+  };
+}
+

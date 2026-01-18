@@ -18,6 +18,7 @@ export {
   afterAll,
 } from "vitest";
 
+
 // Mock data factories
 export {
   // Temporal file factories
@@ -36,6 +37,9 @@ export {
   // Temporal data factories
   createTemporalData,
 
+  // Coupling data factories
+  createCouplingData,
+
   // Plugin factories
   createMockPlugin,
   createLegacyPlugin,
@@ -45,6 +49,7 @@ export {
   // Batch factories
   createEnrichedFileList,
 } from "./factories";
+
 
 // Time testing helpers
 export {
