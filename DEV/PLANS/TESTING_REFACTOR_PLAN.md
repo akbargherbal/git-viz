@@ -1,4 +1,5 @@
 # Test Infrastructure Refactoring Plan
+
 ## Git-Viz Project Testing Improvement
 
 **Created:** January 2026  
@@ -56,6 +57,7 @@ git branch
 Each phase will have **multiple atomic commits** following this structure:
 
 #### Phase 1: Foundation Commits
+
 ```bash
 # Commit 1: Project setup
 refactor(test): initialize test-utils directory structure
@@ -83,6 +85,7 @@ git tag -a phase-1-complete -m "Phase 1: Foundation complete - all 144 tests pas
 ```
 
 #### Phase 2: Migration Commits (Per-File Pattern)
+
 ```bash
 # One commit per migrated test file
 refactor(test): migrate DatasetRegistry tests to test-utils
@@ -96,6 +99,7 @@ git tag -a phase-2-complete -m "Phase 2: Migration complete - all tests use test
 ```
 
 #### Phase 3: Advanced Commits (If Implemented)
+
 ```bash
 refactor(test): add custom test matchers
 refactor(test): optimize test performance with thread pool
@@ -117,12 +121,14 @@ Follow **Conventional Commits** specification:
 ```
 
 **Types used in this refactor:**
+
 - `refactor(test):` - Restructuring test code without changing behavior
 - `test:` - Adding or modifying tests
 - `chore(test):` - Tooling/config changes (coverage, scripts)
 - `docs(test):` - Test documentation updates
 
 **Examples:**
+
 ```bash
 # Good commit messages
 refactor(test): add TemporalFileData factory with preset variants
@@ -145,12 +151,13 @@ changes
    - Be revertable independently
 
 2. **Commit After Each Success**
+
    ```bash
    # After creating factories.ts
    git add src/test-utils/factories.ts
    git commit -m "refactor(test): add mock data factories for domain types"
    pnpm test  # Verify still passing
-   
+
    # After creating render.tsx
    git add src/test-utils/render.tsx
    git commit -m "refactor(test): add custom render with provider support"
@@ -184,6 +191,7 @@ git checkout refactor/test-infrastructure
 ```
 
 **Why checkpoints?**
+
 - Easy rollback to any phase: `git checkout checkpoint/phase-1-foundation`
 - Compare phases: `git diff checkpoint/phase-1-foundation checkpoint/phase-2-migration`
 - Safety net if Phase 2+ goes wrong
@@ -191,6 +199,7 @@ git checkout refactor/test-infrastructure
 ### Rollback Procedures
 
 #### Rollback Last Commit
+
 ```bash
 # Undo last commit, keep changes
 git reset --soft HEAD~1
@@ -200,6 +209,7 @@ git reset --hard HEAD~1
 ```
 
 #### Rollback to Phase Start
+
 ```bash
 # See commit history
 git log --oneline
@@ -212,6 +222,7 @@ git reset --hard checkpoint/phase-1-foundation
 ```
 
 #### Rollback Entire Refactor
+
 ```bash
 # Nuclear option - back to main
 git checkout main
@@ -279,48 +290,58 @@ git push origin refactor/test-infrastructure --force-with-lease
 ### Pull Request Guidelines
 
 **PR Title:**
+
 ```
 refactor(test): establish scalable test infrastructure with utilities
 ```
 
 **PR Description Template:**
+
 ```markdown
 ## Summary
+
 Refactors test infrastructure to use centralized utilities, factories, and enhanced setup for improved maintainability and scalability.
 
 ## Changes by Phase
 
 ### Phase 1: Foundation ✅
+
 - Created `src/test-utils/` directory with factories, mocks, helpers
 - Enhanced `setupTests.ts` with global SVG/Canvas mocks
 - Added test coverage and UI scripts
 - Updated configs for `@/test-utils` path alias
 
 ### Phase 2: Migration ✅
+
 - Migrated 11 test files to use test-utils
 - Reduced test code by ~50% (2000+ lines → 1000 lines)
 - Eliminated duplicated mock data
 
 ### Phase 3: Advanced (if completed)
+
 - Added custom matchers
 - Optimized test performance
 - Separated integration tests
 
 ## Test Results
+
 - ✅ All 144 tests passing
 - ✅ Type checking passes
 - ✅ Build successful
 - ✅ Coverage: 75% (up from N/A)
 
 ## Breaking Changes
+
 None - backward compatible refactor
 
 ## Migration Impact
+
 - **Before:** 2000+ lines of duplicated mocks
 - **After:** 295 lines of reusable utilities
 - **Maintenance:** Mock updates now require 1 file change vs 11
 
 ## Checklist
+
 - [x] All tests passing
 - [x] Type checking passes
 - [x] Build successful
@@ -371,6 +392,7 @@ git pull origin <branch-name>          # Pull updates
 ## Current State Analysis
 
 ### Test Suite Snapshot
+
 ```
 Test Files:  11 passed (11)
 Tests:       144 passed (144)
@@ -378,6 +400,7 @@ Duration:    1.91s (transform 1.02s, setup 949ms, tests 605ms)
 ```
 
 ### File Structure
+
 ```
 src/
 ├── setupTests.ts                    # Minimal setup (1 import)
@@ -393,6 +416,7 @@ src/
 ```
 
 ### Technology Stack
+
 - **Test Runner:** Vitest 4.0.17
 - **Component Testing:** @testing-library/react 16.3.1
 - **Assertions:** Vitest + @testing-library/jest-dom 6.9.1
@@ -400,6 +424,7 @@ src/
 - **Build:** Vite 5.0.8 with TypeScript 5.3.3
 
 ### Key Dependencies
+
 ```typescript
 // Path aliases (tsconfig.json & vite.config.ts)
 "@/*": ["src/*"]
@@ -416,6 +441,7 @@ src/
 ## Critical Constraints & Risks
 
 ### ⚠️ MUST PRESERVE
+
 1. **All 144 tests must pass** after each phase
 2. **Existing test file structure** - tests stay co-located
 3. **Import paths** - existing `@/` aliases continue working
@@ -423,12 +449,14 @@ src/
 5. **Type safety** - no `any` types, maintain strict mode
 
 ### 🔴 HIGH-RISK AREAS
+
 1. **D3 Visualizations** - Tests use DOM manipulation, SVG rendering
 2. **Fake Timers** - Multiple tests use `vi.useFakeTimers()`
 3. **Plugin Integration Tests** - Complex state management with DOM
 4. **setupTests.ts** - Changes affect ALL tests globally
 
 ### 🟡 MEDIUM-RISK AREAS
+
 1. **Mock Data Structures** - Used in 50+ places, types may drift
 2. **jsdom Environment** - Tests depend on browser APIs
 3. **Path Resolution** - Test imports use aliases extensively
@@ -436,11 +464,13 @@ src/
 ---
 
 ## Phase 1: Foundation Setup (NO Breaking Changes)
+
 **Estimated Time:** 2-3 hours  
 **Risk:** LOW  
 **Rollback:** Delete new files, no existing code changed
 
 ### Objectives
+
 - Create test utilities infrastructure
 - Establish factory pattern for mock data
 - Add enhanced test setup
@@ -464,6 +494,7 @@ git status
 
 **Git Checkpoint: Project Structure**
 **Files to Create:**
+
 ```
 src/
 └── test-utils/
@@ -475,11 +506,13 @@ src/
 ```
 
 #### Step 1.2: Factory Implementation
+
 **File:** `src/test-utils/factories.ts`
 
 **Purpose:** Eliminate duplicated mock data across 11 test files
 
 **Current Pain Point:**
+
 ```typescript
 // This exact pattern appears in 3+ test files
 const mockActiveFile: TemporalFileData = {
@@ -493,6 +526,7 @@ const mockActiveFile: TemporalFileData = {
 ```
 
 **Solution Pattern:**
+
 ```typescript
 import { TemporalFileData } from "@/services/data/TemporalDataProcessor";
 
@@ -501,7 +535,7 @@ import { TemporalFileData } from "@/services/data/TemporalDataProcessor";
  * Used across: TimeView.test.tsx, TreemapExplorer.test.ts
  */
 export const createMockTemporalFile = (
-  overrides?: Partial<TemporalFileData>
+  overrides?: Partial<TemporalFileData>,
 ): TemporalFileData => ({
   // Default active file
   key: "src/components/Button.tsx",
@@ -535,7 +569,7 @@ export const createMockTemporalFile = (
  * Used in: TimeView.test.tsx (3 tests), TreemapExplorer.test.ts
  */
 export const createDormantFile = (
-  overrides?: Partial<TemporalFileData>
+  overrides?: Partial<TemporalFileData>,
 ): TemporalFileData =>
   createMockTemporalFile({
     key: "src/legacy/OldUtils.ts",
@@ -567,7 +601,7 @@ export const createDormantFile = (
 export const createMockFileIndex = (overrides?: {
   files?: Array<Partial<TemporalFileData>>;
 }) => ({
-  files: overrides?.files?.map(f => createMockTemporalFile(f)) || [
+  files: overrides?.files?.map((f) => createMockTemporalFile(f)) || [
     createMockTemporalFile(),
   ],
 });
@@ -596,7 +630,7 @@ export const createMockTemporalData = () => ({
  * Used in: TreemapExplorer tests (21 tests)
  */
 export const createMockTreemapState = (
-  overrides?: Partial<TreemapExplorerState>
+  overrides?: Partial<TreemapExplorerState>,
 ): TreemapExplorerState => ({
   lensMode: "time",
   sizeMetric: "commits",
@@ -615,6 +649,7 @@ export const createMockTreemapState = (
 ```
 
 **Types to Import:**
+
 ```typescript
 // From existing codebase
 import { TemporalFileData } from "@/services/data/TemporalDataProcessor";
@@ -622,6 +657,7 @@ import { TreemapExplorerState } from "@/plugins/treemap-explorer/types";
 ```
 
 **Commit Checkpoint:**
+
 ```bash
 # After creating factories.ts
 git add src/test-utils/factories.ts
@@ -639,14 +675,17 @@ pnpm test
 ```
 
 #### Step 1.3: Enhanced setupTests.ts
+
 **File:** `src/setupTests.ts`
 
 **Current Content:**
+
 ```typescript
 import "@testing-library/jest-dom";
 ```
 
 **New Content:**
+
 ```typescript
 import "@testing-library/jest-dom";
 import { cleanup } from "@testing-library/react";
@@ -701,7 +740,7 @@ HTMLCanvasElement.prototype.getContext = vi.fn(() => ({
 // Mock SVG methods (required for D3 treemap/timeline)
 // Used by: All treemap-explorer tests, timeline-heatmap tests
 // -----------------------------------------------------------------------------
-Object.defineProperty(SVGElement.prototype, 'getBBox', {
+Object.defineProperty(SVGElement.prototype, "getBBox", {
   writable: true,
   value: vi.fn().mockReturnValue({
     x: 0,
@@ -711,7 +750,7 @@ Object.defineProperty(SVGElement.prototype, 'getBBox', {
   }),
 });
 
-Object.defineProperty(SVGElement.prototype, 'getComputedTextLength', {
+Object.defineProperty(SVGElement.prototype, "getComputedTextLength", {
   writable: true,
   value: vi.fn().mockReturnValue(100),
 });
@@ -745,7 +784,7 @@ global.ResizeObserver = class ResizeObserver {
 // Mock window.matchMedia (used by responsive UI)
 // Used by: Component tests checking mobile/desktop views
 // -----------------------------------------------------------------------------
-Object.defineProperty(window, 'matchMedia', {
+Object.defineProperty(window, "matchMedia", {
   writable: true,
   value: vi.fn().mockImplementation((query) => ({
     matches: false,
@@ -778,6 +817,7 @@ afterAll(() => {
 ```
 
 **Commit Checkpoint:**
+
 ```bash
 git add src/setupTests.ts
 git commit -m "refactor(test): enhance setupTests with global mocks
@@ -799,6 +839,7 @@ pnpm test  # Verify: ✓ 144 tests passing
 ```
 
 #### Step 1.4: Custom Render Utility
+
 **File:** `src/test-utils/render.tsx`
 
 **Purpose:** Future-proof render function that can add providers
@@ -809,11 +850,11 @@ import { render, RenderOptions } from "@testing-library/react";
 
 /**
  * Custom render function with future provider support
- * 
+ *
  * Usage (backward compatible):
  *   import { render } from "@/test-utils";
  *   render(<MyComponent />);
- * 
+ *
  * Future with providers:
  *   render(<MyComponent />, { withStore: true });
  */
@@ -825,7 +866,7 @@ interface CustomRenderOptions extends Omit<RenderOptions, "wrapper"> {
 
 export function renderWithProviders(
   ui: ReactElement,
-  options?: CustomRenderOptions
+  options?: CustomRenderOptions,
 ) {
   // Currently no wrapper, but structure is ready
   // Future: Wrap with providers based on options
@@ -840,6 +881,7 @@ export { renderWithProviders as render };
 ```
 
 **Commit Checkpoint:**
+
 ```bash
 git add src/test-utils/render.tsx
 git commit -m "refactor(test): add custom render with provider support
@@ -853,6 +895,7 @@ pnpm test  # Verify: ✓ 144 tests passing
 ```
 
 #### Step 1.5: Shared Mocks
+
 **File:** `src/test-utils/mocks.ts`
 
 ```typescript
@@ -862,10 +905,7 @@ import { vi } from "vitest";
  * Mock DOM container for plugin tests
  * Used by: TreemapExplorer, TimelineHeatmap integration tests
  */
-export const createMockContainer = (
-  width = 800,
-  height = 600
-): HTMLElement => {
+export const createMockContainer = (width = 800, height = 600): HTMLElement => {
   const container = document.createElement("div");
   container.style.width = `${width}px`;
   container.style.height = `${height}px`;
@@ -890,18 +930,19 @@ export const createMockFetch = (data: any) => {
     Promise.resolve({
       ok: true,
       json: () => Promise.resolve(data),
-    })
+    }),
   ) as any;
 };
 
 /**
  * Utility to wait for async operations
  */
-export const waitForAsync = () => 
+export const waitForAsync = () =>
   new Promise((resolve) => setTimeout(resolve, 0));
 ```
 
 **Commit Checkpoint:**
+
 ```bash
 git add src/test-utils/mocks.ts
 git commit -m "refactor(test): add shared test mocks and helpers
@@ -915,6 +956,7 @@ pnpm test  # Verify: ✓ 144 tests passing
 ```
 
 #### Step 1.6: Test Helpers
+
 **File:** `src/test-utils/helpers.ts`
 
 ```typescript
@@ -925,13 +967,13 @@ pnpm test  # Verify: ✓ 144 tests passing
 export const testDates = {
   /** Fixed reference date for tests */
   reference: new Date("2026-01-17"),
-  
+
   /** Old date for dormant files */
   dormant: new Date("2023-08-20"),
-  
+
   /** Recent date for active files */
   recent: new Date("2026-01-10"),
-  
+
   /** Format for ISO strings */
   toISO: (date: Date) => date.toISOString().split("T")[0],
 };
@@ -950,7 +992,7 @@ export const daysBetween = (start: Date, end: Date): number => {
 export const assertIncludes = <T>(
   array: T[],
   predicate: (item: T) => boolean,
-  message?: string
+  message?: string,
 ) => {
   const found = array.some(predicate);
   if (!found) {
@@ -960,6 +1002,7 @@ export const assertIncludes = <T>(
 ```
 
 **Commit Checkpoint:**
+
 ```bash
 git add src/test-utils/helpers.ts
 git commit -m "refactor(test): add time and assertion test helpers
@@ -973,12 +1016,13 @@ pnpm test  # Verify: ✓ 144 tests passing
 ```
 
 #### Step 1.7: Main Export
+
 **File:** `src/test-utils/index.ts`
 
 ```typescript
 /**
  * Test Utilities Entry Point
- * 
+ *
  * Import everything you need:
  *   import { render, createMockTemporalFile } from "@/test-utils";
  */
@@ -990,6 +1034,7 @@ export * from "./helpers";
 ```
 
 **Commit Checkpoint:**
+
 ```bash
 git add src/test-utils/index.ts
 git commit -m "refactor(test): add test-utils main export
@@ -1002,15 +1047,17 @@ pnpm test  # Verify: ✓ 144 tests passing
 ```
 
 #### Step 1.8: Update tsconfig.json
+
 **File:** `tsconfig.json`
 
 **Add path alias:**
+
 ```json
 {
   "compilerOptions": {
     "paths": {
       "@/*": ["src/*"],
-      "@/test-utils": ["src/test-utils"],  // ← ADD THIS
+      "@/test-utils": ["src/test-utils"] // ← ADD THIS
       // ... existing paths
     }
   }
@@ -1018,15 +1065,17 @@ pnpm test  # Verify: ✓ 144 tests passing
 ```
 
 #### Step 1.9: Update vite.config.ts
+
 **File:** `vite.config.ts`
 
 **Add alias:**
+
 ```typescript
 export default defineConfig({
   resolve: {
     alias: {
-      '@': path.resolve(__dirname, './src'),
-      '@/test-utils': path.resolve(__dirname, './src/test-utils'),  // ← ADD THIS
+      "@": path.resolve(__dirname, "./src"),
+      "@/test-utils": path.resolve(__dirname, "./src/test-utils"), // ← ADD THIS
       // ... existing aliases
     },
   },
@@ -1034,6 +1083,7 @@ export default defineConfig({
 ```
 
 **Commit Checkpoint:**
+
 ```bash
 git add tsconfig.json vite.config.ts
 git commit -m "refactor(test): configure test-utils path alias
@@ -1051,9 +1101,11 @@ pnpm test  # Expected: ✓ 144 tests passing
 ```
 
 #### Step 1.10: Add Coverage Scripts
+
 **File:** `package.json`
 
 **Add to scripts:**
+
 ```json
 {
   "scripts": {
@@ -1066,11 +1118,13 @@ pnpm test  # Expected: ✓ 144 tests passing
 ```
 
 **Add dependencies:**
+
 ```bash
 pnpm add -D @vitest/ui @vitest/coverage-v8
 ```
 
 **Commit Checkpoint:**
+
 ```bash
 # After adding dependencies
 git add package.json pnpm-lock.yaml
@@ -1121,10 +1175,10 @@ pnpm type-check
 # Create temporary test file
 cat > src/test-utils/__verify__.test.ts << 'EOF'
 import { describe, it, expect } from "vitest";
-import { 
-  createMockTemporalFile, 
+import {
+  createMockTemporalFile,
   createDormantFile,
-  render 
+  render
 } from "@/test-utils";
 
 describe("Test Utils Verification", () => {
@@ -1132,7 +1186,7 @@ describe("Test Utils Verification", () => {
     const file = createMockTemporalFile();
     expect(file.key).toBeDefined();
   });
-  
+
   it("should import presets", () => {
     const file = createDormantFile();
     expect(file.isDormant).toBe(true);
@@ -1219,6 +1273,7 @@ Before proceeding to Phase 2, verify:
 **If ANY checkbox is unchecked, DO NOT proceed to Phase 2. Fix issues first.**
 
 ### Rollback Plan for Phase 1
+
 ```bash
 # Delete new directory
 rm -rf src/test-utils
@@ -1233,6 +1288,7 @@ pnpm test
 ---
 
 ## Phase 2: Incremental Migration (One Test at a Time)
+
 **Estimated Time:** 4-6 hours  
 **Risk:** LOW  
 **Rollback:** Each file migrated independently
@@ -1252,6 +1308,7 @@ git tag -l
 ```
 
 ### Objectives
+
 - Migrate one test file at a time
 - Validate no behavior changes
 - Establish migration pattern
@@ -1260,26 +1317,32 @@ git tag -l
 ### Migration Order (Low Risk → High Risk)
 
 #### Priority 1: Simple Unit Tests (START HERE)
+
 1. ✅ `src/services/data/__tests__/DatasetRegistry.test.ts` - No mocks needed
 2. ✅ `src/plugins/core/__tests__/PluginRegistry.test.ts` - Simple plugin mocks
 3. ✅ `src/plugins/treemap-explorer/utils/__tests__/colorScales.coupling.test.ts` - Pure functions
 
 #### Priority 2: Component Tests with Mock Data
+
 4. ✅ `src/plugins/treemap-explorer/components/__tests__/TimeView.test.tsx` - Uses mock files (GOOD CANDIDATE)
 5. ✅ `src/plugins/treemap-explorer/components/__tests__/CouplingView.test.tsx` - Similar pattern
 6. ✅ `src/plugins/treemap-explorer/components/__tests__/TimelineScrubber.test.tsx` - UI component
 
 #### Priority 3: Data Processing Tests
+
 7. ✅ `src/services/data/__tests__/TemporalDataProcessor.test.ts` - Uses temporal data
 8. ✅ `src/services/data/__tests__/CouplingDataProcessor.test.ts` - Uses network data
 
 #### Priority 4: State Management
+
 9. ✅ `src/store/__tests__/appStore.pluginState.test.ts` - Complex state
 
 #### Priority 5: Complex Rendering
+
 10. ✅ `src/plugins/treemap-explorer/renderers/__tests__/CouplingArcRenderer.test.ts` - SVG rendering
 
 #### Priority 6: Integration Test (HIGHEST RISK)
+
 11. ✅ `src/plugins/treemap-explorer/__tests__/TreemapExplorer.TimeLens.integration.test.ts` - Full plugin
 
 ### Migration Pattern (Step-by-Step)
@@ -1287,6 +1350,7 @@ git tag -l
 **Example: Migrating TimeView.test.tsx**
 
 #### Before (Current State)
+
 ```typescript
 // src/plugins/treemap-explorer/components/__tests__/TimeView.test.tsx
 import { render, screen } from "@testing-library/react";
@@ -1299,7 +1363,7 @@ const mockActiveFile: TemporalFileData = {
 
 const mockDormantFile: TemporalFileData = {
   key: "src/legacy/OldUtils.ts",
-  // ... 20+ lines  
+  // ... 20+ lines
 };
 
 describe("TimeView", () => {
@@ -1316,13 +1380,14 @@ describe("TimeView", () => {
 ```
 
 #### After (Migrated)
+
 ```typescript
 // src/plugins/treemap-explorer/components/__tests__/TimeView.test.tsx
 import { render, screen } from "@/test-utils"; // ← Changed import
-import { 
-  createMockTemporalFile, 
+import {
+  createMockTemporalFile,
   createDormantFile,
-  testDates 
+  testDates
 } from "@/test-utils"; // ← Use factories
 
 describe("TimeView", () => {
@@ -1358,36 +1423,41 @@ describe("TimeView", () => {
 
 For EACH test file, follow this workflow:
 
-```markdown
+````markdown
 ## Migrating: [filename]
 
 ### Pre-Migration
+
 - [ ] **BACKUP**: `cp [filename] [filename].backup`
 - [ ] **ANALYZE**: Identify duplicated mock data patterns
 - [ ] **PLAN**: List which factories/helpers to use
 
 ### Migration
+
 - [ ] **IMPORT**: Add `import { ... } from "@/test-utils"`
 - [ ] **REPLACE**: Swap inline mocks with factories
 - [ ] **SIMPLIFY**: Remove now-unnecessary beforeEach/afterEach
 - [ ] **VERIFY SYNTAX**: Check for TypeScript errors in IDE
 
 ### Testing
+
 - [ ] **RUN FILE**: `pnpm vitest [filename] --run`
 - [ ] **ASSERT**: All tests in file passing (same count)
 - [ ] **RUN SUITE**: `pnpm test`
 - [ ] **ASSERT**: All 144 tests still passing
 
 ### Git Commit
+
 - [ ] **STAGE**: `git add [filename]`
 - [ ] **COMMIT**: Use conventional format (see below)
 - [ ] **VERIFY**: `git show HEAD` looks correct
 - [ ] **DELETE BACKUP**: `rm [filename].backup`
 
 ### Measurements
+
 - **Before:** [X] lines
-- **After:** [Y] lines  
-- **Reduction:** [Z]% = ((X-Y)/X * 100)
+- **After:** [Y] lines
+- **Reduction:** [Z]% = ((X-Y)/X \* 100)
 - **Tests:** [N] passing ✅
 - **Commit hash:** [abc123]
 
@@ -1405,6 +1475,7 @@ Before: [X] lines
 After: [Y] lines
 Tests: [N] passing ✅
 ```
+````
 
 ## Example Commit Messages
 
@@ -1439,6 +1510,7 @@ Tests: 5 passing ✅
 Create a helper script to validate each migration:
 
 **File:** `scripts/validate-test-migration.sh`
+
 ```bash
 #!/bin/bash
 # Usage: ./scripts/validate-test-migration.sh src/path/to/test.ts
@@ -1560,6 +1632,7 @@ Before proceeding to Phase 3 (or merging to main), verify:
 ---
 
 ## Phase 3: Advanced Patterns (Optional)
+
 **Estimated Time:** 2-3 hours  
 **Risk:** MEDIUM  
 **Prerequisites:** Phase 1 & 2 complete
@@ -1578,6 +1651,7 @@ git tag -l
 ```
 
 ### Objectives
+
 - Add missing test types
 - Create custom matchers
 - Improve test performance
@@ -1636,11 +1710,13 @@ expect.extend({
 ```
 
 **Add to setupTests.ts:**
+
 ```typescript
 import "@/test-utils/matchers";
 ```
 
 **Commit Checkpoint:**
+
 ```bash
 # After creating matchers.ts
 git add src/test-utils/matchers.ts
@@ -1677,7 +1753,7 @@ export default defineConfig({
     globals: true,
     environment: "jsdom",
     setupFiles: "./src/setupTests.ts",
-    
+
     // Performance optimizations
     pool: "threads",
     poolOptions: {
@@ -1687,11 +1763,11 @@ export default defineConfig({
         maxThreads: 4,
       },
     },
-    
+
     // Separate slow tests
     include: ["src/**/__tests__/**/*.test.{ts,tsx}"],
     exclude: ["src/**/__tests__/**/*.integration.test.{ts,tsx}"],
-    
+
     // Coverage configuration
     coverage: {
       provider: "v8",
@@ -1715,6 +1791,7 @@ export default defineConfig({
 ```
 
 **Commit Checkpoint:**
+
 ```bash
 git add vitest.config.ts
 git commit -m "chore(test): optimize test performance with thread pool
@@ -1756,6 +1833,7 @@ export default defineConfig({
 ```
 
 **Add scripts:**
+
 ```json
 {
   "scripts": {
@@ -1767,6 +1845,7 @@ export default defineConfig({
 ```
 
 **Commit Checkpoints:**
+
 ```bash
 # After creating vitest.integration.config.ts
 git add vitest.integration.config.ts
@@ -1873,6 +1952,7 @@ git push origin checkpoint/phase-3-advanced
 ## Success Metrics
 
 ### Quantitative Goals
+
 - [ ] All 144 tests passing after each phase
 - [ ] 50% reduction in test code lines
 - [ ] <2s total test duration maintained
@@ -1880,6 +1960,7 @@ git push origin checkpoint/phase-3-advanced
 - [ ] Zero new TypeScript errors
 
 ### Qualitative Goals
+
 - [ ] New tests take <5 min to write
 - [ ] Mock data changes in 1 place
 - [ ] Test failures are obvious
@@ -1892,11 +1973,13 @@ git push origin checkpoint/phase-3-advanced
 ### Issue: Tests fail after adding test-utils
 
 **Symptoms:**
+
 ```
 Error: Cannot find module '@/test-utils'
 ```
 
 **Solution:**
+
 ```bash
 # Verify tsconfig.json paths section
 # Verify vite.config.ts alias section
@@ -1906,11 +1989,13 @@ Error: Cannot find module '@/test-utils'
 ### Issue: Mock data types don't match
 
 **Symptoms:**
+
 ```
 Type 'MockData' is not assignable to type 'RealData'
 ```
 
 **Solution:**
+
 ```typescript
 // In factories.ts, import REAL types
 import { TemporalFileData } from "@/services/data/TemporalDataProcessor";
@@ -1922,11 +2007,13 @@ import { TemporalFileData } from "@/services/data/TemporalDataProcessor";
 ### Issue: Fake timers break after migration
 
 **Symptoms:**
+
 ```
 Tests timeout or dates are wrong
 ```
 
 **Solution:**
+
 ```typescript
 // Each test file must still manage its own timers
 beforeEach(() => {
@@ -1942,11 +2029,13 @@ afterEach(() => {
 ### Issue: SVG tests fail with "getBBox is not a function"
 
 **Symptoms:**
+
 ```
 TypeError: element.getBBox is not a function
 ```
 
 **Solution:**
+
 ```typescript
 // Ensure setupTests.ts is loaded
 // Check vite.config.ts has: setupFiles: './src/setupTests.ts'
@@ -1955,11 +2044,13 @@ TypeError: element.getBBox is not a function
 ### Issue: Tests slower after migration
 
 **Symptoms:**
+
 ```
 Duration increased from 1.9s to 3.5s
 ```
 
 **Solution:**
+
 ```typescript
 // Don't call factories in describe blocks
 // ❌ Bad
@@ -1967,7 +2058,7 @@ describe("Tests", () => {
   const file = createMockTemporalFile(); // Runs before every test
 });
 
-// ✅ Good  
+// ✅ Good
 describe("Tests", () => {
   it("test", () => {
     const file = createMockTemporalFile(); // Runs only when needed
@@ -1980,6 +2071,7 @@ describe("Tests", () => {
 ## Reference Material for Next Session
 
 ### Key Files to Have Open
+
 1. `src/setupTests.ts` - Current baseline
 2. `src/plugins/treemap-explorer/components/__tests__/TimeView.test.tsx` - Example with mock data
 3. `src/plugins/treemap-explorer/__tests__/TreemapExplorer.TimeLens.integration.test.ts` - Complex integration
@@ -1987,6 +2079,7 @@ describe("Tests", () => {
 5. `vite.config.ts` - Build config
 
 ### Type Definitions to Reference
+
 ```typescript
 // Core domain types
 import { TemporalFileData } from "@/services/data/TemporalDataProcessor";
@@ -1999,6 +2092,7 @@ import { Mock } from "vitest";
 ```
 
 ### Commands to Run Frequently
+
 ```bash
 # Run all tests
 pnpm test
@@ -2024,32 +2118,40 @@ pnpm type-check && pnpm test
 ## Decision Log
 
 ### Why Co-locate Tests?
+
 **Decision:** Keep `__tests__` folders next to source code  
 **Reasoning:**
+
 - Already established pattern (11 test files)
 - Easier to find related tests
 - Less refactoring needed
 - Industry standard for component tests
 
 ### Why Factory Pattern?
+
 **Decision:** Use factory functions, not classes  
 **Reasoning:**
+
 - Simpler API: `createMockX()`
 - TypeScript-friendly with overrides
 - No inheritance complexity
 - Easier to extend
 
 ### Why Not Jest?
+
 **Decision:** Keep Vitest  
 **Reasoning:**
+
 - Already configured and working
 - Faster than Jest
 - Better Vite integration
 - Same API as Jest (easy migration later if needed)
 
 ### Why Incremental Migration?
+
 **Decision:** Migrate one file at a time  
 **Reasoning:**
+
 - Zero risk of breaking everything
 - Easy to rollback individual files
 - Learn patterns with low stakes
@@ -2060,34 +2162,41 @@ pnpm type-check && pnpm test
 ## Post-Refactor Maintenance
 
 ### Monthly Tasks
+
 - [ ] Review test factories for unused code
 - [ ] Update factories when types change
 - [ ] Check test duration (should stay <3s)
 - [ ] Review coverage reports
 
 ### When Adding New Features
+
 - [ ] Create factory in `test-utils/factories.ts` if new domain type
 - [ ] Add test in appropriate `__tests__/` folder
 - [ ] Use factories instead of inline mocks
 - [ ] Maintain >70% coverage
 
 ### When Onboarding New Developers
+
 Share this checklist:
-```markdown
+
+````markdown
 ## Testing Quick Start
 
 1. **Writing a test:**
+
    ```typescript
    import { render, createMockTemporalFile } from "@/test-utils";
-   
+
    it("test name", () => {
      const file = createMockTemporalFile({ dormantDays: 100 });
      render(<MyComponent file={file} />);
      expect(screen.getByText("100 days")).toBeInTheDocument();
    });
    ```
+````
 
 2. **Run tests:**
+
    ```bash
    pnpm test           # All tests
    pnpm test:watch     # Watch mode
@@ -2103,6 +2212,7 @@ Share this checklist:
 
 4. **Test location:**
    - Co-locate: `src/components/MyComponent.tsx` → `src/components/__tests__/MyComponent.test.tsx`
+
 ```
 
 ---
@@ -2111,30 +2221,36 @@ Share this checklist:
 
 ### New Files Created (Phase 1)
 ```
+
 src/test-utils/
-├── index.ts              # 10 lines - Main export
-├── factories.ts          # 150 lines - Mock data factories
-├── render.tsx           # 25 lines - Custom render
-├── mocks.ts             # 40 lines - Shared mocks
-├── helpers.ts           # 30 lines - Test helpers
-└── matchers.ts          # 40 lines - Custom matchers (Phase 3)
+├── index.ts # 10 lines - Main export
+├── factories.ts # 150 lines - Mock data factories
+├── render.tsx # 25 lines - Custom render
+├── mocks.ts # 40 lines - Shared mocks
+├── helpers.ts # 30 lines - Test helpers
+└── matchers.ts # 40 lines - Custom matchers (Phase 3)
 
 Total: ~295 lines of reusable code
 Replaces: ~2000+ lines of duplicated mocks across tests
+
 ```
 
 ### Modified Files (Phase 1)
 ```
-src/setupTests.ts        # 20 → 120 lines (100 added)
-tsconfig.json            # 1 line added to paths
-vite.config.ts           # 1 line added to alias
-package.json             # 4 scripts added, 2 deps added
+
+src/setupTests.ts # 20 → 120 lines (100 added)
+tsconfig.json # 1 line added to paths
+vite.config.ts # 1 line added to alias
+package.json # 4 scripts added, 2 deps added
+
 ```
 
 ### Files to Migrate (Phase 2)
 ```
+
 11 test files × ~10 min each = 110 min = ~2 hours
-```
+
+````
 
 ---
 
@@ -2226,7 +2342,7 @@ git diff main --stat
 
 # Check for uncommitted work
 git status
-```
+````
 
 ### Visualization of Git History
 
@@ -2247,6 +2363,7 @@ main
 ### Expected Git Log After Each Phase
 
 **After Phase 1:**
+
 ```bash
 $ git log --oneline main..HEAD
 
@@ -2261,6 +2378,7 @@ vwx9012 refactor(test): add mock data factories for domain types
 ```
 
 **After Phase 2 (11 more commits):**
+
 ```bash
 $ git log --oneline phase-1-complete..HEAD
 
@@ -2278,6 +2396,7 @@ efg0123 refactor(test): migrate DatasetRegistry tests to test-utils
 ```
 
 **After Phase 3 (5 more commits):**
+
 ```bash
 $ git log --oneline phase-2-complete..HEAD
 
@@ -2296,6 +2415,7 @@ mno7890 test: add custom matchers for file state assertions
 - **Total:** ~24 atomic commits
 
 Each commit is:
+
 - ✅ Independently revertable
 - ✅ Passes all tests
 - ✅ Has descriptive message
@@ -2322,6 +2442,7 @@ When you start the next session, provide this context:
 1. **This plan document** (TESTING_REFACTOR_PLAN.md)
 
 2. **Current git status:**
+
 ```bash
 git branch  # Which branch?
 git tag -l  # Which phase complete?
@@ -2330,12 +2451,14 @@ git log --oneline main..HEAD | wc -l  # How many commits?
 ```
 
 3. **Current test output:**
+
 ```bash
 pnpm test
 # Copy the summary line
 ```
 
 4. **Where you are in the plan:**
+
 - [ ] Not started → Begin with Phase 1
 - [ ] Phase 1 complete → Begin Phase 2
 - [ ] Phase 2 complete → Begin Phase 3 or merge
@@ -2368,13 +2491,15 @@ Ready to proceed!
 ### If Something Goes Wrong
 
 Provide:
+
 1. Error message (full output)
 2. Which step you were on
 3. Current git status
 4. Last successful commit hash
 5. Test output before the error
 
-**Remember:** 
+**Remember:**
+
 - We have checkpoint branches for easy rollback
 - Every commit should pass tests
 - Take it slow, test frequently, commit often
