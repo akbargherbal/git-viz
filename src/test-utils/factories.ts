@@ -487,3 +487,45 @@ export function createCouplingData(overrides: any = {}) {
   };
 }
 
+
+
+
+// ============================================================================
+// DATASET FACTORIES
+// ============================================================================
+
+/**
+ * Factory for file_index dataset structure
+ */
+export const createMockFileIndex = (overrides?: {
+  files?: Array<Partial<TemporalFileData>>;
+}) => ({
+  files: overrides?.files?.map(f => createTemporalFile(f)) || [
+    createTemporalFile(),
+  ],
+});
+
+// ============================================================================
+// STATE FACTORIES
+// ============================================================================
+
+/**
+ * Factory for TreemapExplorerState
+ */
+export const createMockTreemapState = (
+  overrides?: Partial<any> // Using any to avoid circular dependency with plugin types
+): any => ({
+  lensMode: "time",
+  sizeMetric: "commits",
+  selectedFile: null,
+  healthThreshold: 50,
+  couplingThreshold: 0.03,
+  showArcs: true,
+  timePosition: 100,
+  playing: false,
+  timeFilters: {
+    showCreations: false,
+    fadeDormant: true,
+  },
+  ...overrides,
+});

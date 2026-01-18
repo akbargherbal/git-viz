@@ -18,6 +18,7 @@ export {
   afterAll,
 } from "vitest";
 
+
 // Mock data factories
 export {
   // Temporal file factories
@@ -47,7 +48,14 @@ export {
 
   // Batch factories
   createEnrichedFileList,
+
+  // Dataset factories
+  createMockFileIndex,
+
+  // State factories
+  createMockTreemapState,
 } from "./factories";
+
 
 // Shared mocks
 export {
