@@ -1,88 +1,12 @@
 // src/plugins/core/__tests__/PluginRegistry.test.ts
-
-import { describe, it, expect, beforeEach, vi } from "vitest";
+import { describe, it, expect, beforeEach } from "@/test-utils";
 import { PluginRegistry } from "../PluginRegistry";
-import { VisualizationPlugin, PluginDataRequirement } from "@/types/plugin";
-
-// Mock plugin for testing
-class MockPlugin implements VisualizationPlugin {
-  metadata = {
-    id: "mock-plugin",
-    name: "Mock Plugin",
-    description: "Test plugin",
-    version: "1.0.0",
-    priority: 1,
-    dataRequirements: [
-      {
-        dataset: "temporal_monthly",
-        required: true,
-      },
-      {
-        dataset: "file_index",
-        required: false,
-        alias: "files",
-      },
-    ] as PluginDataRequirement[],
-  };
-
-  defaultConfig = { width: 800, height: 600 };
-
-  init = vi.fn();
-  processData = vi.fn();
-  render = vi.fn();
-  update = vi.fn();
-  destroy = vi.fn();
-  exportImage = vi.fn();
-  exportData = vi.fn();
-}
-
-// Plugin with no data requirements
-class LegacyPlugin implements VisualizationPlugin {
-  metadata = {
-    id: "legacy-plugin",
-    name: "Legacy Plugin",
-    description: "Plugin without data requirements",
-    version: "1.0.0",
-    priority: 2,
-  };
-
-  defaultConfig = {};
-
-  init = vi.fn();
-  processData = vi.fn();
-  render = vi.fn();
-  update = vi.fn();
-  destroy = vi.fn();
-  exportImage = vi.fn();
-  exportData = vi.fn();
-}
-
-// Plugin with invalid dataset
-class InvalidPlugin implements VisualizationPlugin {
-  metadata = {
-    id: "invalid-plugin",
-    name: "Invalid Plugin",
-    description: "Plugin with missing dataset",
-    version: "1.0.0",
-    priority: 3,
-    dataRequirements: [
-      {
-        dataset: "nonexistent_dataset",
-        required: true,
-      },
-    ] as PluginDataRequirement[],
-  };
-
-  defaultConfig = {};
-
-  init = vi.fn();
-  processData = vi.fn();
-  render = vi.fn();
-  update = vi.fn();
-  destroy = vi.fn();
-  exportImage = vi.fn();
-  exportData = vi.fn();
-}
+import {
+  createMockPlugin,
+  createLegacyPlugin,
+  createInvalidPlugin,
+  createPluginWithOptionalMissing,
+} from "@/test-utils";
 
 describe("PluginRegistry - Enhanced Data Requirements", () => {
   beforeEach(() => {
@@ -91,7 +15,7 @@ describe("PluginRegistry - Enhanced Data Requirements", () => {
 
   describe("getDataRequirements", () => {
     it("should return data requirements for a registered plugin", () => {
-      const plugin = new MockPlugin();
+      const plugin = createMockPlugin();
       PluginRegistry.register(plugin);
 
       const requirements = PluginRegistry.getDataRequirements("mock-plugin");
@@ -104,7 +28,7 @@ describe("PluginRegistry - Enhanced Data Requirements", () => {
     });
 
     it("should return empty array for plugin without requirements", () => {
-      const plugin = new LegacyPlugin();
+      const plugin = createLegacyPlugin();
       PluginRegistry.register(plugin);
 
       const requirements = PluginRegistry.getDataRequirements("legacy-plugin");
@@ -121,7 +45,7 @@ describe("PluginRegistry - Enhanced Data Requirements", () => {
 
   describe("validateDataAvailability", () => {
     it("should validate plugin with all datasets available", async () => {
-      const plugin = new MockPlugin();
+      const plugin = createMockPlugin();
       PluginRegistry.register(plugin);
 
       const validation =
@@ -135,7 +59,7 @@ describe("PluginRegistry - Enhanced Data Requirements", () => {
     });
 
     it("should detect missing required datasets", async () => {
-      const plugin = new InvalidPlugin();
+      const plugin = createInvalidPlugin();
       PluginRegistry.register(plugin);
 
       const validation =
@@ -148,37 +72,7 @@ describe("PluginRegistry - Enhanced Data Requirements", () => {
     });
 
     it("should mark plugin as valid if only optional datasets are missing", async () => {
-      // Create plugin with only optional missing dataset
-      class OptionalMissingPlugin implements VisualizationPlugin {
-        metadata = {
-          id: "optional-missing",
-          name: "Optional Missing",
-          description: "Test",
-          version: "1.0.0",
-          priority: 1,
-          dataRequirements: [
-            {
-              dataset: "temporal_monthly",
-              required: true,
-            },
-            {
-              dataset: "nonexistent_optional",
-              required: false,
-            },
-          ] as PluginDataRequirement[],
-        };
-
-        defaultConfig = {};
-        init = vi.fn();
-        processData = vi.fn();
-        render = vi.fn();
-        update = vi.fn();
-        destroy = vi.fn();
-        exportImage = vi.fn();
-        exportData = vi.fn();
-      }
-
-      const plugin = new OptionalMissingPlugin();
+      const plugin = createPluginWithOptionalMissing();
       PluginRegistry.register(plugin);
 
       const validation =
@@ -190,7 +84,7 @@ describe("PluginRegistry - Enhanced Data Requirements", () => {
     });
 
     it("should handle plugin without data requirements", async () => {
-      const plugin = new LegacyPlugin();
+      const plugin = createLegacyPlugin();
       PluginRegistry.register(plugin);
 
       const validation =
@@ -213,8 +107,8 @@ describe("PluginRegistry - Enhanced Data Requirements", () => {
 
   describe("getPluginsByDataset", () => {
     it("should return plugins that use a specific dataset", () => {
-      const plugin1 = new MockPlugin();
-      const plugin2 = new LegacyPlugin();
+      const plugin1 = createMockPlugin();
+      const plugin2 = createLegacyPlugin();
 
       PluginRegistry.register(plugin1);
       PluginRegistry.register(plugin2);
@@ -226,7 +120,7 @@ describe("PluginRegistry - Enhanced Data Requirements", () => {
     });
 
     it("should return empty array if no plugins use the dataset", () => {
-      const plugin = new LegacyPlugin();
+      const plugin = createLegacyPlugin();
       PluginRegistry.register(plugin);
 
       const plugins = PluginRegistry.getPluginsByDataset("temporal_monthly");
@@ -235,7 +129,7 @@ describe("PluginRegistry - Enhanced Data Requirements", () => {
     });
 
     it("should find plugins using optional datasets", () => {
-      const plugin = new MockPlugin();
+      const plugin = createMockPlugin();
       PluginRegistry.register(plugin);
 
       const plugins = PluginRegistry.getPluginsByDataset("file_index");
@@ -247,8 +141,8 @@ describe("PluginRegistry - Enhanced Data Requirements", () => {
 
   describe("getDataRequirementsSummary", () => {
     it("should provide summary of all data requirements", () => {
-      const plugin1 = new MockPlugin();
-      const plugin2 = new LegacyPlugin();
+      const plugin1 = createMockPlugin();
+      const plugin2 = createLegacyPlugin();
 
       PluginRegistry.register(plugin1);
       PluginRegistry.register(plugin2);
@@ -263,51 +157,22 @@ describe("PluginRegistry - Enhanced Data Requirements", () => {
     });
 
     it("should handle plugins with overlapping requirements", () => {
-      // Create two plugins that both use temporal_monthly
-      class Plugin1 implements VisualizationPlugin {
-        metadata = {
-          id: "plugin-1",
-          name: "Plugin 1",
-          description: "Test",
-          version: "1.0.0",
-          priority: 1,
-          dataRequirements: [
-            { dataset: "temporal_monthly", required: true },
-          ] as PluginDataRequirement[],
-        };
-        defaultConfig = {};
-        init = vi.fn();
-        processData = vi.fn();
-        render = vi.fn();
-        update = vi.fn();
-        destroy = vi.fn();
-        exportImage = vi.fn();
-        exportData = vi.fn();
-      }
+      const plugin1 = createMockPlugin({
+        id: "plugin-1",
+        name: "Plugin 1",
+        priority: 1,
+        dataRequirements: [{ dataset: "temporal_monthly", required: true }],
+      });
 
-      class Plugin2 implements VisualizationPlugin {
-        metadata = {
-          id: "plugin-2",
-          name: "Plugin 2",
-          description: "Test",
-          version: "1.0.0",
-          priority: 2,
-          dataRequirements: [
-            { dataset: "temporal_monthly", required: false },
-          ] as PluginDataRequirement[],
-        };
-        defaultConfig = {};
-        init = vi.fn();
-        processData = vi.fn();
-        render = vi.fn();
-        update = vi.fn();
-        destroy = vi.fn();
-        exportImage = vi.fn();
-        exportData = vi.fn();
-      }
+      const plugin2 = createMockPlugin({
+        id: "plugin-2",
+        name: "Plugin 2",
+        priority: 2,
+        dataRequirements: [{ dataset: "temporal_monthly", required: false }],
+      });
 
-      PluginRegistry.register(new Plugin1());
-      PluginRegistry.register(new Plugin2());
+      PluginRegistry.register(plugin1);
+      PluginRegistry.register(plugin2);
 
       const summary = PluginRegistry.getDataRequirementsSummary();
 
@@ -321,9 +186,9 @@ describe("PluginRegistry - Enhanced Data Requirements", () => {
 
   describe("validateAllPlugins", () => {
     it("should validate all registered plugins", async () => {
-      const plugin1 = new MockPlugin();
-      const plugin2 = new LegacyPlugin();
-      const plugin3 = new InvalidPlugin();
+      const plugin1 = createMockPlugin();
+      const plugin2 = createLegacyPlugin();
+      const plugin3 = createInvalidPlugin();
 
       PluginRegistry.register(plugin1);
       PluginRegistry.register(plugin2);
@@ -346,7 +211,7 @@ describe("PluginRegistry - Enhanced Data Requirements", () => {
 
   describe("backward compatibility", () => {
     it("should work with legacy plugins without dataRequirements", () => {
-      const plugin = new LegacyPlugin();
+      const plugin = createLegacyPlugin();
 
       expect(() => PluginRegistry.register(plugin)).not.toThrow();
       expect(PluginRegistry.has("legacy-plugin")).toBe(true);
@@ -354,7 +219,7 @@ describe("PluginRegistry - Enhanced Data Requirements", () => {
     });
 
     it("should not break existing plugin methods", () => {
-      const plugin = new MockPlugin();
+      const plugin = createMockPlugin();
       PluginRegistry.register(plugin);
 
       const retrieved = PluginRegistry.get("mock-plugin");

@@ -3,8 +3,20 @@
  * Test Utilities - Central Export
  *
  * Import all test utilities from a single location:
- * import { createActiveFile, setupFakeTimers, render } from '@/test-utils';
+ * import { createActiveFile, setupFakeTimers, render, describe, it, expect } from '@/test-utils';
  */
+
+// Re-export vitest globals for convenience
+export {
+  describe,
+  it,
+  expect,
+  vi,
+  beforeEach,
+  afterEach,
+  beforeAll,
+  afterAll,
+} from "vitest";
 
 // Mock data factories
 export {
@@ -24,6 +36,12 @@ export {
   // Temporal data factories
   createTemporalData,
 
+  // Plugin factories
+  createMockPlugin,
+  createLegacyPlugin,
+  createInvalidPlugin,
+  createPluginWithOptionalMissing,
+
   // Batch factories
   createEnrichedFileList,
 } from "./factories";
@@ -41,6 +59,3 @@ export {
 // Custom render and RTL re-exports
 export { renderWithProviders, render } from "./render";
 export * from "@testing-library/react";
-
-// Re-export vitest globals for convenience
-export { describe, it, expect, vi, beforeEach, afterEach, beforeAll, afterAll } from "vitest";

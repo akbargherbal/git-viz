@@ -8,6 +8,8 @@
 
 import { TemporalFileData } from "@/services/data/TemporalDataProcessor";
 import { EnrichedFileData } from "@/plugins/treemap-explorer/types";
+import { VisualizationPlugin, PluginDataRequirement } from "@/types/plugin";
+import { vi } from "vitest";
 
 // ============================================================================
 // TEMPORAL FILE DATA FACTORIES
@@ -275,6 +277,158 @@ export function createTemporalData(overrides: any = {}) {
     ],
     ...overrides,
   };
+}
+
+// ============================================================================
+// PLUGIN FACTORIES
+// ============================================================================
+
+/**
+ * Options for creating mock plugins
+ */
+interface MockPluginOptions {
+  id?: string;
+  name?: string;
+  description?: string;
+  version?: string;
+  priority?: number;
+  dataRequirements?: PluginDataRequirement[];
+  defaultConfig?: Record<string, any>;
+}
+
+/**
+ * Base factory for creating mock VisualizationPlugin instances
+ *
+ * @example
+ * const plugin = createMockPlugin({ id: 'test-plugin' });
+ * PluginRegistry.register(plugin);
+ */
+export function createMockPlugin(
+  options: MockPluginOptions = {},
+): VisualizationPlugin {
+  const {
+    id = "mock-plugin",
+    name = "Mock Plugin",
+    description = "Test plugin",
+    version = "1.0.0",
+    priority = 1,
+    defaultConfig = { width: 800, height: 600 },
+  } = options;
+
+  // Handle dataRequirements: use provided value if key exists, otherwise use defaults
+  const hasDataRequirements = "dataRequirements" in options;
+  const dataRequirements = hasDataRequirements
+    ? options.dataRequirements
+    : [
+        {
+          dataset: "temporal_monthly",
+          required: true,
+        },
+        {
+          dataset: "file_index",
+          required: false,
+          alias: "files",
+        },
+      ];
+
+  const metadata: any = {
+    id,
+    name,
+    description,
+    version,
+    priority,
+  };
+
+  // Only add dataRequirements if it's not explicitly set to undefined
+  if (dataRequirements !== undefined) {
+    metadata.dataRequirements = dataRequirements;
+  }
+
+  return {
+    metadata,
+    defaultConfig,
+    init: vi.fn(),
+    processData: vi.fn(),
+    render: vi.fn(),
+    update: vi.fn(),
+    destroy: vi.fn(),
+    exportImage: vi.fn(),
+    exportData: vi.fn(),
+  };
+}
+
+/**
+ * Preset: Plugin without data requirements (legacy plugin)
+ *
+ * @example
+ * const legacyPlugin = createLegacyPlugin();
+ */
+export function createLegacyPlugin(
+  options: Partial<MockPluginOptions> = {},
+): VisualizationPlugin {
+  return createMockPlugin({
+    id: "legacy-plugin",
+    name: "Legacy Plugin",
+    description: "Plugin without data requirements",
+    priority: 2,
+    dataRequirements: undefined,
+    defaultConfig: {},
+    ...options,
+  });
+}
+
+/**
+ * Preset: Plugin with invalid/missing dataset requirements
+ *
+ * @example
+ * const invalidPlugin = createInvalidPlugin();
+ */
+export function createInvalidPlugin(
+  options: Partial<MockPluginOptions> = {},
+): VisualizationPlugin {
+  return createMockPlugin({
+    id: "invalid-plugin",
+    name: "Invalid Plugin",
+    description: "Plugin with missing dataset",
+    priority: 3,
+    dataRequirements: [
+      {
+        dataset: "nonexistent_dataset",
+        required: true,
+      },
+    ],
+    defaultConfig: {},
+    ...options,
+  });
+}
+
+/**
+ * Preset: Plugin with only optional missing datasets
+ *
+ * @example
+ * const plugin = createPluginWithOptionalMissing();
+ */
+export function createPluginWithOptionalMissing(
+  options: Partial<MockPluginOptions> = {},
+): VisualizationPlugin {
+  return createMockPlugin({
+    id: "optional-missing",
+    name: "Optional Missing",
+    description: "Plugin with optional missing dataset",
+    priority: 1,
+    dataRequirements: [
+      {
+        dataset: "temporal_monthly",
+        required: true,
+      },
+      {
+        dataset: "nonexistent_optional",
+        required: false,
+      },
+    ],
+    defaultConfig: {},
+    ...options,
+  });
 }
 
 // ============================================================================

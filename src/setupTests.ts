@@ -97,77 +97,79 @@ Object.defineProperty(window, "matchMedia", {
  * Mock Canvas and CanvasRenderingContext2D
  * Required for D3 visualizations and canvas-based components
  */
-HTMLCanvasElement.prototype.getContext = vi.fn().mockImplementation((contextId) => {
-  if (contextId === "2d") {
-    return {
-      // Drawing rectangles
-      fillRect: vi.fn(),
-      strokeRect: vi.fn(),
-      clearRect: vi.fn(),
+HTMLCanvasElement.prototype.getContext = vi
+  .fn()
+  .mockImplementation((contextId) => {
+    if (contextId === "2d") {
+      return {
+        // Drawing rectangles
+        fillRect: vi.fn(),
+        strokeRect: vi.fn(),
+        clearRect: vi.fn(),
 
-      // Drawing text
-      fillText: vi.fn(),
-      strokeText: vi.fn(),
-      measureText: vi.fn(() => ({ width: 0 })),
+        // Drawing text
+        fillText: vi.fn(),
+        strokeText: vi.fn(),
+        measureText: vi.fn(() => ({ width: 0 })),
 
-      // Line styles
-      lineWidth: 1,
-      lineCap: "butt",
-      lineJoin: "miter",
-      miterLimit: 10,
-      setLineDash: vi.fn(),
-      getLineDash: vi.fn(() => []),
+        // Line styles
+        lineWidth: 1,
+        lineCap: "butt",
+        lineJoin: "miter",
+        miterLimit: 10,
+        setLineDash: vi.fn(),
+        getLineDash: vi.fn(() => []),
 
-      // Fill and stroke styles
-      fillStyle: "#000000",
-      strokeStyle: "#000000",
+        // Fill and stroke styles
+        fillStyle: "#000000",
+        strokeStyle: "#000000",
 
-      // Transformations
-      scale: vi.fn(),
-      rotate: vi.fn(),
-      translate: vi.fn(),
-      transform: vi.fn(),
-      setTransform: vi.fn(),
-      resetTransform: vi.fn(),
+        // Transformations
+        scale: vi.fn(),
+        rotate: vi.fn(),
+        translate: vi.fn(),
+        transform: vi.fn(),
+        setTransform: vi.fn(),
+        resetTransform: vi.fn(),
 
-      // Compositing
-      globalAlpha: 1.0,
-      globalCompositeOperation: "source-over",
+        // Compositing
+        globalAlpha: 1.0,
+        globalCompositeOperation: "source-over",
 
-      // Drawing paths
-      beginPath: vi.fn(),
-      closePath: vi.fn(),
-      moveTo: vi.fn(),
-      lineTo: vi.fn(),
-      bezierCurveTo: vi.fn(),
-      quadraticCurveTo: vi.fn(),
-      arc: vi.fn(),
-      arcTo: vi.fn(),
-      rect: vi.fn(),
-      fill: vi.fn(),
-      stroke: vi.fn(),
-      clip: vi.fn(),
-      isPointInPath: vi.fn(() => false),
-      isPointInStroke: vi.fn(() => false),
+        // Drawing paths
+        beginPath: vi.fn(),
+        closePath: vi.fn(),
+        moveTo: vi.fn(),
+        lineTo: vi.fn(),
+        bezierCurveTo: vi.fn(),
+        quadraticCurveTo: vi.fn(),
+        arc: vi.fn(),
+        arcTo: vi.fn(),
+        rect: vi.fn(),
+        fill: vi.fn(),
+        stroke: vi.fn(),
+        clip: vi.fn(),
+        isPointInPath: vi.fn(() => false),
+        isPointInStroke: vi.fn(() => false),
 
-      // Canvas state
-      save: vi.fn(),
-      restore: vi.fn(),
-      canvas: document.createElement("canvas"),
+        // Canvas state
+        save: vi.fn(),
+        restore: vi.fn(),
+        canvas: document.createElement("canvas"),
 
-      // Additional properties
-      shadowBlur: 0,
-      shadowColor: "rgba(0, 0, 0, 0)",
-      shadowOffsetX: 0,
-      shadowOffsetY: 0,
-      font: "10px sans-serif",
-      textAlign: "start",
-      textBaseline: "alphabetic",
-      direction: "ltr",
-    } as unknown as CanvasRenderingContext2D;
-  }
-  return null;
-});
+        // Additional properties
+        shadowBlur: 0,
+        shadowColor: "rgba(0, 0, 0, 0)",
+        shadowOffsetX: 0,
+        shadowOffsetY: 0,
+        font: "10px sans-serif",
+        textAlign: "start",
+        textBaseline: "alphabetic",
+        direction: "ltr",
+      } as unknown as CanvasRenderingContext2D;
+    }
+    return null;
+  });
 
 // ============================================================================
 // CONSOLE SUPPRESSION (OPTIONAL)
