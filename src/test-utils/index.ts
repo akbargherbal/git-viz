@@ -41,3 +41,6 @@ export {
 // Custom render and RTL re-exports
 export { renderWithProviders, render } from "./render";
 export * from "@testing-library/react";
+
+// Re-export vitest globals for convenience
+export { describe, it, expect, vi, beforeEach, afterEach, beforeAll, afterAll } from "vitest";
