@@ -1,32 +1,11 @@
-// src/services/data/__tests__/CouplingDataProcessor.test.ts
-
+//  src/services/data/__tests__/CouplingDataProcessor.test.ts
 import { describe, it, expect } from "vitest";
 import { CouplingDataProcessor } from "../CouplingDataProcessor";
+import { createCouplingData } from "@/test-utils";
 
 describe("CouplingDataProcessor", () => {
   // Mock Data
-  const mockRawData = {
-    edges: [
-      {
-        source: "src/A.ts",
-        target: "src/B.ts",
-        cochangeCount: 10,
-        couplingStrength: 0.8,
-      },
-      {
-        source: "src/A.ts",
-        target: "src/C.ts",
-        cochangeCount: 5,
-        couplingStrength: 0.4,
-      },
-      {
-        source: "src/B.ts",
-        target: "src/D.ts",
-        cochangeCount: 2,
-        couplingStrength: 0.2,
-      },
-    ],
-  };
+  const mockRawData = createCouplingData();
 
   describe("process", () => {
     it("should build a bidirectional coupling index", () => {

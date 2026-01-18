@@ -1,14 +1,20 @@
 // src/plugins/treemap-explorer/__tests__/TreemapExplorer.TimeLens.integration.test.ts
 
-import { describe, it, expect, beforeEach, vi } from "vitest";
+import { describe, it, expect, beforeEach, afterEach, vi } from "vitest"; // ✅ Fixed: Import from vitest
 import { TreemapExplorerPlugin } from "../TreemapExplorerPlugin";
-import { TreemapExplorerState } from "../types";
+import {
+  createMockFileIndex,
+  createMockTemporalData, // ✅ Fixed: Correct factory name
+  createMockTreemapState,
+  createMockContainer,
+  destroyMockContainer,
+} from "@/test-utils";
 
 describe("TreemapExplorer - Time Lens Integration", () => {
   let plugin: TreemapExplorerPlugin;
   let container: HTMLElement;
 
-  const mockFileIndex = {
+  const mockFileIndex = createMockFileIndex({
     files: [
       {
         key: "src/old-legacy.ts",
@@ -38,52 +44,21 @@ describe("TreemapExplorer - Time Lens Integration", () => {
         last_modified: "2025-01-15",
       },
     ],
-  };
+  });
 
-  const mockTemporalData = {
-    date_range: {
-      min: "2022-01-01",
-      max: "2025-01-15",
-      total_days: 1110,
-    },
-    days: [
-      { date: "2022-01-01", commits: 5, files_changed: 2, unique_authors: 1 },
-      { date: "2022-06-01", commits: 30, files_changed: 10, unique_authors: 3 },
-      { date: "2024-07-01", commits: 15, files_changed: 5, unique_authors: 2 },
-      { date: "2025-01-01", commits: 20, files_changed: 8, unique_authors: 4 },
-      { date: "2025-01-15", commits: 10, files_changed: 3, unique_authors: 2 },
-    ],
-  };
+  const mockTemporalData = createMockTemporalData(); // ✅ Fixed: Use correct factory
 
   beforeEach(() => {
-    container = document.createElement("div");
-    container.style.width = "800px";
-    container.style.height = "600px";
-    document.body.appendChild(container);
-
+    container = createMockContainer();
     plugin = new TreemapExplorerPlugin();
 
-    const initialState: TreemapExplorerState = {
-      lensMode: "time",
-      sizeMetric: "commits",
-      selectedFile: null,
-      healthThreshold: 50,
-      couplingThreshold: 0.03,
-      showArcs: true,
-      timePosition: 100,
-      playing: false,
-      timeFilters: {
-        showCreations: false,
-        fadeDormant: true,
-      },
-    };
-
+    const initialState = createMockTreemapState();
     plugin.init(container, initialState);
   });
 
   afterEach(() => {
     plugin.destroy();
-    document.body.removeChild(container);
+    destroyMockContainer(container);
   });
 
   describe("Data Processing", () => {
@@ -135,20 +110,9 @@ describe("TreemapExplorer - Time Lens Integration", () => {
 
       const data = plugin.processData(dataset);
 
-      const state: TreemapExplorerState = {
-        lensMode: "time",
-        sizeMetric: "commits",
-        selectedFile: null,
-        healthThreshold: 50,
-        couplingThreshold: 0.03,
-        showArcs: true,
+      const state = createMockTreemapState({
         timePosition: 0, // Start of timeline
-        playing: false,
-        timeFilters: {
-          showCreations: false,
-          fadeDormant: true,
-        },
-      };
+      });
 
       // Render should work without errors at position 0
       expect(() => plugin.render(data, state)).not.toThrow();
@@ -162,20 +126,9 @@ describe("TreemapExplorer - Time Lens Integration", () => {
 
       const data = plugin.processData(dataset);
 
-      const state: TreemapExplorerState = {
-        lensMode: "time",
-        sizeMetric: "commits",
-        selectedFile: null,
-        healthThreshold: 50,
-        couplingThreshold: 0.03,
-        showArcs: true,
+      const state = createMockTreemapState({
         timePosition: 100, // End of timeline
-        playing: false,
-        timeFilters: {
-          showCreations: false,
-          fadeDormant: true,
-        },
-      };
+      });
 
       // Should render successfully
       expect(() => plugin.render(data, state)).not.toThrow();
@@ -193,20 +146,9 @@ describe("TreemapExplorer - Time Lens Integration", () => {
 
       const data = plugin.processData(dataset);
 
-      const state: TreemapExplorerState = {
-        lensMode: "time",
-        sizeMetric: "commits",
-        selectedFile: null,
-        healthThreshold: 50,
-        couplingThreshold: 0.03,
-        showArcs: true,
+      const state = createMockTreemapState({
         timePosition: 50, // Middle of timeline
-        playing: false,
-        timeFilters: {
-          showCreations: false,
-          fadeDormant: true,
-        },
-      };
+      });
 
       expect(() => plugin.render(data, state)).not.toThrow();
 
@@ -224,20 +166,12 @@ describe("TreemapExplorer - Time Lens Integration", () => {
 
       const data = plugin.processData(dataset);
 
-      const state: TreemapExplorerState = {
-        lensMode: "time",
-        sizeMetric: "commits",
-        selectedFile: null,
-        healthThreshold: 50,
-        couplingThreshold: 0.03,
-        showArcs: true,
-        timePosition: 100,
-        playing: false,
+      const state = createMockTreemapState({
         timeFilters: {
           showCreations: true,
           fadeDormant: false,
         },
-      };
+      });
 
       expect(() => plugin.render(data, state)).not.toThrow();
     });
@@ -250,20 +184,12 @@ describe("TreemapExplorer - Time Lens Integration", () => {
 
       const data = plugin.processData(dataset);
 
-      const state: TreemapExplorerState = {
-        lensMode: "time",
-        sizeMetric: "commits",
-        selectedFile: null,
-        healthThreshold: 50,
-        couplingThreshold: 0.03,
-        showArcs: true,
-        timePosition: 100,
-        playing: false,
+      const state = createMockTreemapState({
         timeFilters: {
           showCreations: false,
           fadeDormant: true,
         },
-      };
+      });
 
       expect(() => plugin.render(data, state)).not.toThrow();
     });
@@ -276,20 +202,12 @@ describe("TreemapExplorer - Time Lens Integration", () => {
 
       const data = plugin.processData(dataset);
 
-      const state: TreemapExplorerState = {
-        lensMode: "time",
-        sizeMetric: "commits",
-        selectedFile: null,
-        healthThreshold: 50,
-        couplingThreshold: 0.03,
-        showArcs: true,
-        timePosition: 100,
-        playing: false,
+      const state = createMockTreemapState({
         timeFilters: {
           showCreations: true,
           fadeDormant: true,
         },
-      };
+      });
 
       expect(() => plugin.render(data, state)).not.toThrow();
     });
@@ -302,20 +220,12 @@ describe("TreemapExplorer - Time Lens Integration", () => {
 
       const data = plugin.processData(dataset);
 
-      const state: TreemapExplorerState = {
-        lensMode: "time",
-        sizeMetric: "commits",
-        selectedFile: null,
-        healthThreshold: 50,
-        couplingThreshold: 0.03,
-        showArcs: true,
-        timePosition: 100,
-        playing: false,
+      const state = createMockTreemapState({
         timeFilters: {
           showCreations: false,
           fadeDormant: false,
         },
-      };
+      });
 
       expect(() => plugin.render(data, state)).not.toThrow();
     });
@@ -331,21 +241,14 @@ describe("TreemapExplorer - Time Lens Integration", () => {
       const data = plugin.processData(dataset);
 
       // Start with Debt lens
-      const debtState: TreemapExplorerState = {
+      const debtState = createMockTreemapState({
         lensMode: "debt",
-        sizeMetric: "commits",
-        selectedFile: null,
-        healthThreshold: 50,
-        couplingThreshold: 0.03,
-        showArcs: true,
-        timePosition: 100,
-        playing: false,
-      };
+      });
 
       plugin.render(data, debtState);
 
       // Switch to Time lens
-      const timeState: TreemapExplorerState = {
+      const timeState = {
         ...debtState,
         lensMode: "time",
       };
@@ -362,21 +265,14 @@ describe("TreemapExplorer - Time Lens Integration", () => {
       const data = plugin.processData(dataset);
 
       // Start with Coupling lens
-      const couplingState: TreemapExplorerState = {
+      const couplingState = createMockTreemapState({
         lensMode: "coupling",
-        sizeMetric: "commits",
-        selectedFile: null,
-        healthThreshold: 50,
-        couplingThreshold: 0.03,
-        showArcs: true,
-        timePosition: 100,
-        playing: false,
-      };
+      });
 
       plugin.render(data, couplingState);
 
       // Switch to Time lens
-      const timeState: TreemapExplorerState = {
+      const timeState = {
         ...couplingState,
         lensMode: "time",
       };
@@ -392,25 +288,19 @@ describe("TreemapExplorer - Time Lens Integration", () => {
 
       const data = plugin.processData(dataset);
 
-      const debtState: TreemapExplorerState = {
+      const debtState = createMockTreemapState({
         lensMode: "debt",
-        sizeMetric: "commits",
-        selectedFile: null,
         // FIX: Set healthThreshold to 100 to ensure all files are visible in Debt mode
         // This ensures the node count matches Time mode (which shows all files at pos 100)
         healthThreshold: 100,
-        couplingThreshold: 0.03,
-        showArcs: true,
-        timePosition: 100,
-        playing: false,
-      };
+      });
 
       plugin.render(data, debtState);
 
       const debtCells = container.querySelectorAll("rect");
       const debtCellCount = debtCells.length;
 
-      const timeState: TreemapExplorerState = {
+      const timeState = {
         ...debtState,
         lensMode: "time",
       };
@@ -436,16 +326,10 @@ describe("TreemapExplorer - Time Lens Integration", () => {
 
       const data = plugin.processData(dataset);
 
-      const state: TreemapExplorerState = {
-        lensMode: "time",
-        sizeMetric: "commits",
-        selectedFile: null,
-        healthThreshold: 50,
-        couplingThreshold: 0.03,
-        showArcs: true,
+      const state = createMockTreemapState({
         timePosition: 0,
         playing: true,
-      };
+      });
 
       plugin.render(data, state);
 
@@ -464,16 +348,10 @@ describe("TreemapExplorer - Time Lens Integration", () => {
 
       const data = plugin.processData(dataset);
 
-      const state: TreemapExplorerState = {
-        lensMode: "time",
-        sizeMetric: "commits",
-        selectedFile: null,
-        healthThreshold: 50,
-        couplingThreshold: 0.03,
-        showArcs: true,
+      const state = createMockTreemapState({
         timePosition: 50,
         playing: false,
-      };
+      });
 
       plugin.render(data, state);
 
@@ -490,20 +368,7 @@ describe("TreemapExplorer - Time Lens Integration", () => {
 
       const data = plugin.processData(dataset);
 
-      const state: TreemapExplorerState = {
-        lensMode: "time",
-        sizeMetric: "commits",
-        selectedFile: null,
-        healthThreshold: 50,
-        couplingThreshold: 0.03,
-        showArcs: true,
-        timePosition: 100,
-        playing: false,
-        timeFilters: {
-          showCreations: false,
-          fadeDormant: true,
-        },
-      };
+      const state = createMockTreemapState();
 
       plugin.render(data, state);
 
@@ -528,16 +393,9 @@ describe("TreemapExplorer - Time Lens Integration", () => {
 
       const data = plugin.processData(dataset);
 
-      const state: TreemapExplorerState = {
-        lensMode: "time",
-        sizeMetric: "commits",
-        selectedFile: null,
-        healthThreshold: 50,
-        couplingThreshold: 0.03,
-        showArcs: true,
+      const state = createMockTreemapState({
         timePosition: 50,
-        playing: false,
-      };
+      });
 
       const startTime = performance.now();
       plugin.render(data, state);
@@ -557,16 +415,9 @@ describe("TreemapExplorer - Time Lens Integration", () => {
 
       // Simulate scrubbing through 10 positions rapidly
       for (let i = 0; i <= 100; i += 10) {
-        const state: TreemapExplorerState = {
-          lensMode: "time",
-          sizeMetric: "commits",
-          selectedFile: null,
-          healthThreshold: 50,
-          couplingThreshold: 0.03,
-          showArcs: true,
+        const state = createMockTreemapState({
           timePosition: i,
-          playing: false,
-        };
+        });
 
         expect(() => plugin.render(data, state)).not.toThrow();
       }
@@ -582,16 +433,7 @@ describe("TreemapExplorer - Time Lens Integration", () => {
 
       const data = plugin.processData(dataset);
 
-      const state: TreemapExplorerState = {
-        lensMode: "time",
-        sizeMetric: "commits",
-        selectedFile: null,
-        healthThreshold: 50,
-        couplingThreshold: 0.03,
-        showArcs: true,
-        timePosition: 100,
-        playing: false,
-      };
+      const state = createMockTreemapState();
 
       expect(() => plugin.render(data, state)).not.toThrow();
     });
@@ -606,16 +448,7 @@ describe("TreemapExplorer - Time Lens Integration", () => {
 
       const data = plugin.processData(dataset);
 
-      const state: TreemapExplorerState = {
-        lensMode: "time",
-        sizeMetric: "commits",
-        selectedFile: null,
-        healthThreshold: 50,
-        couplingThreshold: 0.03,
-        showArcs: true,
-        timePosition: 100,
-        playing: false,
-      };
+      const state = createMockTreemapState();
 
       expect(() => plugin.render(data, state)).not.toThrow();
 
@@ -643,16 +476,7 @@ describe("TreemapExplorer - Time Lens Integration", () => {
 
       const data = plugin.processData(dataset);
 
-      const state: TreemapExplorerState = {
-        lensMode: "time",
-        sizeMetric: "commits",
-        selectedFile: null,
-        healthThreshold: 50,
-        couplingThreshold: 0.03,
-        showArcs: true,
-        timePosition: 100,
-        playing: false,
-      };
+      const state = createMockTreemapState();
 
       expect(() => plugin.render(data, state)).not.toThrow();
     });
