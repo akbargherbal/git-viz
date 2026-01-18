@@ -1,5 +1,5 @@
 // src/plugins/treemap-explorer/components/__tests__/TimelineScrubber.test.tsx
-import { describe, it, expect, vi } from "vitest";
+import { describe, it, expect, vi } from "@/test-utils";
 import { render, screen, fireEvent } from "@/test-utils";
 import TimelineScrubber from "../TimelineScrubber";
 

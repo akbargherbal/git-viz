@@ -5,10 +5,7 @@ import { vi } from "vitest";
  * Mock DOM container for plugin tests
  * Used by: TreemapExplorer, TimelineHeatmap integration tests
  */
-export const createMockContainer = (
-  width = 800,
-  height = 600
-): HTMLElement => {
+export const createMockContainer = (width = 800, height = 600): HTMLElement => {
   const container = document.createElement("div");
   container.style.width = `${width}px`;
   container.style.height = `${height}px`;
@@ -33,12 +30,12 @@ export const createMockFetch = (data: any) => {
     Promise.resolve({
       ok: true,
       json: () => Promise.resolve(data),
-    })
+    }),
   ) as any;
 };
 
 /**
  * Utility to wait for async operations
  */
-export const waitForAsync = () => 
+export const waitForAsync = () =>
   new Promise((resolve) => setTimeout(resolve, 0));

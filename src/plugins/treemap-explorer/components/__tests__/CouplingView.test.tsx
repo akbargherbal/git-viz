@@ -1,6 +1,6 @@
 // src/plugins/treemap-explorer/components/__tests__/CouplingView.test.tsx
 import { render, screen, createEnrichedFile } from "@/test-utils";
-import { describe, it, expect } from "vitest";
+import { describe, it, expect } from "@/test-utils";
 import { CouplingView } from "../CouplingView";
 import { CouplingDataProcessor } from "@/services/data/CouplingDataProcessor";
 
