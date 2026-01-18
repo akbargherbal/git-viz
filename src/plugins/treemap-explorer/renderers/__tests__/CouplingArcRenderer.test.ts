@@ -1,9 +1,12 @@
-// src/plugins/treemap-explorer/renderers/__tests__/CouplingArcRenderer.test.ts
-
-import { describe, it, expect, beforeEach, afterEach } from "vitest";
+import { describe, it, expect, beforeEach, afterEach } from "@/test-utils";
 import * as d3 from "d3";
 import { CouplingArcRenderer } from "../CouplingArcRenderer";
 import { CouplingDataProcessor } from "@/services/data/CouplingDataProcessor";
+import {
+  createCouplingData,
+  createMockContainer,
+  destroyMockContainer,
+} from "@/test-utils";
 
 describe("CouplingArcRenderer", () => {
   let svg: d3.Selection<SVGSVGElement, unknown, null, undefined>;
@@ -11,7 +14,7 @@ describe("CouplingArcRenderer", () => {
   let renderer: CouplingArcRenderer;
 
   // Mock Data
-  const mockCouplingIndex = CouplingDataProcessor.process({
+  const mockCouplingData = createCouplingData({
     edges: [
       {
         source: "file1",
@@ -28,8 +31,7 @@ describe("CouplingArcRenderer", () => {
     ],
   });
 
-  // Mock D3 Hierarchy Leaves (simplified)
-  // IMPORTANT: Include 'key' in data.data as renderer uses it
+  const mockCouplingIndex = CouplingDataProcessor.process(mockCouplingData);
 
   // Mock D3 Hierarchy Leaves (simplified)
   // Structure matches real D3 hierarchy output: leaf.data points directly to EnrichedFileData
@@ -40,14 +42,13 @@ describe("CouplingArcRenderer", () => {
   ] as any[];
 
   beforeEach(() => {
-    container = document.createElement("div");
-    document.body.appendChild(container);
+    container = createMockContainer();
     svg = d3.select(container).append("svg") as any;
     renderer = new CouplingArcRenderer(svg);
   });
 
   afterEach(() => {
-    document.body.removeChild(container);
+    destroyMockContainer(container);
   });
 
   it("should initialize with a group element", () => {

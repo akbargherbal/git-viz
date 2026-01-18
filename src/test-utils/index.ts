@@ -18,7 +18,6 @@ export {
   afterAll,
 } from "vitest";
 
-
 // Mock data factories
 export {
   // Temporal file factories
@@ -50,6 +49,13 @@ export {
   createEnrichedFileList,
 } from "./factories";
 
+// Shared mocks
+export {
+  createMockContainer,
+  destroyMockContainer,
+  createMockFetch,
+  waitForAsync,
+} from "./mocks";
 
 // Time testing helpers
 export {
