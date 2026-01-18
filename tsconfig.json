@@ -29,7 +29,8 @@
       "@/store/*": ["src/store/*"],
       "@/plugins/*": ["src/plugins/*"],
       "@/components/*": ["src/components/*"],
-      "@/utils/*": ["src/utils/*"]
+      "@/utils/*": ["src/utils/*"],
+      "@/test-utils": ["./src/test-utils"] 
     },
     /* Added "node" to types */
     "types": ["vitest/globals", "@testing-library/jest-dom", "node"]
