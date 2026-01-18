@@ -1,7 +1,7 @@
 // src/test-utils/factories.ts
 /**
  * Mock Data Factories for Testing
- * 
+ *
  * Provides factory functions to generate test data with sensible defaults.
  * Use presets for common scenarios or override specific fields as needed.
  */
@@ -17,7 +17,7 @@ import { EnrichedFileData } from "@/plugins/treemap-explorer/types";
  * Base factory for TemporalFileData with all required fields
  */
 export function createTemporalFile(
-  overrides: Partial<TemporalFileData> = {}
+  overrides: Partial<TemporalFileData> = {},
 ): TemporalFileData {
   return {
     key: "src/components/Example.tsx",
@@ -52,7 +52,7 @@ export function createTemporalFile(
  * Preset: Active file (recently modified, actively maintained)
  */
 export function createActiveFile(
-  overrides: Partial<TemporalFileData> = {}
+  overrides: Partial<TemporalFileData> = {},
 ): TemporalFileData {
   return createTemporalFile({
     key: "src/components/Button.tsx",
@@ -86,7 +86,7 @@ export function createActiveFile(
  * Preset: Dormant file (>180 days since last modification)
  */
 export function createDormantFile(
-  overrides: Partial<TemporalFileData> = {}
+  overrides: Partial<TemporalFileData> = {},
 ): TemporalFileData {
   return createTemporalFile({
     key: "src/legacy/OldUtils.ts",
@@ -116,7 +116,7 @@ export function createDormantFile(
  * Preset: Minimal file (edge case with minimal data)
  */
 export function createMinimalFile(
-  overrides: Partial<TemporalFileData> = {}
+  overrides: Partial<TemporalFileData> = {},
 ): TemporalFileData {
   return createTemporalFile({
     key: "src/minimal.ts",
@@ -132,7 +132,7 @@ export function createMinimalFile(
  * Preset: Newly created file (1 day old)
  */
 export function createNewFile(
-  overrides: Partial<TemporalFileData> = {}
+  overrides: Partial<TemporalFileData> = {},
 ): TemporalFileData {
   return createTemporalFile({
     key: "src/new.ts",
@@ -157,7 +157,7 @@ export function createNewFile(
  * Base factory for EnrichedFileData (before temporal enrichment)
  */
 export function createEnrichedFile(
-  overrides: Partial<EnrichedFileData> = {}
+  overrides: Partial<EnrichedFileData> = {},
 ): EnrichedFileData {
   return {
     key: "src/components/Example.tsx",
@@ -177,7 +177,7 @@ export function createEnrichedFile(
  * Preset: Old enriched file (for temporal processing)
  */
 export function createOldEnrichedFile(
-  overrides: Partial<EnrichedFileData> = {}
+  overrides: Partial<EnrichedFileData> = {},
 ): EnrichedFileData {
   return createEnrichedFile({
     key: "src/old.ts",
@@ -197,7 +197,7 @@ export function createOldEnrichedFile(
  * Preset: Recently created enriched file
  */
 export function createRecentEnrichedFile(
-  overrides: Partial<EnrichedFileData> = {}
+  overrides: Partial<EnrichedFileData> = {},
 ): EnrichedFileData {
   return createEnrichedFile({
     key: "src/new.ts",
@@ -217,7 +217,7 @@ export function createRecentEnrichedFile(
  * Preset: Active enriched file (frequently modified)
  */
 export function createActiveEnrichedFile(
-  overrides: Partial<EnrichedFileData> = {}
+  overrides: Partial<EnrichedFileData> = {},
 ): EnrichedFileData {
   return createEnrichedFile({
     key: "src/active.ts",
@@ -294,7 +294,7 @@ export function createEnrichedFileList(count: number = 3): EnrichedFileData[] {
         key: `src/file${i + 4}.ts`,
         name: `file${i + 4}.ts`,
         path: `src/file${i + 4}.ts`,
-      })
+      }),
     ),
   ];
 }

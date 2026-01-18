@@ -1,7 +1,7 @@
 // src/test-utils/helpers.ts
 /**
  * Test Helpers and Utilities
- * 
+ *
  * Common test setup functions and utilities
  */
 
@@ -20,12 +20,12 @@ export const TEST_DATE = "2026-01-17";
 /**
  * Setup fake timers with a consistent test date
  * Call this in beforeEach to ensure date-based assertions are predictable
- * 
+ *
  * @example
  * beforeEach(() => {
  *   setupFakeTimers();
  * });
- * 
+ *
  * afterEach(() => {
  *   cleanupFakeTimers();
  * });
@@ -46,7 +46,7 @@ export function cleanupFakeTimers(): void {
 /**
  * All-in-one time test setup
  * Returns cleanup function for easy teardown
- * 
+ *
  * @example
  * const cleanup = setupTimeTest();
  * // ... your tests

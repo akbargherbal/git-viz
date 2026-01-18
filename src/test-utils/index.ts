@@ -1,7 +1,7 @@
 // src/test-utils/index.ts
 /**
  * Test Utilities - Central Export
- * 
+ *
  * Import all test utilities from a single location:
  * import { createActiveFile, setupFakeTimers, render } from '@/test-utils';
  */
@@ -14,16 +14,16 @@ export {
   createDormantFile,
   createMinimalFile,
   createNewFile,
-  
+
   // Enriched file factories
   createEnrichedFile,
   createOldEnrichedFile,
   createRecentEnrichedFile,
   createActiveEnrichedFile,
-  
+
   // Temporal data factories
   createTemporalData,
-  
+
   // Batch factories
   createEnrichedFileList,
 } from "./factories";
