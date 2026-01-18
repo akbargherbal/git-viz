@@ -1,11 +1,22 @@
 // src/plugins/treemap-explorer/components/__tests__/TimeView.test.tsx
 
-import { describe, it, expect } from "vitest";
+import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
 import { render, screen } from "@testing-library/react";
 import { TimeView } from "../TimeView";
 import { TemporalFileData } from "@/services/data/TemporalDataProcessor";
 
 describe("TimeView", () => {
+  // Set a fixed date so "days ago" calculations are consistent
+  beforeEach(() => {
+    vi.useFakeTimers();
+    // 2026-01-17 is exactly 881 days after the mock file's last_modified date (2023-08-20)
+    vi.setSystemTime(new Date("2026-01-17"));
+  });
+
+  afterEach(() => {
+    vi.useRealTimers();
+  });
+
   const mockActiveFile: TemporalFileData = {
     key: "src/components/Button.tsx",
     name: "Button.tsx",
