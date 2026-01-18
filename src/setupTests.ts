@@ -203,3 +203,30 @@ HTMLCanvasElement.prototype.getContext = vi
 afterEach(() => {
   vi.clearAllMocks();
 });
+
+// ============================================================================
+// SVG MOCKING
+// ============================================================================
+
+/**
+ * Mock SVG getBBox
+ * Required for D3 layout calculations (Treemap, Timeline)
+ */
+Object.defineProperty(SVGElement.prototype, "getBBox", {
+  writable: true,
+  value: vi.fn().mockReturnValue({
+    x: 0,
+    y: 0,
+    width: 100,
+    height: 100,
+  }),
+});
+
+/**
+ * Mock SVG getComputedTextLength
+ * Required for D3 text measurement
+ */
+Object.defineProperty(SVGElement.prototype, "getComputedTextLength", {
+  writable: true,
+  value: vi.fn().mockReturnValue(100),
+});

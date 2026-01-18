@@ -453,7 +453,6 @@ export function createEnrichedFileList(count: number = 3): EnrichedFileData[] {
   ];
 }
 
-
 // ============================================================================
 // COUPLING DATA FACTORIES
 // ============================================================================
@@ -487,9 +486,6 @@ export function createCouplingData(overrides: any = {}) {
   };
 }
 
-
-
-
 // ============================================================================
 // DATASET FACTORIES
 // ============================================================================
@@ -500,7 +496,7 @@ export function createCouplingData(overrides: any = {}) {
 export const createMockFileIndex = (overrides?: {
   files?: Array<Partial<TemporalFileData>>;
 }) => ({
-  files: overrides?.files?.map(f => createTemporalFile(f)) || [
+  files: overrides?.files?.map((f) => createTemporalFile(f)) || [
     createTemporalFile(),
   ],
 });
@@ -513,7 +509,7 @@ export const createMockFileIndex = (overrides?: {
  * Factory for TreemapExplorerState
  */
 export const createMockTreemapState = (
-  overrides?: Partial<any> // Using any to avoid circular dependency with plugin types
+  overrides?: Partial<any>, // Using any to avoid circular dependency with plugin types
 ): any => ({
   lensMode: "time",
   sizeMetric: "commits",
@@ -528,4 +524,24 @@ export const createMockTreemapState = (
     fadeDormant: true,
   },
   ...overrides,
+});
+
+
+/**
+ * Factory for temporal_daily dataset structure
+ */
+export const createMockTemporalData = (overrides?: any) => ({
+  date_range: {
+    min: "2022-01-01",
+    max: "2025-01-15",
+    total_days: 1110,
+    ...overrides?.date_range
+  },
+  days: overrides?.days || [
+    { date: "2022-01-01", commits: 5, files_changed: 2, unique_authors: 1 },
+    { date: "2022-06-01", commits: 30, files_changed: 10, unique_authors: 3 },
+    { date: "2024-07-01", commits: 15, files_changed: 5, unique_authors: 2 },
+    { date: "2025-01-01", commits: 20, files_changed: 8, unique_authors: 4 },
+    { date: "2025-01-15", commits: 10, files_changed: 3, unique_authors: 2 },
+  ],
 });

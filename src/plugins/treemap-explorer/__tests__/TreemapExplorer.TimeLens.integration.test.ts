@@ -1,13 +1,13 @@
 // src/plugins/treemap-explorer/__tests__/TreemapExplorer.TimeLens.integration.test.ts
-import { describe, it, expect, beforeEach, afterEach, vi } from "@/test-utils";
+
+import { describe, it, expect, beforeEach, afterEach, vi } from "vitest"; // ✅ Fixed: Import from vitest
 import { TreemapExplorerPlugin } from "../TreemapExplorerPlugin";
-import { TreemapExplorerState } from "../types";
-import { 
-  createMockFileIndex, 
-  createTemporalData, 
+import {
+  createMockFileIndex,
+  createMockTemporalData, // ✅ Fixed: Correct factory name
   createMockTreemapState,
   createMockContainer,
-  destroyMockContainer
+  destroyMockContainer,
 } from "@/test-utils";
 
 describe("TreemapExplorer - Time Lens Integration", () => {
@@ -46,20 +46,7 @@ describe("TreemapExplorer - Time Lens Integration", () => {
     ],
   });
 
-  const mockTemporalData = createTemporalData({
-    date_range: {
-      min: "2022-01-01",
-      max: "2025-01-15",
-      total_days: 1110,
-    },
-    days: [
-      { date: "2022-01-01", commits: 5, files_changed: 2, unique_authors: 1 },
-      { date: "2022-06-01", commits: 30, files_changed: 10, unique_authors: 3 },
-      { date: "2024-07-01", commits: 15, files_changed: 5, unique_authors: 2 },
-      { date: "2025-01-01", commits: 20, files_changed: 8, unique_authors: 4 },
-      { date: "2025-01-15", commits: 10, files_changed: 3, unique_authors: 2 },
-    ],
-  });
+  const mockTemporalData = createMockTemporalData(); // ✅ Fixed: Use correct factory
 
   beforeEach(() => {
     container = createMockContainer();

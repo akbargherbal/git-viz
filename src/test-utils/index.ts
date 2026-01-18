@@ -18,7 +18,6 @@ export {
   afterAll,
 } from "vitest";
 
-
 // Mock data factories
 export {
   // Temporal file factories
@@ -54,8 +53,8 @@ export {
 
   // State factories
   createMockTreemapState,
+  createMockTemporalData,
 } from "./factories";
-
 
 // Shared mocks
 export {
