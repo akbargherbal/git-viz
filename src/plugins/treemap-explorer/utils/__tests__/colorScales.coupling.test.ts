@@ -1,32 +1,26 @@
 // src/plugins/treemap-explorer/utils/__tests__/colorScales.coupling.test.ts
-
-import { describe, it, expect } from "vitest";
+import { describe, it, expect } from "@/test-utils";
 import { getCellColor } from "../colorScales";
-import { EnrichedFileData } from "../../types";
+import { createEnrichedFile } from "@/test-utils";
 
 describe("colorScales - Coupling Lens", () => {
   // Mock File Data
-  const mockFile: EnrichedFileData = {
+  const mockFile = createEnrichedFile({
     key: "src/Target.ts",
     name: "Target.ts",
     path: "src/Target.ts",
     total_commits: 10,
     unique_authors: 2,
-    operations: {},
     age_days: 100,
-    first_seen: "",
-    last_modified: "",
-    // Fix: Use snake_case to match EnrichedFileData interface
-    totalCommits: 10,
-    uniqueAuthors: 2,
-    maxCoupling: 0.8, // Legacy field used by color scale
+    // Legacy field used by color scale
+    maxCoupling: 0.8,
     couplingMetrics: {
       maxStrength: 0.8,
       avgStrength: 0.6,
       totalPartners: 5,
       strongCouplings: 2,
     },
-  } as any;
+  } as any);
 
   const mockState = {
     lensMode: "coupling" as const,
@@ -44,7 +38,7 @@ describe("colorScales - Coupling Lens", () => {
   });
 
   it("should dim files below threshold when no file is selected", () => {
-    const weakFile = {
+    const weakFile = createEnrichedFile({
       ...mockFile,
       maxCoupling: 0.2,
       couplingMetrics: {
@@ -53,7 +47,7 @@ describe("colorScales - Coupling Lens", () => {
         avgStrength: 0.2,
         strongCouplings: 0,
       },
-    };
+    } as any);
 
     // maxStrength 0.2 < threshold 0.5 -> Should be dark gray
     const color = getCellColor(weakFile, "coupling", mockState);
