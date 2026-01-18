@@ -1,6 +1,5 @@
-// src/store/__tests__/appStore.pluginState.test.ts
-
-import { describe, it, expect, beforeEach } from "vitest";
+//  src/store/__tests__/appStore.pluginState.test.ts
+import { describe, it, expect, beforeEach } from "@/test-utils";
 import { useAppStore } from "../appStore";
 
 describe("appStore - Plugin State Management (Phase 1)", () => {
