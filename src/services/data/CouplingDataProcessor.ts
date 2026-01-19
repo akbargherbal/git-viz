@@ -94,8 +94,11 @@ export class CouplingDataProcessor {
     const couplingMap = new Map<string, CouplingPartner[]>();
 
     // Build bidirectional coupling map
-    edges.forEach((edge: CouplingEdge) => {
+edges.forEach((edge: CouplingEdge) => {
       const { source, target, cochangeCount, couplingStrength } = edge;
+      
+      // FIX: Ensure strength is a number, default to 0 if missing
+      const strength = typeof couplingStrength === 'number' ? couplingStrength : 0;
 
       // Add forward edge (source -> target)
       if (!couplingMap.has(source)) {
@@ -103,7 +106,7 @@ export class CouplingDataProcessor {
       }
       couplingMap.get(source)!.push({
         filePath: target,
-        strength: couplingStrength,
+        strength: strength, // Use sanitized strength
         cochangeCount,
       });
 
@@ -113,7 +116,7 @@ export class CouplingDataProcessor {
       }
       couplingMap.get(target)!.push({
         filePath: source,
-        strength: couplingStrength,
+        strength: strength, // Use sanitized strength
         cochangeCount,
       });
     });

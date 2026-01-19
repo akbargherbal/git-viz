@@ -474,21 +474,21 @@ export class TreemapExplorerPlugin implements VisualizationPlugin<TreemapExplore
           updateState={updateState}
           data={this.data}
         />
-
         <TreemapExplorerFilters
           state={state}
           onStateChange={updateState}
           onClose={() => {}}
         />
-
+        // In TreemapExplorerPlugin.tsx, renderUI method around line 460
         {selectedFile && (
           <TreemapDetailPanel
             file={selectedFile}
             lensMode={state.lensMode}
+            couplingIndex={this.couplingIndex}
+            couplingThreshold={state.couplingThreshold}
             onClose={() => updateState({ selectedFile: null })}
           />
         )}
-
         {/* Timeline Scrubber for Time Lens */}
         {state.lensMode === "time" && this.dateRange && (
           <TimelineScrubber

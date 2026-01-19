@@ -28,11 +28,10 @@ export const CouplingView: React.FC<CouplingViewProps> = ({
     10,
   ).filter((p) => p.strength >= couplingThreshold);
 
-  // Get coupling metrics
-  const metrics = CouplingDataProcessor.getFileCouplingMetrics(
-    couplingIndex,
-    file.key,
-  );
+// Get coupling metrics with defensive fallback
+const metrics = couplingIndex && couplingIndex.size > 0
+  ? CouplingDataProcessor.getFileCouplingMetrics(couplingIndex, file.key)
+  : { maxStrength: 0, avgStrength: 0, totalPartners: 0, strongCouplings: 0 };
 
   // Generate insight based on coupling strength
   const getInsight = (): string => {
@@ -65,7 +64,7 @@ export const CouplingView: React.FC<CouplingViewProps> = ({
         </div>
         <div className="bg-zinc-900 p-4 text-center">
           <div className="text-2xl font-bold text-white">
-            {metrics.maxStrength.toFixed(2)}
+            {(metrics.maxStrength || 0).toFixed(2)}
           </div>
           <div className="text-zinc-500 text-[10px] uppercase tracking-wider mt-1">
             Max Strength
@@ -83,7 +82,7 @@ export const CouplingView: React.FC<CouplingViewProps> = ({
           <div className="flex justify-between text-xs">
             <span className="text-zinc-400">Average Strength</span>
             <span className="font-mono text-zinc-300">
-              {metrics.avgStrength.toFixed(2)}
+              {(metrics.avgStrength || 0).toFixed(2)}
             </span>
           </div>
           <div className="flex justify-between text-xs">
