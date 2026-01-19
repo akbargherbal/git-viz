@@ -174,14 +174,16 @@ export class TreemapExplorerPlugin implements VisualizationPlugin<TreemapExplore
   render(data: EnrichedFileData[], state: TreemapExplorerState): void {
     if (!this.container) return;
 
-    // PHASE 2: Check abort before rendering
-    // Note: render is usually called after processData succeeds,
-    // but we check anyway in case it was called directly
+    // Guard against invalid data types (e.g. from race conditions)
+    if (!Array.isArray(data)) {
+      console.error("[TreemapExplorer] Received invalid data format:", data);
+      return;
+    }
+
     if (this.currentSignal?.aborted) {
       console.log("[TreemapExplorer] Aborted - skipping render");
       return;
     }
-
     this.container.innerHTML = "";
 
     // Create SVG

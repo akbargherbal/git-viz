@@ -196,6 +196,7 @@ const App: React.FC = () => {
     if (ui.activePluginId) {
       const plugin = PluginRegistry.get(ui.activePluginId);
       if (plugin) {
+        setProcessedPluginData(null); // Clear stale data immediately
         setActivePluginInstance(plugin);
         setSelectedCell(null);
       }
