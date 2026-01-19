@@ -41,9 +41,6 @@ const App: React.FC = () => {
     phase: "metadata",
   });
 
-  // PHASE 2: Track if we're currently switching plugins
-  const [isSwitching, setIsSwitching] = useState(false);
-
   // Zustand store - handles data, filters, UI, and plugin states
   const {
     data,
@@ -61,9 +58,12 @@ const App: React.FC = () => {
   } = useAppStore();
 
   // Get current plugin state
+
+  const EMPTY_STATE = {}; // Define outside component
+
   const currentPluginState = useMemo(() => {
-    if (!ui.activePluginId) return {};
-    return pluginStates[ui.activePluginId] || {};
+    if (!ui.activePluginId) return EMPTY_STATE;
+    return pluginStates[ui.activePluginId] || EMPTY_STATE;
   }, [ui.activePluginId, pluginStates]);
 
   // Active filter detection
@@ -204,9 +204,6 @@ const App: React.FC = () => {
 
   // PHASE 2: Render visualization with proper cancellation support
   useEffect(() => {
-    // Prevent concurrent switches
-    if (isSwitching) return;
-
     // PHASE 2: Cleanup previous plugin
     if (
       previousPluginRef.current &&
@@ -238,7 +235,6 @@ const App: React.FC = () => {
     // PHASE 2: Create new abort controller for this operation
     const controller = new AbortController();
     abortControllerRef.current = controller;
-    setIsSwitching(true);
 
     // Flag to track if this effect is still mounted
     let isMounted = true;
@@ -307,14 +303,17 @@ const App: React.FC = () => {
               : "Failed to render visualization",
           );
         }
-      } finally {
-        if (!controller.signal.aborted) {
-          setIsSwitching(false);
-        }
       }
     };
 
     processAndRender();
+
+    // Add after processAndRender() call, before cleanup return
+    processAndRender().then(() => {
+      if (!controller.signal.aborted) {
+        mainScroll.checkScrollability();
+      }
+    });
 
     // PHASE 2: Update previous plugin reference
     previousPluginRef.current = activePlugin;
@@ -342,8 +341,6 @@ const App: React.FC = () => {
     filters.metric,
     setSelectedCell,
     setError,
-    mainScroll,
-    isSwitching,
   ]);
 
   // Check if plugin uses new control pattern
