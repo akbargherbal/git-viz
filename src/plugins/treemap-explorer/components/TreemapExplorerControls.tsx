@@ -33,6 +33,7 @@ export const TreemapExplorerControls: React.FC<
         {sizeMetrics.map((metric) => (
           <button
             key={metric.id}
+            data-testid={`metric-${metric.id}`}
             onClick={() => updateState({ sizeMetric: metric.id as any })}
             className={`
               px-3 py-1 rounded-md text-xs font-medium transition-all

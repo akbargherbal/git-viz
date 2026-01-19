@@ -500,13 +500,16 @@ export const createMockFileIndex = (overrides?: {
   const fileList = overrides?.files?.map((f) => createTemporalFile(f)) || [
     createTemporalFile(),
   ];
-  
-  return fileList.reduce((acc, file) => {
-    if (file.key) {
-      acc[file.key] = file;
-    }
-    return acc;
-  }, {} as Record<string, TemporalFileData>);
+
+  return fileList.reduce(
+    (acc, file) => {
+      if (file.key) {
+        acc[file.key] = file;
+      }
+      return acc;
+    },
+    {} as Record<string, TemporalFileData>,
+  );
 };
 
 // ============================================================================
@@ -534,7 +537,6 @@ export const createMockTreemapState = (
   ...overrides,
 });
 
-
 /**
  * Factory for temporal_daily dataset structure
  */
@@ -543,7 +545,7 @@ export const createMockTemporalData = (overrides?: any) => ({
     min: "2022-01-01",
     max: "2025-01-15",
     total_days: 1110,
-    ...overrides?.date_range
+    ...overrides?.date_range,
   },
   days: overrides?.days || [
     { date: "2022-01-01", commits: 5, files_changed: 2, unique_authors: 1 },

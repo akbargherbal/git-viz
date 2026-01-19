@@ -53,6 +53,7 @@ export const LensModeSelector: React.FC<LensModeSelectorProps> = ({
         return (
           <button
             key={lens.id}
+            data-testid={`lens-${lens.id}`}
             onClick={() => onLensChange(lens.id)}
             className={`
               px-2 py-1 rounded text-[10px] font-medium transition-all border

@@ -442,7 +442,6 @@ describe("TreemapExplorer - Time Lens Integration", () => {
       const dataset = {
         file_index: {
           files: [Object.values(mockFileIndex)[0]],
-
         },
         temporal_daily: mockTemporalData,
       };

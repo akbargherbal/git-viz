@@ -281,7 +281,10 @@ export const FilterPanel: React.FC<FilterPanelProps> = (props) => {
     selectedAuthors.size > 0 || selectedExtensions.size > 0;
 
   return (
-    <div className="w-80 bg-zinc-900 border-l border-zinc-800 h-full flex flex-col shadow-xl">
+    <div
+      className="w-80 bg-zinc-900 border-l border-zinc-800 h-full flex flex-col shadow-xl"
+      data-testid="filter-panel"
+    >
       {/* Header */}
       <div className="p-4 border-b border-zinc-800 flex items-center justify-between bg-zinc-900/95 backdrop-blur-sm">
         <div className="flex items-center gap-2">
@@ -321,6 +324,7 @@ export const FilterPanel: React.FC<FilterPanelProps> = (props) => {
             />
             <input
               type="text"
+              data-testid="author-search"
               value={authorSearch}
               onChange={(e) => setAuthorSearch(e.target.value)}
               placeholder="Search authors..."
@@ -406,6 +410,7 @@ export const FilterPanel: React.FC<FilterPanelProps> = (props) => {
         {/* Reset Button */}
         <button
           onClick={handleClearFilters}
+          data-testid="reset-filters"
           disabled={!hasActiveFilters}
           className={`
             w-full py-2.5 px-4 rounded-lg text-sm font-medium transition-all

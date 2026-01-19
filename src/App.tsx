@@ -40,7 +40,7 @@ const App: React.FC = () => {
     total: 0,
     phase: "metadata",
   });
-  
+
   // PHASE 2 FIX: Separate processed data from rendering to avoid re-processing on state changes
   const [processedPluginData, setProcessedPluginData] = useState<any>(null);
 
@@ -61,7 +61,7 @@ const App: React.FC = () => {
   } = useAppStore();
 
   // Get current plugin state
-  const EMPTY_STATE = {}; 
+  const EMPTY_STATE = {};
   const currentPluginState = useMemo(() => {
     if (!ui.activePluginId) return EMPTY_STATE;
     return pluginStates[ui.activePluginId] || EMPTY_STATE;
@@ -211,11 +211,11 @@ const App: React.FC = () => {
     if (activePlugin.metadata.id === "treemap-explorer") {
       if (!rawData.file_index) return null;
       return rawData;
-    } 
-    
+    }
+
     // For other plugins, check traditional data
     if (!data.tree || !data.activity || !data.metadata) return null;
-    
+
     return rawData && Object.keys(rawData).length > 0
       ? rawData
       : {
@@ -224,11 +224,11 @@ const App: React.FC = () => {
           activity: data.activity,
         };
   }, [
-    activePlugin?.metadata.id, 
-    rawData, 
-    data.tree, 
-    data.activity, 
-    data.metadata
+    activePlugin?.metadata.id,
+    rawData,
+    data.tree,
+    data.activity,
+    data.metadata,
   ]);
 
   // PHASE 2 FIX: Split Processing and Rendering
@@ -330,21 +330,22 @@ const App: React.FC = () => {
       activePlugin.init(containerRef.current, config);
       activePlugin.render(processedPluginData, config);
       mainScroll.checkScrollability();
-
     } catch (error) {
       console.error("Error rendering visualization:", error);
       setError(
-        error instanceof Error ? error.message : "Failed to render visualization",
+        error instanceof Error
+          ? error.message
+          : "Failed to render visualization",
       );
     }
   }, [
     activePlugin,
     processedPluginData, // Only re-render if data is ready
-    currentPluginState,  // Or if state changes (scrubbing)
+    currentPluginState, // Or if state changes (scrubbing)
     filters.timeBin,
     filters.metric,
     setSelectedCell,
-    setError
+    setError,
   ]);
 
   // Check if plugin uses new control pattern
@@ -481,6 +482,7 @@ const App: React.FC = () => {
 
               <button
                 onClick={() => setShowFilters(!ui.showFilters)}
+                data-testid="filters-toggle"
                 className={`relative p-2 rounded-lg transition-all duration-200 ${
                   ui.showFilters
                     ? "bg-purple-600 text-white shadow-lg shadow-purple-900/20"

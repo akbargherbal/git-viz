@@ -80,7 +80,7 @@ export class TreemapExplorerPlugin implements VisualizationPlugin<TreemapExplore
   cleanup(): void {
     console.log("[TreemapExplorer] Cleanup called - aborting operations");
     // No need to set aborted flag manually, the signal will handle it
-    
+
     // Stop playback
     this.stopPlayback();
 
@@ -175,7 +175,7 @@ export class TreemapExplorerPlugin implements VisualizationPlugin<TreemapExplore
     if (!this.container) return;
 
     // PHASE 2: Check abort before rendering
-    // Note: render is usually called after processData succeeds, 
+    // Note: render is usually called after processData succeeds,
     // but we check anyway in case it was called directly
     if (this.currentSignal?.aborted) {
       console.log("[TreemapExplorer] Aborted - skipping render");
@@ -265,6 +265,8 @@ export class TreemapExplorerPlugin implements VisualizationPlugin<TreemapExplore
 
     cellGroups
       .append("rect")
+      .attr("data-viz", "treemap-cell")
+      .attr("data-file-key", (d) => (d.data as EnrichedFileData).key)
       .attr("width", (d) => d.x1 - d.x0)
       .attr("height", (d) => d.y1 - d.y0)
       // FIX: Access d.data directly (it is the EnrichedFileData object)

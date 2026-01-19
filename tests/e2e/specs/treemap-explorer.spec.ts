@@ -28,8 +28,7 @@ test.describe('Treemap Explorer Critical Paths', () => {
     // Intercept all JSON requests
     await page.route('**/*.json', async (route) => {
       const url = route.request().url();
-      // console.log(`INTERCEPT: ${url}`); // Uncomment for verbose logs
-
+      
       if (url.includes('manifest.json')) {
          await route.fulfill({
             status: 200,
@@ -54,7 +53,7 @@ test.describe('Treemap Explorer Critical Paths', () => {
       else if (url.includes('temporal_monthly.json')) fixtureName = 'temporal_monthly.json';
       else if (url.includes('cochange_network.json')) fixtureName = 'cochange_network.json';
       else if (url.includes('author_network.json')) fixtureName = 'author_network.json';
-      
+
       if (fixtureName) {
         await route.fulfill({
           status: 200,
@@ -68,67 +67,66 @@ test.describe('Treemap Explorer Critical Paths', () => {
 
     treemap = new TreemapPage(page);
     await treemap.goto();
-    
-    // Wait for loading to finish (if any)
-    // await expect(page.getByTestId('loading-spinner')).not.toBeVisible(); 
-    
     await treemap.switchToTreemap();
   });
 
   test('should load treemap and display cells', async () => {
-    const count = await treemap.treemapCells.count();
+    const count = await treemap.getCellCount();
     expect(count).toBeGreaterThan(0);
   });
 
-  test('should switch lenses (Debt -> Coupling -> Time)', async ({ page }) => {
-    await expect(page.getByRole('button', { name: 'DEBT' })).toHaveClass(/bg-purple-900/);
+  test('should switch lenses (Debt -> Coupling -> Time)', async () => {
+    // Debt lens is active by default
+    await treemap.expectLensActive('DEBT');
 
+    // Switch to Coupling and verify
     await treemap.switchLens('COUP');
-    await expect(page.getByRole('button', { name: 'COUP' })).toHaveClass(/bg-purple-900/);
-    await expect(page.getByText('Coupling Strength Threshold')).toBeVisible();
+    await treemap.expectLensActive('COUP');
+    await treemap.expectCouplingControlsVisible();
 
+    // Switch to Time and verify
     await treemap.switchLens('TIME');
-    await expect(page.getByRole('button', { name: 'TIME' })).toHaveClass(/bg-purple-900/);
-    await expect(treemap.timelineScrubber).toBeVisible();
+    await treemap.expectLensActive('TIME');
+    await treemap.expectTimelineVisible();
   });
 
-  test('should switch size metrics', async ({ page }) => {
+  test('should switch size metrics', async () => {
     await treemap.switchMetric('Authors');
-    await expect(page.getByRole('button', { name: 'Authors' })).toHaveClass(/bg-zinc-700/);
-    
+    await treemap.expectMetricActive('Authors');
+
     await treemap.switchMetric('Events');
-    await expect(page.getByRole('button', { name: 'Events' })).toHaveClass(/bg-zinc-700/);
+    await treemap.expectMetricActive('Events');
   });
 
   test('should view cell details', async () => {
     await treemap.clickCell(0);
-    await expect(await treemap.getDetailPanelTitle()).toBeVisible();
-    
+    await treemap.expectDetailPanelVisible();
+
     await treemap.closeDetailPanel();
-    await expect(await treemap.getDetailPanelTitle()).not.toBeVisible();
+    await treemap.expectDetailPanelHidden();
   });
 
   test('should filter by author', async () => {
-    const initialCount = await treemap.treemapCells.count();
-    
+    const initialCount = await treemap.getCellCount();
+
     await treemap.openFilterPanel();
-    await treemap.filterByAuthor('excalidraw'); 
-    
-    const filteredCount = await treemap.treemapCells.count();
+    await treemap.filterByAuthor('excalidraw');
+
+    const filteredCount = await treemap.getCellCount();
     expect(filteredCount).toBeLessThan(initialCount);
-    
+
     await treemap.resetFilters();
-    const resetCount = await treemap.treemapCells.count();
+    const resetCount = await treemap.getCellCount();
     expect(resetCount).toBe(initialCount);
   });
 
   test('should scrub timeline in Time lens', async () => {
     await treemap.switchLens('TIME');
-    
+
     const initialColor = await treemap.getCellColor(0);
     await treemap.setTimelinePosition('50');
     const newColor = await treemap.getCellColor(0);
-    
+
     expect(newColor).not.toBe(initialColor);
   });
 });

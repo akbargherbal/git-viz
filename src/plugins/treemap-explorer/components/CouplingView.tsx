@@ -28,10 +28,16 @@ export const CouplingView: React.FC<CouplingViewProps> = ({
     10,
   ).filter((p) => p.strength >= couplingThreshold);
 
-// Get coupling metrics with defensive fallback
-const metrics = couplingIndex && couplingIndex.size > 0
-  ? CouplingDataProcessor.getFileCouplingMetrics(couplingIndex, file.key)
-  : { maxStrength: 0, avgStrength: 0, totalPartners: 0, strongCouplings: 0 };
+  // Get coupling metrics with defensive fallback
+  const metrics =
+    couplingIndex && couplingIndex.size > 0
+      ? CouplingDataProcessor.getFileCouplingMetrics(couplingIndex, file.key)
+      : {
+          maxStrength: 0,
+          avgStrength: 0,
+          totalPartners: 0,
+          strongCouplings: 0,
+        };
 
   // Generate insight based on coupling strength
   const getInsight = (): string => {

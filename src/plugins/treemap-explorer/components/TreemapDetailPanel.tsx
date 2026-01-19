@@ -25,7 +25,10 @@ export default function TreemapDetailPanel({
   onClose,
 }: TreemapDetailPanelProps) {
   return (
-    <div className="absolute top-0 right-0 h-full w-96 bg-zinc-900 border-l border-zinc-800 shadow-2xl z-40 overflow-y-auto flex flex-col animate-slide-in-right">
+    <div
+      className="absolute top-0 right-0 h-full w-96 bg-zinc-900 border-l border-zinc-800 shadow-2xl z-40 overflow-y-auto flex flex-col animate-slide-in-right"
+      data-testid="detail-panel"
+    >
       {/* Header */}
       <div className="sticky top-0 bg-zinc-900 border-b border-zinc-800 p-4 flex items-start justify-between gap-3 z-10">
         <div className="flex-1 min-w-0">
@@ -44,6 +47,7 @@ export default function TreemapDetailPanel({
         </div>
         <button
           onClick={onClose}
+          data-testid="close-detail-panel"
           className="flex-shrink-0 p-1.5 rounded hover:bg-zinc-800 transition-colors text-zinc-400 hover:text-zinc-100"
           aria-label="Close panel"
         >

@@ -70,7 +70,7 @@ export const TimelineScrubber: React.FC<TimelineScrubberProps> = ({
   return (
     <div
       className={`
-        absolute bottom-0 left-0 w-full h-20 
+        absolute bottom-0 left-0 w-full h-20
         flex items-center px-8 gap-4
         bg-gradient-to-t from-zinc-900 via-zinc-900/95 to-transparent
         transition-opacity duration-300
@@ -108,6 +108,7 @@ export const TimelineScrubber: React.FC<TimelineScrubberProps> = ({
       <div className="flex-1 flex flex-col gap-1">
         <input
           type="range"
+          data-testid="timeline-scrubber"
           min="0"
           max="100"
           step="0.1"
