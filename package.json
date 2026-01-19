@@ -2,7 +2,8 @@
   "name": "git-repository-viz",
   "version": "2.0.0",
   "type": "module",
-  "scripts": {
+
+"scripts": {
     "dev": "vite",
     "build": "vite build",
     "preview": "vite preview",
@@ -13,12 +14,12 @@
     "test:coverage": "vitest run --coverage",
     "format": "prettier --write \"src/**/*.{ts,tsx,json,css,md}\"",
     "format:check": "prettier --check \"src/**/*.{ts,tsx,json,css,md}\"",
-    "e2e:fixtures": "tsx tests/e2e/utils/fixture-builder.ts",
     "test:e2e": "playwright test",
     "test:e2e:ui": "playwright test --ui",
     "test:e2e:debug": "playwright test --debug",
     "test:e2e:trace": "playwright show-trace test-results/*/trace.zip"
   },
+
   "dependencies": {
     "d3": "^7.8.5",
     "d3-hierarchy": "^3.1.2",

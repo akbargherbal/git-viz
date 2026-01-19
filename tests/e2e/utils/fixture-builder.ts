@@ -26,6 +26,18 @@ export function generateFixtures() {
 
   // Inject unhealthy files (score <= 50) to ensure Debt Lens shows data by default
   const unhealthyFiles = [
+        {
+      key: "src/legacy/ComplexLegacy.ts",
+      // ...
+      // Force low score:
+      // Churn: 100% (Score 0)
+      // Authors: 1 (Score 30)
+      // Age: Active (Score 100)
+      // Total: 0.4*0 + 0.3*30 + 0.3*100 = 39
+      operations: { M: 100, A: 0, D: 0, R: 0 },
+      unique_authors: 1,
+      total_commits: 100
+    },
     {
       key: "src/legacy/ComplexLegacy.ts",
       name: "ComplexLegacy.ts",

@@ -14,10 +14,13 @@ E2E tests must make debugging EASIER, not harder. Every test failure should prov
 Focus on 5-7 critical user paths, not exhaustive coverage. Unit/integration tests handle the details.
 
 ### 3. **Reuse Existing Infrastructure**
-Leverage test-utils factories to generate fixtures. Don't reinvent the wheel.
+Use test-utils factories to generate test data **inline within each test file**. Each test creates its own minimal dataset specific to its scenario.
 
 ### 4. **Keep Tests Maintainable**
 Use Page Object Model pattern. When UI changes, update one place, not ten tests.
+
+### 5. **Test Data Should Be Self-Contained**
+Each test generates its own minimal dataset using test-utils factories. Tests never depend on external fixture files or shared data generation. When a test fails, the data requirements are visible in the test file itself, making debugging immediate.
 
 ---
 
@@ -25,8 +28,8 @@ Use Page Object Model pattern. When UI changes, update one place, not ten tests.
 
 **Tool:** Playwright  
 **Test Count:** 5-7 critical paths only  
-**Fixtures:** Generated from test-utils, checked into repo  
-**API Mocking:** Mock all dataset requests with fixtures  
+**Test Data:** Generated inline per test using test-utils factories  
+**API Mocking:** Mock all dataset requests with dynamically generated data  
 **Environment:** Dev server (fast feedback, source maps)  
 **Debugging:** Traces, screenshots, videos on failure
 
@@ -52,49 +55,146 @@ Use Page Object Model pattern. When UI changes, update one place, not ten tests.
 
 ---
 
-### Fixture Management
-**Rule:** Generate from test-utils, check into repo
+### Test Data Generation
+**Rule:** Generate data inline per test using test-utils factories
+
+Each test scenario creates its own minimal dataset. Data is generated at the start of each test, specific to what that test needs to verify.
 
 ```typescript
-// tests/e2e/utils/fixture-builder.ts
-import { createMockFileIndex, createTemporalData } from '@/test-utils';
+// tests/e2e/specs/treemap-explorer.spec.ts
+import { test, expect } from '@playwright/test';
+import { createActiveFile, createDormantFile } from '@/test-utils';
+import { mockDatasetAPI } from '../utils/mock-api';
+import { TreemapPage } from '../utils/page-objects';
 
-export function generateFixtures() {
-  const fileIndex = createMockFileIndex({ files: createEnrichedFileList(50) });
-  writeFileSync('./tests/e2e/fixtures/file_index.json', JSON.stringify(fileIndex));
-  
-  const temporal = createTemporalData();
-  writeFileSync('./tests/e2e/fixtures/temporal_daily.json', JSON.stringify(temporal));
-}
-```
-
-**Usage:**
-```bash
-pnpm e2e:fixtures  # Regenerate when data structure changes
-```
-
-**Check fixtures into git** - makes failures debuggable without regeneration.
-
----
-
-### API Mocking  
-**Rule:** Mock all dataset requests with fixtures
-
-```typescript
-// Global setup for all tests
-test.beforeEach(async ({ page }) => {
-  await page.route('**/DATASETS_**/*.json', async (route) => {
-    const filename = route.request().url().split('/').pop();
-    const fixture = await loadFixture(filename);
-    await route.fulfill({ 
-      status: 200,
-      body: JSON.stringify(fixture) 
-    });
+test.describe('Treemap Explorer - Author Filtering', () => {
+  test('should filter by author alice', async ({ page }) => {
+    // Generate data RIGHT HERE - specific to this test
+    const testData = {
+      files: [
+        createActiveFile({ 
+          path: 'src/auth.ts', 
+          author: 'alice@test.com',
+          commits: 25 
+        }),
+        createActiveFile({ 
+          path: 'src/utils.ts', 
+          author: 'bob@test.com',
+          commits: 10 
+        }),
+        createDormantFile({ 
+          path: 'src/legacy.ts', 
+          author: 'alice@test.com',
+          commits: 100 
+        }),
+      ]
+    };
+    
+    await mockDatasetAPI(page, testData);
+    
+    const treemap = new TreemapPage(page);
+    await treemap.goto();
+    await treemap.filterByAuthor('alice@test.com');
+    
+    expect(await treemap.getCellCount()).toBe(2); // auth.ts + legacy.ts
   });
 });
 ```
 
-**Why:** Deterministic, fast, no network flakiness.
+**Why this works:**
+- ✅ Test documents its own data requirements
+- ✅ No separate build step needed
+- ✅ No fixture files to maintain
+- ✅ Each test is self-contained
+- ✅ Easy to create edge cases (empty dataset, single file, etc.)
+- ✅ Changes to one test's data never affect other tests
+
+---
+
+### API Mocking  
+**Rule:** Mock all dataset requests with dynamically generated data
+
+```typescript
+// tests/e2e/utils/mock-api.ts
+import { Page } from '@playwright/test';
+
+interface TestFile {
+  path: string;
+  author?: string;
+  commits?: number;
+  healthScore?: number;
+  additions?: number;
+  deletions?: number;
+}
+
+interface TestDataset {
+  files: TestFile[];
+  dateRange?: [string, string];
+}
+
+export async function mockDatasetAPI(page: Page, dataset: TestDataset) {
+  // Transform test data into expected API format
+  const files = dataset.files.map((f, idx) => ({
+    key: f.path,
+    path: f.path,
+    current_name: f.path,
+    language: f.path.endsWith('.ts') ? 'TypeScript' : 'JavaScript',
+    additions: f.additions ?? 100,
+    deletions: f.deletions ?? 20,
+    commits: f.commits ?? 5,
+    authors: f.author ? [f.author] : ['default@test.com'],
+    created_at: dataset.dateRange?.[0] ?? '2024-01-01',
+    last_modified: dataset.dateRange?.[1] ?? '2024-12-31',
+  }));
+
+  // Build route mapping
+  const routes = {
+    'manifest.json': {
+      repository: 'test-repo',
+      datasets: {
+        file_metadata: { file: 'metadata/file_index.json', production_ready: true },
+        temporal_daily: { file: 'aggregations/temporal_daily.json', production_ready: true },
+      }
+    },
+    'metadata/file_index.json': {
+      files: Object.fromEntries(files.map(f => [f.key, f]))
+    },
+    'aggregations/temporal_daily.json': {
+      temporal_data: files.map(f => ({
+        file_key: f.key,
+        date: f.last_modified,
+        commits: f.commits,
+        additions: f.additions,
+        deletions: f.deletions,
+      }))
+    },
+  };
+
+  // Mock all dataset API calls
+  await page.route('**/DATASETS_excalidraw/**', route => {
+    const url = route.request().url();
+    const filename = url.split('/').slice(-2).join('/');
+    
+    const data = routes[filename];
+    if (data) {
+      route.fulfill({ 
+        status: 200, 
+        contentType: 'application/json',
+        body: JSON.stringify(data) 
+      });
+    } else {
+      route.abort('failed');
+    }
+  });
+}
+```
+
+**Why this works:**
+- ✅ Single route matcher handles all datasets
+- ✅ Manifest auto-generates from provided data
+- ✅ Missing datasets return 404 (explicit failures)
+- ✅ Easy to test partial dataset scenarios
+- ✅ Deterministic, fast, no network flakiness
 
 ---
 
@@ -114,7 +214,7 @@ export default defineConfig({
 
 **When test fails:**
 ```bash
-pnpm exec playwright show-trace test-results/*/trace.zip
+pnpm test:e2e:trace
 ```
 
 You get: timeline, screenshots, network logs, console output, DOM snapshots.
@@ -124,35 +224,67 @@ You get: timeline, screenshots, network logs, console output, DOM snapshots.
 ### Page Object Model (Required)
 **Rule:** All tests use POMs, no direct selectors in tests
 
+Page objects should return locators and provide user actions, but keep assertions in the test files.
+
 ```typescript
 // tests/e2e/utils/page-objects.ts
-export class TreemapExplorerPage {
+import { Page, Locator } from '@playwright/test';
+
+export class TreemapPage {
   constructor(private page: Page) {}
 
+  // Locator getters
+  getLensButton(lens: 'time' | 'coupling' | 'debt'): Locator {
+    return this.page.getByTestId(`lens-${lens}`);
+  }
+
+  getCells(): Locator {
+    return this.page.locator('[data-viz="treemap-cell"]');
+  }
+
+  getAuthorFilter(): Locator {
+    return this.page.getByTestId('filter-author');
+  }
+
+  // User actions
   async goto() {
     await this.page.goto('/?plugin=treemap-explorer');
-    await this.page.locator('.treemap-cell').first().waitFor();
+    await this.page.waitForLoadState('networkidle');
   }
 
-  async switchToLens(lens: 'time' | 'coupling' | 'debt') {
-    await this.page.click(`[data-testid="lens-${lens}"]`);
+  async switchLens(lens: 'time' | 'coupling' | 'debt') {
+    await this.getLensButton(lens).click();
+    // Wait for visualization to update
+    await this.page.waitForTimeout(300);
   }
 
-  async getCellCount() {
-    return await this.page.locator('.treemap-cell').count();
+  async filterByAuthor(author: string) {
+    await this.getAuthorFilter().fill(author);
+    await this.page.keyboard.press('Enter');
+  }
+
+  async getCellCount(): Promise<number> {
+    return await this.getCells().count();
   }
 }
 
-// Usage in tests
+// Usage in tests - assertions are visible
 test('should switch lenses', async ({ page }) => {
-  const treemap = new TreemapExplorerPage(page);
+  const treemap = new TreemapPage(page);
   await treemap.goto();
-  await treemap.switchToLens('coupling');
+  await treemap.switchLens('coupling');
+  
+  // Assertion happens in test, not hidden in POM
+  await expect(treemap.getLensButton('coupling')).toHaveClass(/active/);
   expect(await treemap.getCellCount()).toBeGreaterThan(0);
 });
 ```
 
-**Why:** When selectors change, update POM once, not every test.
+**Why this works:**
+- ✅ Tests read like user stories
+- ✅ Page object is a vocabulary of user actions + element locators
+- ✅ Easy to compose complex assertions
+- ✅ When selectors change, update POM once, not every test
 
 ---
 
@@ -176,12 +308,6 @@ test('should switch lenses', async ({ page }) => {
 
 ```
 tests/e2e/
-├── fixtures/
-│   ├── datasets/
-│   │   ├── file_index.json
-│   │   ├── temporal_daily.json
-│   │   └── cochange_network.json
-│   └── fixture-loader.ts
 ├── specs/
 │   ├── smoke.spec.ts
 │   ├── plugin-loading.spec.ts
@@ -189,10 +315,12 @@ tests/e2e/
 │   ├── timeline.spec.ts
 │   └── filtering.spec.ts
 ├── utils/
-│   ├── fixture-builder.ts
-│   └── page-objects.ts
+│   ├── mock-api.ts           # Dynamic data mocking
+│   └── page-objects.ts       # Page Object Models
 └── playwright.config.ts
 ```
+
+**Note:** No `fixtures/` directory - all data is generated inline within test files.
 
 ---
 
@@ -232,7 +360,6 @@ export default defineConfig({
 ```json
 {
   "scripts": {
-    "e2e:fixtures": "ts-node tests/e2e/utils/fixture-builder.ts",
     "test:e2e": "playwright test",
     "test:e2e:ui": "playwright test --ui",
     "test:e2e:debug": "playwright test --debug",
@@ -251,21 +378,18 @@ pnpm add -D @playwright/test
 pnpm exec playwright install
 
 # 2. Create directory structure
-mkdir -p tests/e2e/{fixtures/datasets,specs,utils}
+mkdir -p tests/e2e/{specs,utils}
 
-# 3. Create fixture builder (using test-utils)
-# Copy example from "Fixture Management" section above
+# 3. Create mock-api helper
+# Copy example from "API Mocking" section above
 
-# 4. Generate initial fixtures
-pnpm e2e:fixtures
+# 4. Create page objects
+# Copy TreemapPage from "Page Object Model" section
 
-# 5. Create first POM
-# Copy TreemapExplorerPage from "Page Object Model" section
+# 5. Write smoke test with inline data generation
+# Copy example from "Test Data Generation" section
 
-# 6. Write smoke test
-# Copy example from "Test Suite Scope" section
-
-# 7. Run tests
+# 6. Run tests
 pnpm test:e2e
 ```
 
@@ -288,19 +412,73 @@ You get: execution timeline, screenshots, network logs, console output, DOM stat
 
 ---
 
+## Common Test Patterns
+
+### Pattern 1: Minimal Dataset for Smoke Test
+```typescript
+test('should load application', async ({ page }) => {
+  const testData = {
+    files: [
+      createActiveFile({ path: 'src/app.ts' })
+    ]
+  };
+  
+  await mockDatasetAPI(page, testData);
+  await page.goto('/');
+  
+  await expect(page.getByTestId('plugin-selector')).toBeVisible();
+});
+```
+
+### Pattern 2: Scenario-Specific Dataset
+```typescript
+test('should highlight dormant files', async ({ page }) => {
+  const testData = {
+    files: [
+      createActiveFile({ path: 'src/active.ts', healthScore: 85 }),
+      createDormantFile({ path: 'src/dormant.ts', healthScore: 30 }),
+    ]
+  };
+  
+  await mockDatasetAPI(page, testData);
+  const treemap = new TreemapPage(page);
+  await treemap.goto();
+  
+  const dormantCell = treemap.getCells().filter({ hasText: 'dormant.ts' });
+  await expect(dormantCell).toHaveCSS('fill', /red/);
+});
+```
+
+### Pattern 3: Edge Case Testing
+```typescript
+test('should handle empty dataset', async ({ page }) => {
+  const testData = { files: [] };
+  
+  await mockDatasetAPI(page, testData);
+  await page.goto('/');
+  
+  await expect(page.getByText('No data available')).toBeVisible();
+});
+```
+
+---
+
 ## Key Adherence Points
 
 ### ✅ DO:
 - Add data-testid ONLY to interaction points
 - Use Page Object Model for all tests
-- Check fixtures into git
-- Mock all API calls
+- Generate test data inline per test
+- Mock all API calls with dynamic data
 - Capture traces on failure
 - Keep suite to 5-7 tests
+- Import factories from test-utils
 
 ### ❌ DON'T:
 - Add testids to every element
 - Write tests without POMs
+- Create separate fixture generation scripts
+- Check test data files into git
 - Test data processing logic (use unit tests)
 - Test every UI variation
 - Skip debugging configuration
@@ -308,15 +486,28 @@ You get: execution timeline, screenshots, network logs, console output, DOM stat
 
 ---
 
+## Migration from Old Approach
+
+If you're updating from the old fixture-based approach:
+
+1. **Remove fixture files**: Delete `tests/e2e/fixtures/` directory
+2. **Remove fixture builder**: Delete `tests/e2e/utils/fixture-builder.ts`
+3. **Remove npm scripts**: Delete `e2e:fixtures` command from package.json
+4. **Create mock-api helper**: Add dynamic mocking utility
+5. **Update tests**: Replace `loadFixture()` calls with inline `mockDatasetAPI(page, testData)`
+6. **Verify**: Run `pnpm test:e2e` to ensure all tests pass
+
+---
+
 ## Summary
 
-**Philosophy:** E2E tests verify critical paths work. Unit/integration tests handle the details.
+**Philosophy:** E2E tests verify critical user paths work. Unit/integration tests handle the details. Test data is generated inline, specific to each test scenario.
 
 **When to add E2E test:** Only when testing a critical user journey end-to-end.
 
 **When to expand existing test:** Never. Add unit/integration test instead.
 
-**Debugging first:** Every test failure should be quickly diagnosable with traces.
+**Debugging first:** Every test failure should be quickly diagnosable with traces and self-contained test data.
 
 ---
 

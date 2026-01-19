@@ -72,19 +72,34 @@ export class TreemapPage {
     await this.page.goto('/');
   }
 
-  async switchToTreemap() {
-    // Check if already active (by checking if cells are visible)
-    if (await this.treemapCells.first().isVisible()) return;
-    
-    // Or check if selector shows it
-    if (await this.treemapOption.isVisible()) {
-        await this.treemapOption.click();
-    } else {
-        await this.vizSelectorBtn.click();
-        await this.treemapOption.click();
-    }
-    await expect(this.treemapCells.first()).toBeVisible();
+// tests/e2e/utils/page-objects.ts
+
+async switchToTreemap() {
+  // Check if already active
+  const cellsVisible = await this.treemapCells.first().isVisible().catch(() => false);
+  if (cellsVisible) return;
+  
+  // Click to switch
+  if (await this.treemapOption.isVisible()) {
+    await this.treemapOption.click();
+  } else {
+    await this.vizSelectorBtn.click();
+    await this.treemapOption.click();
   }
+  
+  // CRITICAL: Wait for D3 to actually render cells
+  // Increase timeout and wait for the processing to complete
+  await this.page.waitForFunction(
+    () => {
+      const cells = document.querySelectorAll('[data-viz="treemap-cell"]');
+      return cells.length > 0;
+    },
+    { timeout: 15000 } // Increase timeout for D3 processing
+  );
+  
+  // Now verify they're visible
+  await expect(this.treemapCells.first()).toBeVisible({ timeout: 5000 });
+}
 
   // Lens operations with built-in assertions
   async switchLens(lens: 'DEBT' | 'COUP' | 'TIME') {
