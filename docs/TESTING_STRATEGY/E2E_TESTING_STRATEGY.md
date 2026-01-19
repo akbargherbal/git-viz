@@ -114,66 +114,152 @@ test.describe('Treemap Explorer - Author Filtering', () => {
 ### API Mocking  
 **Rule:** Mock all dataset requests with dynamically generated data
 
+The mock API must generate all required datasets (`file_index`, `file_lifecycle`, `directory_stats`, `author_network`) to satisfy the application's data processor.
+
 ```typescript
 // tests/e2e/utils/mock-api.ts
 import { Page } from '@playwright/test';
 
-interface TestFile {
+export interface TestFile {
   path: string;
   author?: string;
   commits?: number;
   healthScore?: number;
   additions?: number;
   deletions?: number;
+  age_days?: number;
 }
 
-interface TestDataset {
+export interface TestDataset {
   files: TestFile[];
   dateRange?: [string, string];
+  includeTemporalData?: boolean;
+  includeCouplingData?: boolean;
+  couplingEdges?: Array<{ source: string; target: string; weight: number }>;
 }
 
 export async function mockDatasetAPI(page: Page, dataset: TestDataset) {
-  // Transform test data into expected API format
-  const files = dataset.files.map((f, idx) => ({
-    key: f.path,
-    path: f.path,
-    current_name: f.path,
-    language: f.path.endsWith('.ts') ? 'TypeScript' : 'JavaScript',
-    additions: f.additions ?? 100,
-    deletions: f.deletions ?? 20,
-    commits: f.commits ?? 5,
-    authors: f.author ? [f.author] : ['default@test.com'],
-    created_at: dataset.dateRange?.[0] ?? '2024-01-01',
-    last_modified: dataset.dateRange?.[1] ?? '2024-12-31',
-  }));
+  // 1. Generate File Data matching V2FileIndex interface
+  const files = dataset.files.map((f) => {
+    const authorEmail = f.author || 'default@test.com';
+    const totalCommits = f.commits ?? 5;
+    
+    return {
+      key: f.path,
+      first_seen: dataset.dateRange?.[0] ?? '2024-01-01',
+      last_modified: dataset.dateRange?.[1] ?? '2024-12-31',
+      total_commits: totalCommits,
+      unique_authors: 1,
+      primary_author: {
+        email: authorEmail,
+        commit_count: totalCommits,
+        percentage: 100
+      },
+      operations: {
+        A: f.additions ?? 100,
+        D: f.deletions ?? 20,
+        M: Math.max(0, totalCommits - 2)
+      },
+      age_days: f.age_days ?? 30,
+      commits_per_day: 1,
+      lifecycle_event_count: totalCommits
+    };
+  });
 
-  // Build route mapping
-  const routes = {
+  // Helper: Convert array to Record<string, T>
+  const toRecord = (items: any[], keyField: string = 'key') => {
+    return items.reduce((acc, item) => {
+      acc[item[keyField]] = item;
+      return acc;
+    }, {} as Record<string, any>);
+  };
+
+  // 2. Generate Directory Stats (Required for Tree Building)
+  const dirStats: Record<string, any> = {};
+  const processedDirs = new Set<string>();
+  files.forEach(f => {
+    const parts = f.key.split('/');
+    for (let i = 0; i < parts.length - 1; i++) {
+      const dirPath = parts.slice(0, i + 1).join('/');
+      if (!processedDirs.has(dirPath)) {
+        dirStats[dirPath] = { path: dirPath, total_commits: 10, activity_score: 10 };
+        processedDirs.add(dirPath);
+      }
+    }
+  });
+  if (Object.keys(dirStats).length === 0) {
+      dirStats['src'] = { path: 'src', total_commits: 0, activity_score: 0 };
+  }
+
+  // 3. Generate Lifecycle Events (Required for Activity Matrix)
+  const lifecycleFiles: Record<string, any[]> = {};
+  files.forEach(f => {
+    lifecycleFiles[f.key] = [{
+      commit_hash: 'hash123',
+      timestamp: new Date(f.last_modified).getTime() / 1000,
+      datetime: f.last_modified,
+      operation: 'M',
+      author_name: f.primary_author.email.split('@')[0],
+      author_email: f.primary_author.email,
+      commit_subject: 'Update file'
+    }];
+  });
+
+  // 4. Build Route Mapping
+  const routes: Record<string, any> = {
     'manifest.json': {
       repository: 'test-repo',
       datasets: {
         file_metadata: { file: 'metadata/file_index.json', production_ready: true },
         temporal_daily: { file: 'aggregations/temporal_daily.json', production_ready: true },
+        cochange_network: { file: 'networks/cochange_network.json', production_ready: true },
+        directory_stats: { file: 'aggregations/directory_stats.json', production_ready: true },
+        file_lifecycle: { file: 'file_lifecycle.json', production_ready: true },
+        author_network: { file: 'networks/author_network.json', production_ready: true }
       }
     },
     'metadata/file_index.json': {
-      files: Object.fromEntries(files.map(f => [f.key, f]))
+      files: toRecord(files) // Must be a Record, not Array
     },
     'aggregations/temporal_daily.json': {
-      temporal_data: files.map(f => ({
-        file_key: f.key,
+      days: files.map(f => ({
+        key: f.last_modified,
         date: f.last_modified,
-        commits: f.commits,
-        additions: f.additions,
-        deletions: f.deletions,
+        commits: f.total_commits,
+        files_changed: 1,
+        unique_authors: 1,
+        operations: f.operations
       }))
     },
+    'networks/cochange_network.json': {
+      edges: dataset.couplingEdges || []
+    },
+    'aggregations/directory_stats.json': {
+      directories: dirStats // Must be a Record
+    },
+    'file_lifecycle.json': {
+      generated_at: new Date().toISOString(),
+      repository_path: '/repo',
+      total_files: files.length,
+      total_commits: 100,
+      files: lifecycleFiles // Must be Record<string, Event[]>
+    },
+    'networks/author_network.json': {
+      nodes: files.map(f => ({
+        id: f.primary_author.email,
+        email: f.primary_author.email,
+        commit_count: f.total_commits,
+        collaboration_count: 0
+      })),
+      edges: []
+    }
   };
 
   // Mock all dataset API calls
   await page.route('**/DATASETS_excalidraw/**', route => {
     const url = route.request().url();
-    const filename = url.split('/').slice(-2).join('/');
+    const matches = url.match(/DATASETS_excalidraw\/(.+)$/);
+    const filename = matches ? matches[1] : '';
     
     const data = routes[filename];
     if (data) {
@@ -183,7 +269,8 @@ export async function mockDatasetAPI(page: Page, dataset: TestDataset) {
         body: JSON.stringify(data) 
       });
     } else {
-      route.abort('failed');
+      console.log(`[MOCK] Dataset not found: ${filename}`);
+      route.fulfill({ status: 404, body: '{}' });
     }
   });
 }
@@ -191,9 +278,9 @@ export async function mockDatasetAPI(page: Page, dataset: TestDataset) {
 
 **Why this works:**
 - ✅ Single route matcher handles all datasets
-- ✅ Manifest auto-generates from provided data
-- ✅ Missing datasets return 404 (explicit failures)
-- ✅ Easy to test partial dataset scenarios
+- ✅ Generates all required datasets to prevent app crashes
+- ✅ Correctly formats data as Records vs Arrays where required
+- ✅ Dynamically builds directory structure from file paths
 - ✅ Deterministic, fast, no network flakiness
 
 ---
@@ -483,19 +570,6 @@ test('should handle empty dataset', async ({ page }) => {
 - Test every UI variation
 - Skip debugging configuration
 - Let suite grow beyond 10 tests
-
----
-
-## Migration from Old Approach
-
-If you're updating from the old fixture-based approach:
-
-1. **Remove fixture files**: Delete `tests/e2e/fixtures/` directory
-2. **Remove fixture builder**: Delete `tests/e2e/utils/fixture-builder.ts`
-3. **Remove npm scripts**: Delete `e2e:fixtures` command from package.json
-4. **Create mock-api helper**: Add dynamic mocking utility
-5. **Update tests**: Replace `loadFixture()` calls with inline `mockDatasetAPI(page, testData)`
-6. **Verify**: Run `pnpm test:e2e` to ensure all tests pass
 
 ---
 

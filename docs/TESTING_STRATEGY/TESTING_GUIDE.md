@@ -540,15 +540,59 @@ console.log(JSON.stringify(file, null, 2));  // See all fields
 
 ## E2E Testing
 
-End-to-end testing is not yet implemented but is planned. For the complete E2E testing strategy, including tool selection (Playwright), architecture, and implementation roadmap, see:
+End-to-end testing is implemented using Playwright. For the complete E2E testing strategy, including architecture, patterns, and best practices, see:
 
 📄 **[E2E Testing Strategy](./E2E_TESTING_STRATEGY.md)**
 
+### Key E2E Principles
+
 The E2E strategy is designed to:
-- Reuse existing `test-utils` factories for fixture generation
-- Complement (not duplicate) unit/integration tests
-- Focus on 5-10 critical user journeys
-- Integrate seamlessly with current testing infrastructure
+- **Generate test data inline** - Each test creates its own minimal dataset using `test-utils` factories
+- **No fixture files** - Data is mocked dynamically via `mockDatasetAPI()` 
+- **Focus on 5-7 critical user journeys** - Smoke tests, plugin loading, lens switching, filtering, timeline scrubbing
+- **Complement unit/integration tests** - E2E tests verify user workflows, not data processing logic
+- **Integrate seamlessly** - Reuses existing `test-utils` factories (`createActiveFile`, `createDormantFile`)
+
+### Quick E2E Example
+
+```typescript
+// tests/e2e/specs/smoke.spec.ts
+import { test, expect } from '@playwright/test';
+import { mockDatasetAPI } from '../utils/mock-api';
+import { createActiveFile } from '@/test-utils';
+
+test('should load application', async ({ page }) => {
+  // Generate test data inline
+  const testData = {
+    files: [
+      createActiveFile({ path: 'src/app.ts' })
+    ]
+  };
+  
+  await mockDatasetAPI(page, testData);
+  await page.goto('/');
+  
+  await expect(page.getByTestId('plugin-selector')).toBeVisible();
+});
+```
+
+### Running E2E Tests
+
+```bash
+# Run all E2E tests
+pnpm test:e2e
+
+# Interactive UI mode
+pnpm test:e2e:ui
+
+# Debug mode
+pnpm test:e2e:debug
+
+# View test traces
+pnpm test:e2e:trace
+```
+
+See [E2E_TESTING_STRATEGY.md](./E2E_TESTING_STRATEGY.md) for complete documentation.
 
 ---
 

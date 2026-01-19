@@ -48,6 +48,7 @@ export interface TestDataset {
   dateRange?: [string, string];
   includeTemporalData?: boolean;
   includeCouplingData?: boolean;
+  couplingEdges?: Array<{ source: string; target: string; weight: number }>;
 }
 
 export async function mockDatasetAPI(page: Page, dataset: TestDataset) {
@@ -57,7 +58,7 @@ export async function mockDatasetAPI(page: Page, dataset: TestDataset) {
     const totalCommits = f.commits ?? 5;
     
     return {
-      // Internal helpers (removed before sending if needed, but safe to keep in mock)
+      // Internal helpers
       _key: f.path,
       _additions: f.additions ?? 100,
       _deletions: f.deletions ?? 20,
@@ -79,10 +80,57 @@ export async function mockDatasetAPI(page: Page, dataset: TestDataset) {
         M: Math.max(0, totalCommits - 2)
       },
       age_days: f.age_days ?? 30,
-      commits_per_day: 1, // CORRECTION: Must be Integer (int64)
+      commits_per_day: 1,
       lifecycle_event_count: totalCommits
     };
   });
+
+  // Helper to convert array to record keyed by path
+  const toRecord = (items: any[], keyField: string = 'key') => {
+    return items.reduce((acc, item) => {
+      acc[item[keyField]] = item;
+      return acc;
+    }, {} as Record<string, any>);
+  };
+
+  // Generate Lifecycle Data (Record<string, RawFileEvent[]>)
+  const lifecycleFiles: Record<string, any[]> = {};
+  files.forEach(f => {
+    lifecycleFiles[f.key] = [{
+      commit_hash: 'hash123',
+      timestamp: new Date(f.last_modified).getTime() / 1000,
+      datetime: f.last_modified,
+      operation: 'M',
+      author_name: f.primary_author.email.split('@')[0],
+      author_email: f.primary_author.email,
+      commit_subject: 'Update file'
+    }];
+  });
+
+  // Generate Directory Stats dynamically
+  const dirStats: Record<string, any> = {};
+  const processedDirs = new Set<string>();
+
+  files.forEach(f => {
+    const parts = f.key.split('/');
+    // Generate stats for every parent directory
+    for (let i = 0; i < parts.length - 1; i++) {
+      const dirPath = parts.slice(0, i + 1).join('/');
+      if (!processedDirs.has(dirPath)) {
+        dirStats[dirPath] = {
+          path: dirPath,
+          total_commits: 10, // Simplified
+          activity_score: 10
+        };
+        processedDirs.add(dirPath);
+      }
+    }
+  });
+  
+  // Ensure root src exists if empty
+  if (Object.keys(dirStats).length === 0) {
+      dirStats['src'] = { path: 'src', total_commits: 0, activity_score: 0 };
+  }
 
   const routes: Record<string, any> = {
     'manifest.json': {
@@ -100,19 +148,25 @@ export async function mockDatasetAPI(page: Page, dataset: TestDataset) {
           file: 'networks/cochange_network.json', 
           production_ready: dataset.includeCouplingData === true 
         },
-        // CORRECTION: Add directory_stats to manifest
         directory_stats: {
           file: 'aggregations/directory_stats.json',
+          production_ready: true
+        },
+        file_lifecycle: {
+          file: 'file_lifecycle.json',
+          production_ready: true
+        },
+        author_network: {
+          file: 'networks/author_network.json',
           production_ready: true
         }
       }
     },
     'metadata/file_index.json': {
-      // CORRECTION: Return Array, not Object.fromEntries
-      files: files.map(f => {
+      files: toRecord(files.map(f => {
         const { _key, _additions, _deletions, ...rest } = f;
         return rest;
-      })
+      }))
     },
     'aggregations/temporal_daily.json': {
       days: files.map(f => ({
@@ -129,21 +183,27 @@ export async function mockDatasetAPI(page: Page, dataset: TestDataset) {
       }))
     },
     'networks/cochange_network.json': {
-      edges: []
+      edges: dataset.couplingEdges || []
     },
-    // CORRECTION: Add basic directory_stats mock
     'aggregations/directory_stats.json': {
-      directories: [
-        {
-          key: "src",
-          path: "src",
-          total_files: files.length,
-          total_commits: files.reduce((acc, f) => acc + f.total_commits, 0),
-          unique_authors: 1,
-          operations: { A: 100, D: 20, M: 10 },
-          activity_score: 10
-        }
-      ]
+      directories: dirStats
+    },
+    'file_lifecycle.json': {
+      generated_at: new Date().toISOString(),
+      repository_path: '/repo',
+      total_files: files.length,
+      total_commits: 100,
+      total_changes: 1000,
+      files: lifecycleFiles
+    },
+    'networks/author_network.json': {
+      nodes: files.map(f => ({
+        id: f.primary_author.email,
+        email: f.primary_author.email,
+        commit_count: f.total_commits,
+        collaboration_count: 0
+      })),
+      edges: []
     }
   };
 
@@ -161,12 +221,10 @@ export async function mockDatasetAPI(page: Page, dataset: TestDataset) {
       });
     } else {
       console.log(`[MOCK] Dataset not found: ${filename}`);
-      // CORRECTION: Return 404 instead of aborting to allow app to handle missing optional data gracefully
       route.fulfill({ status: 404, body: '{}' });
     }
   });
 }
-
 ```
 
 3. **Add type exports to test-utils** (optional but recommended)
@@ -229,7 +287,7 @@ test.describe('Smoke Test (New Approach)', () => {
     await page.goto('/');
 
     // Verify basic UI loaded
-    await expect(page.getByTestId('plugin-selector')).toBeVisible({ timeout: 10000 });
+    await expect(page.getByTestId('viz-selector')).toBeVisible({ timeout: 10000 });
   });
 });
 ```
@@ -615,4 +673,4 @@ Before you begin, confirm:
 - [ ] All current tests are in known state (passing or failing consistently)
 - [ ] You have 3-4 hours available for migration
 
-Ready to start? **Begin with Phase 1!** 🚀
+Ready to start? **Begin with Phase 1!** 🚀EOF
