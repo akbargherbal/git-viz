@@ -40,6 +40,9 @@ const App: React.FC = () => {
     total: 0,
     phase: "metadata",
   });
+  
+  // PHASE 2 FIX: Separate processed data from rendering to avoid re-processing on state changes
+  const [processedPluginData, setProcessedPluginData] = useState<any>(null);
 
   // Zustand store - handles data, filters, UI, and plugin states
   const {
@@ -58,9 +61,7 @@ const App: React.FC = () => {
   } = useAppStore();
 
   // Get current plugin state
-
-  const EMPTY_STATE = {}; // Define outside component
-
+  const EMPTY_STATE = {}; 
   const currentPluginState = useMemo(() => {
     if (!ui.activePluginId) return EMPTY_STATE;
     return pluginStates[ui.activePluginId] || EMPTY_STATE;
@@ -68,7 +69,6 @@ const App: React.FC = () => {
 
   // Active filter detection
   const hasActiveFilters = useMemo(() => {
-    // Check global filters
     const globalActive =
       filters.authors.size > 0 ||
       filters.directories.size > 0 ||
@@ -76,7 +76,6 @@ const App: React.FC = () => {
       filters.eventTypes.size > 0 ||
       filters.timeRange !== null;
 
-    // Check plugin-specific filters if supported
     if (activePlugin?.checkActiveFilters) {
       return (
         globalActive || activePlugin.checkActiveFilters(currentPluginState)
@@ -132,6 +131,7 @@ const App: React.FC = () => {
       setLoading(true);
       setError(null);
       setRawData(null);
+      setProcessedPluginData(null); // Reset processed data
 
       try {
         setLoadingProgress({ loaded: 0, total: 1, phase: "metadata" });
@@ -202,9 +202,39 @@ const App: React.FC = () => {
     }
   }, [ui.activePluginId, setSelectedCell]);
 
-  // PHASE 2: Render visualization with proper cancellation support
+  // PHASE 2 FIX: Memoize data input to prevent unnecessary re-renders
+  // This ensures TreemapExplorer doesn't re-process when global data.tree updates
+  const pluginDataInput = useMemo(() => {
+    if (!activePlugin || !rawData) return null;
+
+    // For TreemapExplorer, we only need rawData (specifically file_index)
+    if (activePlugin.metadata.id === "treemap-explorer") {
+      if (!rawData.file_index) return null;
+      return rawData;
+    } 
+    
+    // For other plugins, check traditional data
+    if (!data.tree || !data.activity || !data.metadata) return null;
+    
+    return rawData && Object.keys(rawData).length > 0
+      ? rawData
+      : {
+          metadata: data.metadata,
+          tree: data.tree,
+          activity: data.activity,
+        };
+  }, [
+    activePlugin?.metadata.id, 
+    rawData, 
+    data.tree, 
+    data.activity, 
+    data.metadata
+  ]);
+
+  // PHASE 2 FIX: Split Processing and Rendering
+  // Effect 1: Process Data (Expensive, Cancellable)
   useEffect(() => {
-    // PHASE 2: Cleanup previous plugin
+    // Cleanup previous plugin if changed
     if (
       previousPluginRef.current &&
       previousPluginRef.current !== activePlugin
@@ -216,54 +246,27 @@ const App: React.FC = () => {
       previousPluginRef.current.cleanup?.();
     }
 
-    // PHASE 2: Abort any in-flight processing
+    // Abort previous processing
     if (abortControllerRef.current) {
       console.log("[App] Aborting previous processing operation");
       abortControllerRef.current.abort();
     }
 
-    if (!activePlugin || !containerRef.current) return;
+    if (!activePlugin || !pluginDataInput) return;
 
-    // For TreemapExplorer, we need file_index data
-    if (activePlugin.metadata.id === "treemap-explorer") {
-      if (!rawData?.file_index) return;
-    } else {
-      // For other plugins, check traditional data
-      if (!data.tree || !data.activity || !data.metadata) return;
-    }
-
-    // PHASE 2: Create new abort controller for this operation
     const controller = new AbortController();
     abortControllerRef.current = controller;
-
-    // Flag to track if this effect is still mounted
     let isMounted = true;
 
-    const processAndRender = async () => {
+    const processData = async () => {
       try {
+        // Some plugins might need config for processing, but most don't
+        // We pass currentPluginState just in case, but ideally processing is config-agnostic
         const config = {
           ...activePlugin.defaultConfig,
-          timeBin: filters.timeBin,
-          metric: filters.metric,
           ...currentPluginState,
-          onCellClick: (cell: any) => {
-            // Only handle click if this effect is still active
-            if (isMounted && !controller.signal.aborted) {
-              setSelectedCell(cell);
-            }
-          },
         };
 
-        const dataInput =
-          rawData && Object.keys(rawData).length > 0
-            ? rawData
-            : {
-                metadata: data.metadata,
-                tree: data.tree,
-                activity: data.activity,
-              };
-
-        // PHASE 2: Use cancellable version if available, fallback to regular
         let processed;
         if (activePlugin.processDataCancellable) {
           console.log(
@@ -271,7 +274,7 @@ const App: React.FC = () => {
             activePlugin.metadata.id,
           );
           processed = await activePlugin.processDataCancellable(
-            dataInput,
+            pluginDataInput,
             controller.signal,
             config,
           );
@@ -280,67 +283,68 @@ const App: React.FC = () => {
             "[App] Using regular processData (no cancellation) for:",
             activePlugin.metadata.id,
           );
-          processed = activePlugin.processData(dataInput, config);
+          processed = activePlugin.processData(pluginDataInput, config);
         }
 
-        // PHASE 2: Only proceed with rendering if not aborted and still mounted
         if (!controller.signal.aborted && isMounted) {
-          activePlugin.init(containerRef.current!, config);
-          activePlugin.render(processed, config);
-          mainScroll.checkScrollability();
-        } else {
-          console.log("[App] Skipping render - operation was aborted");
+          setProcessedPluginData(processed);
         }
       } catch (error) {
-        // PHASE 2: Ignore AbortError, log other errors only if still mounted
         if (error instanceof Error && error.name === "AbortError") {
           console.log("[App] Processing aborted (expected)");
         } else if (isMounted && !controller.signal.aborted) {
-          console.error("Error processing/rendering:", error);
+          console.error("Error processing data:", error);
           setError(
-            error instanceof Error
-              ? error.message
-              : "Failed to render visualization",
+            error instanceof Error ? error.message : "Failed to process data",
           );
         }
       }
     };
 
-    processAndRender();
-
-    // Add after processAndRender() call, before cleanup return
-    processAndRender().then(() => {
-      if (!controller.signal.aborted) {
-        mainScroll.checkScrollability();
-      }
-    });
-
-    // PHASE 2: Update previous plugin reference
+    processData();
     previousPluginRef.current = activePlugin;
 
     return () => {
-      // Mark as unmounted to prevent stale updates
       isMounted = false;
-
-      // PHASE 2: Abort operation on unmount
       controller.abort();
-
-      // Call plugin cleanup (but don't call destroy yet - that happens on plugin switch)
-      if (activePlugin) {
-        activePlugin.cleanup?.();
-      }
     };
+  }, [activePlugin, pluginDataInput, setError]); // Removed currentPluginState from dependencies!
+
+  // Effect 2: Render Visualization (Fast, Sync)
+  // Runs when processedData is ready OR when state changes (scrubbing, filtering)
+  useEffect(() => {
+    if (!activePlugin || !containerRef.current || !processedPluginData) return;
+
+    try {
+      const config = {
+        ...activePlugin.defaultConfig,
+        timeBin: filters.timeBin,
+        metric: filters.metric,
+        ...currentPluginState,
+        onCellClick: (cell: any) => {
+          setSelectedCell(cell);
+        },
+      };
+
+      // Init and Render
+      activePlugin.init(containerRef.current, config);
+      activePlugin.render(processedPluginData, config);
+      mainScroll.checkScrollability();
+
+    } catch (error) {
+      console.error("Error rendering visualization:", error);
+      setError(
+        error instanceof Error ? error.message : "Failed to render visualization",
+      );
+    }
   }, [
     activePlugin,
-    data.tree,
-    data.activity,
-    data.metadata,
-    rawData,
-    currentPluginState,
+    processedPluginData, // Only re-render if data is ready
+    currentPluginState,  // Or if state changes (scrubbing)
     filters.timeBin,
     filters.metric,
     setSelectedCell,
-    setError,
+    setError
   ]);
 
   // Check if plugin uses new control pattern

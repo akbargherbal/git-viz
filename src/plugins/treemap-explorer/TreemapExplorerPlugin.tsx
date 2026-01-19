@@ -62,8 +62,8 @@ export class TreemapExplorerPlugin implements VisualizationPlugin<TreemapExplore
   private arcRenderer: CouplingArcRenderer | null = null;
   private couplingIndex: Map<string, any> = new Map();
 
-  // PHASE 2: Abort flag for cancellation support
-  private aborted = false;
+  // PHASE 2 FIX: Use currentSignal instead of shared boolean to avoid race conditions
+  private currentSignal: AbortSignal | null = null;
 
   getInitialState(): TreemapExplorerState {
     return { ...this.defaultConfig };
@@ -79,8 +79,8 @@ export class TreemapExplorerPlugin implements VisualizationPlugin<TreemapExplore
    */
   cleanup(): void {
     console.log("[TreemapExplorer] Cleanup called - aborting operations");
-    this.aborted = true;
-
+    // No need to set aborted flag manually, the signal will handle it
+    
     // Stop playback
     this.stopPlayback();
 
@@ -99,13 +99,8 @@ export class TreemapExplorerPlugin implements VisualizationPlugin<TreemapExplore
     signal: AbortSignal,
     _config?: TreemapExplorerState,
   ): Promise<EnrichedFileData[]> {
-    this.aborted = false;
-
-    // Listen for abort signal
-    signal.addEventListener("abort", () => {
-      console.log("[TreemapExplorer] Abort signal received");
-      this.aborted = true;
-    });
+    // Store signal for synchronous checks
+    this.currentSignal = signal;
 
     // Check if already aborted before starting
     if (signal.aborted) {
@@ -114,7 +109,7 @@ export class TreemapExplorerPlugin implements VisualizationPlugin<TreemapExplore
     }
 
     // Use the regular processData implementation
-    // The methods will check this.aborted periodically
+    // The methods will check this.currentSignal periodically
     return this.processData(dataset, _config);
   }
 
@@ -140,7 +135,7 @@ export class TreemapExplorerPlugin implements VisualizationPlugin<TreemapExplore
     }
 
     // PHASE 2: Check abort before processing
-    if (this.aborted) {
+    if (this.currentSignal?.aborted) {
       console.log("[TreemapExplorer] Aborted before file enrichment");
       throw new DOMException("Operation aborted", "AbortError");
     }
@@ -149,7 +144,7 @@ export class TreemapExplorerPlugin implements VisualizationPlugin<TreemapExplore
     this.data = DataProcessor.enrichFiles(fileIndex);
 
     // PHASE 2: Check abort after enrichment
-    if (this.aborted) {
+    if (this.currentSignal?.aborted) {
       console.log("[TreemapExplorer] Aborted after file enrichment");
       throw new DOMException("Operation aborted", "AbortError");
     }
@@ -162,7 +157,7 @@ export class TreemapExplorerPlugin implements VisualizationPlugin<TreemapExplore
     }
 
     // PHASE 2: Check abort after coupling
-    if (this.aborted) {
+    if (this.currentSignal?.aborted) {
       console.log("[TreemapExplorer] Aborted after coupling processing");
       throw new DOMException("Operation aborted", "AbortError");
     }
@@ -180,7 +175,9 @@ export class TreemapExplorerPlugin implements VisualizationPlugin<TreemapExplore
     if (!this.container) return;
 
     // PHASE 2: Check abort before rendering
-    if (this.aborted) {
+    // Note: render is usually called after processData succeeds, 
+    // but we check anyway in case it was called directly
+    if (this.currentSignal?.aborted) {
       console.log("[TreemapExplorer] Aborted - skipping render");
       return;
     }
@@ -231,7 +228,7 @@ export class TreemapExplorerPlugin implements VisualizationPlugin<TreemapExplore
       return;
     }
 
-    if (this.aborted) {
+    if (this.currentSignal?.aborted) {
       console.log("[TreemapExplorer] Aborted - skipping layout calculation");
       return;
     }
@@ -252,7 +249,7 @@ export class TreemapExplorerPlugin implements VisualizationPlugin<TreemapExplore
     treemapLayout(root);
 
     // PHASE 2: Check abort before rendering cells
-    if (this.aborted) {
+    if (this.currentSignal?.aborted) {
       console.log("[TreemapExplorer] Aborted - skipping cell rendering");
       return;
     }
@@ -479,7 +476,6 @@ export class TreemapExplorerPlugin implements VisualizationPlugin<TreemapExplore
           onStateChange={updateState}
           onClose={() => {}}
         />
-        // In TreemapExplorerPlugin.tsx, renderUI method around line 460
         {selectedFile && (
           <TreemapDetailPanel
             file={selectedFile}
