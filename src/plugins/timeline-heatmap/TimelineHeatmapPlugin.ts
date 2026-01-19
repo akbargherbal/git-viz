@@ -659,9 +659,14 @@ export class TimelineHeatmapPlugin implements VisualizationPlugin<
             td.style.transform = "scale(1.1)";
             td.style.zIndex = "10";
           };
+          td.onmouseleave = () => {
+            td.style.transform = "";
+            td.style.zIndex = "";
+          };
         }
         row.appendChild(td);
       });
+
       tbody.appendChild(row);
     });
 
