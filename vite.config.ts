@@ -24,5 +24,7 @@ export default defineConfig({
     environment: "jsdom",
     setupFiles: "./src/setupTests.ts",
     css: true,
+    // Exclude E2E tests from Unit/Integration test runs
+    exclude: ["**/node_modules/**", "**/dist/**", "tests/e2e/**"],
   },
 });

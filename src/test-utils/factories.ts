@@ -492,14 +492,22 @@ export function createCouplingData(overrides: any = {}) {
 
 /**
  * Factory for file_index dataset structure
+ * Returns a Record<string, TemporalFileData> as expected by DataProcessor
  */
 export const createMockFileIndex = (overrides?: {
   files?: Array<Partial<TemporalFileData>>;
-}) => ({
-  files: overrides?.files?.map((f) => createTemporalFile(f)) || [
+}) => {
+  const fileList = overrides?.files?.map((f) => createTemporalFile(f)) || [
     createTemporalFile(),
-  ],
-});
+  ];
+  
+  return fileList.reduce((acc, file) => {
+    if (file.key) {
+      acc[file.key] = file;
+    }
+    return acc;
+  }, {} as Record<string, TemporalFileData>);
+};
 
 // ============================================================================
 // STATE FACTORIES

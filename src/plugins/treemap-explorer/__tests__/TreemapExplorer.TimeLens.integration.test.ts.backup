@@ -64,7 +64,7 @@ describe("TreemapExplorer - Time Lens Integration", () => {
   describe("Data Processing", () => {
     it("should process temporal data and enrich files", () => {
       const dataset = {
-        file_index: { files: mockFileIndex },
+        file_index: mockFileIndex,
         temporal_daily: mockTemporalData,
       };
 
@@ -76,7 +76,7 @@ describe("TreemapExplorer - Time Lens Integration", () => {
 
     it("should handle missing temporal data gracefully", () => {
       const dataset = {
-        file_index: { files: mockFileIndex },
+        file_index: mockFileIndex,
         // No temporal_daily
       };
 
@@ -88,7 +88,7 @@ describe("TreemapExplorer - Time Lens Integration", () => {
 
     it("should calculate date range from temporal data", () => {
       const dataset = {
-        file_index: { files: mockFileIndex },
+        file_index: mockFileIndex,
         temporal_daily: mockTemporalData,
       };
 
@@ -104,7 +104,7 @@ describe("TreemapExplorer - Time Lens Integration", () => {
   describe("Timeline Position Changes", () => {
     it("should filter files at position 0 (start of timeline)", () => {
       const dataset = {
-        file_index: { files: mockFileIndex },
+        file_index: mockFileIndex,
         temporal_daily: mockTemporalData,
       };
 
@@ -120,7 +120,7 @@ describe("TreemapExplorer - Time Lens Integration", () => {
 
     it("should show all files at position 100 (end of timeline)", () => {
       const dataset = {
-        file_index: { files: mockFileIndex },
+        file_index: mockFileIndex,
         temporal_daily: mockTemporalData,
       };
 
@@ -140,7 +140,7 @@ describe("TreemapExplorer - Time Lens Integration", () => {
 
     it("should handle mid-timeline positions", () => {
       const dataset = {
-        file_index: { files: mockFileIndex },
+        file_index: mockFileIndex,
         temporal_daily: mockTemporalData,
       };
 
@@ -160,7 +160,7 @@ describe("TreemapExplorer - Time Lens Integration", () => {
   describe("Time Filters", () => {
     it('should apply "showCreations" filter', () => {
       const dataset = {
-        file_index: { files: mockFileIndex },
+        file_index: mockFileIndex,
         temporal_daily: mockTemporalData,
       };
 
@@ -178,7 +178,7 @@ describe("TreemapExplorer - Time Lens Integration", () => {
 
     it('should apply "fadeDormant" filter', () => {
       const dataset = {
-        file_index: { files: mockFileIndex },
+        file_index: mockFileIndex,
         temporal_daily: mockTemporalData,
       };
 
@@ -196,7 +196,7 @@ describe("TreemapExplorer - Time Lens Integration", () => {
 
     it("should work with both filters enabled", () => {
       const dataset = {
-        file_index: { files: mockFileIndex },
+        file_index: mockFileIndex,
         temporal_daily: mockTemporalData,
       };
 
@@ -214,7 +214,7 @@ describe("TreemapExplorer - Time Lens Integration", () => {
 
     it("should work with both filters disabled", () => {
       const dataset = {
-        file_index: { files: mockFileIndex },
+        file_index: mockFileIndex,
         temporal_daily: mockTemporalData,
       };
 
@@ -234,7 +234,7 @@ describe("TreemapExplorer - Time Lens Integration", () => {
   describe("Lens Switching", () => {
     it("should switch from Debt to Time lens", () => {
       const dataset = {
-        file_index: { files: mockFileIndex },
+        file_index: mockFileIndex,
         temporal_daily: mockTemporalData,
       };
 
@@ -258,7 +258,7 @@ describe("TreemapExplorer - Time Lens Integration", () => {
 
     it("should switch from Coupling to Time lens", () => {
       const dataset = {
-        file_index: { files: mockFileIndex },
+        file_index: mockFileIndex,
         temporal_daily: mockTemporalData,
       };
 
@@ -282,7 +282,7 @@ describe("TreemapExplorer - Time Lens Integration", () => {
 
     it("should maintain spatial layout when switching lenses", () => {
       const dataset = {
-        file_index: { files: mockFileIndex },
+        file_index: mockFileIndex,
         temporal_daily: mockTemporalData,
       };
 
@@ -320,7 +320,7 @@ describe("TreemapExplorer - Time Lens Integration", () => {
       vi.useFakeTimers();
 
       const dataset = {
-        file_index: { files: mockFileIndex },
+        file_index: mockFileIndex,
         temporal_daily: mockTemporalData,
       };
 
@@ -342,7 +342,7 @@ describe("TreemapExplorer - Time Lens Integration", () => {
 
     it("should stop playback", () => {
       const dataset = {
-        file_index: { files: mockFileIndex },
+        file_index: mockFileIndex,
         temporal_daily: mockTemporalData,
       };
 
@@ -362,7 +362,7 @@ describe("TreemapExplorer - Time Lens Integration", () => {
   describe("Color Scheme", () => {
     it("should apply Time lens colors to cells", () => {
       const dataset = {
-        file_index: { files: mockFileIndex },
+        file_index: mockFileIndex,
         temporal_daily: mockTemporalData,
       };
 
@@ -387,7 +387,7 @@ describe("TreemapExplorer - Time Lens Integration", () => {
   describe("Performance", () => {
     it("should render Time lens within 300ms", () => {
       const dataset = {
-        file_index: { files: mockFileIndex },
+        file_index: mockFileIndex,
         temporal_daily: mockTemporalData,
       };
 
@@ -407,7 +407,7 @@ describe("TreemapExplorer - Time Lens Integration", () => {
 
     it("should handle rapid timeline scrubbing", () => {
       const dataset = {
-        file_index: { files: mockFileIndex },
+        file_index: mockFileIndex,
         temporal_daily: mockTemporalData,
       };
 

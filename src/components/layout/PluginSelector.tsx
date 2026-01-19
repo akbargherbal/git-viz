@@ -77,6 +77,7 @@ export const PluginSelector: React.FC<PluginSelectorProps> = ({ plugins }) => {
           }
         `}
         title="Select Visualization"
+        aria-label="Select Visualization"
       >
         <LayoutGrid size={16} className="text-purple-500" />
         <span className="min-w-[140px] text-left">

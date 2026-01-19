@@ -218,7 +218,19 @@ export class TreemapExplorerPlugin implements VisualizationPlugin<TreemapExplore
     // Filter data based on thresholds
     const filteredData = this.filterData(enrichedData, state);
 
-    // PHASE 2: Check abort before layout calculation
+    // FIX: Handle empty data to prevent d3.hierarchy crash
+    if (filteredData.length === 0) {
+      this.container.innerHTML = `
+        <div class="flex items-center justify-center h-full text-zinc-500">
+          <div class="text-center">
+            <p class="mb-2">No files match the current filters</p>
+            <p class="text-sm opacity-75">Try adjusting the health threshold or lens settings</p>
+          </div>
+        </div>
+      `;
+      return;
+    }
+
     if (this.aborted) {
       console.log("[TreemapExplorer] Aborted - skipping layout calculation");
       return;
