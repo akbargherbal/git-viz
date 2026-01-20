@@ -1,5 +1,3 @@
-// src/plugins/treemap-explorer/TreemapExplorerPlugin.tsx
-
 import {
   VisualizationPlugin,
   PluginControlProps,
@@ -198,9 +196,6 @@ export class TreemapExplorerPlugin implements VisualizationPlugin<TreemapExplore
     const width = rect.width;
     const height = rect.height;
 
-    // Initialize Arc Renderer
-    this.arcRenderer = new CouplingArcRenderer(svg);
-
     // Prepare data based on lens mode
     let enrichedData: EnrichedFileData[] | TemporalFileData[] = data;
 
@@ -260,9 +255,10 @@ export class TreemapExplorerPlugin implements VisualizationPlugin<TreemapExplore
     const cells = root.leaves() as d3.HierarchyRectangularNode<any>[];
 
     const cellGroups = svg
-      .selectAll("g")
+      .selectAll("g.cell-group")
       .data(cells)
       .join("g")
+      .attr("class", "cell-group")
       .attr("transform", (d) => `translate(${d.x0},${d.y0})`);
 
     cellGroups
@@ -313,6 +309,9 @@ export class TreemapExplorerPlugin implements VisualizationPlugin<TreemapExplore
       .attr("font-family", "monospace")
       .style("pointer-events", "none")
       .text((d) => (d.data as EnrichedFileData).key.split("/").pop() || "");
+
+    // Initialize Arc Renderer (moved after cells to ensure correct z-index and avoid selection collision)
+    this.arcRenderer = new CouplingArcRenderer(svg);
 
     // Render coupling arcs if in coupling mode and file selected
     if (state.lensMode === "coupling" && state.selectedFile && state.showArcs) {
