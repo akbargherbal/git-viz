@@ -15,9 +15,10 @@ import { CellDetailPanel } from "@/plugins/timeline-heatmap/components/CellDetai
 import TreemapDetailPanel from "@/plugins/treemap-explorer/components/TreemapDetailPanel";
 import { useScrollIndicators } from "@/hooks/useScrollIndicators";
 import { LoadProgress } from "@/services/data/types";
-import type { VisualizationPlugin } from "@/types/plugin";
-import { supportsControlOwnership } from "@/types/plugin";
 import "@/plugins/init"; // Initialize plugins
+
+import { supportsControlOwnership } from "@/types/plugin";
+import type { VisualizationPlugin } from "@/types/plugin";
 
 const App: React.FC = () => {
   // Refs
@@ -25,8 +26,6 @@ const App: React.FC = () => {
   const mainContainerRef = useRef<HTMLElement>(null);
   const headerScrollRef = useRef<HTMLDivElement>(null);
   const headerContainerRef = useRef<HTMLElement>(null);
-
-  // PHASE 2: Abort controller and plugin tracking refs
   const abortControllerRef = useRef<AbortController | null>(null);
   const previousPluginRef = useRef<VisualizationPlugin | null>(null);
 
@@ -41,7 +40,6 @@ const App: React.FC = () => {
     phase: "metadata",
   });
 
-  // PHASE 2 FIX: Separate processed data from rendering to avoid re-processing on state changes
   const [processedPluginData, setProcessedPluginData] = useState<any>(null);
 
   // Zustand store - handles data, filters, UI, and plugin states
@@ -203,7 +201,6 @@ const App: React.FC = () => {
     }
   }, [ui.activePluginId, setSelectedCell]);
 
-  // PHASE 2 FIX: Memoize data input to prevent unnecessary re-renders
   // This ensures TreemapExplorer doesn't re-process when global data.tree updates
   const pluginDataInput = useMemo(() => {
     if (!activePlugin || !rawData) return null;
@@ -232,7 +229,6 @@ const App: React.FC = () => {
     data.metadata,
   ]);
 
-  // PHASE 2 FIX: Split Processing and Rendering
   // Effect 1: Process Data (Expensive, Cancellable)
   useEffect(() => {
     // Cleanup previous plugin if changed
@@ -472,7 +468,6 @@ const App: React.FC = () => {
 
             {/* Right: Plugin-owned controls + filter button */}
             <div className="flex items-center gap-2 flex-shrink-0">
-              {/* Phase 3: Plugin controls only (no fallback to universal controls) */}
               {usesPluginControls && (
                 <div className="flex items-center gap-2">
                   {renderPluginControls()}
