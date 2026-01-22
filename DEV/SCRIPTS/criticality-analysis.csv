@@ -1,0 +1,49 @@
+File,Import Centrality,Coverage %,Criticality Score,Tier
+/home/akbar/Jupyter_Notebooks/SOFTWARE_ARCHEOLOGY/git-viz/src/plugins/treemap-explorer/types.ts,13,0.0,56.12,Tier 1 (90%+ target)
+/home/akbar/Jupyter_Notebooks/SOFTWARE_ARCHEOLOGY/git-viz/src/types/domain.ts,8,0.0,29.86,Tier 2 (85%+ target)
+/home/akbar/Jupyter_Notebooks/SOFTWARE_ARCHEOLOGY/git-viz/src/types/plugin.ts,8,0.0,29.86,Tier 2 (85%+ target)
+/home/akbar/Jupyter_Notebooks/SOFTWARE_ARCHEOLOGY/git-viz/src/store/appStore.ts,6,81.2,12.20,Tier 2 (85%+ target)
+/home/akbar/Jupyter_Notebooks/SOFTWARE_ARCHEOLOGY/git-viz/src/types/visualization.ts,4,0.0,12.13,Tier 3 (75%+ target)
+/home/akbar/Jupyter_Notebooks/SOFTWARE_ARCHEOLOGY/git-viz/src/services/data/CouplingDataProcessor.ts,4,95.3,6.35,Tier 3 ✓
+/home/akbar/Jupyter_Notebooks/SOFTWARE_ARCHEOLOGY/git-viz/src/services/data/TemporalDataProcessor.ts,3,81.1,4.96,Tier 3 ✓
+/home/akbar/Jupyter_Notebooks/SOFTWARE_ARCHEOLOGY/git-viz/src/test-utils,2,0.0,4.92,Tier 3 (75%+ target)
+/home/akbar/Jupyter_Notebooks/SOFTWARE_ARCHEOLOGY/git-viz/src/utils/formatting.ts,3,100.0,4.17,Tier 3 ✓
+/home/akbar/Jupyter_Notebooks/SOFTWARE_ARCHEOLOGY/git-viz/src/services/data/DataProcessor.ts,3,100.0,4.17,Tier 3 ✓
+/home/akbar/Jupyter_Notebooks/SOFTWARE_ARCHEOLOGY/git-viz/src/services/data/DatasetRegistry.ts,2,75.0,3.08,Tier 3 ✓
+/home/akbar/Jupyter_Notebooks/SOFTWARE_ARCHEOLOGY/git-viz/src/plugins/timeline-heatmap/TimelineHeatmapPlugin.ts,2,81.0,2.93,Tier 3 ✓
+/home/akbar/Jupyter_Notebooks/SOFTWARE_ARCHEOLOGY/git-viz/src/plugins/core/PluginRegistry.ts,2,88.2,2.75,Tier 3 ✓
+/home/akbar/Jupyter_Notebooks/SOFTWARE_ARCHEOLOGY/git-viz/src/components/common/FilterPanel.tsx,2,94.9,2.59,Tier 3 ✓
+/home/akbar/Jupyter_Notebooks/SOFTWARE_ARCHEOLOGY/git-viz/src/plugins/treemap-explorer/components/TreemapDetailPanel.tsx,2,100.0,2.46,Tier 3 ✓
+/home/akbar/Jupyter_Notebooks/SOFTWARE_ARCHEOLOGY/git-viz/src/App.tsx,1,0.0,2.00,Tier 4 (60%+ target)
+/home/akbar/Jupyter_Notebooks/SOFTWARE_ARCHEOLOGY/git-viz/src/services/data/PluginDataLoader.ts,1,0.0,2.00,Tier 4 (60%+ target)
+/home/akbar/Jupyter_Notebooks/SOFTWARE_ARCHEOLOGY/git-viz/src/services/data/types.ts,1,0.0,2.00,Tier 4 (60%+ target)
+/home/akbar/Jupyter_Notebooks/SOFTWARE_ARCHEOLOGY/git-viz/src/hooks/useScrollIndicators.tsx,1,0.0,2.00,Tier 4 (60%+ target)
+/home/akbar/Jupyter_Notebooks/SOFTWARE_ARCHEOLOGY/git-viz/src/components/common/ScrollIndicatorOverlay.tsx,1,0.0,2.00,Tier 4 (60%+ target)
+/home/akbar/Jupyter_Notebooks/SOFTWARE_ARCHEOLOGY/git-viz/src/components/common/LoadingSpinner.tsx,1,0.0,2.00,Tier 4 (60%+ target)
+/home/akbar/Jupyter_Notebooks/SOFTWARE_ARCHEOLOGY/git-viz/src/components/common/ErrorDisplay.tsx,1,0.0,2.00,Tier 4 (60%+ target)
+/home/akbar/Jupyter_Notebooks/SOFTWARE_ARCHEOLOGY/git-viz/src/components/layout/PluginSelector.tsx,1,0.0,2.00,Tier 4 (60%+ target)
+/home/akbar/Jupyter_Notebooks/SOFTWARE_ARCHEOLOGY/git-viz/src/plugins/init.ts,1,0.0,2.00,Tier 4 (60%+ target)
+/home/akbar/Jupyter_Notebooks/SOFTWARE_ARCHEOLOGY/git-viz/src/plugins/timeline-heatmap/components/CellDetailPanel.tsx,1,0.0,2.00,Tier 4 (60%+ target)
+/home/akbar/Jupyter_Notebooks/SOFTWARE_ARCHEOLOGY/git-viz/src/index.css,1,0.0,2.00,Tier 4 (60%+ target)
+/home/akbar/Jupyter_Notebooks/SOFTWARE_ARCHEOLOGY/git-viz/src/components/common/MetricSelector.tsx,1,11.1,1.89,Tier 4 (60%+ target)
+/home/akbar/Jupyter_Notebooks/SOFTWARE_ARCHEOLOGY/git-viz/src/components/common/TimeBinSelector.tsx,1,11.1,1.89,Tier 4 (60%+ target)
+/home/akbar/Jupyter_Notebooks/SOFTWARE_ARCHEOLOGY/git-viz/src/utils/dateHelpers.ts,1,37.5,1.62,Tier 4 (60%+ target)
+/home/akbar/Jupyter_Notebooks/SOFTWARE_ARCHEOLOGY/git-viz/src/services/data/HealthScoreCalculator.ts,1,78.5,1.22,Tier 4 ✓
+/home/akbar/Jupyter_Notebooks/SOFTWARE_ARCHEOLOGY/git-viz/src/plugins/treemap-explorer/TreemapExplorerPlugin.tsx,1,78.3,1.22,Tier 4 ✓
+/home/akbar/Jupyter_Notebooks/SOFTWARE_ARCHEOLOGY/git-viz/src/plugins/treemap-explorer/components/DebtView.tsx,1,78.3,1.22,Tier 4 ✓
+/home/akbar/Jupyter_Notebooks/SOFTWARE_ARCHEOLOGY/git-viz/src/plugins/treemap-explorer/utils/colorScales.ts,1,80.5,1.19,Tier 4 ✓
+/home/akbar/Jupyter_Notebooks/SOFTWARE_ARCHEOLOGY/git-viz/src/plugins/treemap-explorer/components/CouplingView.tsx,1,88.0,1.12,Tier 4 ✓
+/home/akbar/Jupyter_Notebooks/SOFTWARE_ARCHEOLOGY/git-viz/src/plugins/treemap-explorer/renderers/CouplingArcRenderer.ts,1,88.9,1.11,Tier 4 ✓
+/home/akbar/Jupyter_Notebooks/SOFTWARE_ARCHEOLOGY/git-viz/src/plugins/treemap-explorer/components/TreemapExplorerFilters.tsx,1,88.9,1.11,Tier 4 ✓
+/home/akbar/Jupyter_Notebooks/SOFTWARE_ARCHEOLOGY/git-viz/src/plugins/treemap-explorer/components/TimelineScrubber.tsx,1,94.7,1.05,Tier 4 ✓
+/home/akbar/Jupyter_Notebooks/SOFTWARE_ARCHEOLOGY/git-viz/src/plugins/treemap-explorer/components/LensModeSelector.tsx,1,100.0,1.00,Tier 4 ✓
+/home/akbar/Jupyter_Notebooks/SOFTWARE_ARCHEOLOGY/git-viz/src/plugins/treemap-explorer/components/TimeView.tsx,1,100.0,1.00,Tier 4 ✓
+/home/akbar/Jupyter_Notebooks/SOFTWARE_ARCHEOLOGY/git-viz/src/plugins/treemap-explorer/components/TreemapExplorerControls.tsx,1,100.0,1.00,Tier 4 ✓
+/home/akbar/Jupyter_Notebooks/SOFTWARE_ARCHEOLOGY/git-viz/src/setupTests.ts,0,0.0,0.00,Tier 4 (60%+ target)
+/home/akbar/Jupyter_Notebooks/SOFTWARE_ARCHEOLOGY/git-viz/src/main.tsx,0,0.0,0.00,Tier 4 (60%+ target)
+/home/akbar/Jupyter_Notebooks/SOFTWARE_ARCHEOLOGY/git-viz/src/services/data/index.ts,0,0.0,0.00,Tier 4 (60%+ target)
+/home/akbar/Jupyter_Notebooks/SOFTWARE_ARCHEOLOGY/git-viz/src/test-utils/index.ts,0,100.0,0.00,Tier 4 ✓
+/home/akbar/Jupyter_Notebooks/SOFTWARE_ARCHEOLOGY/git-viz/src/test-utils/mocks.ts,0,73.3,0.00,Tier 4 ✓
+/home/akbar/Jupyter_Notebooks/SOFTWARE_ARCHEOLOGY/git-viz/src/test-utils/factories.ts,0,96.9,0.00,Tier 4 ✓
+/home/akbar/Jupyter_Notebooks/SOFTWARE_ARCHEOLOGY/git-viz/src/test-utils/helpers.ts,0,100.0,0.00,Tier 4 ✓
+/home/akbar/Jupyter_Notebooks/SOFTWARE_ARCHEOLOGY/git-viz/src/test-utils/render.tsx,0,100.0,0.00,Tier 4 ✓

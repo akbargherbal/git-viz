@@ -26,5 +26,9 @@ export default defineConfig({
     css: true,
     // Exclude E2E tests from Unit/Integration test runs
     exclude: ["**/node_modules/**", "**/dist/**", "tests/e2e/**"],
+
+    coverage: {
+      reporter: ["text", "json", "json-summary", "html"],
+    },
   },
 });
