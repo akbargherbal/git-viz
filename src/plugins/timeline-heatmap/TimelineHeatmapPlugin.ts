@@ -11,7 +11,7 @@ import type {
   MetricType,
   OptimizedDirectoryNode,
 } from "@/types/domain";
-import { getTimeBinStart, formatTimeBin } from "@/utils/dateHelpers";
+import { getTimeBinStart, formatTimeBin, getNextTimeBin } from "@/utils/dateHelpers";
 import { formatNumber } from "@/utils/formatting";
 import { DataProcessor } from "@/services/data/DataProcessor";
 import { MetricSelector } from "@/components/common/MetricSelector";
@@ -409,8 +409,38 @@ export class TimelineHeatmapPlugin implements VisualizationPlugin<
     }
 
     const cellMap = new Map<string, TempCell>();
-    const timeBinsSet = new Set<number>();
     const topDirsSet = new Set(topDirectories);
+
+    // NEW: Determine Time Range from Activity
+    let minTime = Infinity;
+    let maxTime = -Infinity;
+
+    // First pass to find range
+    for (const item of activity) {
+        const t = new Date(item.d).getTime();
+        if (t < minTime) minTime = t;
+        if (t > maxTime) maxTime = t;
+    }
+
+    // Handle empty data
+    if (minTime === Infinity) {
+         return { cells: [], directories: [], timeBins: [], maxValue: 0 };
+    }
+
+    // Generate continuous time bins
+    const timeBins: Date[] = [];
+    let currentBin = getTimeBinStart(new Date(minTime), timeBinType);
+    const endBin = getTimeBinStart(new Date(maxTime), timeBinType);
+
+    // Safety break to prevent infinite loops if something goes wrong with dates
+    let safetyCounter = 0;
+    const MAX_BINS = 5000; // Reasonable limit for visualization
+
+    while (currentBin <= endBin && safetyCounter < MAX_BINS) {
+        timeBins.push(new Date(currentBin));
+        currentBin = getNextTimeBin(currentBin, timeBinType);
+        safetyCounter++;
+    }
 
     // PHASE 2: Check abort periodically during iteration
     let processedCount = 0;
@@ -426,7 +456,7 @@ export class TimelineHeatmapPlugin implements VisualizationPlugin<
       const date = new Date(item.d);
       const binStart = getTimeBinStart(date, timeBinType);
       const binKey = binStart.getTime();
-      timeBinsSet.add(binKey);
+      // REMOVED: timeBinsSet.add(binKey);
 
       const key = `${path}|${binKey}`;
       if (!cellMap.has(key)) {
@@ -465,10 +495,10 @@ export class TimelineHeatmapPlugin implements VisualizationPlugin<
       throw new DOMException("Operation aborted", "AbortError");
     }
 
-    // 4. Sort Time Bins
-    const timeBins = Array.from(timeBinsSet)
-      .sort()
-      .map((t) => new Date(t));
+    // 4. Sort Time Bins (Already sorted by generation)
+    // const timeBins = Array.from(timeBinsSet)
+    //   .sort()
+    //   .map((t) => new Date(t));
 
     // 5. Build Grid
     let maxValue = 0;

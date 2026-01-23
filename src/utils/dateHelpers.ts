@@ -1,11 +1,14 @@
 // src/utils/dateHelpers.ts
 
 import {
-  startOfDay,
   startOfWeek,
   startOfMonth,
   startOfQuarter,
   startOfYear,
+  addWeeks,
+  addMonths,
+  addQuarters,
+  addYears,
   format,
 } from "date-fns";
 import { TimeBinType } from "@/types/domain";
@@ -16,8 +19,6 @@ import { TimeBinType } from "@/types/domain";
 
 export const getTimeBinStart = (date: Date, binType: TimeBinType): Date => {
   switch (binType) {
-    case "day":
-      return startOfDay(date);
     case "week":
       return startOfWeek(date, { weekStartsOn: 1 }); // Monday
     case "month":
@@ -27,14 +28,27 @@ export const getTimeBinStart = (date: Date, binType: TimeBinType): Date => {
     case "year":
       return startOfYear(date);
     default:
-      return startOfDay(date);
+      return startOfWeek(date, { weekStartsOn: 1 });
+  }
+};
+
+export const getNextTimeBin = (date: Date, binType: TimeBinType): Date => {
+  switch (binType) {
+    case "week":
+      return addWeeks(date, 1);
+    case "month":
+      return addMonths(date, 1);
+    case "quarter":
+      return addQuarters(date, 1);
+    case "year":
+      return addYears(date, 1);
+    default:
+      return addWeeks(date, 1);
   }
 };
 
 export const formatTimeBin = (date: Date, binType: TimeBinType): string => {
   switch (binType) {
-    case "day":
-      return format(date, "MMM d, yyyy");
     case "week":
       return format(date, "'W'I, yyyy");
     case "month":
@@ -44,6 +58,6 @@ export const formatTimeBin = (date: Date, binType: TimeBinType): string => {
     case "year":
       return format(date, "yyyy");
     default:
-      return format(date, "MMM d, yyyy");
+      return format(date, "'W'I, yyyy");
   }
 };

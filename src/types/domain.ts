@@ -67,7 +67,7 @@ export interface ActivityMatrixItem {
   tf: string[]; // Top Files
 }
 
-export type TimeBinType = "day" | "week" | "month" | "quarter" | "year";
+export type TimeBinType = "week" | "month" | "quarter" | "year";
 export type MetricType = "commits" | "events" | "authors" | "lines";
 
 export interface TimeRange {

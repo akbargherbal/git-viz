@@ -13,12 +13,12 @@ describe("appStore - Plugin State Management (Phase 1)", () => {
     it("should initialize plugin state if it does not exist", () => {
       const { setPluginState } = useAppStore.getState();
 
-      setPluginState("test-plugin", { metric: "commits", timeBin: "day" });
+      setPluginState("test-plugin", { metric: "commits", timeBin: "week" });
 
       const updatedStates = useAppStore.getState().pluginStates;
       expect(updatedStates["test-plugin"]).toEqual({
         metric: "commits",
-        timeBin: "day",
+        timeBin: "week",
       });
     });
 
@@ -26,7 +26,7 @@ describe("appStore - Plugin State Management (Phase 1)", () => {
       const { setPluginState } = useAppStore.getState();
 
       // Initialize state
-      setPluginState("test-plugin", { metric: "commits", timeBin: "day" });
+      setPluginState("test-plugin", { metric: "commits", timeBin: "week" });
 
       // Update state
       setPluginState("test-plugin", { metric: "events" });
@@ -34,7 +34,7 @@ describe("appStore - Plugin State Management (Phase 1)", () => {
       const updatedStates = useAppStore.getState().pluginStates;
       expect(updatedStates["test-plugin"]).toEqual({
         metric: "events",
-        timeBin: "day", // Previous value preserved
+        timeBin: "week", // Previous value preserved
       });
     });
 
@@ -100,12 +100,12 @@ describe("appStore - Plugin State Management (Phase 1)", () => {
     it("should initialize plugin state if it does not exist", () => {
       const { initPluginState } = useAppStore.getState();
 
-      initPluginState("test-plugin", { metric: "commits", timeBin: "day" });
+      initPluginState("test-plugin", { metric: "commits", timeBin: "week" });
 
       const states = useAppStore.getState().pluginStates;
       expect(states["test-plugin"]).toEqual({
         metric: "commits",
-        timeBin: "day",
+        timeBin: "week",
       });
     });
 
@@ -113,15 +113,15 @@ describe("appStore - Plugin State Management (Phase 1)", () => {
       const { initPluginState, setPluginState } = useAppStore.getState();
 
       // Set initial state
-      setPluginState("test-plugin", { metric: "events", timeBin: "week" });
+      setPluginState("test-plugin", { metric: "events", timeBin: "month" });
 
       // Try to initialize (should be ignored)
-      initPluginState("test-plugin", { metric: "commits", timeBin: "day" });
+      initPluginState("test-plugin", { metric: "commits", timeBin: "week" });
 
       const states = useAppStore.getState().pluginStates;
       expect(states["test-plugin"]).toEqual({
         metric: "events",
-        timeBin: "week", // Original state preserved
+        timeBin: "month", // Original state preserved
       });
     });
 

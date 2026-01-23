@@ -4,7 +4,6 @@ import { useAppStore } from "@/store/appStore";
 import { TimeBinType } from "@/types/domain";
 import {
   Calendar,
-  CalendarDays,
   CalendarRange,
   CalendarClock,
 } from "lucide-react";
@@ -43,7 +42,6 @@ export const TimeBinSelector: React.FC<
     label: string;
     icon: React.ReactNode;
   }[] = [
-    { value: "day", label: "Day", icon: <CalendarDays size={14} /> },
     { value: "week", label: "Week", icon: <CalendarRange size={14} /> },
     { value: "month", label: "Month", icon: <Calendar size={14} /> },
     { value: "quarter", label: "Quarter", icon: <CalendarClock size={14} /> },
