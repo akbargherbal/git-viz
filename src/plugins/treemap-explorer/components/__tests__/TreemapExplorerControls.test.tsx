@@ -32,7 +32,6 @@ describe("TreemapExplorerControls", () => {
     // Check Metric buttons
     expect(screen.getByText("Commits")).toBeInTheDocument();
     expect(screen.getByText("Authors")).toBeInTheDocument();
-    expect(screen.getByText("Events")).toBeInTheDocument();
   });
 
   it("updates lens mode when changed", () => {
@@ -60,8 +59,6 @@ describe("TreemapExplorerControls", () => {
     fireEvent.click(screen.getByTestId("metric-authors"));
     expect(mockUpdateState).toHaveBeenCalledWith({ sizeMetric: "authors" });
 
-    fireEvent.click(screen.getByTestId("metric-events"));
-    expect(mockUpdateState).toHaveBeenCalledWith({ sizeMetric: "events" });
   });
 
   it("highlights the active size metric", () => {

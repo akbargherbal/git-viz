@@ -31,7 +31,7 @@
 **Observed Symptoms:**
 
 * Switching between “Commits” and “Events” produces no visible change in the visualization.
-* Treemap box sizes and heatmap intensities remain identical when toggling between these two metrics.
+* Treemap box sizes remain identical when toggling between these two metrics.
 * Switching to “Authors” *does* produce a noticeable visual change.
 
 **User Impact:**
@@ -42,7 +42,7 @@
 
 **Additional Context:**
 
-* Observed across multiple visualizations, including Treemap Explorer and Timeline Heatmap.
+* Observed in Treemap Explorer.
 * Behavior reproduced consistently with the Excalidraw dataset.
 
 ---

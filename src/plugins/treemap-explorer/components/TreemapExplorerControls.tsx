@@ -19,7 +19,6 @@ export const TreemapExplorerControls: React.FC<
   const sizeMetrics = [
     { id: "commits", label: "Commits" },
     { id: "authors", label: "Authors" },
-    { id: "events", label: "Events" },
   ];
 
   return (
