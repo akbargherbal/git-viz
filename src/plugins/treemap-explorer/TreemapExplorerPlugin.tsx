@@ -24,7 +24,7 @@ export class TreemapExplorerPlugin implements VisualizationPlugin<TreemapExplore
     id: "treemap-explorer",
     name: "Treemap Explorer",
     description: "Multi-lens code health, coupling, and temporal analysis",
-    version: "2.1.0", // Bumped for Phase 2 lifecycle support
+    version: "2.2.0", // Bumped for tooltip feature
     priority: 2,
     dataRequirements: [
       { dataset: "file_index", required: true, alias: "file_index" },
@@ -53,14 +53,13 @@ export class TreemapExplorerPlugin implements VisualizationPlugin<TreemapExplore
   };
 
   private container: HTMLElement | null = null;
+  private tooltip: HTMLElement | null = null;
   private data: EnrichedFileData[] = [];
   private temporalData: TemporalDailyData | null = null;
   private dateRange: { min: string; max: string } | null = null;
   private playbackInterval: number | null = null;
   private arcRenderer: CouplingArcRenderer | null = null;
   private couplingIndex: Map<string, any> = new Map();
-
-  // PHASE 2 FIX: Use currentSignal instead of shared boolean to avoid race conditions
   private currentSignal: AbortSignal | null = null;
 
   getInitialState(): TreemapExplorerState {
@@ -71,43 +70,30 @@ export class TreemapExplorerPlugin implements VisualizationPlugin<TreemapExplore
   // PHASE 2: Lifecycle Methods
   // ============================================================================
 
-  /**
-   * PHASE 2: Cleanup method called when plugin is unmounted
-   * Aborts any ongoing operations and cleans up resources
-   */
   cleanup(): void {
     console.log("[TreemapExplorer] Cleanup called - aborting operations");
-    // No need to set aborted flag manually, the signal will handle it
-
-    // Stop playback
     this.stopPlayback();
-
-    // Clean up D3 visualization
     if (this.arcRenderer) {
       this.arcRenderer.destroy();
     }
+    if (this.tooltip) {
+      this.tooltip.remove();
+      this.tooltip = null;
+    }
   }
 
-  /**
-   * PHASE 2: Cancellable version of processData
-   * Checks abort signal periodically during expensive operations
-   */
   async processDataCancellable(
     dataset: Record<string, any>,
     signal: AbortSignal,
     _config?: TreemapExplorerState,
   ): Promise<EnrichedFileData[]> {
-    // Store signal for synchronous checks
     this.currentSignal = signal;
 
-    // Check if already aborted before starting
     if (signal.aborted) {
       console.log("[TreemapExplorer] Already aborted before processing");
       throw new DOMException("Operation aborted", "AbortError");
     }
 
-    // Use the regular processData implementation
-    // The methods will check this.currentSignal periodically
     return this.processData(dataset, _config);
   }
 
@@ -119,48 +105,170 @@ export class TreemapExplorerPlugin implements VisualizationPlugin<TreemapExplore
     this.container = container;
     this.container.innerHTML = "";
     this.container.className = "relative w-full h-full bg-zinc-950";
+
+    // Create tooltip element using Popover API
+    this.createTooltip();
+  }
+
+  private createTooltip(): void {
+    // Remove existing tooltip if any
+    if (this.tooltip) {
+      this.tooltip.remove();
+    }
+
+    // Create tooltip container with Popover API
+    this.tooltip = document.createElement("div");
+    this.tooltip.id = "treemap-tooltip";
+    this.tooltip.setAttribute("popover", "manual");
+    this.tooltip.style.margin = "0";
+    this.tooltip.style.border = "none";
+    this.tooltip.style.padding = "0";
+    this.tooltip.style.background = "transparent";
+
+    this.tooltip.innerHTML = `
+      <div class="bg-zinc-900 border border-zinc-700 rounded-lg shadow-2xl p-4 text-white max-w-sm">
+        <div class="font-mono text-xs text-zinc-400 mb-1" id="tooltip-path"></div>
+        <div class="font-semibold text-sm mb-3" id="tooltip-name"></div>
+        
+        <div class="space-y-2 text-xs">
+          <div class="flex justify-between">
+            <span class="text-zinc-400">Commits:</span>
+            <span class="font-mono" id="tooltip-commits"></span>
+          </div>
+          <div class="flex justify-between">
+            <span class="text-zinc-400">Authors:</span>
+            <span class="font-mono" id="tooltip-authors"></span>
+          </div>
+          <div class="flex justify-between">
+            <span class="text-zinc-400">Health Score:</span>
+            <span class="font-mono" id="tooltip-health"></span>
+          </div>
+          <div class="flex justify-between" id="tooltip-coupling-row" style="display: none;">
+            <span class="text-zinc-400">Coupling:</span>
+            <span class="font-mono" id="tooltip-coupling"></span>
+          </div>
+        </div>
+      </div>
+    `;
+
+    document.body.appendChild(this.tooltip);
+  }
+
+  private showTooltip(
+    event: MouseEvent,
+    file: EnrichedFileData,
+    state: TreemapExplorerState,
+  ): void {
+    if (!this.tooltip) return;
+
+    // Populate tooltip content
+    const pathEl = this.tooltip.querySelector("#tooltip-path") as HTMLElement;
+    const nameEl = this.tooltip.querySelector("#tooltip-name") as HTMLElement;
+    const commitsEl = this.tooltip.querySelector(
+      "#tooltip-commits",
+    ) as HTMLElement;
+    const authorsEl = this.tooltip.querySelector(
+      "#tooltip-authors",
+    ) as HTMLElement;
+    const healthEl = this.tooltip.querySelector(
+      "#tooltip-health",
+    ) as HTMLElement;
+    const couplingRowEl = this.tooltip.querySelector(
+      "#tooltip-coupling-row",
+    ) as HTMLElement;
+    const couplingEl = this.tooltip.querySelector(
+      "#tooltip-coupling",
+    ) as HTMLElement;
+
+    if (pathEl && nameEl && commitsEl && authorsEl && healthEl) {
+      const pathParts = file.key.split("/");
+      const fileName = pathParts.pop() || "";
+      const filePath = pathParts.join("/");
+
+      pathEl.textContent = filePath || "/";
+      nameEl.textContent = fileName;
+      commitsEl.textContent = file.total_commits?.toString() || "0";
+      authorsEl.textContent = file.unique_authors?.toString() || "0";
+      healthEl.textContent = `${file.healthScore?.score?.toFixed(0) || "100"}/100`;
+
+      // Show coupling info if in coupling mode
+      if (state.lensMode === "coupling" && file.couplingScore !== undefined) {
+        couplingRowEl.style.display = "flex";
+        couplingEl.textContent = file.couplingScore.toFixed(3);
+      } else {
+        couplingRowEl.style.display = "none";
+      }
+    }
+
+    // Show popover
+    (this.tooltip as any).showPopover();
+
+    // Position tooltip
+    this.positionTooltip(event);
+  }
+
+  private positionTooltip(event: MouseEvent): void {
+    if (!this.tooltip) return;
+
+    const tooltipRect = this.tooltip.getBoundingClientRect();
+    const padding = 12;
+
+    let left = event.clientX + padding;
+    let top = event.clientY + padding;
+
+    // Prevent tooltip from going off-screen (right)
+    if (left + tooltipRect.width > window.innerWidth) {
+      left = event.clientX - tooltipRect.width - padding;
+    }
+
+    // Prevent tooltip from going off-screen (bottom)
+    if (top + tooltipRect.height > window.innerHeight) {
+      top = event.clientY - tooltipRect.height - padding;
+    }
+
+    this.tooltip.style.left = `${left}px`;
+    this.tooltip.style.top = `${top}px`;
+  }
+
+  private hideTooltip(): void {
+    if (this.tooltip) {
+      (this.tooltip as any).hidePopover();
+    }
   }
 
   processData(
     dataset: Record<string, any>,
     _config?: TreemapExplorerState,
   ): EnrichedFileData[] {
-    // 1. Load core file metadata (required)
     const fileIndex = dataset.file_index;
     if (!fileIndex) {
       console.error("file_index is required for Treemap Explorer");
       return [];
     }
 
-    // PHASE 2: Check abort before processing
     if (this.currentSignal?.aborted) {
       console.log("[TreemapExplorer] Aborted before file enrichment");
       throw new DOMException("Operation aborted", "AbortError");
     }
 
-    // 2. Process base file data
     this.data = DataProcessor.enrichFiles(fileIndex);
 
-    // PHASE 2: Check abort after enrichment
     if (this.currentSignal?.aborted) {
       console.log("[TreemapExplorer] Aborted after file enrichment");
       throw new DOMException("Operation aborted", "AbortError");
     }
 
-    // 3. Load optional coupling data
     const cochangeNetwork = dataset.cochange_network;
     if (cochangeNetwork) {
       CouplingDataProcessor.enrichWithCoupling(this.data, cochangeNetwork);
       this.couplingIndex = CouplingDataProcessor.process(cochangeNetwork);
     }
 
-    // PHASE 2: Check abort after coupling
     if (this.currentSignal?.aborted) {
       console.log("[TreemapExplorer] Aborted after coupling processing");
       throw new DOMException("Operation aborted", "AbortError");
     }
 
-    // 4. Load optional temporal data
     this.temporalData = dataset.temporal_daily;
     if (this.temporalData) {
       this.dateRange = TemporalDataProcessor.getDateRange(this.temporalData);
@@ -172,7 +280,6 @@ export class TreemapExplorerPlugin implements VisualizationPlugin<TreemapExplore
   render(data: EnrichedFileData[], state: TreemapExplorerState): void {
     if (!this.container) return;
 
-    // Guard against invalid data types (e.g. from race conditions)
     if (!Array.isArray(data)) {
       console.error("[TreemapExplorer] Received invalid data format:", data);
       return;
@@ -182,6 +289,7 @@ export class TreemapExplorerPlugin implements VisualizationPlugin<TreemapExplore
       console.log("[TreemapExplorer] Aborted - skipping render");
       return;
     }
+
     this.container.innerHTML = "";
 
     // Create SVG
@@ -199,7 +307,6 @@ export class TreemapExplorerPlugin implements VisualizationPlugin<TreemapExplore
     // Prepare data based on lens mode
     let enrichedData: EnrichedFileData[] | TemporalFileData[] = data;
 
-    // Enrich with temporal data for Time Lens
     if (state.lensMode === "time" && this.temporalData) {
       const timePosition = state.timePosition ?? 100;
       enrichedData = TemporalDataProcessor.enrichFilesWithTemporal(
@@ -209,10 +316,9 @@ export class TreemapExplorerPlugin implements VisualizationPlugin<TreemapExplore
       );
     }
 
-    // Filter data based on thresholds
+    // Filter data
     const filteredData = this.filterData(enrichedData, state);
 
-    // FIX: Handle empty data to prevent d3.hierarchy crash
     if (filteredData.length === 0) {
       this.container.innerHTML = `
         <div class="flex items-center justify-center h-full text-zinc-500">
@@ -245,13 +351,12 @@ export class TreemapExplorerPlugin implements VisualizationPlugin<TreemapExplore
 
     treemapLayout(root);
 
-    // PHASE 2: Check abort before rendering cells
     if (this.currentSignal?.aborted) {
       console.log("[TreemapExplorer] Aborted - skipping cell rendering");
       return;
     }
 
-    // Render cells
+    // Render cells WITHOUT text labels
     const cells = root.leaves() as d3.HierarchyRectangularNode<any>[];
 
     const cellGroups = svg
@@ -267,7 +372,6 @@ export class TreemapExplorerPlugin implements VisualizationPlugin<TreemapExplore
       .attr("data-file-key", (d) => (d.data as EnrichedFileData).key)
       .attr("width", (d) => d.x1 - d.x0)
       .attr("height", (d) => d.y1 - d.y0)
-      // FIX: Access d.data directly (it is the EnrichedFileData object)
       .attr("fill", (d) => this.getCellColor(d.data as EnrichedFileData, state))
       .attr("stroke", (d) =>
         state.selectedFile === (d.data as EnrichedFileData).key
@@ -289,6 +393,26 @@ export class TreemapExplorerPlugin implements VisualizationPlugin<TreemapExplore
         }
         return "1";
       })
+      .style("transition", "stroke 0.2s, stroke-width 0.2s")
+      .on("mouseenter", (event, d) => {
+        const rect = event.currentTarget;
+        d3.select(rect).attr("stroke", "#fff").attr("stroke-width", 3);
+
+        this.showTooltip(event, d.data as EnrichedFileData, state);
+      })
+      .on("mousemove", (event) => {
+        this.positionTooltip(event);
+      })
+      .on("mouseleave", (event, d) => {
+        const rect = event.currentTarget;
+        const fileData = d.data as EnrichedFileData;
+
+        d3.select(rect)
+          .attr("stroke", state.selectedFile === fileData.key ? "#fff" : "#000")
+          .attr("stroke-width", state.selectedFile === fileData.key ? 3 : 1);
+
+        this.hideTooltip();
+      })
       .on("click", (_event, d) => {
         const config = state as any;
         if (config.onCellClick) {
@@ -296,21 +420,9 @@ export class TreemapExplorerPlugin implements VisualizationPlugin<TreemapExplore
         }
       });
 
-    // Add labels for larger cells
-    cellGroups
-      .filter((d) => d.x1 - d.x0 > 40 && d.y1 - d.y0 > 20)
-      .append("text")
-      .attr("x", (d) => (d.x1 - d.x0) / 2)
-      .attr("y", (d) => (d.y1 - d.y0) / 2)
-      .attr("text-anchor", "middle")
-      .attr("dominant-baseline", "middle")
-      .attr("fill", "#fff")
-      .attr("font-size", "10")
-      .attr("font-family", "monospace")
-      .style("pointer-events", "none")
-      .text((d) => (d.data as EnrichedFileData).key.split("/").pop() || "");
+    // NO TEXT LABELS - removed entirely for cleaner visualization
 
-    // Initialize Arc Renderer (moved after cells to ensure correct z-index and avoid selection collision)
+    // Initialize Arc Renderer
     this.arcRenderer = new CouplingArcRenderer(svg);
 
     // Render coupling arcs if in coupling mode and file selected
@@ -333,6 +445,10 @@ export class TreemapExplorerPlugin implements VisualizationPlugin<TreemapExplore
     if (this.arcRenderer) {
       this.arcRenderer.destroy();
     }
+    if (this.tooltip) {
+      this.tooltip.remove();
+      this.tooltip = null;
+    }
     if (this.container) {
       this.container.innerHTML = "";
     }
@@ -346,12 +462,10 @@ export class TreemapExplorerPlugin implements VisualizationPlugin<TreemapExplore
     return this.data;
   }
 
-  // Helper methods for internal use
   getCouplingIndex() {
     return this.couplingIndex;
   }
 
-  // Explicitly cast props to satisfy the interface contravariance requirement
   renderControls(props: PluginControlProps<Record<string, unknown>>) {
     const typedProps = props as PluginControlProps<TreemapExplorerState>;
     return (
@@ -380,15 +494,12 @@ export class TreemapExplorerPlugin implements VisualizationPlugin<TreemapExplore
     );
   }
 
-  // Helper methods
-
   private filterData(
     data: EnrichedFileData[] | TemporalFileData[],
     state: TreemapExplorerState,
   ): EnrichedFileData[] {
     let filtered = [...data];
 
-    // Debt lens: filter by health threshold
     if (state.lensMode === "debt" && state.healthThreshold !== undefined) {
       filtered = filtered.filter((f) => {
         const score = f.healthScore?.score ?? 100;
@@ -396,7 +507,6 @@ export class TreemapExplorerPlugin implements VisualizationPlugin<TreemapExplore
       });
     }
 
-    // Time lens: hide files not yet created
     if (state.lensMode === "time") {
       const timePosition = state.timePosition ?? 100;
       filtered = filtered.filter((f: any) => {
@@ -450,7 +560,7 @@ export class TreemapExplorerPlugin implements VisualizationPlugin<TreemapExplore
       } else {
         updateState({ timePosition: newPosition });
       }
-    }, 100); // Update every 100ms
+    }, 100);
   }
 
   private stopPlayback(): void {
@@ -460,7 +570,6 @@ export class TreemapExplorerPlugin implements VisualizationPlugin<TreemapExplore
     }
   }
 
-  // Required for the new UI pattern
   renderUI(
     state: TreemapExplorerState,
     updateState: (updates: Partial<TreemapExplorerState>) => void,
@@ -488,7 +597,6 @@ export class TreemapExplorerPlugin implements VisualizationPlugin<TreemapExplore
             onClose={() => updateState({ selectedFile: null })}
           />
         )}
-        {/* Timeline Scrubber for Time Lens */}
         {state.lensMode === "time" && this.dateRange && (
           <TimelineScrubber
             minDate={this.dateRange.min}

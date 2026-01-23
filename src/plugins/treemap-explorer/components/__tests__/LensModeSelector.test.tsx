@@ -26,7 +26,7 @@ describe("LensModeSelector", () => {
 
     const debtBtn = screen.getByTestId("lens-debt");
     expect(debtBtn).toHaveAttribute("aria-pressed", "true");
-    expect(debtBtn).toHaveClass("bg-purple-900/50");
+    expect(debtBtn).toHaveClass("bg-purple-600");
     expect(screen.getByTestId("lens-coupling")).toHaveAttribute(
       "aria-pressed",
       "false",

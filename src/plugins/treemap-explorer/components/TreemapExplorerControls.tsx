@@ -12,7 +12,9 @@ import { TreemapExplorerState } from "../types";
 export const TreemapExplorerControls: React.FC<
   PluginControlProps<TreemapExplorerState>
 > = ({ state, updateState }) => {
-  const { lensMode, sizeMetric } = state;
+  // Ensure defaults are applied if state is partial/initializing
+  const lensMode = state.lensMode || "debt";
+  const sizeMetric = state.sizeMetric || "commits";
 
   const sizeMetrics = [
     { id: "commits", label: "Commits" },

@@ -1,59 +1,63 @@
 // src/__tests__/App.test.tsx
 
 // Mocks must be defined before imports to avoid hoisting issues in some environments
-import { vi } from 'vitest';
+import { vi } from "vitest";
 
-vi.mock('@/plugins/core/PluginRegistry');
-vi.mock('@/services/data/PluginDataLoader');
-vi.mock('@/services/data/DataProcessor');
-vi.mock('@/plugins/init', () => ({})); // Mock side-effect import
+vi.mock("@/plugins/core/PluginRegistry");
+vi.mock("@/services/data/PluginDataLoader");
+vi.mock("@/services/data/DataProcessor");
+vi.mock("@/plugins/init", () => ({})); // Mock side-effect import
 
 // Component Mocks
-vi.mock('@/components/layout/PluginSelector', () => ({
+vi.mock("@/components/layout/PluginSelector", () => ({
   PluginSelector: ({ plugins }: any) => (
     <div data-testid="plugin-selector">
-      {plugins.map((p: any) => p.metadata.name).join(', ')}
+      {plugins.map((p: any) => p.metadata.name).join(", ")}
     </div>
-  )
+  ),
 }));
 
-vi.mock('@/components/common/FilterPanel', () => ({
-  FilterPanel: () => <div data-testid="filter-panel">Filter Panel</div>
+vi.mock("@/components/common/FilterPanel", () => ({
+  FilterPanel: () => <div data-testid="filter-panel">Filter Panel</div>,
 }));
 
-vi.mock('@/components/common/LoadingSpinner', () => ({
-  LoadingSpinner: ({ message }: any) => <div data-testid="loading-spinner">{message}</div>
+vi.mock("@/components/common/LoadingSpinner", () => ({
+  LoadingSpinner: ({ message }: any) => (
+    <div data-testid="loading-spinner">{message}</div>
+  ),
 }));
 
-vi.mock('@/components/common/ErrorDisplay', () => ({
-  ErrorDisplay: ({ error }: any) => <div data-testid="error-display">{error}</div>
+vi.mock("@/components/common/ErrorDisplay", () => ({
+  ErrorDisplay: ({ error }: any) => (
+    <div data-testid="error-display">{error}</div>
+  ),
 }));
 
-vi.mock('@/plugins/treemap-explorer/components/TreemapDetailPanel', () => ({
-  default: () => <div data-testid="treemap-detail-panel">DetailPanel</div>
+vi.mock("@/plugins/treemap-explorer/components/TreemapDetailPanel", () => ({
+  default: () => <div data-testid="treemap-detail-panel">DetailPanel</div>,
 }));
 
-vi.mock('@/plugins/timeline-heatmap/components/CellDetailPanel', () => ({
-  CellDetailPanel: () => <div data-testid="cell-detail-panel">CellDetailPanel</div>
+vi.mock("@/plugins/timeline-heatmap/components/CellDetailPanel", () => ({
+  CellDetailPanel: () => (
+    <div data-testid="cell-detail-panel">CellDetailPanel</div>
+  ),
 }));
 
 // Now import the rest
-import { describe, it, expect, beforeEach } from '@/test-utils';
-import { render, screen, waitFor, fireEvent } from '@/test-utils';
-import App from '../App';
-import { PluginRegistry } from '@/plugins/core/PluginRegistry';
-import { PluginDataLoader } from '@/services/data/PluginDataLoader';
-import { DataProcessor } from '@/services/data/DataProcessor';
-import { createMockPlugin } from '@/test-utils';
-import { useAppStore } from '@/store/appStore';
+import { describe, it, expect, beforeEach } from "@/test-utils";
+import { render, screen, waitFor, fireEvent } from "@/test-utils";
+import App from "../App";
+import { PluginRegistry } from "@/plugins/core/PluginRegistry";
+import { PluginDataLoader } from "@/services/data/PluginDataLoader";
+import { DataProcessor } from "@/services/data/DataProcessor";
+import { createMockPlugin } from "@/test-utils";
+import { useAppStore } from "@/store/appStore";
 
-
-
-describe('App Integration', () => {
+describe("App Integration", () => {
   const mockPlugin = createMockPlugin({
-    id: 'test-plugin',
-    name: 'Test Plugin',
-    priority: 1
+    id: "test-plugin",
+    name: "Test Plugin",
+    priority: 1,
   });
 
   // Add required methods for App.tsx interaction
@@ -90,7 +94,7 @@ describe('App Integration', () => {
         timeBin: "week",
         metric: "commits",
       },
-      pluginStates: {}
+      pluginStates: {},
     });
 
     // Setup PluginRegistry mocks
@@ -102,93 +106,120 @@ describe('App Integration', () => {
     vi.mocked(PluginDataLoader.loadForPlugin).mockResolvedValue({
       success: true,
       data: {
-        metadata: { repository_name: 'Test Repo' },
+        metadata: { repository_name: "Test Repo" },
         file_index: {},
         lifecycle: {},
         authors: [],
         files: [],
-        dirs: {}
+        dirs: {},
       },
       errors: [],
-      warnings: []
+      warnings: [],
     });
 
     // Setup Data Processor mocks
     vi.mocked(DataProcessor.processRawData).mockReturnValue({
-      metadata: { repository_name: 'Test Repo' } as any,
-      tree: { name: 'root' } as any,
-      activity: []
+      metadata: { repository_name: "Test Repo" } as any,
+      tree: { name: "root" } as any,
+      activity: [],
     });
   });
 
-  it('should render initial layout', async () => {
+  it("should render initial layout", async () => {
     render(<App />);
 
     // Header should be visible
-    expect(screen.getByText('Git Repository Visualization')).toBeInTheDocument();
+    expect(
+      screen.getByText("Git Repository Visualization"),
+    ).toBeInTheDocument();
 
     // Plugin selector should show the mock plugin
-    expect(screen.getByTestId('plugin-selector')).toHaveTextContent('Test Plugin');
+    expect(screen.getByTestId("plugin-selector")).toHaveTextContent(
+      "Test Plugin",
+    );
   });
 
-  it('should load data for the active plugin', async () => {
+  it("should load data for the active plugin", async () => {
     render(<App />);
 
     // Wait for data loader to be called (this happens quickly with instant mock resolution)
-    await waitFor(() => {
-      expect(PluginDataLoader.loadForPlugin).toHaveBeenCalled();
-    }, { timeout: 3000 });
+    await waitFor(
+      () => {
+        expect(PluginDataLoader.loadForPlugin).toHaveBeenCalled();
+      },
+      { timeout: 3000 },
+    );
 
     // Verify loading eventually completes (spinner may not be visible due to fast resolution)
-    await waitFor(() => {
-      expect(screen.queryByTestId('loading-spinner')).not.toBeInTheDocument();
-    }, { timeout: 3000 });
+    await waitFor(
+      () => {
+        expect(screen.queryByTestId("loading-spinner")).not.toBeInTheDocument();
+      },
+      { timeout: 3000 },
+    );
   });
 
-  it('should handle data loading errors', async () => {
+  it("should handle data loading errors", async () => {
     vi.mocked(PluginDataLoader.loadForPlugin).mockResolvedValueOnce({
       success: false,
       data: {} as any,
-      errors: ['Network error'],
-      warnings: []
+      errors: ["Network error"],
+      warnings: [],
     });
 
     render(<App />);
 
-    await waitFor(() => {
-      expect(screen.getByTestId('error-display')).toHaveTextContent('Failed to load data: Network error');
-    }, { timeout: 3000 });
+    await waitFor(
+      () => {
+        expect(screen.getByTestId("error-display")).toHaveTextContent(
+          "Failed to load data: Network error",
+        );
+      },
+      { timeout: 3000 },
+    );
   });
 
-  it('should initialize and render the plugin', async () => {
+  it("should initialize and render the plugin", async () => {
     render(<App />);
 
     // Wait for all plugin lifecycle methods to be called
     // These happen in sequence: processData -> init -> render
-    await waitFor(() => {
-      expect(mockPlugin.processData).toHaveBeenCalled();
-    }, { timeout: 3000 });
+    await waitFor(
+      () => {
+        expect(mockPlugin.processData).toHaveBeenCalled();
+      },
+      { timeout: 3000 },
+    );
 
-    await waitFor(() => {
-      expect(mockPlugin.init).toHaveBeenCalled();
-    }, { timeout: 3000 });
+    await waitFor(
+      () => {
+        expect(mockPlugin.init).toHaveBeenCalled();
+      },
+      { timeout: 3000 },
+    );
 
-    await waitFor(() => {
-      expect(mockPlugin.render).toHaveBeenCalled();
-    }, { timeout: 3000 });
+    await waitFor(
+      () => {
+        expect(mockPlugin.render).toHaveBeenCalled();
+      },
+      { timeout: 3000 },
+    );
   });
 
-  it('should toggle filter panel', async () => {
+  it("should toggle filter panel", async () => {
     render(<App />);
 
     // Wait for initial render to complete
-    await waitFor(() => {
-      expect(screen.queryByTestId('loading-spinner')).not.toBeInTheDocument();
-    }, { timeout: 3000 });
+    await waitFor(
+      () => {
+        expect(screen.queryByTestId("loading-spinner")).not.toBeInTheDocument();
+      },
+      { timeout: 3000 },
+    );
 
-    const filterButton = screen.getByTitle('Filters');
+    const filterButton = screen.getByTitle("Filters");
     fireEvent.click(filterButton);
 
-    expect(screen.getByTestId('filter-panel')).toBeInTheDocument();
+    expect(screen.getByTestId("filter-panel")).toBeInTheDocument();
   });
 });

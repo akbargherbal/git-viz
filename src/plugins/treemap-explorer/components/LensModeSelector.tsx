@@ -60,8 +60,8 @@ export const LensModeSelector: React.FC<LensModeSelectorProps> = ({
               flex items-center gap-1.5
               ${
                 isActive
-                  ? "bg-purple-900/50 text-purple-200 border-purple-700/50"
-                  : "bg-zinc-800 text-zinc-500 hover:text-zinc-300 border-zinc-700 hover:border-zinc-600"
+                  ? "bg-purple-600 text-white border-purple-500 shadow-sm"
+                  : "bg-zinc-800 text-zinc-400 hover:text-zinc-200 border-zinc-700 hover:border-zinc-600"
               }
             `}
             aria-pressed={isActive}

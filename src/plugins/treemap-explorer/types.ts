@@ -42,7 +42,9 @@ export interface EnrichedFileData extends FileData {
       age: { value: number; score: number; weight: number };
     };
   };
+
   // Coupling specific fields
+  couplingScore?: number; // ADD THIS LINE - Overall coupling score for the file
   couplingMetrics?: {
     maxStrength: number;
     avgStrength: number;
@@ -56,7 +58,6 @@ export interface EnrichedFileData extends FileData {
     cochangeCount: number;
   }>;
 }
-
 /**
  * Extended file data with temporal context
  */
