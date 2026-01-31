@@ -1,14 +1,14 @@
 {
-  "generator_version": "2.0.0",
-  "schema_version": "1.0.0",
-  "generated_at": "2026-01-14T16:04:33.135330+00:00",
+  "generator_version": "2.2.0",
+  "schema_version": "1.1.0",
+  "generated_at": "2026-01-30T17:53:30.784133+00:00",
   "repository": "/home/akbar/Jupyter_Notebooks/SOFTWARE_ARCHEOLOGY/excalidraw",
   "performance_metrics": {
     "commits_processed": 5137,
-    "files_tracked": 2739,
+    "files_tracked": 3484,
     "aggregator_times": {},
     "memory_peak_mb": 0.0,
-    "total_time_seconds": 0.58,
+    "total_time_seconds": 2.97,
     "cache_statistics": {
       "hits": 0,
       "misses": 0,
@@ -19,51 +19,72 @@
   "datasets": {
     "core_lifecycle": {
       "file": "file_lifecycle.json",
-      "schema_version": "1.0.0",
-      "file_size_bytes": 10020079,
-      "sha256": "c4b4ab6c35b263b8d04ed00642235095c3c64b9ef81fb6d0aab8ef08726a3a2b",
+      "schema_version": "1.1.0",
+      "file_size_bytes": 20817664,
+      "sha256": "1869af4c418d07ce4181f7dc40861032df180d7d018d7ef0078ee8c9e03411e7",
       "production_ready": true
     },
     "file_metadata": {
       "file": "metadata/file_index.json",
-      "schema_version": "1.0.0",
-      "file_size_bytes": 1351027,
-      "sha256": "8201b8e6ca263a81df3071629585dd39d077df183705dac56ae452e42e196118",
+      "schema_version": "1.1.0",
+      "file_size_bytes": 1692318,
+      "sha256": "5d72afd9294f1154e4ced033dde3213d00b2be87f7928430f1aaab9b2e8ffa66",
       "production_ready": false
     },
     "temporal_daily": {
       "file": "aggregations/temporal_daily.json",
-      "schema_version": "1.0.0",
-      "file_size_bytes": 251392,
-      "sha256": "6a3c42adc74d46a4f3690990f7f95aa5572b9ea3f7e15c938f07e5de7789a389",
+      "schema_version": "1.1.0",
+      "file_size_bytes": 241078,
+      "sha256": "ce19b62667f16f204522e22aa9845bcc0cfc3b835912b638a5d4ce8a145fb05a",
       "production_ready": false
     },
     "author_network": {
       "file": "networks/author_network.json",
-      "schema_version": "1.0.0",
-      "file_size_bytes": 1857260,
-      "sha256": "f9941c87f68bf52c21bc288bcf2b2d55b14448571bd65309ea9010a0949c3908",
+      "schema_version": "1.1.0",
+      "file_size_bytes": 1854794,
+      "sha256": "625dc877d8d6127387710826948a989f3bf3ff34368bd94f441a4fd5f5336514",
       "production_ready": false
     },
     "cochange_network": {
       "file": "networks/cochange_network.json",
-      "schema_version": "1.0.0",
-      "file_size_bytes": 22474122,
-      "sha256": "5779fde53c215970ac3779ce2e4c03065659af3ece3ca4895023e31019532df6",
+      "schema_version": "1.1.0",
+      "file_size_bytes": 16301257,
+      "sha256": "6c6f8d4aa71b01efa18ff922bd644a25e6e83bc9727084e89f803042f05cf42b",
       "production_ready": false
     },
     "directory_stats": {
       "file": "aggregations/directory_stats.json",
-      "schema_version": "1.0.0",
-      "file_size_bytes": 871656,
-      "sha256": "0f1275dbf77d053817de7615701cc55c525a168fc2b381ad661b424851e4e635",
+      "schema_version": "1.1.0",
+      "file_size_bytes": 1137989,
+      "sha256": "771aacbd47c16ab9c28790e2c71a6b40c99ab021a955c467141fb944f99efbfb",
       "production_ready": false
     },
     "milestone_snapshots": {
       "file": "milestones/release_snapshots.json",
-      "schema_version": "1.0.0",
-      "file_size_bytes": 10644,
-      "sha256": "ecd15e6f4137589dd1daf57363e82a42a5b7d93ccf1f414df898a5b85897e2b4",
+      "schema_version": "1.1.0",
+      "file_size_bytes": 10657,
+      "sha256": "d432b7eabbc54b05a98cd5c50057a6f22e5e8088cfc9bc14dbcc98a52de8cc5b",
+      "production_ready": false
+    },
+    "project_hierarchy": {
+      "file": "frontend/project_hierarchy.json",
+      "schema_version": "1.1.0",
+      "file_size_bytes": 2561875,
+      "sha256": "c37433f2412cb94ac2b7f409ab8a55c21b51d167f268c3d4687cee2837eeee06",
+      "production_ready": false
+    },
+    "file_metrics_index": {
+      "file": "frontend/file_metrics_index.json",
+      "schema_version": "1.1.0",
+      "file_size_bytes": 3945789,
+      "sha256": "65bc643d9eac1976177c76a1f426edf582db9f83c82777b538ba485e428724be",
+      "production_ready": false
+    },
+    "temporal_activity_map": {
+      "file": "frontend/temporal_activity_map.json",
+      "schema_version": "1.1.0",
+      "file_size_bytes": 393253,
+      "sha256": "64ba39768eefdfaca4bc39eb2c93b80e752e50b6e36bd8e9d0b945e1da8a5fae",
       "production_ready": false
     }
   }

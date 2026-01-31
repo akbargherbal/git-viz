@@ -9,10 +9,7 @@
       "files_changed": 1055,
       "unique_authors": 50,
       "operations": {
-        "M": 852,
-        "D": 42,
-        "R": 14,
-        "A": 147
+        "M": 1055
       }
     },
     "2020-02": {
@@ -21,10 +18,7 @@
       "files_changed": 460,
       "unique_authors": 19,
       "operations": {
-        "M": 407,
-        "A": 44,
-        "R": 1,
-        "D": 8
+        "M": 460
       }
     },
     "2020-03": {
@@ -33,10 +27,7 @@
       "files_changed": 719,
       "unique_authors": 22,
       "operations": {
-        "M": 652,
-        "A": 51,
-        "R": 14,
-        "D": 2
+        "M": 719
       }
     },
     "2020-04": {
@@ -45,10 +36,7 @@
       "files_changed": 866,
       "unique_authors": 36,
       "operations": {
-        "M": 800,
-        "A": 31,
-        "R": 19,
-        "D": 16
+        "M": 866
       }
     },
     "2020-05": {
@@ -57,8 +45,7 @@
       "files_changed": 432,
       "unique_authors": 22,
       "operations": {
-        "M": 426,
-        "A": 6
+        "M": 432
       }
     },
     "2020-06": {
@@ -67,9 +54,7 @@
       "files_changed": 342,
       "unique_authors": 18,
       "operations": {
-        "M": 321,
-        "A": 20,
-        "R": 1
+        "M": 342
       }
     },
     "2020-07": {
@@ -78,10 +63,7 @@
       "files_changed": 299,
       "unique_authors": 18,
       "operations": {
-        "M": 289,
-        "A": 8,
-        "D": 1,
-        "R": 1
+        "M": 299
       }
     },
     "2020-08": {
@@ -90,10 +72,7 @@
       "files_changed": 360,
       "unique_authors": 16,
       "operations": {
-        "M": 335,
-        "A": 22,
-        "D": 1,
-        "R": 2
+        "M": 360
       }
     },
     "2020-09": {
@@ -102,9 +81,7 @@
       "files_changed": 153,
       "unique_authors": 13,
       "operations": {
-        "M": 140,
-        "D": 5,
-        "A": 8
+        "M": 153
       }
     },
     "2020-10": {
@@ -113,10 +90,7 @@
       "files_changed": 477,
       "unique_authors": 14,
       "operations": {
-        "A": 32,
-        "M": 430,
-        "R": 10,
-        "D": 5
+        "M": 477
       }
     },
     "2020-11": {
@@ -125,10 +99,7 @@
       "files_changed": 334,
       "unique_authors": 12,
       "operations": {
-        "M": 307,
-        "D": 5,
-        "A": 16,
-        "R": 6
+        "M": 334
       }
     },
     "2020-12": {
@@ -137,10 +108,7 @@
       "files_changed": 684,
       "unique_authors": 22,
       "operations": {
-        "M": 636,
-        "R": 7,
-        "A": 32,
-        "D": 9
+        "M": 684
       }
     },
     "2021-01": {
@@ -149,10 +117,7 @@
       "files_changed": 460,
       "unique_authors": 16,
       "operations": {
-        "M": 439,
-        "R": 4,
-        "A": 13,
-        "D": 4
+        "M": 460
       }
     },
     "2021-02": {
@@ -161,10 +126,7 @@
       "files_changed": 802,
       "unique_authors": 14,
       "operations": {
-        "M": 779,
-        "D": 6,
-        "A": 16,
-        "R": 1
+        "M": 802
       }
     },
     "2021-03": {
@@ -173,9 +135,7 @@
       "files_changed": 685,
       "unique_authors": 18,
       "operations": {
-        "M": 650,
-        "A": 34,
-        "D": 1
+        "M": 685
       }
     },
     "2021-04": {
@@ -184,9 +144,7 @@
       "files_changed": 385,
       "unique_authors": 10,
       "operations": {
-        "M": 374,
-        "A": 10,
-        "D": 1
+        "M": 385
       }
     },
     "2021-05": {
@@ -195,9 +153,7 @@
       "files_changed": 452,
       "unique_authors": 11,
       "operations": {
-        "M": 439,
-        "A": 11,
-        "R": 2
+        "M": 452
       }
     },
     "2021-06": {
@@ -206,9 +162,7 @@
       "files_changed": 164,
       "unique_authors": 11,
       "operations": {
-        "M": 153,
-        "A": 8,
-        "R": 3
+        "M": 164
       }
     },
     "2021-07": {
@@ -217,8 +171,7 @@
       "files_changed": 137,
       "unique_authors": 9,
       "operations": {
-        "M": 130,
-        "A": 7
+        "M": 137
       }
     },
     "2021-08": {
@@ -245,8 +198,7 @@
       "files_changed": 444,
       "unique_authors": 9,
       "operations": {
-        "M": 422,
-        "A": 22
+        "M": 444
       }
     },
     "2021-11": {
@@ -255,9 +207,7 @@
       "files_changed": 483,
       "unique_authors": 7,
       "operations": {
-        "M": 471,
-        "R": 2,
-        "A": 10
+        "M": 483
       }
     },
     "2021-12": {
@@ -266,8 +216,7 @@
       "files_changed": 237,
       "unique_authors": 6,
       "operations": {
-        "M": 225,
-        "A": 12
+        "M": 237
       }
     },
     "2022-01": {
@@ -276,8 +225,7 @@
       "files_changed": 183,
       "unique_authors": 8,
       "operations": {
-        "M": 180,
-        "A": 3
+        "M": 183
       }
     },
     "2022-02": {
@@ -286,10 +234,7 @@
       "files_changed": 239,
       "unique_authors": 9,
       "operations": {
-        "M": 231,
-        "D": 1,
-        "A": 6,
-        "R": 1
+        "M": 239
       }
     },
     "2022-03": {
@@ -298,9 +243,7 @@
       "files_changed": 427,
       "unique_authors": 10,
       "operations": {
-        "M": 423,
-        "A": 3,
-        "D": 1
+        "M": 427
       }
     },
     "2022-04": {
@@ -309,8 +252,7 @@
       "files_changed": 264,
       "unique_authors": 10,
       "operations": {
-        "M": 258,
-        "A": 6
+        "M": 264
       }
     },
     "2022-05": {
@@ -319,9 +261,7 @@
       "files_changed": 212,
       "unique_authors": 11,
       "operations": {
-        "M": 207,
-        "R": 1,
-        "A": 4
+        "M": 212
       }
     },
     "2022-06": {
@@ -330,9 +270,7 @@
       "files_changed": 97,
       "unique_authors": 5,
       "operations": {
-        "M": 92,
-        "A": 2,
-        "R": 3
+        "M": 97
       }
     },
     "2022-07": {
@@ -341,10 +279,7 @@
       "files_changed": 406,
       "unique_authors": 9,
       "operations": {
-        "M": 313,
-        "R": 54,
-        "A": 34,
-        "D": 5
+        "M": 406
       }
     },
     "2022-08": {
@@ -353,8 +288,7 @@
       "files_changed": 171,
       "unique_authors": 10,
       "operations": {
-        "M": 166,
-        "A": 5
+        "M": 171
       }
     },
     "2022-09": {
@@ -363,9 +297,7 @@
       "files_changed": 97,
       "unique_authors": 9,
       "operations": {
-        "A": 7,
-        "M": 87,
-        "D": 3
+        "M": 97
       }
     },
     "2022-10": {
@@ -374,10 +306,7 @@
       "files_changed": 145,
       "unique_authors": 10,
       "operations": {
-        "M": 133,
-        "A": 8,
-        "D": 2,
-        "R": 2
+        "M": 145
       }
     },
     "2022-11": {
@@ -386,10 +315,7 @@
       "files_changed": 285,
       "unique_authors": 9,
       "operations": {
-        "M": 260,
-        "A": 23,
-        "D": 1,
-        "R": 1
+        "M": 285
       }
     },
     "2022-12": {
@@ -398,10 +324,7 @@
       "files_changed": 275,
       "unique_authors": 7,
       "operations": {
-        "M": 232,
-        "A": 34,
-        "R": 7,
-        "D": 2
+        "M": 275
       }
     },
     "2023-01": {
@@ -410,10 +333,7 @@
       "files_changed": 503,
       "unique_authors": 12,
       "operations": {
-        "M": 452,
-        "A": 34,
-        "R": 7,
-        "D": 10
+        "M": 503
       }
     },
     "2023-02": {
@@ -422,10 +342,7 @@
       "files_changed": 617,
       "unique_authors": 14,
       "operations": {
-        "M": 466,
-        "A": 115,
-        "D": 20,
-        "R": 16
+        "M": 617
       }
     },
     "2023-03": {
@@ -434,8 +351,7 @@
       "files_changed": 220,
       "unique_authors": 13,
       "operations": {
-        "M": 209,
-        "A": 11
+        "M": 220
       }
     },
     "2023-04": {
@@ -444,9 +360,7 @@
       "files_changed": 394,
       "unique_authors": 18,
       "operations": {
-        "M": 384,
-        "A": 8,
-        "D": 2
+        "M": 394
       }
     },
     "2023-05": {
@@ -455,10 +369,7 @@
       "files_changed": 464,
       "unique_authors": 13,
       "operations": {
-        "A": 42,
-        "M": 415,
-        "D": 5,
-        "R": 2
+        "M": 464
       }
     },
     "2023-06": {
@@ -467,9 +378,7 @@
       "files_changed": 359,
       "unique_authors": 15,
       "operations": {
-        "M": 343,
-        "A": 15,
-        "D": 1
+        "M": 359
       }
     },
     "2023-07": {
@@ -478,10 +387,7 @@
       "files_changed": 596,
       "unique_authors": 13,
       "operations": {
-        "A": 33,
-        "M": 518,
-        "R": 3,
-        "D": 42
+        "M": 596
       }
     },
     "2023-08": {
@@ -490,10 +396,7 @@
       "files_changed": 415,
       "unique_authors": 12,
       "operations": {
-        "D": 2,
-        "A": 35,
-        "M": 372,
-        "R": 6
+        "M": 415
       }
     },
     "2023-09": {
@@ -502,10 +405,7 @@
       "files_changed": 490,
       "unique_authors": 12,
       "operations": {
-        "M": 367,
-        "R": 48,
-        "A": 37,
-        "D": 38
+        "M": 490
       }
     },
     "2023-10": {
@@ -514,9 +414,7 @@
       "files_changed": 402,
       "unique_authors": 19,
       "operations": {
-        "M": 375,
-        "A": 24,
-        "D": 3
+        "M": 402
       }
     },
     "2023-11": {
@@ -525,10 +423,7 @@
       "files_changed": 417,
       "unique_authors": 14,
       "operations": {
-        "M": 381,
-        "A": 32,
-        "D": 3,
-        "R": 1
+        "M": 417
       }
     },
     "2023-12": {
@@ -537,10 +432,7 @@
       "files_changed": 942,
       "unique_authors": 13,
       "operations": {
-        "M": 395,
-        "A": 20,
-        "R": 520,
-        "D": 7
+        "M": 942
       }
     },
     "2024-01": {
@@ -549,10 +441,7 @@
       "files_changed": 338,
       "unique_authors": 12,
       "operations": {
-        "M": 254,
-        "A": 42,
-        "R": 26,
-        "D": 16
+        "M": 338
       }
     },
     "2024-02": {
@@ -561,10 +450,7 @@
       "files_changed": 271,
       "unique_authors": 9,
       "operations": {
-        "A": 11,
-        "M": 254,
-        "D": 2,
-        "R": 4
+        "M": 271
       }
     },
     "2024-03": {
@@ -573,8 +459,7 @@
       "files_changed": 147,
       "unique_authors": 5,
       "operations": {
-        "M": 136,
-        "A": 11
+        "M": 147
       }
     },
     "2024-04": {
@@ -583,9 +468,7 @@
       "files_changed": 272,
       "unique_authors": 12,
       "operations": {
-        "M": 256,
-        "A": 14,
-        "D": 2
+        "M": 272
       }
     },
     "2024-05": {
@@ -594,10 +477,7 @@
       "files_changed": 460,
       "unique_authors": 13,
       "operations": {
-        "M": 435,
-        "A": 10,
-        "D": 1,
-        "R": 14
+        "M": 460
       }
     },
     "2024-06": {
@@ -606,9 +486,7 @@
       "files_changed": 108,
       "unique_authors": 5,
       "operations": {
-        "M": 88,
-        "A": 18,
-        "D": 2
+        "M": 108
       }
     },
     "2024-07": {
@@ -617,10 +495,7 @@
       "files_changed": 234,
       "unique_authors": 12,
       "operations": {
-        "M": 186,
-        "A": 32,
-        "D": 11,
-        "R": 5
+        "M": 234
       }
     },
     "2024-08": {
@@ -629,9 +504,7 @@
       "files_changed": 421,
       "unique_authors": 13,
       "operations": {
-        "M": 380,
-        "A": 37,
-        "D": 4
+        "M": 421
       }
     },
     "2024-09": {
@@ -640,10 +513,7 @@
       "files_changed": 311,
       "unique_authors": 11,
       "operations": {
-        "M": 261,
-        "A": 38,
-        "R": 8,
-        "D": 4
+        "M": 311
       }
     },
     "2024-10": {
@@ -652,10 +522,7 @@
       "files_changed": 794,
       "unique_authors": 9,
       "operations": {
-        "M": 271,
-        "A": 253,
-        "R": 261,
-        "D": 9
+        "M": 794
       }
     },
     "2024-11": {
@@ -664,9 +531,7 @@
       "files_changed": 168,
       "unique_authors": 9,
       "operations": {
-        "M": 162,
-        "A": 5,
-        "D": 1
+        "M": 168
       }
     },
     "2024-12": {
@@ -675,8 +540,7 @@
       "files_changed": 89,
       "unique_authors": 8,
       "operations": {
-        "M": 85,
-        "D": 4
+        "M": 89
       }
     },
     "2025-01": {
@@ -685,10 +549,7 @@
       "files_changed": 483,
       "unique_authors": 15,
       "operations": {
-        "M": 459,
-        "A": 19,
-        "R": 2,
-        "D": 3
+        "M": 483
       }
     },
     "2025-02": {
@@ -697,10 +558,7 @@
       "files_changed": 472,
       "unique_authors": 9,
       "operations": {
-        "M": 377,
-        "D": 28,
-        "R": 34,
-        "A": 33
+        "M": 472
       }
     },
     "2025-03": {
@@ -709,10 +567,7 @@
       "files_changed": 927,
       "unique_authors": 9,
       "operations": {
-        "M": 796,
-        "A": 17,
-        "R": 113,
-        "D": 1
+        "M": 927
       }
     },
     "2025-04": {
@@ -721,9 +576,7 @@
       "files_changed": 264,
       "unique_authors": 11,
       "operations": {
-        "M": 247,
-        "A": 15,
-        "R": 2
+        "M": 264
       }
     },
     "2025-05": {
@@ -732,10 +585,7 @@
       "files_changed": 413,
       "unique_authors": 13,
       "operations": {
-        "M": 394,
-        "A": 10,
-        "D": 3,
-        "R": 6
+        "M": 413
       }
     },
     "2025-06": {
@@ -744,10 +594,7 @@
       "files_changed": 364,
       "unique_authors": 10,
       "operations": {
-        "M": 345,
-        "D": 11,
-        "A": 5,
-        "R": 3
+        "M": 364
       }
     },
     "2025-07": {
@@ -756,8 +603,7 @@
       "files_changed": 96,
       "unique_authors": 8,
       "operations": {
-        "M": 92,
-        "A": 4
+        "M": 96
       }
     },
     "2025-08": {
@@ -766,9 +612,7 @@
       "files_changed": 156,
       "unique_authors": 6,
       "operations": {
-        "M": 132,
-        "A": 17,
-        "D": 7
+        "M": 156
       }
     },
     "2025-09": {
@@ -777,8 +621,7 @@
       "files_changed": 171,
       "unique_authors": 13,
       "operations": {
-        "M": 166,
-        "A": 5
+        "M": 171
       }
     },
     "2025-10": {
@@ -787,8 +630,7 @@
       "files_changed": 111,
       "unique_authors": 9,
       "operations": {
-        "M": 106,
-        "A": 5
+        "M": 111
       }
     },
     "2025-11": {
@@ -797,10 +639,7 @@
       "files_changed": 280,
       "unique_authors": 6,
       "operations": {
-        "M": 264,
-        "A": 13,
-        "R": 1,
-        "D": 2
+        "M": 280
       }
     },
     "2025-12": {
@@ -809,9 +648,7 @@
       "files_changed": 143,
       "unique_authors": 7,
       "operations": {
-        "M": 139,
-        "R": 3,
-        "A": 1
+        "M": 143
       }
     },
     "2026-01": {
@@ -820,10 +657,7 @@
       "files_changed": 190,
       "unique_authors": 4,
       "operations": {
-        "D": 1,
-        "M": 181,
-        "R": 2,
-        "A": 6
+        "M": 190
       }
     }
   }
