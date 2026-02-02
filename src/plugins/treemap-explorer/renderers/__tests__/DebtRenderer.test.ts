@@ -73,7 +73,13 @@ describe("DebtRenderer", () => {
           path: "healthy.ts",
           total_commits: 5,
           unique_authors: 2,
-          healthScore: { score: 90, category: "healthy", churnRate: 0.1, busFactor: "low-risk", factors: {} as any },
+          healthScore: {
+            score: 90,
+            category: "healthy",
+            churnRate: 0.1,
+            busFactor: "low-risk",
+            factors: {} as any,
+          },
         },
         {
           key: "medium.ts",
@@ -81,7 +87,13 @@ describe("DebtRenderer", () => {
           path: "medium.ts",
           total_commits: 10,
           unique_authors: 2,
-          healthScore: { score: 50, category: "medium", churnRate: 0.3, busFactor: "medium-risk", factors: {} as any },
+          healthScore: {
+            score: 50,
+            category: "medium",
+            churnRate: 0.3,
+            busFactor: "medium-risk",
+            factors: {} as any,
+          },
         },
         {
           key: "critical.ts",
@@ -89,7 +101,13 @@ describe("DebtRenderer", () => {
           path: "critical.ts",
           total_commits: 20,
           unique_authors: 1,
-          healthScore: { score: 20, category: "critical", churnRate: 0.8, busFactor: "high-risk", factors: {} as any },
+          healthScore: {
+            score: 20,
+            category: "critical",
+            churnRate: 0.8,
+            busFactor: "high-risk",
+            factors: {} as any,
+          },
         },
       ];
 
@@ -104,7 +122,7 @@ describe("DebtRenderer", () => {
 
       const result = renderer.filterData(mockData, state);
       expect(result).toHaveLength(2);
-      expect(result.map(f => f.key)).toEqual(["medium.ts", "critical.ts"]);
+      expect(result.map((f) => f.key)).toEqual(["medium.ts", "critical.ts"]);
     });
 
     it("should include all files when threshold is 100", () => {
@@ -115,7 +133,13 @@ describe("DebtRenderer", () => {
           path: "test1.ts",
           total_commits: 5,
           unique_authors: 2,
-          healthScore: { score: 95, category: "healthy", churnRate: 0.1, busFactor: "low-risk", factors: {} as any },
+          healthScore: {
+            score: 95,
+            category: "healthy",
+            churnRate: 0.1,
+            busFactor: "low-risk",
+            factors: {} as any,
+          },
         },
         {
           key: "test2.ts",
@@ -123,7 +147,13 @@ describe("DebtRenderer", () => {
           path: "test2.ts",
           total_commits: 10,
           unique_authors: 1,
-          healthScore: { score: 30, category: "critical", churnRate: 0.7, busFactor: "high-risk", factors: {} as any },
+          healthScore: {
+            score: 30,
+            category: "critical",
+            churnRate: 0.7,
+            busFactor: "high-risk",
+            factors: {} as any,
+          },
         },
       ];
 
@@ -156,7 +186,13 @@ describe("DebtRenderer", () => {
           path: "with-score.ts",
           total_commits: 10,
           unique_authors: 1,
-          healthScore: { score: 40, category: "medium", churnRate: 0.5, busFactor: "medium-risk", factors: {} as any },
+          healthScore: {
+            score: 40,
+            category: "medium",
+            churnRate: 0.5,
+            busFactor: "medium-risk",
+            factors: {} as any,
+          },
         },
       ];
 
@@ -193,7 +229,13 @@ describe("DebtRenderer", () => {
         path: "critical.ts",
         total_commits: 10,
         unique_authors: 1,
-        healthScore: { score: 10, category: "critical", churnRate: 0.9, busFactor: "high-risk", factors: {} as any },
+        healthScore: {
+          score: 10,
+          category: "critical",
+          churnRate: 0.9,
+          busFactor: "high-risk",
+          factors: {} as any,
+        },
       };
 
       const color = renderer.getCellColor(file, mockState);
@@ -208,7 +250,13 @@ describe("DebtRenderer", () => {
         path: "high-concern.ts",
         total_commits: 10,
         unique_authors: 1,
-        healthScore: { score: 30, category: "critical", churnRate: 0.7, busFactor: "high-risk", factors: {} as any },
+        healthScore: {
+          score: 30,
+          category: "critical",
+          churnRate: 0.7,
+          busFactor: "high-risk",
+          factors: {} as any,
+        },
       };
 
       const color = renderer.getCellColor(file, mockState);
@@ -222,7 +270,13 @@ describe("DebtRenderer", () => {
         path: "medium.ts",
         total_commits: 10,
         unique_authors: 2,
-        healthScore: { score: 50, category: "medium", churnRate: 0.5, busFactor: "medium-risk", factors: {} as any },
+        healthScore: {
+          score: 50,
+          category: "medium",
+          churnRate: 0.5,
+          busFactor: "medium-risk",
+          factors: {} as any,
+        },
       };
 
       const color = renderer.getCellColor(file, mockState);
@@ -236,7 +290,13 @@ describe("DebtRenderer", () => {
         path: "good.ts",
         total_commits: 10,
         unique_authors: 3,
-        healthScore: { score: 70, category: "healthy", churnRate: 0.3, busFactor: "low-risk", factors: {} as any },
+        healthScore: {
+          score: 70,
+          category: "healthy",
+          churnRate: 0.3,
+          busFactor: "low-risk",
+          factors: {} as any,
+        },
       };
 
       const color = renderer.getCellColor(file, mockState);
@@ -250,7 +310,13 @@ describe("DebtRenderer", () => {
         path: "healthy.ts",
         total_commits: 5,
         unique_authors: 3,
-        healthScore: { score: 95, category: "healthy", churnRate: 0.1, busFactor: "low-risk", factors: {} as any },
+        healthScore: {
+          score: 95,
+          category: "healthy",
+          churnRate: 0.1,
+          busFactor: "low-risk",
+          factors: {} as any,
+        },
       };
 
       const color = renderer.getCellColor(file, mockState);
@@ -387,7 +453,9 @@ describe("DebtRenderer", () => {
 
   describe("renderExtras", () => {
     it("should not render any extras (no-op for debt lens)", () => {
-      const mockSvg = d3.select(document.createElementNS("http://www.w3.org/2000/svg", "svg"));
+      const mockSvg = d3.select(
+        document.createElementNS("http://www.w3.org/2000/svg", "svg"),
+      );
       const mockCells: any[] = [];
       const mockState: TreemapExplorerState = {
         lensMode: "debt",

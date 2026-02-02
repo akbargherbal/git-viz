@@ -2,11 +2,7 @@
 import React from "react";
 import { useAppStore } from "@/store/appStore";
 import { TimeBinType } from "@/types/domain";
-import {
-  Calendar,
-  CalendarRange,
-  CalendarClock,
-} from "lucide-react";
+import { Calendar, CalendarRange, CalendarClock } from "lucide-react";
 
 /**
  * Props for controlled mode (when used by plugins)

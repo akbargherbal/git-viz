@@ -1,5 +1,5 @@
 // src/plugins/treemap-explorer/TreemapExplorerPlugin.tsx
-// PHASE 3: Time Lens Activity Data - Activity sparklines and timeline cache
+// PHASE 2: Coupling Lens Restoration - Full network support
 
 import {
   VisualizationPlugin,
@@ -62,17 +62,6 @@ export class TreemapExplorerPlugin implements VisualizationPlugin<TreemapExplore
         alias: "cochange_network",
       },
       { dataset: "temporal_daily", required: false, alias: "temporal_daily" },
-      // PHASE 3: Add file_lifecycle for activity sparklines
-      {
-        dataset: "file_lifecycle",
-        required: false,
-        alias: "file_lifecycle",
-      },
-      {
-        dataset: "temporal_activity_map",
-        required: false,
-        alias: "temporal_activity_map",
-      },
     ],
   };
 
@@ -100,9 +89,6 @@ export class TreemapExplorerPlugin implements VisualizationPlugin<TreemapExplore
   private arcRenderer: CouplingArcRenderer | null = null;
   private couplingIndex: Map<string, any> = new Map();
   private currentSignal: AbortSignal | null = null;
-  // PHASE 3: Timeline cache for performance optimization
-  private timelineCache: Map<string, Array<{ date: string; commits: number }>> =
-    new Map();
 
   // NEW: Renderer instances (cached)
   private debtRenderer: DebtRenderer | null = null;
@@ -408,9 +394,7 @@ export class TreemapExplorerPlugin implements VisualizationPlugin<TreemapExplore
 
       // PHASE 2: Use full cochange_network if available, otherwise fall back to lossy index
       if (dataset.cochange_network) {
-        this.couplingIndex = CouplingDataProcessor.process(
-          dataset.cochange_network,
-        );
+        this.couplingIndex = CouplingDataProcessor.process(dataset.cochange_network);
 
         // Enrich files with accurate maxCoupling from full network
         enrichedFiles.forEach((file) => {
@@ -421,22 +405,16 @@ export class TreemapExplorerPlugin implements VisualizationPlugin<TreemapExplore
         });
 
         // DEBUG: Check if enrichment worked
-        console.log("[DEBUG Coupling] Index size:", this.couplingIndex.size);
-        console.log(
-          "[DEBUG Coupling] Sample from index:",
-          Array.from(this.couplingIndex.entries()).slice(0, 3),
-        );
-        console.log(
-          "[DEBUG Coupling] Files with maxCoupling:",
-          enrichedFiles.filter((f) => f.maxCoupling && f.maxCoupling > 0)
-            .length,
-        );
-        console.log(
-          "[DEBUG Coupling] Sample enriched files:",
-          enrichedFiles
-            .slice(0, 5)
-            .map((f) => ({ key: f.key, maxCoupling: f.maxCoupling })),
-        );
+  console.log('[DEBUG Coupling] Index size:', this.couplingIndex.size);
+  console.log('[DEBUG Coupling] Sample from index:', 
+    Array.from(this.couplingIndex.entries()).slice(0, 3)
+  );
+  console.log('[DEBUG Coupling] Files with maxCoupling:', 
+    enrichedFiles.filter(f => f.maxCoupling && f.maxCoupling > 0).length
+  );
+  console.log('[DEBUG Coupling] Sample enriched files:', 
+    enrichedFiles.slice(0, 5).map(f => ({ key: f.key, maxCoupling: f.maxCoupling }))
+  );
       } else {
         // Fallback: Build lossy index from file_metrics_index.coupling.top_partners
         this.couplingIndex = new Map();
@@ -453,8 +431,7 @@ export class TreemapExplorerPlugin implements VisualizationPlugin<TreemapExplore
             const totalPartners = partners.length;
             const avgStrength =
               totalPartners > 0
-                ? partners.reduce((sum, p) => sum + p.strength, 0) /
-                  totalPartners
+                ? partners.reduce((sum, p) => sum + p.strength, 0) / totalPartners
                 : 0;
 
             this.couplingIndex.set(file.key, {
@@ -464,25 +441,6 @@ export class TreemapExplorerPlugin implements VisualizationPlugin<TreemapExplore
               avgStrength: avgStrength,
               totalPartners: totalPartners,
             });
-          }
-        });
-      }
-
-      // PHASE 3: Pre-compute activity timelines if file_lifecycle available
-      if (dataset.file_lifecycle) {
-        console.log(
-          "[TreemapExplorer] Pre-computing activity timelines from file_lifecycle",
-        );
-        this.timelineCache = TemporalDataProcessor.precomputeTimelines(
-          enrichedFiles,
-          dataset.file_lifecycle,
-        );
-
-        // Attach timelines to enriched files
-        enrichedFiles.forEach((file) => {
-          const timeline = this.timelineCache.get(file.key);
-          if (timeline) {
-            file.activityTimeline = timeline;
           }
         });
       }
@@ -657,12 +615,10 @@ export class TreemapExplorerPlugin implements VisualizationPlugin<TreemapExplore
 
     if (state.lensMode === "time" && this.temporalData) {
       const timePosition = state.timePosition ?? 100;
-      // PHASE 3: Pass timeline cache to enrichFilesWithTemporal
       enrichedData = TemporalDataProcessor.enrichFilesWithTemporal(
         data,
         this.temporalData,
         timePosition,
-        this.timelineCache,
       );
     }
 

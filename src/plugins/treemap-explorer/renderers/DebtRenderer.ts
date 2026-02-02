@@ -13,7 +13,7 @@ export class DebtRenderer extends BaseTreemapRenderer {
   enrichData(
     data: EnrichedFileData[],
     _state: TreemapExplorerState,
-    _additionalContext?: any
+    _additionalContext?: any,
   ): EnrichedFileData[] {
     // Debt lens uses base data without additional enrichment
     // Health scores are already calculated in the data
@@ -22,7 +22,7 @@ export class DebtRenderer extends BaseTreemapRenderer {
 
   filterData(
     data: EnrichedFileData[],
-    state: TreemapExplorerState
+    state: TreemapExplorerState,
   ): EnrichedFileData[] {
     const threshold = state.healthThreshold ?? 100;
 
@@ -63,7 +63,7 @@ export class DebtRenderer extends BaseTreemapRenderer {
   renderExtras(
     _svg: d3.Selection<SVGSVGElement, unknown, null, undefined>,
     _cells: d3.HierarchyRectangularNode<any>[],
-    _state: TreemapExplorerState
+    _state: TreemapExplorerState,
   ): void {
     // Debt lens has no additional overlays or visualizations
     // (No arcs like coupling, no timeline like time mode)
@@ -76,7 +76,7 @@ export class DebtRenderer extends BaseTreemapRenderer {
 
   getTooltipContent(
     _file: EnrichedFileData,
-    _state: TreemapExplorerState
+    _state: TreemapExplorerState,
   ): {
     show: boolean;
     additionalRows?: Array<{ label: string; value: string }>;
@@ -98,7 +98,7 @@ export class DebtRenderer extends BaseTreemapRenderer {
    */
   protected getCellOpacity(
     file: EnrichedFileData,
-    _state: TreemapExplorerState
+    _state: TreemapExplorerState,
   ): number {
     // Base opacity
     let opacity = 1.0;

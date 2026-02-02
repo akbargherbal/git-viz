@@ -31,14 +31,22 @@ describe("TimelineHeatmapPlugin - Granularity & Continuity", () => {
         {
           id: 1,
           d: "2024-01-01", // Monday
-          a: 5, m: 0, del: 0, c: 1, au: 1,
+          a: 5,
+          m: 0,
+          del: 0,
+          c: 1,
+          au: 1,
         },
         // Week 2: NO ACTIVITY (Gap)
         // Week 3: Activity present
         {
           id: 1,
           d: "2024-01-15", // Monday (2 weeks later)
-          a: 5, m: 0, del: 0, c: 1, au: 1,
+          a: 5,
+          m: 0,
+          del: 0,
+          c: 1,
+          au: 1,
         },
       ],
     };
@@ -59,7 +67,7 @@ describe("TimelineHeatmapPlugin - Granularity & Continuity", () => {
     expect(result.timeBins.length).toBe(3);
 
     // Verify they are sorted
-    const times = result.timeBins.map(d => d.getTime());
+    const times = result.timeBins.map((d) => d.getTime());
     expect(times[1]).toBeGreaterThan(times[0]);
     expect(times[2]).toBeGreaterThan(times[1]);
   });

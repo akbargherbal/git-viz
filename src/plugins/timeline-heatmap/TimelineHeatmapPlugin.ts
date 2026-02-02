@@ -11,7 +11,11 @@ import type {
   MetricType,
   OptimizedDirectoryNode,
 } from "@/types/domain";
-import { getTimeBinStart, formatTimeBin, getNextTimeBin } from "@/utils/dateHelpers";
+import {
+  getTimeBinStart,
+  formatTimeBin,
+  getNextTimeBin,
+} from "@/utils/dateHelpers";
 import { formatNumber } from "@/utils/formatting";
 import { DataProcessor } from "@/services/data/DataProcessor";
 import { MetricSelector } from "@/components/common/MetricSelector";
@@ -417,14 +421,14 @@ export class TimelineHeatmapPlugin implements VisualizationPlugin<
 
     // First pass to find range
     for (const item of activity) {
-        const t = new Date(item.d).getTime();
-        if (t < minTime) minTime = t;
-        if (t > maxTime) maxTime = t;
+      const t = new Date(item.d).getTime();
+      if (t < minTime) minTime = t;
+      if (t > maxTime) maxTime = t;
     }
 
     // Handle empty data
     if (minTime === Infinity) {
-         return { cells: [], directories: [], timeBins: [], maxValue: 0 };
+      return { cells: [], directories: [], timeBins: [], maxValue: 0 };
     }
 
     // Generate continuous time bins
@@ -437,9 +441,9 @@ export class TimelineHeatmapPlugin implements VisualizationPlugin<
     const MAX_BINS = 5000; // Reasonable limit for visualization
 
     while (currentBin <= endBin && safetyCounter < MAX_BINS) {
-        timeBins.push(new Date(currentBin));
-        currentBin = getNextTimeBin(currentBin, timeBinType);
-        safetyCounter++;
+      timeBins.push(new Date(currentBin));
+      currentBin = getNextTimeBin(currentBin, timeBinType);
+      safetyCounter++;
     }
 
     // PHASE 2: Check abort periodically during iteration

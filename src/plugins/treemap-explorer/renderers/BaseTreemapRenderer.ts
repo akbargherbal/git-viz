@@ -7,7 +7,9 @@ import { EnrichedFileData, TreemapExplorerState } from "../types";
  * Abstract base class for lens-specific treemap renderers
  * Provides shared layout logic and defines interface for lens customization
  */
-export abstract class BaseTreemapRenderer<TState extends TreemapExplorerState = TreemapExplorerState> {
+export abstract class BaseTreemapRenderer<
+  TState extends TreemapExplorerState = TreemapExplorerState,
+> {
   protected container: HTMLElement;
   protected tooltip: HTMLElement | null;
 
@@ -23,7 +25,7 @@ export abstract class BaseTreemapRenderer<TState extends TreemapExplorerState = 
   abstract enrichData(
     data: EnrichedFileData[],
     state: TState,
-    additionalContext?: any
+    additionalContext?: any,
   ): EnrichedFileData[];
 
   /**
@@ -32,7 +34,7 @@ export abstract class BaseTreemapRenderer<TState extends TreemapExplorerState = 
    */
   abstract filterData(
     data: EnrichedFileData[],
-    state: TState
+    state: TState,
   ): EnrichedFileData[];
 
   /**
@@ -48,7 +50,7 @@ export abstract class BaseTreemapRenderer<TState extends TreemapExplorerState = 
   abstract renderExtras(
     svg: d3.Selection<SVGSVGElement, unknown, null, undefined>,
     cells: d3.HierarchyRectangularNode<any>[],
-    state: TState
+    state: TState,
   ): void;
 
   /**
@@ -59,7 +61,10 @@ export abstract class BaseTreemapRenderer<TState extends TreemapExplorerState = 
   /**
    * Get lens-specific tooltip content
    */
-  abstract getTooltipContent(file: EnrichedFileData, state: TState): {
+  abstract getTooltipContent(
+    file: EnrichedFileData,
+    state: TState,
+  ): {
     show: boolean;
     additionalRows?: Array<{ label: string; value: string }>;
   };
@@ -72,7 +77,7 @@ export abstract class BaseTreemapRenderer<TState extends TreemapExplorerState = 
     data: EnrichedFileData[],
     width: number,
     height: number,
-    sizeMetric: string
+    sizeMetric: string,
   ): d3.HierarchyRectangularNode<any>[] {
     const root = d3
       .hierarchy({ children: data } as any)
@@ -115,7 +120,7 @@ export abstract class BaseTreemapRenderer<TState extends TreemapExplorerState = 
     svg: d3.Selection<SVGSVGElement, unknown, null, undefined>,
     cells: d3.HierarchyRectangularNode<any>[],
     state: TState,
-    onCellClick?: (file: EnrichedFileData) => void
+    onCellClick?: (file: EnrichedFileData) => void,
   ): void {
     const cellGroups = svg
       .selectAll("g.cell-group")
@@ -132,13 +137,17 @@ export abstract class BaseTreemapRenderer<TState extends TreemapExplorerState = 
       .attr("height", (d) => d.y1 - d.y0)
       .attr("fill", (d) => this.getCellColor(d.data as EnrichedFileData, state))
       .attr("stroke", (d) =>
-        state.selectedFile === (d.data as EnrichedFileData).key ? "#fff" : "#000"
+        state.selectedFile === (d.data as EnrichedFileData).key
+          ? "#fff"
+          : "#000",
       )
       .attr("stroke-width", (d) =>
-        state.selectedFile === (d.data as EnrichedFileData).key ? 3 : 1
+        state.selectedFile === (d.data as EnrichedFileData).key ? 3 : 1,
       )
       .style("cursor", "pointer")
-      .style("opacity", (d) => this.getCellOpacity(d.data as EnrichedFileData, state))
+      .style("opacity", (d) =>
+        this.getCellOpacity(d.data as EnrichedFileData, state),
+      )
       .style("transition", "stroke 0.2s, stroke-width 0.2s")
       .on("mouseenter", (event, d) => {
         const rect = event.currentTarget;
@@ -179,16 +188,22 @@ export abstract class BaseTreemapRenderer<TState extends TreemapExplorerState = 
   protected showTooltip(
     event: MouseEvent,
     file: EnrichedFileData,
-    state: TState
+    state: TState,
   ): void {
     if (!this.tooltip) return;
 
     // Populate base tooltip content
     const pathEl = this.tooltip.querySelector("#tooltip-path") as HTMLElement;
     const nameEl = this.tooltip.querySelector("#tooltip-name") as HTMLElement;
-    const commitsEl = this.tooltip.querySelector("#tooltip-commits") as HTMLElement;
-    const authorsEl = this.tooltip.querySelector("#tooltip-authors") as HTMLElement;
-    const healthEl = this.tooltip.querySelector("#tooltip-health") as HTMLElement;
+    const commitsEl = this.tooltip.querySelector(
+      "#tooltip-commits",
+    ) as HTMLElement;
+    const authorsEl = this.tooltip.querySelector(
+      "#tooltip-authors",
+    ) as HTMLElement;
+    const healthEl = this.tooltip.querySelector(
+      "#tooltip-health",
+    ) as HTMLElement;
 
     if (pathEl && nameEl && commitsEl && authorsEl && healthEl) {
       const pathParts = file.key.split("/");
@@ -203,14 +218,16 @@ export abstract class BaseTreemapRenderer<TState extends TreemapExplorerState = 
 
       // Get lens-specific tooltip additions
       const tooltipData = this.getTooltipContent(file, state);
-      
+
       // Handle additional rows (like coupling strength)
       if (tooltipData.additionalRows && tooltipData.additionalRows.length > 0) {
-        tooltipData.additionalRows.forEach(row => {
-          const rowEl = this.tooltip?.querySelector(`#tooltip-${row.label.toLowerCase().replace(/\s+/g, '-')}`) as HTMLElement;
+        tooltipData.additionalRows.forEach((row) => {
+          const rowEl = this.tooltip?.querySelector(
+            `#tooltip-${row.label.toLowerCase().replace(/\s+/g, "-")}`,
+          ) as HTMLElement;
           if (rowEl) {
             const parentRow = rowEl.closest('[id$="-row"]') as HTMLElement;
-            if (parentRow) parentRow.style.display = 'flex';
+            if (parentRow) parentRow.style.display = "flex";
             rowEl.textContent = row.value;
           }
         });

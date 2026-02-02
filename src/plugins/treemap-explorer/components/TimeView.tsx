@@ -9,23 +9,29 @@ interface TimeViewProps {
 
 export const TimeView: React.FC<TimeViewProps> = ({ file }) => {
   // Normalize data access to handle both EnrichedFileData and TemporalFileData
-  const getProp = <T,>(key1: keyof TemporalFileData, key2: keyof EnrichedFileData): T | undefined => {
+  const getProp = <T,>(
+    key1: keyof TemporalFileData,
+    key2: keyof EnrichedFileData,
+  ): T | undefined => {
     return (file as any)[key1] ?? (file as any)[key2];
   };
 
   const createdDateStr = getProp<string>("createdDate", "first_seen");
-  const lastModifiedDateStr = getProp<string>("lastModifiedDate", "last_modified");
+  const lastModifiedDateStr = getProp<string>(
+    "lastModifiedDate",
+    "last_modified",
+  );
   const totalCommits = getProp<number>("totalCommits", "total_commits") || 0;
   const uniqueAuthors = getProp<number>("uniqueAuthors", "unique_authors") || 0;
   const ageDays = getProp<number>("ageDays", "age_days") || 0;
-  
+
   // Safe date formatting
   const formatDate = (dateStr?: string) => {
     if (!dateStr) return "N/A";
     try {
       const date = new Date(dateStr);
-      return isNaN(date.getTime()) 
-        ? "Invalid Date" 
+      return isNaN(date.getTime())
+        ? "Invalid Date"
         : date.toLocaleDateString("en-US", {
             month: "short",
             day: "numeric",
@@ -103,9 +109,7 @@ export const TimeView: React.FC<TimeViewProps> = ({ file }) => {
         </div>
         <div className="bg-zinc-900/50 p-3 rounded-lg">
           <div className="text-xs text-zinc-500 mb-1">Age</div>
-          <div className="text-sm font-mono text-zinc-200">
-            {ageDays} days
-          </div>
+          <div className="text-sm font-mono text-zinc-200">{ageDays} days</div>
         </div>
         <div className="bg-zinc-900/50 p-3 rounded-lg">
           <div className="text-xs text-zinc-500 mb-1">Dormant Period</div>
@@ -130,7 +134,8 @@ export const TimeView: React.FC<TimeViewProps> = ({ file }) => {
                 const maxCommits = Math.max(
                   ...activityTimeline.map((p) => p.commits),
                 );
-                const height = maxCommits > 0 ? (point.commits / maxCommits) * 100 : 0;
+                const height =
+                  maxCommits > 0 ? (point.commits / maxCommits) * 100 : 0;
                 return (
                   <div
                     key={i}
@@ -168,9 +173,7 @@ export const TimeView: React.FC<TimeViewProps> = ({ file }) => {
         <div className="flex items-center justify-between">
           <span className="text-xs text-zinc-500">Commits per Day</span>
           <span className="text-sm font-mono text-zinc-200">
-            {ageDays > 0
-              ? (totalCommits / ageDays).toFixed(2)
-              : "0.00"}
+            {ageDays > 0 ? (totalCommits / ageDays).toFixed(2) : "0.00"}
           </span>
         </div>
       </div>

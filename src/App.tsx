@@ -165,12 +165,12 @@ const App: React.FC = () => {
       if (rawData.project_hierarchy && rawData.file_metrics_index) {
         const optimized = DataProcessor.processFrontendData(
           rawData.project_hierarchy,
-          rawData.file_metrics_index
+          rawData.file_metrics_index,
         );
         setOptimizedData(
           optimized.metadata,
           optimized.tree,
-          optimized.activity
+          optimized.activity,
         );
         return;
       }
@@ -223,7 +223,8 @@ const App: React.FC = () => {
     // For TreemapExplorer, we only need rawData (specifically file_index)
     if (activePlugin.metadata.id === "treemap-explorer") {
       // Check for new data first
-      if (rawData.project_hierarchy && rawData.file_metrics_index) return rawData;
+      if (rawData.project_hierarchy && rawData.file_metrics_index)
+        return rawData;
       // Fallback
       if (!rawData.file_index) return null;
       return rawData;

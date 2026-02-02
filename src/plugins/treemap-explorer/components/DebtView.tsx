@@ -124,7 +124,8 @@ export const DebtView: React.FC<DebtViewProps> = ({ file }) => {
             <div className="flex items-center justify-between">
               <span className="text-xs text-zinc-500">Churn Impact</span>
               <span className="text-xs text-zinc-400">
-                Weight: {((healthScore.factors.churn.weight || 0) * 100).toFixed(0)}%
+                Weight:{" "}
+                {((healthScore.factors.churn.weight || 0) * 100).toFixed(0)}%
               </span>
             </div>
             <div className="flex items-center gap-2">
@@ -147,14 +148,17 @@ export const DebtView: React.FC<DebtViewProps> = ({ file }) => {
             <div className="flex items-center justify-between">
               <span className="text-xs text-zinc-500">Author Diversity</span>
               <span className="text-xs text-zinc-400">
-                Weight: {((healthScore.factors.authors.weight || 0) * 100).toFixed(0)}%
+                Weight:{" "}
+                {((healthScore.factors.authors.weight || 0) * 100).toFixed(0)}%
               </span>
             </div>
             <div className="flex items-center gap-2">
               <div className="flex-1 bg-zinc-800 rounded-full h-1.5">
                 <div
                   className="bg-blue-500 h-1.5 rounded-full"
-                  style={{ width: `${healthScore.factors.authors.score || 0}%` }}
+                  style={{
+                    width: `${healthScore.factors.authors.score || 0}%`,
+                  }}
                 />
               </div>
               <span className="text-xs font-mono text-zinc-300 w-12 text-right">
@@ -170,7 +174,8 @@ export const DebtView: React.FC<DebtViewProps> = ({ file }) => {
             <div className="flex items-center justify-between">
               <span className="text-xs text-zinc-500">Age/Stability</span>
               <span className="text-xs text-zinc-400">
-                Weight: {((healthScore.factors.age.weight || 0) * 100).toFixed(0)}%
+                Weight:{" "}
+                {((healthScore.factors.age.weight || 0) * 100).toFixed(0)}%
               </span>
             </div>
             <div className="flex items-center gap-2">

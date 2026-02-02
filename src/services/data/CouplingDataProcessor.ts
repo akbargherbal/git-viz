@@ -1,5 +1,4 @@
 // src/services/data/CouplingDataProcessor.ts
-
 import { EnrichedFileData } from "@/plugins/treemap-explorer/types";
 
 /**
@@ -11,7 +10,8 @@ export interface CouplingEdge {
   source: string;
   target: string;
   cochangeCount: number;
-  couplingStrength: number; // 0-1
+  coupling_strength?: number; // JSON schema uses snake_case
+  couplingStrength?: number; // Internal/Legacy uses camelCase
 }
 
 export interface CouplingPartner {
@@ -95,11 +95,11 @@ export class CouplingDataProcessor {
 
     // Build bidirectional coupling map
     edges.forEach((edge: CouplingEdge) => {
-      const { source, target, cochangeCount, couplingStrength } = edge;
+      const { source, target, cochangeCount } = edge;
 
-      // FIX: Ensure strength is a number, default to 0 if missing
-      const strength =
-        typeof couplingStrength === "number" ? couplingStrength : 0;
+      // FIX: Handle snake_case from JSON (coupling_strength) vs camelCase (couplingStrength)
+      const rawStrength = edge.coupling_strength ?? edge.couplingStrength;
+      const strength = typeof rawStrength === "number" ? rawStrength : 0;
 
       // Add forward edge (source -> target)
       if (!couplingMap.has(source)) {
@@ -107,7 +107,7 @@ export class CouplingDataProcessor {
       }
       couplingMap.get(source)!.push({
         filePath: target,
-        strength: strength, // Use sanitized strength
+        strength: strength,
         cochangeCount,
       });
 
@@ -117,7 +117,7 @@ export class CouplingDataProcessor {
       }
       couplingMap.get(target)!.push({
         filePath: source,
-        strength: strength, // Use sanitized strength
+        strength: strength,
         cochangeCount,
       });
     });

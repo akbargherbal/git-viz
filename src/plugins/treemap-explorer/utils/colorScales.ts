@@ -1,4 +1,5 @@
 // FILE: src/plugins/treemap-explorer/utils/colorScales.ts
+// PHASE 2: Coupling Lens Restoration - Fixed color gradient
 import * as d3 from "d3";
 import { EnrichedFileData, TemporalFileData } from "../types";
 
@@ -29,7 +30,7 @@ export const getCouplingColor = (
 
   // Above threshold: purple scale
   if (coupling >= threshold) {
-    const intensity = Math.min(coupling / 0.1, 1); // Cap at 0.1
+    const intensity = Math.min(coupling / 0.8, 1); // PHASE 2: Cap at 0.8 for visible gradient
     const scale = d3
       .scaleLinear<string>()
       .domain([0, 1])

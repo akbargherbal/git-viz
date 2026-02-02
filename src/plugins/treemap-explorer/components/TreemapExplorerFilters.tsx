@@ -18,7 +18,11 @@ export const TreemapExplorerFilters: React.FC<TreemapExplorerFiltersProps> = ({
   onStateChange,
   onClose,
 }) => {
-  const { lensMode = "debt", couplingThreshold = 0.03 } = state;
+  const {
+    lensMode = "debt",
+    couplingThreshold = 0.03,
+    showArcs = false,
+  } = state;
 
   // Get time filters with defaults - spread to ensure all properties exist
   const timeFilters = {
@@ -144,7 +148,7 @@ export const TreemapExplorerFilters: React.FC<TreemapExplorerFiltersProps> = ({
               <label className="flex items-center gap-2 text-xs text-zinc-300 cursor-pointer hover:text-white transition-colors">
                 <input
                   type="checkbox"
-                  checked={state.showArcs}
+                  checked={showArcs}
                   onChange={(e) =>
                     onStateChange({ showArcs: e.target.checked })
                   }

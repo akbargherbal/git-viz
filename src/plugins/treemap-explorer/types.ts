@@ -57,6 +57,9 @@ export interface EnrichedFileData extends FileData {
     strength: number;
     cochangeCount: number;
   }>;
+
+  // PHASE 3: Activity timeline (pre-computed from file_lifecycle)
+  activityTimeline?: Array<{ date: string; commits: number }>;
 }
 /**
  * Extended file data with temporal context

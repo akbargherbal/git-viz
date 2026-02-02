@@ -58,7 +58,6 @@ describe("TreemapExplorerControls", () => {
 
     fireEvent.click(screen.getByTestId("metric-authors"));
     expect(mockUpdateState).toHaveBeenCalledWith({ sizeMetric: "authors" });
-
   });
 
   it("highlights the active size metric", () => {
