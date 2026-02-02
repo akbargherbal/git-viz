@@ -74,3 +74,78 @@ export interface TimeRange {
   start: Date;
   end: Date;
 }
+
+// ============================================================================
+// V2 DATASET TYPES (Frontend-Ready)
+// ============================================================================
+
+export interface FileMetrics {
+  identifiers: {
+    author_ids: string[];
+    primary_author_id: string;
+    primary_author_percentage: number;
+  };
+  volume: {
+    lines_added: number;
+    lines_deleted: number;
+    net_change: number;
+    total_commits: number;
+  };
+  coupling: {
+    max_strength: number;
+    top_partners: Array<{
+      path: string;
+      strength: number;
+      cochange_count: number;
+    }>;
+  };
+  health?: {
+    score: number;
+    category: "healthy" | "medium" | "critical";
+    churn_rate: number;
+    bus_factor: "low-risk" | "medium-risk" | "high-risk";
+    factors: {
+      churn: { score: number; weight: number };
+      authors: { score: number; weight: number };
+      age: { score: number; weight: number };
+    };
+  };
+  lifecycle?: {
+    created_at: string;
+    last_modified_at: string;
+    age_days: number;
+    is_dormant: boolean;
+  };
+}
+
+export interface ProjectHierarchyNode {
+  name: string;
+  path: string;
+  type: "directory" | "file";
+  stats?: {
+    total_commits: number;
+    health_score_avg?: number;
+  };
+
+  attributes?: {
+    health_score: number;
+    health_category: "healthy" | "medium" | "critical";
+    bus_factor_status: "low-risk" | "medium-risk" | "high-risk";
+    churn_rate: number;
+    primary_author_id: string;
+    last_modified_age_days: number;
+    created_at_iso: string;
+  };
+
+  children?: ProjectHierarchyNode[];
+}
+
+export interface TemporalActivityMap {
+  meta: {
+    granularity: string;
+    start_date: string;
+    end_date: string;
+    data_schema: string[];
+  };
+  data: Record<string, Record<string, number[]>>;
+}

@@ -5,6 +5,8 @@ import {
   OptimizedDirectoryNode,
   ActivityMatrixItem,
   FileStat,
+  ProjectHierarchyNode,
+  FileMetrics,
 } from "@/types/domain";
 import { OptimizedDataset } from "@/types/plugin";
 import { FilterState } from "@/types/visualization";
@@ -107,6 +109,99 @@ export class DataProcessor {
         healthScore,
       };
     });
+  }
+
+  /**
+   * NEW: Process pre-computed frontend data (V2.1)
+   * Replaces the heavy ETL logic in processRawData
+   */
+  static processFrontendData(
+    hierarchy: { meta: any; tree: ProjectHierarchyNode },
+    metrics: Record<string, FileMetrics>,
+  ): OptimizedDataset {
+    // 1. Convert ProjectHierarchyNode to OptimizedDirectoryNode
+    let nodeIdCounter = 1;
+    // const dirPathToId = new Map<string, number>(); // Unused for now
+
+    const convertNode = (
+      node: ProjectHierarchyNode,
+    ): OptimizedDirectoryNode => {
+      const id = nodeIdCounter++;
+      // if (node.type === "directory") {
+      //   dirPathToId.set(node.path, id);
+      // }
+
+      return {
+        id,
+        name: node.name,
+        path: node.path,
+        type: node.type,
+        children: node.children?.map(convertNode),
+        value: node.stats?.total_commits,
+      };
+    };
+
+    const root = convertNode(hierarchy.tree);
+
+    // 2. Build Metadata
+    const fileStats: Record<string, FileStat> = {};
+    const fileTypesMap = new Map<string, number>();
+    const authorsMap = new Map<string, number>();
+
+    Object.entries(metrics).forEach(([path, metric]) => {
+      // File Stats
+      fileStats[path] = {
+        path,
+        total_commits: metric.volume.total_commits,
+        primary_author: {
+          email: metric.identifiers.primary_author_id,
+          percentage: metric.identifiers.primary_author_percentage,
+        },
+        last_modified: metric.lifecycle?.last_modified_at,
+      };
+
+      // File Types
+      const ext = path.split(".").pop() || "no-extension";
+      fileTypesMap.set(ext, (fileTypesMap.get(ext) || 0) + 1);
+
+      // Authors
+      const author = metric.identifiers.primary_author_id;
+      authorsMap.set(
+        author,
+        (authorsMap.get(author) || 0) + metric.volume.total_commits,
+      );
+    });
+
+    const metadata: RepoMetadata = {
+      repository_name: hierarchy.meta.repository_name,
+      generation_date: hierarchy.meta.generated_at,
+      date_range: {
+        start: "2020-01-01", // Placeholder
+        end: new Date().toISOString(),
+      },
+      stats: {
+        total_commits: hierarchy.tree.stats?.total_commits || 0,
+        total_files: Object.keys(metrics).length,
+        total_authors: authorsMap.size,
+      },
+      authors: Array.from(authorsMap.entries())
+        .map(([name, count]) => ({
+          name,
+          email: name,
+          commit_count: count,
+        }))
+        .sort((a, b) => b.commit_count - a.commit_count),
+      file_types: Array.from(fileTypesMap.entries())
+        .map(([extension, count]) => ({
+          extension: `.${extension}`,
+          count,
+        }))
+        .sort((a, b) => b.count - a.count),
+      file_stats: fileStats,
+      directory_stats: [],
+    };
+
+    return { metadata, tree: root, activity: [] };
   }
 
   static processRawData(

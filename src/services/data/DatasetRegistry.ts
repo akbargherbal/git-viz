@@ -17,7 +17,30 @@ export interface DatasetDefinition {
  */
 export class DatasetRegistryClass {
   private static datasets: Record<string, DatasetDefinition> = {
-    // Temporal/Time-Series Datasets
+    // NEW: Frontend-Ready Datasets
+    file_metrics_index: {
+      path: "/DATASETS_excalidraw/frontend/file_metrics_index.json",
+      type: "metadata",
+      description: "Pre-computed file metrics (health, coupling, volume)",
+      schema_version: "2.1",
+      size_estimate: "1.5 MB",
+    },
+    project_hierarchy: {
+      path: "/DATASETS_excalidraw/frontend/project_hierarchy.json",
+      type: "hierarchy",
+      description: "Complete directory tree with pre-aggregated stats",
+      schema_version: "2.1",
+      size_estimate: "0.5 MB",
+    },
+    temporal_activity_map: {
+      path: "/DATASETS_excalidraw/frontend/temporal_activity_map.json",
+      type: "time_series",
+      description: "Pre-bucketed temporal activity for all files/dirs",
+      schema_version: "2.1",
+      size_estimate: "2.5 MB",
+    },
+
+    // LEGACY / OPTIONAL Datasets
     temporal_daily: {
       path: "/DATASETS_excalidraw/aggregations/temporal_daily.json",
       type: "time_series",
@@ -32,17 +55,13 @@ export class DatasetRegistryClass {
       schema_version: "2.0",
       size_estimate: "~20 KB",
     },
-
-    // Core Lifecycle Data
     file_lifecycle: {
       path: "/DATASETS_excalidraw/file_lifecycle.json",
       type: "metadata",
-      description: "Complete file lifecycle event stream",
+      description: "Complete file lifecycle event stream (Heavy)",
       schema_version: "2.0",
       size_estimate: "9.56 MB",
     },
-
-    // Directory and File Metadata
     directory_stats: {
       path: "/DATASETS_excalidraw/aggregations/directory_stats.json",
       type: "hierarchy",
@@ -57,8 +76,6 @@ export class DatasetRegistryClass {
       schema_version: "2.0",
       size_estimate: "1.29 MB",
     },
-
-    // Network Datasets
     author_network: {
       path: "/DATASETS_excalidraw/networks/author_network.json",
       type: "network",
@@ -69,12 +86,10 @@ export class DatasetRegistryClass {
     cochange_network: {
       path: "/DATASETS_excalidraw/networks/cochange_network.json",
       type: "network",
-      description: "File co-change network (files that change together)",
+      description: "File co-change network (Heavy)",
       schema_version: "2.0",
       size_estimate: "21.43 MB",
     },
-
-    // Milestone Snapshots
     release_snapshots: {
       path: "/DATASETS_excalidraw/milestones/release_snapshots.json",
       type: "snapshot",

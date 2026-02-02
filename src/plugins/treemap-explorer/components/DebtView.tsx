@@ -1,4 +1,5 @@
-// FILE: src/plugins/treemap-explorer/components/DebtView.tsx
+// src/plugins/treemap-explorer/components/DebtView.tsx
+
 import React from "react";
 import { EnrichedFileData } from "../types";
 
@@ -118,67 +119,73 @@ export const DebtView: React.FC<DebtViewProps> = ({ file }) => {
         </h4>
 
         {/* Churn Factor */}
-        <div className="space-y-1">
-          <div className="flex items-center justify-between">
-            <span className="text-xs text-zinc-500">Churn Impact</span>
-            <span className="text-xs text-zinc-400">
-              Weight: {(healthScore.factors.churn.weight * 100).toFixed(0)}%
-            </span>
-          </div>
-          <div className="flex items-center gap-2">
-            <div className="flex-1 bg-zinc-800 rounded-full h-1.5">
-              <div
-                className="bg-amber-500 h-1.5 rounded-full"
-                style={{ width: `${healthScore.factors.churn.score}%` }}
-              />
+        {healthScore.factors?.churn && (
+          <div className="space-y-1">
+            <div className="flex items-center justify-between">
+              <span className="text-xs text-zinc-500">Churn Impact</span>
+              <span className="text-xs text-zinc-400">
+                Weight: {((healthScore.factors.churn.weight || 0) * 100).toFixed(0)}%
+              </span>
             </div>
-            <span className="text-xs font-mono text-zinc-300 w-12 text-right">
-              {healthScore.factors.churn.score.toFixed(0)}
-            </span>
+            <div className="flex items-center gap-2">
+              <div className="flex-1 bg-zinc-800 rounded-full h-1.5">
+                <div
+                  className="bg-amber-500 h-1.5 rounded-full"
+                  style={{ width: `${healthScore.factors.churn.score || 0}%` }}
+                />
+              </div>
+              <span className="text-xs font-mono text-zinc-300 w-12 text-right">
+                {(healthScore.factors.churn.score || 0).toFixed(0)}
+              </span>
+            </div>
           </div>
-        </div>
+        )}
 
         {/* Author Factor */}
-        <div className="space-y-1">
-          <div className="flex items-center justify-between">
-            <span className="text-xs text-zinc-500">Author Diversity</span>
-            <span className="text-xs text-zinc-400">
-              Weight: {(healthScore.factors.authors.weight * 100).toFixed(0)}%
-            </span>
-          </div>
-          <div className="flex items-center gap-2">
-            <div className="flex-1 bg-zinc-800 rounded-full h-1.5">
-              <div
-                className="bg-blue-500 h-1.5 rounded-full"
-                style={{ width: `${healthScore.factors.authors.score}%` }}
-              />
+        {healthScore.factors?.authors && (
+          <div className="space-y-1">
+            <div className="flex items-center justify-between">
+              <span className="text-xs text-zinc-500">Author Diversity</span>
+              <span className="text-xs text-zinc-400">
+                Weight: {((healthScore.factors.authors.weight || 0) * 100).toFixed(0)}%
+              </span>
             </div>
-            <span className="text-xs font-mono text-zinc-300 w-12 text-right">
-              {healthScore.factors.authors.score.toFixed(0)}
-            </span>
+            <div className="flex items-center gap-2">
+              <div className="flex-1 bg-zinc-800 rounded-full h-1.5">
+                <div
+                  className="bg-blue-500 h-1.5 rounded-full"
+                  style={{ width: `${healthScore.factors.authors.score || 0}%` }}
+                />
+              </div>
+              <span className="text-xs font-mono text-zinc-300 w-12 text-right">
+                {(healthScore.factors.authors.score || 0).toFixed(0)}
+              </span>
+            </div>
           </div>
-        </div>
+        )}
 
         {/* Age Factor */}
-        <div className="space-y-1">
-          <div className="flex items-center justify-between">
-            <span className="text-xs text-zinc-500">Age/Stability</span>
-            <span className="text-xs text-zinc-400">
-              Weight: {(healthScore.factors.age.weight * 100).toFixed(0)}%
-            </span>
-          </div>
-          <div className="flex items-center gap-2">
-            <div className="flex-1 bg-zinc-800 rounded-full h-1.5">
-              <div
-                className="bg-purple-500 h-1.5 rounded-full"
-                style={{ width: `${healthScore.factors.age.score}%` }}
-              />
+        {healthScore.factors?.age && (
+          <div className="space-y-1">
+            <div className="flex items-center justify-between">
+              <span className="text-xs text-zinc-500">Age/Stability</span>
+              <span className="text-xs text-zinc-400">
+                Weight: {((healthScore.factors.age.weight || 0) * 100).toFixed(0)}%
+              </span>
             </div>
-            <span className="text-xs font-mono text-zinc-300 w-12 text-right">
-              {healthScore.factors.age.score.toFixed(0)}
-            </span>
+            <div className="flex items-center gap-2">
+              <div className="flex-1 bg-zinc-800 rounded-full h-1.5">
+                <div
+                  className="bg-purple-500 h-1.5 rounded-full"
+                  style={{ width: `${healthScore.factors.age.score || 0}%` }}
+                />
+              </div>
+              <span className="text-xs font-mono text-zinc-300 w-12 text-right">
+                {(healthScore.factors.age.score || 0).toFixed(0)}
+              </span>
+            </div>
           </div>
-        </div>
+        )}
       </div>
 
       {/* File Stats */}
@@ -242,5 +249,3 @@ export const DebtView: React.FC<DebtViewProps> = ({ file }) => {
     </div>
   );
 };
-
-export default DebtView;

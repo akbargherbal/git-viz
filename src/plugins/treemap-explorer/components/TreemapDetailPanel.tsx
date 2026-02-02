@@ -1,8 +1,7 @@
 // src/plugins/treemap-explorer/components/TreemapDetailPanel.tsx
 
 import { X } from "lucide-react";
-import { EnrichedFileData } from "../types";
-import { TemporalFileData } from "@/services/data/TemporalDataProcessor";
+import { EnrichedFileData, TemporalFileData } from "../types";
 import { DebtView } from "./DebtView";
 import { CouplingView } from "./CouplingView";
 import { TimeView } from "./TimeView";
@@ -57,17 +56,17 @@ export default function TreemapDetailPanel({
 
       {/* Content based on lens mode */}
       <div className="flex-1 p-4 space-y-4">
-        {lensMode === "debt" && <DebtView file={file} />}
+        {lensMode === "debt" && <DebtView file={file as EnrichedFileData} />}
         {lensMode === "coupling" &&
           couplingIndex &&
           couplingThreshold !== undefined && (
             <CouplingView
-              file={file}
+              file={file as EnrichedFileData}
               couplingIndex={couplingIndex}
               couplingThreshold={couplingThreshold}
             />
           )}
-        {lensMode === "time" && <TimeView file={file as TemporalFileData} />}
+        {lensMode === "time" && <TimeView file={file} />}
       </div>
 
       {/* Lens Mode Indicator */}

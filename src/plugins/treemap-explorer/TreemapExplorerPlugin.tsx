@@ -1,16 +1,20 @@
+// src/plugins/treemap-explorer/TreemapExplorerPlugin.tsx
+// PHASE 1: Data Foundation - Corrected data sources
+
 import {
   VisualizationPlugin,
   PluginControlProps,
   ExportOptions,
 } from "@/types/plugin";
 import * as d3 from "d3";
-import { DataProcessor } from "@/services/data/DataProcessor";
+import { DataProcessor, V2FileIndex } from "@/services/data/DataProcessor";
 import { CouplingDataProcessor } from "@/services/data/CouplingDataProcessor";
 import {
   TemporalDataProcessor,
   TemporalFileData,
   TemporalDailyData,
 } from "@/services/data/TemporalDataProcessor";
+import { HealthScoreCalculator } from "@/services/data/HealthScoreCalculator";
 import { TreemapExplorerControls } from "./components/TreemapExplorerControls";
 import { TreemapExplorerFilters } from "./components/TreemapExplorerFilters";
 import TreemapDetailPanel from "./components/TreemapDetailPanel";
@@ -18,20 +22,38 @@ import TimelineScrubber from "./components/TimelineScrubber";
 import { getCellColor } from "./utils/colorScales";
 import { CouplingArcRenderer } from "./renderers/CouplingArcRenderer";
 import { EnrichedFileData, TreemapExplorerState } from "./types";
+import { ProjectHierarchyNode, FileMetrics } from "@/types/domain";
+
+// NEW: Import renderer classes
+import { BaseTreemapRenderer } from "./renderers/BaseTreemapRenderer";
+import { DebtRenderer } from "./renderers/DebtRenderer";
+
+// FEATURE FLAG: Set to true to use new renderer system
+const USE_NEW_RENDERER_SYSTEM = true;
 
 export class TreemapExplorerPlugin implements VisualizationPlugin<TreemapExplorerState> {
   metadata = {
     id: "treemap-explorer",
     name: "Treemap Explorer",
     description: "Multi-lens code health, coupling, and temporal analysis",
-    version: "2.2.0", // Bumped for tooltip feature
+    version: "2.3.0",
     priority: 2,
     dataRequirements: [
-      { dataset: "file_index", required: true, alias: "file_index" },
       {
-        dataset: "cochange_network",
-        required: false,
-        alias: "cochange_network",
+        dataset: "project_hierarchy",
+        required: true,
+        alias: "project_hierarchy",
+      },
+      {
+        dataset: "file_metrics_index",
+        required: true,
+        alias: "file_metrics_index",
+      },
+      // PHASE 1: Add file_index for real operations and metadata
+      {
+        dataset: "file_index",
+        required: true,
+        alias: "file_index",
       },
       { dataset: "temporal_daily", required: false, alias: "temporal_daily" },
     ],
@@ -41,7 +63,7 @@ export class TreemapExplorerPlugin implements VisualizationPlugin<TreemapExplore
     lensMode: "debt",
     sizeMetric: "commits",
     selectedFile: null,
-    healthThreshold: 50,
+    healthThreshold: 100,
     couplingThreshold: 0.03,
     showArcs: true,
     timePosition: 100,
@@ -62,17 +84,26 @@ export class TreemapExplorerPlugin implements VisualizationPlugin<TreemapExplore
   private couplingIndex: Map<string, any> = new Map();
   private currentSignal: AbortSignal | null = null;
 
+  // NEW: Renderer instances (cached)
+  private debtRenderer: DebtRenderer | null = null;
+  // TODO: Add coupling and time renderers when implemented
+  // private couplingRenderer: CouplingRenderer | null = null;
+  // private timeRenderer: TimeRenderer | null = null;
+
   getInitialState(): TreemapExplorerState {
     return { ...this.defaultConfig };
   }
 
-  // ============================================================================
-  // PHASE 2: Lifecycle Methods
-  // ============================================================================
-
   cleanup(): void {
     console.log("[TreemapExplorer] Cleanup called - aborting operations");
     this.stopPlayback();
+
+    // Cleanup renderers
+    if (USE_NEW_RENDERER_SYSTEM) {
+      this.debtRenderer?.cleanup();
+      // TODO: Cleanup other renderers when implemented
+    }
+
     if (this.arcRenderer) {
       this.arcRenderer.destroy();
     }
@@ -97,26 +128,25 @@ export class TreemapExplorerPlugin implements VisualizationPlugin<TreemapExplore
     return this.processData(dataset, _config);
   }
 
-  // ============================================================================
-  // Core Plugin Methods
-  // ============================================================================
-
   init(container: HTMLElement, _config: TreemapExplorerState): void {
     this.container = container;
     this.container.innerHTML = "";
     this.container.className = "relative w-full h-full bg-zinc-950";
 
-    // Create tooltip element using Popover API
     this.createTooltip();
+
+    // NEW: Initialize renderers if using new system
+    if (USE_NEW_RENDERER_SYSTEM && this.container && this.tooltip) {
+      this.debtRenderer = new DebtRenderer(this.container, this.tooltip);
+      // TODO: Initialize other renderers when implemented
+    }
   }
 
   private createTooltip(): void {
-    // Remove existing tooltip if any
     if (this.tooltip) {
       this.tooltip.remove();
     }
 
-    // Create tooltip container with Popover API
     this.tooltip = document.createElement("div");
     this.tooltip.id = "treemap-tooltip";
     this.tooltip.setAttribute("popover", "manual");
@@ -129,7 +159,7 @@ export class TreemapExplorerPlugin implements VisualizationPlugin<TreemapExplore
       <div class="bg-zinc-900 border border-zinc-700 rounded-lg shadow-2xl p-4 text-white max-w-sm">
         <div class="font-mono text-xs text-zinc-400 mb-1" id="tooltip-path"></div>
         <div class="font-semibold text-sm mb-3" id="tooltip-name"></div>
-        
+
         <div class="space-y-2 text-xs">
           <div class="flex justify-between">
             <span class="text-zinc-400">Commits:</span>
@@ -161,7 +191,6 @@ export class TreemapExplorerPlugin implements VisualizationPlugin<TreemapExplore
   ): void {
     if (!this.tooltip) return;
 
-    // Populate tooltip content
     const pathEl = this.tooltip.querySelector("#tooltip-path") as HTMLElement;
     const nameEl = this.tooltip.querySelector("#tooltip-name") as HTMLElement;
     const commitsEl = this.tooltip.querySelector(
@@ -191,7 +220,6 @@ export class TreemapExplorerPlugin implements VisualizationPlugin<TreemapExplore
       authorsEl.textContent = file.unique_authors?.toString() || "0";
       healthEl.textContent = `${file.healthScore?.score?.toFixed(0) || "100"}/100`;
 
-      // Show coupling info if in coupling mode
       if (state.lensMode === "coupling" && file.couplingScore !== undefined) {
         couplingRowEl.style.display = "flex";
         couplingEl.textContent = file.couplingScore.toFixed(3);
@@ -200,10 +228,7 @@ export class TreemapExplorerPlugin implements VisualizationPlugin<TreemapExplore
       }
     }
 
-    // Show popover
     (this.tooltip as any).showPopover();
-
-    // Position tooltip
     this.positionTooltip(event);
   }
 
@@ -216,12 +241,10 @@ export class TreemapExplorerPlugin implements VisualizationPlugin<TreemapExplore
     let left = event.clientX + padding;
     let top = event.clientY + padding;
 
-    // Prevent tooltip from going off-screen (right)
     if (left + tooltipRect.width > window.innerWidth) {
       left = event.clientX - tooltipRect.width - padding;
     }
 
-    // Prevent tooltip from going off-screen (bottom)
     if (top + tooltipRect.height > window.innerHeight) {
       top = event.clientY - tooltipRect.height - padding;
     }
@@ -236,37 +259,180 @@ export class TreemapExplorerPlugin implements VisualizationPlugin<TreemapExplore
     }
   }
 
+  /**
+   * PHASE 1: Helper to compute days since last modification
+   */
+  private computeDaysSince(isoDateString: string | undefined): number {
+    if (!isoDateString) return 0;
+    const lastModified = new Date(isoDateString);
+    const now = new Date();
+    const diffMs = now.getTime() - lastModified.getTime();
+    return Math.floor(diffMs / (1000 * 60 * 60 * 24));
+  }
+
   processData(
     dataset: Record<string, any>,
     _config?: TreemapExplorerState,
   ): EnrichedFileData[] {
+    // PHASE 1: Enhanced Frontend-Ready Data Path
+    if (
+      dataset.project_hierarchy &&
+      dataset.file_metrics_index &&
+      dataset.file_index
+    ) {
+      const hierarchy = dataset.project_hierarchy as {
+        tree: ProjectHierarchyNode;
+      };
+      const metrics = dataset.file_metrics_index as Record<string, FileMetrics>;
+      const fileIndex = dataset.file_index as V2FileIndex;
+
+      const enrichedFiles: EnrichedFileData[] = [];
+
+      const traverse = (node: ProjectHierarchyNode) => {
+        if (node.type === "file") {
+          const metric = metrics[node.path];
+          const fileStats = fileIndex.files[node.path];
+
+          if (metric && fileStats) {
+            const partners = metric.coupling.top_partners;
+            const avgStrength =
+              partners.length > 0
+                ? partners.reduce((sum, p) => sum + p.strength, 0) /
+                  partners.length
+                : 0;
+
+            // PHASE 1: Extract real operations from file_index and normalize
+            const realOperations = {
+              M: 0,
+              A: 0,
+              D: 0,
+              R: 0,
+              ...fileStats.operations, // Merge actual values over defaults
+            };
+
+            // PHASE 1: Compute days since last modification for age factor
+            const lastModifiedDaysAgo = this.computeDaysSince(
+              fileStats.last_modified,
+            );
+
+            // PHASE 1: Compute health factors breakdown client-side
+            const healthFactors = HealthScoreCalculator.calculate({
+              totalCommits: fileStats.total_commits,
+              uniqueAuthors: fileStats.unique_authors ?? 1,
+              operations: realOperations,
+              ageDays: fileStats.age_days ?? 0,
+              lastModifiedDaysAgo: lastModifiedDaysAgo,
+            });
+
+            // PHASE 1: Build complete health score object
+            // Top-level fields (score, category, busFactor) from project_hierarchy attributes
+            // Factors breakdown from client-side computation
+            const healthScore = node.attributes
+              ? {
+                  score: node.attributes.health_score,
+                  category: node.attributes.health_category as
+                    | "healthy"
+                    | "medium"
+                    | "critical",
+                  churnRate: node.attributes.churn_rate,
+                  busFactor: node.attributes.bus_factor_status as
+                    | "low-risk"
+                    | "medium-risk"
+                    | "high-risk",
+                  factors: healthFactors.factors,
+                }
+              : undefined;
+
+            enrichedFiles.push({
+              key: node.path,
+              name: node.name,
+              path: node.path,
+              total_commits: metric.volume.total_commits,
+              unique_authors: fileStats.unique_authors ?? 1,
+              lifecycle_event_count: fileStats.lifecycle_event_count ?? 0,
+              primary_author: fileStats.primary_author
+                ? {
+                    email: fileStats.primary_author.email,
+                    commit_count: fileStats.primary_author.commit_count,
+                    percentage: fileStats.primary_author.percentage,
+                  }
+                : undefined,
+              healthScore: healthScore,
+              couplingScore: metric.coupling.max_strength,
+              couplingMetrics: {
+                maxStrength: metric.coupling.max_strength,
+                avgStrength: avgStrength,
+                totalPartners: metric.coupling.top_partners.length,
+                strongCouplings: metric.coupling.top_partners.filter(
+                  (p) => p.strength > 0.5,
+                ).length,
+              },
+              coupledFiles: metric.coupling.top_partners.map((p) => ({
+                file: p.path,
+                strength: p.strength,
+                cochangeCount: p.cochange_count,
+              })),
+              first_seen: fileStats.first_seen,
+              last_modified: fileStats.last_modified,
+              age_days: fileStats.age_days,
+              // PHASE 1: Use REAL operations from file_index
+              operations: realOperations,
+            });
+          }
+        }
+        node.children?.forEach(traverse);
+      };
+
+      traverse(hierarchy.tree);
+      this.data = enrichedFiles;
+
+      this.couplingIndex = new Map();
+      enrichedFiles.forEach((file) => {
+        if (file.coupledFiles) {
+          const partners = file.coupledFiles.map((p) => ({
+            filePath: p.file,
+            strength: p.strength,
+            cochangeCount: p.cochangeCount,
+          }));
+
+          const maxStrength = file.couplingMetrics?.maxStrength || 0;
+          const totalPartners = partners.length;
+          const avgStrength =
+            totalPartners > 0
+              ? partners.reduce((sum, p) => sum + p.strength, 0) / totalPartners
+              : 0;
+
+          this.couplingIndex.set(file.key, {
+            filePath: file.key,
+            partners: partners,
+            maxStrength: maxStrength,
+            avgStrength: avgStrength,
+            totalPartners: totalPartners,
+          });
+        }
+      });
+
+      this.temporalData = dataset.temporal_daily;
+      if (this.temporalData) {
+        this.dateRange = TemporalDataProcessor.getDateRange(this.temporalData);
+      }
+
+      return this.data;
+    }
+
+    // LEGACY FALLBACK
     const fileIndex = dataset.file_index;
     if (!fileIndex) {
       console.error("file_index is required for Treemap Explorer");
       return [];
     }
 
-    if (this.currentSignal?.aborted) {
-      console.log("[TreemapExplorer] Aborted before file enrichment");
-      throw new DOMException("Operation aborted", "AbortError");
-    }
-
     this.data = DataProcessor.enrichFiles(fileIndex);
-
-    if (this.currentSignal?.aborted) {
-      console.log("[TreemapExplorer] Aborted after file enrichment");
-      throw new DOMException("Operation aborted", "AbortError");
-    }
 
     const cochangeNetwork = dataset.cochange_network;
     if (cochangeNetwork) {
       CouplingDataProcessor.enrichWithCoupling(this.data, cochangeNetwork);
       this.couplingIndex = CouplingDataProcessor.process(cochangeNetwork);
-    }
-
-    if (this.currentSignal?.aborted) {
-      console.log("[TreemapExplorer] Aborted after coupling processing");
-      throw new DOMException("Operation aborted", "AbortError");
     }
 
     this.temporalData = dataset.temporal_daily;
@@ -290,7 +456,55 @@ export class TreemapExplorerPlugin implements VisualizationPlugin<TreemapExplore
       return;
     }
 
+    // NEW: Use new renderer system if enabled and debt mode
+    if (
+      USE_NEW_RENDERER_SYSTEM &&
+      state.lensMode === "debt" &&
+      this.debtRenderer
+    ) {
+      console.log("[TreemapExplorer] Using NEW renderer system (Debt mode)");
+      this.renderWithNewSystem(data, state);
+      return;
+    }
+
+    // LEGACY: Fallback to old render method
+    console.log("[TreemapExplorer] Using LEGACY render method");
+    this.renderLegacy(data, state);
+  }
+
+  /**
+   * NEW: Render using the new renderer system
+   */
+  private renderWithNewSystem(
+    data: EnrichedFileData[],
+    state: TreemapExplorerState,
+  ): void {
+    if (!this.container || !this.debtRenderer) return;
+
     this.container.innerHTML = "";
+
+    // Get appropriate renderer
+    const renderer = this.getRenderer(state.lensMode);
+    if (!renderer) {
+      console.error(`No renderer available for lens mode: ${state.lensMode}`);
+      return;
+    }
+
+    // Pipeline: enrich → filter → layout → render
+    const enrichedData = renderer.enrichData(data, state);
+    const filteredData = renderer.filterData(enrichedData, state);
+
+    if (filteredData.length === 0) {
+      this.container.innerHTML = `
+        <div class="flex items-center justify-center h-full text-zinc-500">
+          <div class="text-center">
+            <p class="mb-2">No files match the current filters</p>
+            <p class="text-sm opacity-75">Try adjusting the health threshold or lens settings</p>
+          </div>
+        </div>
+      `;
+      return;
+    }
 
     // Create SVG
     const svg = d3
@@ -304,7 +518,66 @@ export class TreemapExplorerPlugin implements VisualizationPlugin<TreemapExplore
     const width = rect.width;
     const height = rect.height;
 
-    // Prepare data based on lens mode
+    // Build treemap layout
+    const cells = renderer["buildTreemapLayout"](
+      filteredData,
+      width,
+      height,
+      state.sizeMetric,
+    );
+
+    // Render cells
+    renderer.renderCells(svg, cells, state, (file) => {
+      // Cell click handler
+      const config = state as any;
+      if (config.onCellClick) {
+        config.onCellClick(file);
+      }
+    });
+
+    // Render lens-specific extras
+    renderer.renderExtras(svg, cells, state);
+  }
+
+  /**
+   * Get appropriate renderer for lens mode
+   */
+  private getRenderer(lensMode: string): BaseTreemapRenderer | null {
+    switch (lensMode) {
+      case "debt":
+        return this.debtRenderer;
+      // TODO: Add other renderers when implemented
+      // case "coupling":
+      //   return this.couplingRenderer;
+      // case "time":
+      //   return this.timeRenderer;
+      default:
+        return null;
+    }
+  }
+
+  /**
+   * LEGACY: Original render method (unchanged)
+   */
+  private renderLegacy(
+    data: EnrichedFileData[],
+    state: TreemapExplorerState,
+  ): void {
+    if (!this.container) return;
+
+    this.container.innerHTML = "";
+
+    const svg = d3
+      .select(this.container)
+      .append("svg")
+      .attr("width", "100%")
+      .attr("height", "100%")
+      .style("display", "block");
+
+    const rect = this.container.getBoundingClientRect();
+    const width = rect.width;
+    const height = rect.height;
+
     let enrichedData: EnrichedFileData[] | TemporalFileData[] = data;
 
     if (state.lensMode === "time" && this.temporalData) {
@@ -316,7 +589,6 @@ export class TreemapExplorerPlugin implements VisualizationPlugin<TreemapExplore
       );
     }
 
-    // Filter data
     const filteredData = this.filterData(enrichedData, state);
 
     if (filteredData.length === 0) {
@@ -336,7 +608,6 @@ export class TreemapExplorerPlugin implements VisualizationPlugin<TreemapExplore
       return;
     }
 
-    // Calculate treemap layout
     const root = d3
       .hierarchy({ children: filteredData } as any)
       .sum((d: any) => this.getSizeValue(d, state.sizeMetric))
@@ -356,7 +627,6 @@ export class TreemapExplorerPlugin implements VisualizationPlugin<TreemapExplore
       return;
     }
 
-    // Render cells WITHOUT text labels
     const cells = root.leaves() as d3.HierarchyRectangularNode<any>[];
 
     const cellGroups = svg
@@ -397,7 +667,6 @@ export class TreemapExplorerPlugin implements VisualizationPlugin<TreemapExplore
       .on("mouseenter", (event, d) => {
         const rect = event.currentTarget;
         d3.select(rect).attr("stroke", "#fff").attr("stroke-width", 3);
-
         this.showTooltip(event, d.data as EnrichedFileData, state);
       })
       .on("mousemove", (event) => {
@@ -420,12 +689,8 @@ export class TreemapExplorerPlugin implements VisualizationPlugin<TreemapExplore
         }
       });
 
-    // NO TEXT LABELS - removed entirely for cleaner visualization
-
-    // Initialize Arc Renderer
     this.arcRenderer = new CouplingArcRenderer(svg);
 
-    // Render coupling arcs if in coupling mode and file selected
     if (state.lensMode === "coupling" && state.selectedFile && state.showArcs) {
       this.arcRenderer.render(
         state.selectedFile,
@@ -442,6 +707,12 @@ export class TreemapExplorerPlugin implements VisualizationPlugin<TreemapExplore
 
   destroy(): void {
     this.stopPlayback();
+
+    if (USE_NEW_RENDERER_SYSTEM) {
+      this.debtRenderer?.cleanup();
+      // TODO: Cleanup other renderers
+    }
+
     if (this.arcRenderer) {
       this.arcRenderer.destroy();
     }

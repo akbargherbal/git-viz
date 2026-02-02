@@ -18,8 +18,7 @@ export const TreemapExplorerFilters: React.FC<TreemapExplorerFiltersProps> = ({
   onStateChange,
   onClose,
 }) => {
-  // ... existing implementation ...
-  const { lensMode, couplingThreshold } = state;
+  const { lensMode = "debt", couplingThreshold = 0.03 } = state;
 
   // Get time filters with defaults - spread to ensure all properties exist
   const timeFilters = {
@@ -84,7 +83,7 @@ export const TreemapExplorerFilters: React.FC<TreemapExplorerFiltersProps> = ({
                     checked={state.healthThreshold === 30}
                     onChange={(e) => {
                       onStateChange({
-                        healthThreshold: e.target.checked ? 30 : 0,
+                        healthThreshold: e.target.checked ? 30 : 100,
                       });
                     }}
                     className="rounded border-zinc-700 bg-zinc-800 text-red-600 focus:ring-red-500"
