@@ -68,6 +68,10 @@ const AuthorItem: React.FC<AuthorItemProps> = ({
 }) => (
   <div
     onClick={onToggle}
+    data-testid={`filter-author-${name.toLowerCase().replace(/\s+/g, '-')}`}
+    data-selected={isSelected}
+    data-author-name={name}
+    data-commit-count={count}
     className={`
       flex items-center justify-between p-3 rounded-lg cursor-pointer text-sm transition-all
       ${
@@ -108,6 +112,10 @@ const FileTypePill: React.FC<FileTypePillProps> = ({
 }) => (
   <button
     onClick={onToggle}
+    data-testid={`filter-filetype-${extension}`}
+    data-selected={isSelected}
+    data-extension={extension}
+    data-file-count={count}
     className={`
       px-4 py-2 rounded-full text-sm font-mono transition-all
       ${
@@ -284,6 +292,10 @@ export const FilterPanel: React.FC<FilterPanelProps> = (props) => {
     <div
       className="w-80 bg-zinc-900 border-l border-zinc-800 h-full flex flex-col shadow-xl"
       data-testid="filter-panel"
+      data-active-filter-count={selectedAuthors.size + selectedExtensions.size}
+      data-authors-selected={selectedAuthors.size}
+      data-file-types-selected={selectedExtensions.size}
+      data-mode={isControlled ? "controlled" : "uncontrolled"}
     >
       {/* Header */}
       <div className="p-4 border-b border-zinc-800 flex items-center justify-between bg-zinc-900/95 backdrop-blur-sm">
@@ -309,7 +321,15 @@ export const FilterPanel: React.FC<FilterPanelProps> = (props) => {
       {/* Body */}
       <div className="flex-1 overflow-y-auto p-4 custom-scrollbar">
         {/* Authors Section */}
-        <div className="mb-6">
+        <div 
+          className="mb-6"
+          data-testid="authors-section"
+          data-total-authors={totalAuthors}
+          data-displayed-authors={displayedAuthorItems.length}
+          data-selected-count={selectedAuthors.size}
+          data-search-active={!!authorSearch.trim()}
+          data-expanded={authorsExpanded}
+        >
           <div className="flex items-center gap-2 mb-3 text-zinc-400 font-medium text-xs uppercase tracking-wider">
             <User size={14} />
             Authors
@@ -325,6 +345,8 @@ export const FilterPanel: React.FC<FilterPanelProps> = (props) => {
             <input
               type="text"
               data-testid="author-search"
+              data-has-results={displayedAuthorItems.length > 0}
+              data-result-count={displayedAuthorItems.length}
               value={authorSearch}
               onChange={(e) => setAuthorSearch(e.target.value)}
               placeholder="Search authors..."
@@ -336,6 +358,9 @@ export const FilterPanel: React.FC<FilterPanelProps> = (props) => {
           {!authorSearch.trim() && totalAuthors > TOP_AUTHORS_LIMIT && (
             <button
               onClick={() => setAuthorsExpanded(!authorsExpanded)}
+              data-testid="authors-expand-toggle"
+              data-expanded={authorsExpanded}
+              data-showing={authorsExpanded ? totalAuthors : TOP_AUTHORS_LIMIT}
               className="w-full py-2 px-3 text-xs font-medium text-zinc-400 border border-zinc-700 rounded-lg hover:border-purple-500 hover:text-purple-400 hover:bg-zinc-800 transition-all flex items-center justify-center gap-2 mb-3"
             >
               {authorsExpanded ? (
@@ -374,7 +399,12 @@ export const FilterPanel: React.FC<FilterPanelProps> = (props) => {
         </div>
 
         {/* File Types Section */}
-        <div className="mb-6">
+        <div 
+          className="mb-6"
+          data-testid="file-types-section"
+          data-total-types={fileTypeItems.length}
+          data-selected-count={selectedExtensions.size}
+        >
           <div className="flex items-center gap-2 mb-3 text-zinc-400 font-medium text-xs uppercase tracking-wider">
             <File size={14} />
             File Types
@@ -411,6 +441,8 @@ export const FilterPanel: React.FC<FilterPanelProps> = (props) => {
         <button
           onClick={handleClearFilters}
           data-testid="reset-filters"
+          data-disabled={!hasActiveFilters}
+          data-active-count={selectedAuthors.size + selectedExtensions.size}
           disabled={!hasActiveFilters}
           className={`
             w-full py-2.5 px-4 rounded-lg text-sm font-medium transition-all

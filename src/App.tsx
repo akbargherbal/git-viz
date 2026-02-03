@@ -431,7 +431,12 @@ const App: React.FC = () => {
   // Loading state
   if (data.loading) {
     return (
-      <div className="h-screen bg-zinc-950 text-white flex items-center justify-center">
+      <div 
+        data-testid="loading-container"
+        data-loading-phase={loadingProgress.phase}
+        data-progress={`${loadingProgress.loaded}/${loadingProgress.total}`}
+        className="h-screen bg-zinc-950 text-white flex items-center justify-center"
+      >
         <div className="text-center space-y-6 max-w-md w-full px-6">
           <LoadingSpinner message={`Loading ${loadingProgress.phase}...`} />
           <div className="w-full bg-zinc-800 rounded-full h-2 overflow-hidden">
@@ -445,17 +450,32 @@ const App: React.FC = () => {
   // Error state
   if (data.error) {
     return (
-      <div className="h-screen bg-zinc-950 text-white">
+      <div 
+        data-testid="error-container"
+        data-has-error={true}
+        className="h-screen bg-zinc-950 text-white"
+      >
         <ErrorDisplay error={data.error} onDismiss={() => setError(null)} />
       </div>
     );
   }
 
   return (
-    <div className="h-screen bg-zinc-950 text-white flex flex-col overflow-hidden">
+    <div 
+      className="h-screen bg-zinc-950 text-white flex flex-col overflow-hidden"
+      data-testid="app-container"
+      data-loading={data.loading}
+      data-loading-phase={loadingProgress.phase}
+      data-has-error={!!data.error}
+      data-active-plugin={ui.activePluginId || "none"}
+      data-plugin-data-ready={!!processedPluginData}
+    >
       {/* Header - Universal controls only */}
       <header
         ref={headerContainerRef}
+        data-testid="app-header"
+        data-active-plugin={ui.activePluginId || "none"}
+        data-uses-plugin-controls={usesPluginControls}
         className="bg-zinc-900 border-b border-zinc-800 h-14 min-h-14 max-h-14 flex-none z-50 relative select-none"
       >
         {/* Scroll fade hints */}
@@ -498,6 +518,10 @@ const App: React.FC = () => {
               <button
                 onClick={() => setShowFilters(!ui.showFilters)}
                 data-testid="filters-toggle"
+                data-active={ui.showFilters}
+                data-has-active-filters={hasActiveFilters}
+                data-filter-count={filters.authors.size + filters.fileTypes.size + filters.directories.size + filters.eventTypes.size}
+                data-disabled={false}
                 className={`relative p-2 rounded-lg transition-all duration-200 ${
                   ui.showFilters
                     ? "bg-purple-600 text-white shadow-lg shadow-purple-900/20"
@@ -522,6 +546,9 @@ const App: React.FC = () => {
         {/* Visualization area */}
         <main
           ref={mainContainerRef}
+          data-testid="visualization-container"
+          data-active-plugin={ui.activePluginId || "none"}
+          data-rendering={!!processedPluginData && !!activePlugin}
           className="flex-1 flex flex-col overflow-hidden relative"
         >
           <ScrollIndicatorOverlay
@@ -533,6 +560,10 @@ const App: React.FC = () => {
 
         {/* Filter Panel */}
         <aside
+          data-testid="filter-panel-container"
+          data-visible={ui.showFilters}
+          data-plugin-owned={!!activePlugin?.renderFilters}
+          data-active-plugin={ui.activePluginId || "none"}
           className={`w-80 bg-zinc-900 border-l border-zinc-800 overflow-y-auto flex-none panel-transition ${
             !ui.showFilters ? "panel-hidden" : ""
           }`}
@@ -560,6 +591,10 @@ const App: React.FC = () => {
 
         {/* Detail Panel */}
         <aside
+          data-testid="detail-panel-container"
+          data-visible={!!ui.selectedCell}
+          data-active-plugin={ui.activePluginId || "none"}
+          data-cell-type={ui.selectedCell ? "present" : "none"}
           className={`bg-zinc-900 border-l border-zinc-800 flex-none panel-transition relative ${
             !ui.selectedCell ? "panel-hidden" : ""
           }`}
