@@ -27,6 +27,11 @@ export default function TreemapDetailPanel({
     <div
       className="absolute top-0 right-0 h-full w-96 bg-zinc-900 border-l border-zinc-800 shadow-2xl z-40 overflow-y-auto flex flex-col animate-slide-in-right"
       data-testid="detail-panel"
+      data-lens-mode={lensMode}
+      data-file-path={file.key}
+      data-file-name={file.key.split("/").pop()}
+      data-has-coupling-data={lensMode === "coupling" && !!couplingIndex}
+      data-coupling-threshold={lensMode === "coupling" ? couplingThreshold : undefined}
     >
       {/* Header */}
       <div className="sticky top-0 bg-zinc-900 border-b border-zinc-800 p-4 flex items-start justify-between gap-3 z-10">
