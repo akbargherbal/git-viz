@@ -42,10 +42,17 @@ export const MetricSelector: React.FC<
 
   return (
     <div className="flex items-center gap-2">
-      <div className="flex items-center bg-zinc-900 rounded-lg p-1 border border-zinc-800">
+      <div
+        className="flex items-center bg-zinc-900 rounded-lg p-1 border border-zinc-800"
+        data-testid="metric-selector"
+        data-current-metric={currentValue}
+        data-mode={isControlled ? "controlled" : "uncontrolled"}
+      >
         {options.map((option) => (
           <button
             key={option.value}
+            data-testid={`metric-${option.value}`}
+            data-selected={currentValue === option.value}
             onClick={() => handleChange(option.value)}
             className={`
               flex items-center gap-2 px-3 py-1.5 rounded-md text-xs font-medium transition-all

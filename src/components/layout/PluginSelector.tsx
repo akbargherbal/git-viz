@@ -65,10 +65,19 @@ export const PluginSelector: React.FC<PluginSelectorProps> = ({ plugins }) => {
   if (!activePlugin) return null;
 
   return (
-    <div className="relative" ref={containerRef}>
+    <div
+      className="relative"
+      ref={containerRef}
+      data-testid="plugin-selector"
+      data-open={isOpen}
+      data-active-plugin={activePlugin.metadata.id}
+      data-plugin-count={plugins.length}
+    >
       <button
         onClick={() => setIsOpen(!isOpen)}
         data-testid="viz-selector"
+        data-active-plugin={activePlugin.metadata.id}
+        data-open={isOpen}
         className={`
           flex items-center gap-2 px-3 py-1.5 rounded-lg text-sm font-medium transition-all border
           ${
@@ -105,6 +114,7 @@ export const PluginSelector: React.FC<PluginSelectorProps> = ({ plugins }) => {
               <button
                 key={plugin.metadata.id}
                 data-testid={`viz-${plugin.metadata.id}`}
+                data-selected={ui.activePluginId === plugin.metadata.id}
                 onClick={() => {
                   setActivePlugin(plugin.metadata.id);
                   setIsOpen(false);

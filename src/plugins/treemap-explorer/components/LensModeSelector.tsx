@@ -45,7 +45,13 @@ export const LensModeSelector: React.FC<LensModeSelectorProps> = ({
   onLensChange,
 }) => {
   return (
-    <div className="flex gap-2" role="group" aria-label="Lens mode selector">
+    <div
+      className="flex gap-2"
+      role="group"
+      aria-label="Lens mode selector"
+      data-testid="lens-mode-selector"
+      data-current-lens={currentLens}
+    >
       {lenses.map((lens) => {
         const Icon = lens.icon;
         const isActive = currentLens === lens.id;
@@ -54,6 +60,7 @@ export const LensModeSelector: React.FC<LensModeSelectorProps> = ({
           <button
             key={lens.id}
             data-testid={`lens-${lens.id}`}
+            data-selected={isActive}
             onClick={() => onLensChange(lens.id)}
             className={`
               px-2 py-1 rounded text-[10px] font-medium transition-all border
