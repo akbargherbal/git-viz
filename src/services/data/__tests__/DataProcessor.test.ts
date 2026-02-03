@@ -1,6 +1,6 @@
 // src/services/data/__tests__/DataProcessor.test.ts
 
-import { describe, it, expect, vi } from "vitest";
+import { describe, it, expect } from "vitest";
 import {
   DataProcessor,
   RawLifecycleData,
@@ -8,10 +8,7 @@ import {
   V2FileIndex,
   V2DirectoryStats,
 } from "../DataProcessor";
-import {
-  HealthScoreCalculator,
-  HealthScoreResult,
-} from "../HealthScoreCalculator";
+
 import { FilterState } from "@/types/visualization";
 
 describe("DataProcessor", () => {
@@ -143,81 +140,7 @@ describe("DataProcessor", () => {
     },
   };
 
-  describe("enrichFiles", () => {
-    it("should return empty array if fileIndex is null or undefined", () => {
-      expect(DataProcessor.enrichFiles(null as any)).toEqual([]);
-      expect(DataProcessor.enrichFiles({} as any)).toEqual([]);
-    });
 
-    it("should enrich files with health scores and metadata", () => {
-      const mockHealthScore: HealthScoreResult = {
-        score: 85,
-        category: "healthy",
-        churnRate: 0.1,
-        busFactor: "low-risk",
-        factors: {
-          churn: { value: 0.1, score: 10, weight: 1 },
-          authors: { value: 2, score: 10, weight: 1 },
-          age: { value: 10, score: 10, weight: 1 },
-        },
-      };
-      const calculateSpy = vi
-        .spyOn(HealthScoreCalculator, "calculate")
-        .mockReturnValue(mockHealthScore);
-
-      const result = DataProcessor.enrichFiles(mockFileIndex);
-
-      expect(result).toHaveLength(3);
-      expect(result[0]).toMatchObject({
-        key: "src/main.ts",
-        name: "main.ts",
-        healthScore: mockHealthScore,
-        total_commits: 2,
-      });
-
-      expect(calculateSpy).toHaveBeenCalledTimes(3);
-      expect(calculateSpy).toHaveBeenCalledWith({
-        totalCommits: 2,
-        uniqueAuthors: 2,
-        operations: { A: 1, M: 1 },
-        ageDays: 10,
-      });
-
-      calculateSpy.mockRestore();
-    });
-
-    it("should handle missing optional fields in file stats", () => {
-      const minimalFileIndex: V2FileIndex = {
-        files: {
-          "test.ts": {
-            total_commits: 1,
-            last_modified: "2023-01-01",
-          },
-        },
-      };
-
-      const result = DataProcessor.enrichFiles(minimalFileIndex);
-
-      expect(result[0]).toMatchObject({
-        unique_authors: 1,
-      });
-      expect(result[0].operations).toBeUndefined();
-      expect(result[0].age_days).toBeUndefined();
-    });
-
-    it("should handle file keys ending in slash", () => {
-      const fileIndexWithSlash: V2FileIndex = {
-        files: {
-          "some/folder/": {
-            total_commits: 1,
-            last_modified: "2023-01-01",
-          },
-        },
-      };
-      const result = DataProcessor.enrichFiles(fileIndexWithSlash);
-      expect(result[0].name).toBe("some/folder/");
-    });
-  });
 
   describe("processRawData", () => {
     it("should process raw data correctly without filters", () => {

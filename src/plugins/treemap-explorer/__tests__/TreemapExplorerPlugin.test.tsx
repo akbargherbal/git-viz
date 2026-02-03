@@ -4,6 +4,8 @@ import { render, fireEvent } from "@testing-library/react";
 import { TreemapExplorerPlugin } from "../TreemapExplorerPlugin";
 import {
   createMockFileIndex,
+  createMockProjectHierarchy,
+  createMockFileMetricsIndex,
   createMockTreemapState,
   createMockContainer,
 } from "@/test-utils";
@@ -39,22 +41,22 @@ describe("TreemapExplorerPlugin Coverage", () => {
   let plugin: TreemapExplorerPlugin;
   let container: HTMLElement;
 
-  const mockFileIndex = createMockFileIndex({
-    files: [
-      {
-        key: "src/A.ts",
-        total_commits: 100,
-        unique_authors: 5,
-        lifecycle_event_count: 10,
-      },
-      {
-        key: "src/B.ts",
-        total_commits: 50,
-        unique_authors: 3,
-        lifecycle_event_count: 5,
-      },
-    ],
-  });
+  const mockFileData = [
+    {
+      key: "src/A.ts",
+      total_commits: 100,
+      unique_authors: 5,
+      lifecycle_event_count: 10,
+    },
+    {
+      key: "src/B.ts",
+      total_commits: 50,
+      unique_authors: 3,
+      lifecycle_event_count: 5,
+    },
+  ];
+
+  const mockFileIndex = createMockFileIndex({ files: mockFileData });
 
   const mockExportOptions: ExportOptions = { format: "json" };
 
@@ -63,8 +65,12 @@ describe("TreemapExplorerPlugin Coverage", () => {
     plugin = new TreemapExplorerPlugin();
     plugin.init(container, createMockTreemapState());
 
-    // Setup basic data
-    plugin.processData({ file_index: { files: mockFileIndex } });
+    // PHASE 5: Provide all required datasets
+    plugin.processData({
+      file_index: { files: mockFileIndex },
+      project_hierarchy: createMockProjectHierarchy({ files: mockFileData }),
+      file_metrics_index: createMockFileMetricsIndex({ files: mockFileData }),
+    });
   });
 
   afterEach(() => {
@@ -96,6 +102,8 @@ describe("TreemapExplorerPlugin Coverage", () => {
       // Need temporal data for scrubber to show
       plugin.processData({
         file_index: { files: mockFileIndex },
+        project_hierarchy: createMockProjectHierarchy({ files: mockFileData }),
+        file_metrics_index: createMockFileMetricsIndex({ files: mockFileData }),
         temporal_daily: {
           date_range: { min: "2020-01-01", max: "2021-01-01" },
           days: [],
@@ -190,6 +198,8 @@ describe("TreemapExplorerPlugin Coverage", () => {
       // Setup temporal data
       plugin.processData({
         file_index: { files: mockFileIndex },
+        project_hierarchy: createMockProjectHierarchy({ files: mockFileData }),
+        file_metrics_index: createMockFileMetricsIndex({ files: mockFileData }),
         temporal_daily: {
           date_range: { min: "2020-01-01", max: "2021-01-01" },
           days: [],

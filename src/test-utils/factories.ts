@@ -1,11 +1,4 @@
 // src/test-utils/factories.ts
-/**
- * Mock Data Factories for Testing
- *
- * Provides factory functions to generate test data with sensible defaults.
- * Use presets for common scenarios or override specific fields as needed.
- */
-
 import { TemporalFileData } from "@/services/data/TemporalDataProcessor";
 import { EnrichedFileData } from "@/plugins/treemap-explorer/types";
 import { VisualizationPlugin, PluginDataRequirement } from "@/types/plugin";
@@ -509,6 +502,128 @@ export const createMockFileIndex = (overrides?: {
       return acc;
     },
     {} as Record<string, TemporalFileData>,
+  );
+};
+
+
+/**
+ * Factory for project_hierarchy mock data (PHASE 5)
+ * Builds a proper tree structure from file paths
+ */
+export const createMockProjectHierarchy = (overrides?: {
+  files?: Array<Partial<TemporalFileData>>;
+}) => {
+  const fileList = overrides?.files?.map((f) => createTemporalFile(f)) || [
+    createTemporalFile(),
+  ];
+
+  // Build tree from file paths
+  const root: any = {
+    name: "root",
+    path: "",
+    type: "directory",
+    children: [],
+    attributes: {
+      health_score: 0.7,
+      size: 0,
+      commits: 0,
+      authors: 0,
+    },
+  };
+
+  fileList.forEach((file) => {
+    if (!file.key) return;
+
+    const parts = file.key.split("/");
+    let current = root;
+
+    // Create intermediate directory nodes
+    for (let i = 0; i < parts.length - 1; i++) {
+      const dirName = parts[i];
+      const dirPath = parts.slice(0, i + 1).join("/");
+
+      let dir = current.children?.find((c: any) => c.name === dirName && c.type === "directory");
+      if (!dir) {
+        dir = {
+          name: dirName,
+          path: dirPath,
+          type: "directory",
+          children: [],
+          attributes: {
+            health_score: 0.7,
+            size: 0,
+            commits: 0,
+            authors: 0,
+          },
+        };
+        current.children.push(dir);
+      }
+      current = dir;
+    }
+
+    // Add file node
+    const fileName = parts[parts.length - 1];
+    current.children.push({
+      name: fileName,
+      path: file.key,
+      type: "file",
+      attributes: {
+        health_score: 0.5,
+        size: 100,
+        commits: file.total_commits || 1,
+        authors: file.unique_authors || 1,
+      },
+    });
+
+    // Update root aggregates
+    root.attributes.size += 100;
+    root.attributes.commits += file.total_commits || 1;
+    root.attributes.authors += file.unique_authors || 1;
+  });
+
+  return { tree: root };
+};
+
+
+/**
+ * Factory for file_metrics_index mock data (PHASE 5)
+ */
+export const createMockFileMetricsIndex = (overrides?: {
+  files?: Array<Partial<TemporalFileData>>;
+}) => {
+  const fileList = overrides?.files?.map((f) => createTemporalFile(f)) || [
+    createTemporalFile(),
+  ];
+
+  return fileList.reduce(
+    (acc, file) => {
+      if (file.key) {
+        acc[file.key] = {
+          volume: {
+            total_commits: file.total_commits || 0,
+            lines_added: 0,
+            lines_deleted: 0,
+            net_change: 0
+          },
+          coupling: {
+            top_partners: [],
+            max_strength: 0
+          },
+          lifecycle: {
+             created_iso: file.first_seen,
+             last_modified_iso: file.last_modified,
+             is_dormant: false
+          },
+          identifiers: {
+             author_ids: [],
+             primary_author_id: "unknown",
+             primary_author_percentage: 0
+          }
+        };
+      }
+      return acc;
+    },
+    {} as Record<string, any>,
   );
 };
 

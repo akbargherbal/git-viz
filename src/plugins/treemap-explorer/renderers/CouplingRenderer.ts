@@ -49,10 +49,7 @@ export class CouplingRenderer extends BaseTreemapRenderer {
   /**
    * Use coupling color scale from utils
    */
-  getCellColor(
-    file: EnrichedFileData,
-    state: TreemapExplorerState,
-  ): string {
+  getCellColor(file: EnrichedFileData, state: TreemapExplorerState): string {
     return getCellColor(file, state.lensMode, {
       couplingThreshold: state.couplingThreshold,
     });

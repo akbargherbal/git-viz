@@ -26,31 +26,26 @@ export {
   createDormantFile,
   createMinimalFile,
   createNewFile,
-
   // Enriched file factories
   createEnrichedFile,
   createOldEnrichedFile,
   createRecentEnrichedFile,
   createActiveEnrichedFile,
-
   // Temporal data factories
   createTemporalData,
-
   // Coupling data factories
   createCouplingData,
-
   // Plugin factories
   createMockPlugin,
   createLegacyPlugin,
   createInvalidPlugin,
   createPluginWithOptionalMissing,
-
   // Batch factories
   createEnrichedFileList,
-
   // Dataset factories
   createMockFileIndex,
-
+  createMockProjectHierarchy,  // PHASE 5: NEW
+  createMockFileMetricsIndex,  // PHASE 5: NEW
   // State factories
   createMockTreemapState,
   createMockTemporalData,

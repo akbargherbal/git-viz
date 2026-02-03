@@ -1,10 +1,12 @@
 // src/plugins/treemap-explorer/__tests__/TreemapExplorer.TimeLens.integration.test.ts
 
-import { describe, it, expect, beforeEach, afterEach, vi } from "vitest"; // ✅ Fixed: Import from vitest
+import { describe, it, expect, beforeEach, afterEach, vi } from "vitest";
 import { TreemapExplorerPlugin } from "../TreemapExplorerPlugin";
 import {
   createMockFileIndex,
-  createMockTemporalData, // ✅ Fixed: Correct factory name
+  createMockProjectHierarchy,
+  createMockFileMetricsIndex,
+  createMockTemporalData,
   createMockTreemapState,
   createMockContainer,
   destroyMockContainer,
@@ -14,39 +16,38 @@ describe("TreemapExplorer - Time Lens Integration", () => {
   let plugin: TreemapExplorerPlugin;
   let container: HTMLElement;
 
-  const mockFileIndex = createMockFileIndex({
-    files: [
-      {
-        key: "src/old-legacy.ts",
-        total_commits: 150,
-        unique_authors: 10,
-        operations: { M: 120, A: 30, D: 0 },
-        age_days: 700,
-        first_seen: "2022-06-01",
-        last_modified: "2023-03-15",
-      },
-      {
-        key: "src/active-component.tsx",
-        total_commits: 85,
-        unique_authors: 6,
-        operations: { M: 70, A: 15, D: 0 },
-        age_days: 180,
-        first_seen: "2024-07-01",
-        last_modified: "2025-01-10",
-      },
-      {
-        key: "src/new-feature.ts",
-        total_commits: 20,
-        unique_authors: 3,
-        operations: { M: 15, A: 5, D: 0 },
-        age_days: 15,
-        first_seen: "2025-01-01",
-        last_modified: "2025-01-15",
-      },
-    ],
-  });
+  const mockFileData = [
+    {
+      key: "src/old-legacy.ts",
+      total_commits: 150,
+      unique_authors: 10,
+      operations: { M: 120, A: 30, D: 0 },
+      age_days: 700,
+      first_seen: "2022-06-01",
+      last_modified: "2023-03-15",
+    },
+    {
+      key: "src/active-component.tsx",
+      total_commits: 85,
+      unique_authors: 6,
+      operations: { M: 70, A: 15, D: 0 },
+      age_days: 180,
+      first_seen: "2024-07-01",
+      last_modified: "2025-01-10",
+    },
+    {
+      key: "src/new-feature.ts",
+      total_commits: 20,
+      unique_authors: 3,
+      operations: { M: 15, A: 5, D: 0 },
+      age_days: 15,
+      first_seen: "2025-01-01",
+      last_modified: "2025-01-15",
+    },
+  ];
 
-  const mockTemporalData = createMockTemporalData(); // ✅ Fixed: Use correct factory
+  const mockFileIndex = createMockFileIndex({ files: mockFileData });
+  const mockTemporalData = createMockTemporalData();
 
   beforeEach(() => {
     container = createMockContainer();
@@ -63,8 +64,11 @@ describe("TreemapExplorer - Time Lens Integration", () => {
 
   describe("Data Processing", () => {
     it("should process temporal data and enrich files", () => {
+      // PHASE 5: Provide all required datasets
       const dataset = {
         file_index: { files: mockFileIndex },
+        project_hierarchy: createMockProjectHierarchy({ files: mockFileData }),
+        file_metrics_index: createMockFileMetricsIndex({ files: mockFileData }),
         temporal_daily: mockTemporalData,
       };
 
@@ -75,9 +79,11 @@ describe("TreemapExplorer - Time Lens Integration", () => {
     });
 
     it("should handle missing temporal data gracefully", () => {
+      // PHASE 5: Provide required datasets (no temporal_daily)
       const dataset = {
         file_index: { files: mockFileIndex },
-        // No temporal_daily
+        project_hierarchy: createMockProjectHierarchy({ files: mockFileData }),
+        file_metrics_index: createMockFileMetricsIndex({ files: mockFileData }),
       };
 
       const processedData = plugin.processData(dataset);
@@ -87,8 +93,11 @@ describe("TreemapExplorer - Time Lens Integration", () => {
     });
 
     it("should calculate date range from temporal data", () => {
+      // PHASE 5: Provide all required datasets
       const dataset = {
         file_index: { files: mockFileIndex },
+        project_hierarchy: createMockProjectHierarchy({ files: mockFileData }),
+        file_metrics_index: createMockFileMetricsIndex({ files: mockFileData }),
         temporal_daily: mockTemporalData,
       };
 
@@ -105,6 +114,8 @@ describe("TreemapExplorer - Time Lens Integration", () => {
     it("should filter files at position 0 (start of timeline)", () => {
       const dataset = {
         file_index: { files: mockFileIndex },
+        project_hierarchy: createMockProjectHierarchy({ files: mockFileData }),
+        file_metrics_index: createMockFileMetricsIndex({ files: mockFileData }),
         temporal_daily: mockTemporalData,
       };
 
@@ -121,6 +132,8 @@ describe("TreemapExplorer - Time Lens Integration", () => {
     it("should show all files at position 100 (end of timeline)", () => {
       const dataset = {
         file_index: { files: mockFileIndex },
+        project_hierarchy: createMockProjectHierarchy({ files: mockFileData }),
+        file_metrics_index: createMockFileMetricsIndex({ files: mockFileData }),
         temporal_daily: mockTemporalData,
       };
 
@@ -141,6 +154,8 @@ describe("TreemapExplorer - Time Lens Integration", () => {
     it("should handle mid-timeline positions", () => {
       const dataset = {
         file_index: { files: mockFileIndex },
+        project_hierarchy: createMockProjectHierarchy({ files: mockFileData }),
+        file_metrics_index: createMockFileMetricsIndex({ files: mockFileData }),
         temporal_daily: mockTemporalData,
       };
 
@@ -161,6 +176,8 @@ describe("TreemapExplorer - Time Lens Integration", () => {
     it('should apply "showCreations" filter', () => {
       const dataset = {
         file_index: { files: mockFileIndex },
+        project_hierarchy: createMockProjectHierarchy({ files: mockFileData }),
+        file_metrics_index: createMockFileMetricsIndex({ files: mockFileData }),
         temporal_daily: mockTemporalData,
       };
 
@@ -179,6 +196,8 @@ describe("TreemapExplorer - Time Lens Integration", () => {
     it('should apply "fadeDormant" filter', () => {
       const dataset = {
         file_index: { files: mockFileIndex },
+        project_hierarchy: createMockProjectHierarchy({ files: mockFileData }),
+        file_metrics_index: createMockFileMetricsIndex({ files: mockFileData }),
         temporal_daily: mockTemporalData,
       };
 
@@ -197,6 +216,8 @@ describe("TreemapExplorer - Time Lens Integration", () => {
     it("should work with both filters enabled", () => {
       const dataset = {
         file_index: { files: mockFileIndex },
+        project_hierarchy: createMockProjectHierarchy({ files: mockFileData }),
+        file_metrics_index: createMockFileMetricsIndex({ files: mockFileData }),
         temporal_daily: mockTemporalData,
       };
 
@@ -215,6 +236,8 @@ describe("TreemapExplorer - Time Lens Integration", () => {
     it("should work with both filters disabled", () => {
       const dataset = {
         file_index: { files: mockFileIndex },
+        project_hierarchy: createMockProjectHierarchy({ files: mockFileData }),
+        file_metrics_index: createMockFileMetricsIndex({ files: mockFileData }),
         temporal_daily: mockTemporalData,
       };
 
@@ -235,6 +258,8 @@ describe("TreemapExplorer - Time Lens Integration", () => {
     it("should switch from Debt to Time lens", () => {
       const dataset = {
         file_index: { files: mockFileIndex },
+        project_hierarchy: createMockProjectHierarchy({ files: mockFileData }),
+        file_metrics_index: createMockFileMetricsIndex({ files: mockFileData }),
         temporal_daily: mockTemporalData,
       };
 
@@ -259,6 +284,8 @@ describe("TreemapExplorer - Time Lens Integration", () => {
     it("should switch from Coupling to Time lens", () => {
       const dataset = {
         file_index: { files: mockFileIndex },
+        project_hierarchy: createMockProjectHierarchy({ files: mockFileData }),
+        file_metrics_index: createMockFileMetricsIndex({ files: mockFileData }),
         temporal_daily: mockTemporalData,
       };
 
@@ -283,6 +310,8 @@ describe("TreemapExplorer - Time Lens Integration", () => {
     it("should maintain spatial layout when switching lenses", () => {
       const dataset = {
         file_index: { files: mockFileIndex },
+        project_hierarchy: createMockProjectHierarchy({ files: mockFileData }),
+        file_metrics_index: createMockFileMetricsIndex({ files: mockFileData }),
         temporal_daily: mockTemporalData,
       };
 
@@ -321,6 +350,8 @@ describe("TreemapExplorer - Time Lens Integration", () => {
 
       const dataset = {
         file_index: { files: mockFileIndex },
+        project_hierarchy: createMockProjectHierarchy({ files: mockFileData }),
+        file_metrics_index: createMockFileMetricsIndex({ files: mockFileData }),
         temporal_daily: mockTemporalData,
       };
 
@@ -343,6 +374,8 @@ describe("TreemapExplorer - Time Lens Integration", () => {
     it("should stop playback", () => {
       const dataset = {
         file_index: { files: mockFileIndex },
+        project_hierarchy: createMockProjectHierarchy({ files: mockFileData }),
+        file_metrics_index: createMockFileMetricsIndex({ files: mockFileData }),
         temporal_daily: mockTemporalData,
       };
 
@@ -363,6 +396,8 @@ describe("TreemapExplorer - Time Lens Integration", () => {
     it("should apply Time lens colors to cells", () => {
       const dataset = {
         file_index: { files: mockFileIndex },
+        project_hierarchy: createMockProjectHierarchy({ files: mockFileData }),
+        file_metrics_index: createMockFileMetricsIndex({ files: mockFileData }),
         temporal_daily: mockTemporalData,
       };
 
@@ -388,6 +423,8 @@ describe("TreemapExplorer - Time Lens Integration", () => {
     it("should render Time lens within 300ms", () => {
       const dataset = {
         file_index: { files: mockFileIndex },
+        project_hierarchy: createMockProjectHierarchy({ files: mockFileData }),
+        file_metrics_index: createMockFileMetricsIndex({ files: mockFileData }),
         temporal_daily: mockTemporalData,
       };
 
@@ -408,6 +445,8 @@ describe("TreemapExplorer - Time Lens Integration", () => {
     it("should handle rapid timeline scrubbing", () => {
       const dataset = {
         file_index: { files: mockFileIndex },
+        project_hierarchy: createMockProjectHierarchy({ files: mockFileData }),
+        file_metrics_index: createMockFileMetricsIndex({ files: mockFileData }),
         temporal_daily: mockTemporalData,
       };
 
@@ -428,6 +467,8 @@ describe("TreemapExplorer - Time Lens Integration", () => {
     it("should handle empty file array", () => {
       const dataset = {
         file_index: { files: [] },
+        project_hierarchy: createMockProjectHierarchy({ files: [] }),
+        file_metrics_index: createMockFileMetricsIndex({ files: [] }),
         temporal_daily: mockTemporalData,
       };
 
@@ -439,10 +480,15 @@ describe("TreemapExplorer - Time Lens Integration", () => {
     });
 
     it("should handle single file", () => {
+      const singleFileData = [mockFileData[0]];
       const dataset = {
-        file_index: {
-          files: [Object.values(mockFileIndex)[0]],
-        },
+        file_index: { files: createMockFileIndex({ files: singleFileData }) },
+        project_hierarchy: createMockProjectHierarchy({
+          files: singleFileData,
+        }),
+        file_metrics_index: createMockFileMetricsIndex({
+          files: singleFileData,
+        }),
         temporal_daily: mockTemporalData,
       };
 
@@ -457,20 +503,26 @@ describe("TreemapExplorer - Time Lens Integration", () => {
     });
 
     it("should handle missing temporal dates gracefully", () => {
-      const dataset = {
-        file_index: {
-          files: [
-            {
-              key: "src/no-dates.ts",
-              total_commits: 10,
-              unique_authors: 2,
-              operations: { M: 8, A: 2, D: 0 },
-              age_days: 100,
-              first_seen: "",
-              last_modified: "",
-            },
-          ],
+      const noDateFileData = [
+        {
+          key: "src/no-dates.ts",
+          total_commits: 10,
+          unique_authors: 2,
+          operations: { M: 8, A: 2, D: 0 },
+          age_days: 100,
+          first_seen: "",
+          last_modified: "",
         },
+      ];
+
+      const dataset = {
+        file_index: { files: createMockFileIndex({ files: noDateFileData }) },
+        project_hierarchy: createMockProjectHierarchy({
+          files: noDateFileData,
+        }),
+        file_metrics_index: createMockFileMetricsIndex({
+          files: noDateFileData,
+        }),
         temporal_daily: mockTemporalData,
       };
 

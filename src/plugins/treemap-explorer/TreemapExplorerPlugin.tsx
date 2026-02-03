@@ -7,7 +7,7 @@ import {
   ExportOptions,
 } from "@/types/plugin";
 import * as d3 from "d3";
-import { DataProcessor, V2FileIndex } from "@/services/data/DataProcessor";
+import { V2FileIndex } from "@/services/data/DataProcessor";
 import { CouplingDataProcessor } from "@/services/data/CouplingDataProcessor";
 import {
   TemporalDataProcessor,
@@ -27,7 +27,6 @@ import { BaseTreemapRenderer } from "./renderers/BaseTreemapRenderer";
 import { DebtRenderer } from "./renderers/DebtRenderer";
 import { CouplingRenderer } from "./renderers/CouplingRenderer";
 import { TimeRenderer } from "./renderers/TimeRenderer";
-
 
 export class TreemapExplorerPlugin implements VisualizationPlugin<TreemapExplorerState> {
   metadata = {
@@ -141,6 +140,7 @@ export class TreemapExplorerPlugin implements VisualizationPlugin<TreemapExplore
   }
 
   init(container: HTMLElement, _config: TreemapExplorerState): void {
+    console.log("[TreemapExplorer] DEBUG - init() called");
     this.container = container;
     this.container.innerHTML = "";
     this.container.className = "relative w-full h-full bg-zinc-950";
@@ -148,10 +148,31 @@ export class TreemapExplorerPlugin implements VisualizationPlugin<TreemapExplore
     this.createTooltip();
 
     // PHASE 4: Initialize all three renderers
+    console.log(
+      "[TreemapExplorer] DEBUG - Creating renderers, container:",
+      !!this.container,
+      "tooltip:",
+      !!this.tooltip,
+    );
     if (this.container && this.tooltip) {
       this.debtRenderer = new DebtRenderer(this.container, this.tooltip);
-      this.couplingRenderer = new CouplingRenderer(this.container, this.tooltip);
+      this.couplingRenderer = new CouplingRenderer(
+        this.container,
+        this.tooltip,
+      );
       this.timeRenderer = new TimeRenderer(this.container, this.tooltip);
+      console.log("[TreemapExplorer] DEBUG - Renderers created:", {
+        debt: !!this.debtRenderer,
+        coupling: !!this.couplingRenderer,
+        time: !!this.timeRenderer,
+      });
+    } else {
+      console.error(
+        "[TreemapExplorer] DEBUG - Failed to create renderers! Container:",
+        !!this.container,
+        "Tooltip:",
+        !!this.tooltip,
+      );
     }
   }
 
@@ -212,7 +233,13 @@ export class TreemapExplorerPlugin implements VisualizationPlugin<TreemapExplore
     dataset: Record<string, any>,
     _config?: TreemapExplorerState,
   ): EnrichedFileData[] {
-    // Enhanced Frontend-Ready Data Path
+    // DEBUG: Log what datasets are available
+    console.log(
+      "[TreemapExplorer] DEBUG - Available datasets:",
+      Object.keys(dataset),
+    );
+
+    // PHASE 1: Enhanced Frontend-Ready Data Path
     if (
       dataset.project_hierarchy &&
       dataset.file_metrics_index &&
@@ -376,6 +403,21 @@ export class TreemapExplorerPlugin implements VisualizationPlugin<TreemapExplore
 
       // Pre-compute activity timelines if file_lifecycle available
       if (dataset.file_lifecycle) {
+        console.log("[TreemapExplorer] DEBUG - file_lifecycle status:", {
+          exists: !!dataset.file_lifecycle,
+          hasFiles: !!dataset.file_lifecycle.files,
+          fileCount: dataset.file_lifecycle.files
+            ? Object.keys(dataset.file_lifecycle.files).length
+            : 0,
+          samplePaths: dataset.file_lifecycle.files
+            ? Object.keys(dataset.file_lifecycle.files).slice(0, 3)
+            : [],
+        });
+        console.log(
+          "[TreemapExplorer] DEBUG - enrichedFiles sample paths:",
+          enrichedFiles.slice(0, 3).map((f) => f.path),
+        );
+
         console.log(
           "[TreemapExplorer] Pre-computing activity timelines from file_lifecycle",
         );
@@ -393,39 +435,48 @@ export class TreemapExplorerPlugin implements VisualizationPlugin<TreemapExplore
       }
 
       this.temporalData = dataset.temporal_daily;
+
+      // DEBUG: Check temporal data loading
+      console.log("[TreemapExplorer] DEBUG - temporal_daily status:", {
+        exists: !!dataset.temporal_daily,
+        hasData: dataset.temporal_daily
+          ? Object.keys(dataset.temporal_daily.days || {}).length
+          : 0,
+        timeRendererExists: !!this.timeRenderer,
+      });
+
       if (this.temporalData) {
         this.dateRange = TemporalDataProcessor.getDateRange(this.temporalData);
-        
-        // PHASE 4: Set temporal data on time renderer
+
+        // PHASE 4: Set temporal data on time renderer (even if it doesn't exist yet)
+        // It will be set again in render() if needed
         if (this.timeRenderer) {
-          this.timeRenderer.setTemporalData(this.temporalData, this.timelineCache);
+          console.log(
+            "[TreemapExplorer] Setting temporal data on TimeRenderer in processData",
+          );
+          this.timeRenderer.setTemporalData(
+            this.temporalData,
+            this.timelineCache,
+          );
+        } else {
+          console.warn(
+            "[TreemapExplorer] TimeRenderer not initialized yet - will set temporal data during render",
+          );
         }
+      } else {
+        console.warn(
+          "[TreemapExplorer] temporal_daily dataset is undefined or null",
+        );
       }
 
       return this.data;
     }
+    // Safety return - should never be reached as required datasets are always registered
+    console.error(
+      "[TreemapExplorer] Required datasets missing - cannot process data",
+    );
+    return [];
 
-    // LEGACY FALLBACK
-    const fileIndex = dataset.file_index;
-    if (!fileIndex) {
-      console.error("file_index is required for Treemap Explorer");
-      return [];
-    }
-
-    this.data = DataProcessor.enrichFiles(fileIndex);
-
-    const cochangeNetwork = dataset.cochange_network;
-    if (cochangeNetwork) {
-      CouplingDataProcessor.enrichWithCoupling(this.data, cochangeNetwork);
-      this.couplingIndex = CouplingDataProcessor.process(cochangeNetwork);
-    }
-
-    this.temporalData = dataset.temporal_daily;
-    if (this.temporalData) {
-      this.dateRange = TemporalDataProcessor.getDateRange(this.temporalData);
-    }
-
-    return this.data;
   }
 
   /**
@@ -442,6 +493,15 @@ export class TreemapExplorerPlugin implements VisualizationPlugin<TreemapExplore
     if (this.currentSignal?.aborted) {
       console.log("[TreemapExplorer] Aborted - skipping render");
       return;
+    }
+
+    // PHASE 4: Ensure temporal data is set on time renderer before rendering
+    // (Fallback in case processData was called before init)
+    if (state.lensMode === "time" && this.timeRenderer && this.temporalData) {
+      console.log(
+        "[TreemapExplorer] DEBUG - Ensuring temporal data is set on TimeRenderer before render",
+      );
+      this.timeRenderer.setTemporalData(this.temporalData, this.timelineCache);
     }
 
     // Use unified renderer system for all lenses

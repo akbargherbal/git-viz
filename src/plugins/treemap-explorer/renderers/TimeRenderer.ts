@@ -2,7 +2,11 @@
 
 import * as d3 from "d3";
 import { BaseTreemapRenderer } from "./BaseTreemapRenderer";
-import { EnrichedFileData, TreemapExplorerState, TemporalFileData } from "../types";
+import {
+  EnrichedFileData,
+  TreemapExplorerState,
+  TemporalFileData,
+} from "../types";
 import { getCellColor } from "../utils/colorScales";
 import { TemporalDataProcessor } from "../../../services/data/TemporalDataProcessor";
 
@@ -15,7 +19,8 @@ import { TemporalDataProcessor } from "../../../services/data/TemporalDataProces
  */
 export class TimeRenderer extends BaseTreemapRenderer {
   private temporalData: any = null;
-  private timelineCache: Map<string, Array<{ date: string; commits: number }>> = new Map();
+  private timelineCache: Map<string, Array<{ date: string; commits: number }>> =
+    new Map();
 
   /**
    * Set temporal data and timeline cache for enrichment
@@ -36,8 +41,11 @@ export class TimeRenderer extends BaseTreemapRenderer {
     data: EnrichedFileData[],
     state: TreemapExplorerState,
   ): EnrichedFileData[] {
+    // If no temporal data, return files as-is (they'll all be visible at position 100)
     if (!this.temporalData) {
-      console.warn("[TimeRenderer] No temporal data available for enrichment");
+      console.info(
+        "[TimeRenderer] Temporal data not loaded - showing all files",
+      );
       return data;
     }
 
@@ -77,10 +85,7 @@ export class TimeRenderer extends BaseTreemapRenderer {
   /**
    * Use time-based color scale from utils
    */
-  getCellColor(
-    file: EnrichedFileData,
-    state: TreemapExplorerState,
-  ): string {
+  getCellColor(file: EnrichedFileData, state: TreemapExplorerState): string {
     return getCellColor(file, state.lensMode, {
       timePosition: state.timePosition,
       timeFilters: state.timeFilters,
@@ -113,7 +118,10 @@ export class TimeRenderer extends BaseTreemapRenderer {
 
     // Check if file has temporal data
     const temporalFile = file as TemporalFileData;
-    if ("createdPosition" in temporalFile && typeof temporalFile.createdPosition === "number") {
+    if (
+      "createdPosition" in temporalFile &&
+      typeof temporalFile.createdPosition === "number"
+    ) {
       additionalRows.push({
         label: "Created",
         value: `Timeline ${temporalFile.createdPosition.toFixed(0)}%`,

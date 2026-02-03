@@ -135,7 +135,7 @@ export class TemporalDataProcessor {
 
     // PHASE 3: Filter out events with invalid dates
     const validEvents = events.filter(
-      (event: any) => event.date && this.isValidDate(event.date),
+      (event: any) => event.datetime && this.isValidDate(event.datetime),
     );
 
     if (validEvents.length === 0) {
@@ -156,7 +156,7 @@ export class TemporalDataProcessor {
    * PHASE 3: Group events into weekly buckets for sparkline visualization
    */
   private static bucketEventsByWeek(
-    events: Array<{ date: string; type: string }>,
+    events: Array<{ datetime: string; type: string }>,
     numBuckets: number = 4,
   ): Array<{ weekStart: string; commitCount: number }> {
     if (events.length === 0) return [];
@@ -164,10 +164,13 @@ export class TemporalDataProcessor {
     // Sort events by date
     const sortedEvents = events
       .slice()
-      .sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
+      .sort(
+        (a, b) =>
+          new Date(a.datetime).getTime() - new Date(b.datetime).getTime(),
+      );
 
-    const firstDate = new Date(sortedEvents[0].date);
-    const lastDate = new Date(sortedEvents[sortedEvents.length - 1].date);
+    const firstDate = new Date(sortedEvents[0].datetime);
+    const lastDate = new Date(sortedEvents[sortedEvents.length - 1].datetime);
 
     // PHASE 3: Validate that firstDate and lastDate are valid
     if (isNaN(firstDate.getTime()) || isNaN(lastDate.getTime())) {
@@ -213,7 +216,7 @@ export class TemporalDataProcessor {
 
     // Assign events to buckets
     sortedEvents.forEach((event) => {
-      const eventDate = new Date(event.date);
+      const eventDate = new Date(event.datetime);
 
       // PHASE 3: Skip invalid event dates
       if (isNaN(eventDate.getTime())) {

@@ -285,12 +285,12 @@ export class PluginDataLoaderClass {
    * Warm up cache with commonly used datasets
    * Call this on app initialization for better UX
    */
-  async warmupCache(
+async warmupCache(
     commonDatasets: string[] = [
-      "file_lifecycle",
-      "directory_stats",
-      "file_index",
-      "temporal_daily",
+      "project_hierarchy",   // Treemap required
+      "file_metrics_index",  // Treemap required
+      "file_index",          // Treemap required (Phase 1)
+      "temporal_daily",      // Treemap optional but commonly used
     ],
   ): Promise<void> {
     console.log("[PluginDataLoader] Warming up cache...");
