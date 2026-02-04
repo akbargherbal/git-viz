@@ -8,7 +8,7 @@ import { TreemapExplorerState } from "../types";
 /**
  * Header controls for Treemap Explorer
  * Renders inline controls: Lens Mode buttons + Size Metric selector
- * 
+ *
  * Phase 3 Enhancement: Added data attributes for state visibility
  * - Container exposes lens mode and size metric state
  * - Size metric selector exposes active metric
@@ -28,6 +28,7 @@ export const TreemapExplorerControls: React.FC<
 
   return (
     <div
+      className="flex gap-4 items-center flex-wrap"
       data-testid="treemap-controls"
       data-lens-mode={lensMode}
       data-size-metric={sizeMetric}
