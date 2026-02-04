@@ -68,7 +68,7 @@ export interface ActivityMatrixItem {
 }
 
 export type TimeBinType = "week" | "month" | "quarter" | "year";
-export type MetricType = "commits" | "events" | "authors" | "lines";
+export type MetricType = "commits";
 
 export interface TimeRange {
   start: Date;

@@ -1,3 +1,5 @@
+// src/plugins/timeline-heatmap/__tests__/TimelineHeatmapPlugin.test.ts
+
 import { describe, it, expect, beforeEach, afterEach, vi } from "vitest";
 import { TimelineHeatmapPlugin } from "../TimelineHeatmapPlugin";
 import { createMockContainer, destroyMockContainer } from "@/test-utils";
@@ -35,7 +37,7 @@ describe("TimelineHeatmapPlugin", () => {
     it("should provide initial state", () => {
       const state = plugin.getInitialState();
       expect(state).toEqual({
-        metric: "events",
+        metric: "commits", // Changed from "events" to "commits"
         timeBin: "week",
         selectedAuthors: [],
         selectedExtensions: [],

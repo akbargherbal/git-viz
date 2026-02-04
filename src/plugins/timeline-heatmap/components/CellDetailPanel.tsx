@@ -7,7 +7,6 @@ import {
   GitCommit,
   User,
   FileText,
-  Activity,
   TrendingUp,
   Crown,
 } from "lucide-react";
@@ -62,41 +61,19 @@ export const CellDetailPanel: React.FC<CellDetailPanelProps> = ({
     });
   }, [cell.topFiles, cell.directory, metadata]);
 
-  // Contextual Header Config
-  const headerConfig = useMemo(() => {
-    switch (metric) {
-      case "authors":
-        return {
-          icon: User,
-          color: "text-orange-400",
-          label: "Author Activity",
-          primaryValue: cell.authors,
-          primaryLabel: "Active Authors",
-        };
-      case "commits":
-        return {
-          icon: GitCommit,
-          color: "text-blue-400",
-          label: "Commit Activity",
-          primaryValue: cell.commits,
-          primaryLabel: "Commits",
-        };
-      case "events":
-      default:
-        return {
-          icon: Activity,
-          color: "text-purple-400",
-          label: "File Events",
-          primaryValue: cell.events,
-          primaryLabel: "Total Events",
-        };
-    }
-  }, [metric, cell]);
+  // Fixed Header Config - Always "Commit Activity"
+  const headerConfig = {
+    icon: GitCommit,
+    color: "text-blue-400",
+    label: "Commit Activity",
+    primaryValue: cell.commits,
+    primaryLabel: "Commits",
+  };
 
   const HeaderIcon = headerConfig.icon;
 
   return (
-    <div 
+    <div
       className="absolute top-0 right-0 w-80 bg-zinc-900/95 backdrop-blur border border-zinc-700 rounded-xl shadow-2xl overflow-hidden z-50 flex flex-col animate-in slide-in-from-right-10 duration-200 max-h-[calc(100vh-2rem)] overflow-y-auto sleek-scrollbar pb-8"
       data-testid="cell-detail-panel"
       data-metric={metric}
@@ -133,7 +110,7 @@ export const CellDetailPanel: React.FC<CellDetailPanelProps> = ({
         </button>
       </div>
 
-      {/* Primary Stats - Context Aware */}
+      {/* Primary Stats */}
       <div className="grid grid-cols-2 gap-px bg-zinc-800 border-b border-zinc-800">
         <div className="bg-zinc-900 p-4 flex flex-col items-center justify-center text-center">
           <div
@@ -146,27 +123,12 @@ export const CellDetailPanel: React.FC<CellDetailPanelProps> = ({
           </div>
         </div>
 
-        {/* Secondary Stat depends on context */}
+        {/* Secondary Stat - Authors */}
         <div className="bg-zinc-900 p-4 flex flex-col items-center justify-center text-center">
-          {metric === "authors" ? (
-            <>
-              <div className="text-2xl font-bold text-white">
-                {formatNumber(cell.commits)}
-              </div>
-              <div className="text-zinc-500 text-[10px] uppercase tracking-wider mt-1">
-                Commits
-              </div>
-            </>
-          ) : (
-            <>
-              <div className="text-2xl font-bold text-white">
-                {cell.authors}
-              </div>
-              <div className="text-zinc-500 text-[10px] uppercase tracking-wider mt-1">
-                Authors
-              </div>
-            </>
-          )}
+          <div className="text-2xl font-bold text-white">{cell.authors}</div>
+          <div className="text-zinc-500 text-[10px] uppercase tracking-wider mt-1">
+            Authors
+          </div>
         </div>
       </div>
 
@@ -233,7 +195,7 @@ export const CellDetailPanel: React.FC<CellDetailPanelProps> = ({
         <div className="p-4 bg-zinc-900 border-b border-zinc-800">
           <div className="text-xs text-zinc-400 mb-2 font-medium flex items-center gap-2">
             <User size={12} />
-            {metric === "authors" ? "Active Contributors" : "Top Contributors"}
+            Top Contributors
           </div>
           <div className="space-y-1.5">
             {cell.topContributors.map((author: string, idx: number) => (

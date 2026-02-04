@@ -18,7 +18,6 @@ import {
 } from "@/utils/dateHelpers";
 import { formatNumber } from "@/utils/formatting";
 import { DataProcessor } from "@/services/data/DataProcessor";
-import { MetricSelector } from "@/components/common/MetricSelector";
 import { TimeBinSelector } from "@/components/common/TimeBinSelector";
 import { FilterPanel } from "@/components/common/FilterPanel";
 import { FilterState } from "@/types/visualization";
@@ -32,7 +31,7 @@ import { FilterState } from "@/types/visualization";
  * Manages all plugin-specific configuration and filtering
  */
 export interface TimelineHeatmapState extends Record<string, unknown> {
-  /** Selected metric for visualization */
+  /** Selected metric for visualization (fixed to "commits") */
   metric: MetricType;
 
   /** Time bin granularity */
@@ -112,7 +111,7 @@ export class TimelineHeatmapPlugin implements VisualizationPlugin<
     id: "timeline-heatmap",
     name: "Timeline Heatmap",
     description: "Repository activity across time and directory structure",
-    version: "4.2.1", // Bumped for race condition fix
+    version: "4.3.0", // Bumped for metric simplification
     priority: 1,
     dataRequirements: [
       { dataset: "file_lifecycle", required: true, alias: "lifecycle" },
@@ -130,7 +129,7 @@ export class TimelineHeatmapPlugin implements VisualizationPlugin<
     minCellWidth: 60,
     colorScheme: "activity",
     timeBin: "week",
-    metric: "events",
+    metric: "commits", // Fixed to commits
     selectedAuthors: [],
     selectedExtensions: [],
   };
@@ -149,7 +148,7 @@ export class TimelineHeatmapPlugin implements VisualizationPlugin<
    * Called when plugin is first activated or when state needs to be reset
    */
   getInitialState = (): Record<string, unknown> => ({
-    metric: "events" as MetricType,
+    metric: "commits" as MetricType, // Fixed to commits
     timeBin: "week" as TimeBinType,
     selectedAuthors: [] as string[],
     selectedExtensions: [] as string[],
@@ -203,7 +202,7 @@ export class TimelineHeatmapPlugin implements VisualizationPlugin<
 
   /**
    * Renders plugin-specific controls
-   * This gives the plugin full ownership of its UI controls
+   * Metric is now fixed to "commits", so only time bin selector is shown
    */
   renderControls = (props: PluginControlProps<Record<string, unknown>>) => {
     const { state, updateState } = props;
@@ -215,13 +214,7 @@ export class TimelineHeatmapPlugin implements VisualizationPlugin<
       "div",
       { className: "flex gap-4 items-center flex-wrap" },
 
-      // Metric Selector
-      React.createElement(MetricSelector, {
-        value: typedState.metric,
-        onChange: (metric: MetricType) => updateState({ metric }),
-      }),
-
-      // Time Bin Selector
+      // Time Bin Selector (only control now)
       React.createElement(TimeBinSelector, {
         value: typedState.timeBin,
         onChange: (timeBin: TimeBinType) => updateState({ timeBin }),
@@ -341,7 +334,6 @@ export class TimelineHeatmapPlugin implements VisualizationPlugin<
 
     const { tree, activity, metadata } = optimizedData;
     const timeBinType = config?.timeBin || this.defaultConfig.timeBin;
-    const metric = config?.metric || this.defaultConfig.metric;
     const topN = config?.topN || this.defaultConfig.topN;
 
     // 1. Map IDs to Directory Paths
@@ -460,7 +452,6 @@ export class TimelineHeatmapPlugin implements VisualizationPlugin<
       const date = new Date(item.d);
       const binStart = getTimeBinStart(date, timeBinType);
       const binKey = binStart.getTime();
-      // REMOVED: timeBinsSet.add(binKey);
 
       const key = `${path}|${binKey}`;
       if (!cellMap.has(key)) {
@@ -499,12 +490,7 @@ export class TimelineHeatmapPlugin implements VisualizationPlugin<
       throw new DOMException("Operation aborted", "AbortError");
     }
 
-    // 4. Sort Time Bins (Already sorted by generation)
-    // const timeBins = Array.from(timeBinsSet)
-    //   .sort()
-    //   .map((t) => new Date(t));
-
-    // 5. Build Grid
+    // 4. Build Grid - Always use commits as the value
     let maxValue = 0;
 
     const cells = topDirectories.map((dir) => {
@@ -521,25 +507,12 @@ export class TimelineHeatmapPlugin implements VisualizationPlugin<
           creations: tempCell ? tempCell.creations : 0,
           deletions: tempCell ? tempCell.deletions : 0,
           modifications: tempCell ? tempCell.modifications : 0,
-          value: 0,
+          value: tempCell ? tempCell.commits : 0, // Always use commits
           topContributors: tempCell
             ? Array.from(tempCell.contributorsSet).slice(0, 5)
             : [],
           topFiles: tempCell ? Array.from(tempCell.filesSet).slice(0, 5) : [],
         };
-
-        switch (metric) {
-          case "authors":
-            cell.value = cell.authors;
-            break;
-          case "commits":
-            cell.value = cell.commits;
-            break;
-          case "events":
-          default:
-            cell.value = cell.events;
-            break;
-        }
 
         maxValue = Math.max(maxValue, cell.value);
         return cell;
@@ -551,10 +524,7 @@ export class TimelineHeatmapPlugin implements VisualizationPlugin<
 
   /**
    * Renders the heatmap visualization
-   * Color scheme dynamically changes based on config.metric:
-   * - events: Green (hue 145°)
-   * - authors: Orange/Amber (hue 30°)
-   * - commits: Blue (hue 210°)
+   * Color scheme is fixed to Blue (hue 210°) for commits
    */
   render(data: HeatmapData, config: HeatmapConfig): void {
     if (!this.container) return;
@@ -626,7 +596,7 @@ export class TimelineHeatmapPlugin implements VisualizationPlugin<
       th.style.textAlign = "left";
       th.style.whiteSpace = "nowrap";
       th.style.borderRight = "1px solid #27272a";
-      th.style.borderBottom = "2px dashed #27272a"; // Distinctive dashed border
+      th.style.borderBottom = "2px dashed #27272a";
       row.appendChild(th);
 
       // Data Cells
@@ -641,21 +611,8 @@ export class TimelineHeatmapPlugin implements VisualizationPlugin<
           // Log-based intensity calculation for better visual distribution
           const intensity = Math.log(value + 1) / Math.log(data.maxValue + 1);
 
-          // CRITICAL: Metric-based hue selection - colors change based on header selection
-          let hue: number;
-          switch (config.metric) {
-            case "authors":
-              hue = 30; // Orange/amber for authors
-              break;
-            case "commits":
-              hue = 210; // Blue for commits
-              break;
-            case "events":
-            default:
-              hue = 145; // Green for events (default)
-              break;
-          }
-
+          // Fixed Blue color scheme for commits
+          const hue = 210; // Blue
           const saturation = 70;
           const lightness = 10 + intensity * 50;
           bg = `hsl(${hue}, ${saturation}%, ${lightness}%)`;
@@ -682,7 +639,7 @@ export class TimelineHeatmapPlugin implements VisualizationPlugin<
         // Tooltip
         td.title =
           `${dir}\n${formatTimeBin(cell.timeBin, config.timeBin)}\n` +
-          `${config.metric}: ${value}\n` +
+          `Commits: ${value}\n` +
           `(+${cell.creations} -${cell.deletions} ~${cell.modifications})`;
 
         // Interactive hover effects
