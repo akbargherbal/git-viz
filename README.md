@@ -1,560 +1,302 @@
-# Git Repository Visualization (git-viz)
+# Git Repository Evolution
 
-> **Interactive visualizations of Git repository evolution with extensible plugin architecture**
+**Git Repository Evolution** is an advanced, interactive visualization suite designed to analyze the lifecycle, architectural health, and social dynamics of software repositories. It transforms static Git metadata into dynamic, navigable visualizations, allowing developers and architects to identify technical debt, coupling patterns, and historical trends.
 
-A modern web application for exploring and analyzing Git repository history through multiple visualization lenses. Built with React, TypeScript, and D3.js, git-viz transforms pre-processed repository data into rich, interactive visualizations.
+## 🚀 Key Features
 
-![Version](https://img.shields.io/badge/version-2.0.0-blue.svg)
-![TypeScript](https://img.shields.io/badge/TypeScript-5.3-blue)
-![React](https://img.shields.io/badge/React-18.2-blue)
-![License](https://img.shields.io/badge/license-MIT-green.svg)
-
----
-
-## 🎯 Overview
-
-git-viz is a **plugin-based visualization platform** that enables multiple perspectives on repository evolution:
-
-- **Timeline Heatmap** - Activity patterns over time with customizable metrics
-- **Treemap Structure** - Hierarchical view of repository organization
-- **Extensible Plugin System** - Add new visualizations without modifying core code
-
-### Key Features
-
-✨ **Plugin Architecture** - Self-contained visualizations with their own controls  
-📊 **Multiple Metrics** - Analyze commits, events, or author activity  
-🎨 **Interactive Filtering** - Filter by authors, file types, directories, time ranges  
-⚡ **Optimized Performance** - Pre-processed data for instant visualization updates  
-🎛️ **Rich Controls** - Each plugin defines its own context-specific UI  
-🔍 **Detail Panels** - Drill down into specific data points
+- **Multi-Perspective Analysis**: Switch seamlessly between high-level temporal views and deep architectural dives.
+- **Interactive Visualizations**: Built with D3.js and React, offering smooth zooming, panning, and drill-down capabilities.
+- **Plugin-Based Architecture**: Visualizations are loaded as independent plugins, allowing for modular expansion.
+- **Static Data Consumption**: Designed to run client-side by consuming pre-processed JSON datasets, removing the need for a live backend server during analysis.
 
 ---
 
-## 🚀 Quick Start
+## 📊 Visualizations
 
-### Prerequisites
+The application currently features two primary visualization plugins:
 
-- Node.js 18+
-- pnpm (recommended) or npm
+### 1. Timeline Heatmap
 
-### Installation
+A temporal grid visualizing development activity across the directory structure.
 
-```bash
-# Clone the repository
-git clone https://github.com/yourusername/git-viz.git
-cd git-viz
+- **X-Axis**: Time (temporal aggregation based on available datasets).
+- **Y-Axis**: Top directories by activity score.
+- **Cells**: Color intensity represents commit volume.
+- **Interactions**:
+  - Click cells to see specific commit counts, event types (Added/Modified/Deleted), and top contributors for that period.
+  - Filter out specific directories to reduce noise.
 
-# Install dependencies
-pnpm install
+### 2. Treemap Explorer
 
-# Start development server
-pnpm dev
-```
+A hierarchical view of the codebase where file size represents metric volume (Commits or Authors). This view offers three distinct **"Lenses"**:
 
-The application will open at `http://localhost:3000`
+#### A. 🔴 Technical Debt Lens
 
-### Dataset Requirements
+Focuses on code health and maintenance risks.
 
-git-viz consumes pre-processed JSON datasets. Place your dataset in `public/DATASETS_<name>/`:
+- **Color Scale**: Green (Healthy) to Red (Critical).
+- **Metrics**: Calculates a "Health Score" based on **Churn Rate** (frequency of changes), **Bus Factor** (author diversity), and **Age**.
+- **Use Case**: Identifying unstable files that require refactoring.
 
-```
-public/DATASETS_myrepo/
-├── manifest.json                    # Dataset catalog
-├── file_lifecycle.json              # Core lifecycle data
-├── metadata/
-│   └── file_index.json             # File metadata
-├── aggregations/
-│   ├── temporal_daily.json         # Daily aggregations
-│   └── temporal_monthly.json       # Monthly aggregations
-└── networks/
-    ├── author_network.json         # Author collaboration
-    └── cochange_network.json       # File co-change patterns
-```
+#### B. 🟣 Coupling Lens
 
-See [Dataset Format](#-dataset-format) for details.
+Visualizes logical dependencies between files based on co-change history.
 
----
+- **Visuals**: Draws arcs between files that frequently change together.
+- **Thresholding**: Adjustable slider to filter out weak connections, revealing only strong architectural dependencies.
+- **Use Case**: Spotting "God Objects" or tight coupling that hinders modularity.
 
-## 🏗️ Architecture
+#### C. 🔵 Time Lens
 
-### Plugin-First Design
+A playback-enabled view of the repository's history.
 
-git-viz uses a **decoupled plugin architecture** where:
-
-1. **App.tsx** handles universal concerns (data loading, plugin orchestration)
-2. **Plugins** own their visualization logic + UI controls
-3. **Zustand Store** manages shared state (filters, UI state, plugin states)
-
-```
-+------------------------------------------------+
-|                    App.tsx                     |
-|  - Dataset selection                           |
-|  - Plugin orchestration                        |
-|  - Data loading                                |
-+----------------------+-------------------------+
-                       |
-               +-------+-------+
-               |               |
-       +-------+------+  +-----+-------+
-       |   Timeline   |  |   Treemap   |
-       |   Heatmap    |  |   Plugin    |
-       |  - Controls  |  |             |
-       |  - State     |  |  - Rendering|
-       |  - Rendering |  |             |
-       +--------------+  +-------------+
-
-```
-
-### Core Systems
-
-#### 1. Plugin Registry (`PluginRegistry.ts`)
-
-Manages plugin lifecycle, validation, and data requirements.
-
-```typescript
-// Register plugins
-PluginRegistry.register(new TimelineHeatmapPlugin());
-PluginRegistry.register(new TreemapPlugin());
-
-// Query plugins
-const plugin = PluginRegistry.get("timeline-heatmap");
-const requirements = PluginRegistry.getDataRequirements("timeline-heatmap");
-```
-
-#### 2. Data Layer (`services/data/`)
-
-- **DatasetRegistry** - Catalog of available datasets and their schemas
-- **PluginDataLoader** - Loads required datasets for each plugin
-- **DataProcessor** - Transforms and filters raw data
-
-#### 3. State Management (`store/appStore.ts`)
-
-Zustand-based store managing:
-
-- Global filters (authors, file types, time ranges)
-- UI state (panels, active plugin)
-- Plugin-specific state (isolated by plugin ID)
-
-```typescript
-// Plugin state is isolated by ID
-const state = useAppStore();
-state.setPluginState("timeline-heatmap", { metric: "commits" });
-state.setPluginState("treemap", { layout: "squarified" });
-```
+- **Timeline Scrubber**: Drag or play through the project's history from start to finish.
+- **Visuals**: Files appear when created, show activity through the timeline, and fade when dormant.
+- **Use Case**: Understanding how the architecture grew over time.
 
 ---
 
-## 🔌 Plugin Development
+## 🛠 Technical Architecture
 
-### Creating a New Plugin
+### Stack
 
-Plugins implement the `VisualizationPlugin` interface:
+- **Core**: React 18 (Functional components, Hooks).
+- **State Management**: Zustand (Lightweight, decoupled state).
+- **Visualization**: D3.js (Complex SVG rendering, scales, layouts).
+- **Animation**: Framer Motion (Smooth UI transitions).
+- **Styling**: Tailwind CSS (Utility-first styling).
+- **Build**: Vite.
 
-```typescript
-// src/plugins/my-viz/MyPlugin.ts
-import { VisualizationPlugin, PluginControlProps } from '@/types/plugin';
+### Data Pipeline
 
-export class MyPlugin implements VisualizationPlugin {
-  metadata = {
-    id: 'my-viz',
-    name: 'My Visualization',
-    description: 'Custom visualization',
-    version: '1.0.0',
-    priority: 3,
+The application does not query Git directly. Instead, it expects a set of pre-processed JSON datasets located in the `public/DATASETS_{repo_name}/` directory.
 
-    // Declare data requirements
-    dataRequirements: [
-      { dataset: 'temporal_daily', required: true },
-      { dataset: 'file_index', required: false }
-    ]
-  };
+**Core Dataset Files:**
 
-  defaultConfig = {
-    width: 800,
-    height: 600
-  };
+Located in `public/DATASETS_{repo_name}/`:
 
-  // Optional: Initial state for controls
-  getInitialState() {
-    return {
-      viewMode: 'grid',
-      sortBy: 'name'
-    };
-  }
+1. **frontend/project_hierarchy.json**: Directory tree structure.
+2. **frontend/file_metrics_index.json**: Pre-computed health scores and coupling stats.
+3. **metadata/file_index.json**: File metadata (authors, creation dates).
+4. **file_lifecycle.json**: Event stream (Add/Modify/Delete events).
+5. **networks/author_network.json**: Contributor identity and collaboration data.
+6. **networks/cochange_network.json**: Edge list for file coupling.
+7. **aggregations/temporal_daily.json**: Aggregated daily stats for the timeline scrubber.
 
-  // Optional: Render plugin-owned controls
-  renderControls({ state, updateState, data }: PluginControlProps) {
-    return (
-      <div className="flex gap-2">
-        <select
-          value={state.viewMode}
-          onChange={(e) => updateState({ viewMode: e.target.value })}
-        >
-          <option value="grid">Grid</option>
-          <option value="list">List</option>
-        </select>
-      </div>
-    );
-  }
+**Additional Dataset Files:**
 
-  // Required: Initialize container
-  init(container: HTMLElement, config: any) {
-    this.container = container;
-  }
-
-  // Required: Transform data for rendering
-  processData(dataset: OptimizedDataset, config?: any) {
-    // Transform data into renderable format
-    return transformedData;
-  }
-
-  // Required: Render visualization
-  render(data: any, config: any) {
-    // D3.js or React rendering logic
-  }
-
-  // Required: Cleanup
-  destroy() {
-    if (this.container) {
-      this.container.innerHTML = '';
-    }
-  }
-
-  // Optional: Export capabilities
-  async exportImage(): Promise<Blob> { /* ... */ }
-  exportData(): any { /* ... */ }
-}
-```
-
-### Registering Your Plugin
-
-```typescript
-// src/App.tsx
-import { MyPlugin } from "@/plugins/my-viz/MyPlugin";
-
-PluginRegistry.register(new MyPlugin());
-```
-
-That's it! No App.tsx modifications needed. Your plugin will appear in the selector.
-
-### Plugin Patterns
-
-#### Pattern 1: Plugin with Controls
-
-```typescript
-class InteractivePlugin implements VisualizationPlugin {
-  getInitialState() { return { param: 'default' }; }
-  renderControls({ state, updateState }) { return <Controls />; }
-}
-```
-
-#### Pattern 2: Plugin without Controls
-
-```typescript
-class StaticPlugin implements VisualizationPlugin {
-  // No getInitialState or renderControls
-  // Just processData and render
-}
-```
-
-### Data Requirements
-
-Plugins declare their data needs via `dataRequirements`:
-
-```typescript
-dataRequirements: [
-  {
-    dataset: "temporal_daily", // Dataset name
-    required: true, // Fail if missing
-  },
-  {
-    dataset: "author_network",
-    required: false, // Optional enhancement
-  },
-];
-```
-
-The `PluginDataLoader` automatically loads declared datasets before plugin initialization.
+- **aggregations/temporal_monthly.json**: Monthly aggregated temporal data.
+- **aggregations/directory_stats.json**: Directory-level statistics.
+- **frontend/temporal_activity_map.json**: Temporal activity mapping.
+- **milestones/release_snapshots.json**: Release milestone data.
+- **manifest.json**: Dataset manifest and metadata.
+- **dataset_metadata.md**: Human-readable dataset documentation.
 
 ---
 
-## 📦 Dataset Format
+## 🕹️ User Interactions
 
-### Manifest (`manifest.json`)
+### Global Controls
 
-```json
-{
-  "schema_version": "2.0.0",
-  "repository_name": "excalidraw",
-  "repository_path": "/path/to/repo",
-  "generated_at": "2026-01-14T16:04:33+00:00",
-  "datasets": [
-    {
-      "name": "temporal_daily",
-      "path": "aggregations/temporal_daily.json",
-      "schema_type": "temporal_aggregation",
-      "size_bytes": 251392
-    }
-  ]
-}
-```
+- **Visualization Selector**: Top-left dropdown to switch between Heatmap and Treemap.
+- **Filter Toggle**: Top-right button to open the configuration sidebar.
 
-### Core Dataset: `file_lifecycle.json`
+### Navigation
 
-```json
-{
-  "files": {
-    "src/App.tsx": [
-      {
-        "hash": "abc123",
-        "timestamp": 1640000000,
-        "author": "dev@example.com",
-        "operation": "M",
-        "changes": { "additions": 10, "deletions": 5 }
-      }
-    ]
-  }
-}
-```
+- **Panning**: Click and drag on the canvas, or use the on-screen arrow overlays that appear at the viewport edges.
+- **Zooming**: Browser-native zoom (Ctrl/Cmd + scroll or pinch gestures).
 
-### Aggregation: `temporal_daily.json`
+### Detail Panels
 
-```json
-{
-  "schema_version": "2.0.0",
-  "aggregation_level": "day",
-  "days": [
-    {
-      "date": "2020-01-02",
-      "commits": 37,
-      "files_changed": 49,
-      "unique_authors": 5,
-      "operations": { "M": 30, "A": 15, "D": 4 }
-    }
-  ]
-}
-```
+Clicking on any data point (a file in the Treemap or a cell in the Heatmap) opens a **Contextual Sidebar** on the right.
 
-See `public/DATASETS_excalidraw/dataset_metadata.md` for full schema documentation.
+- **Sparklines**: Shows activity over time for the selected file.
+- **Stats**: Exact numbers for commits, authors, and churn.
+- **Relationships**: Lists coupled files and their strength percentages.
 
 ---
 
-## 🛠️ Technology Stack
+## 📦 Setup & Running
 
-### Core
+1.  **Install Dependencies**:
 
-- **React 18** - UI framework
-- **TypeScript 5.3** - Type safety
-- **Vite 5** - Build tool & dev server
-- **Zustand 4** - State management
+    ```bash
+    npm install
+    # or
+    pnpm install
+    ```
 
-### Visualization
+2.  **Build**:
 
-- **D3.js 7** - Data visualization primitives
-- **d3-hierarchy** - Tree/treemap layouts
-- **Framer Motion** - UI animations
+    ```bash
+    npm run build
+    # or
+    pnpm build
+    ```
 
-### Utilities
+3.  **Data Placement**: Ensure your generated JSON datasets are placed in the `public/DATASETS_{repo_name}/` folder with the structure described above.
 
-- **date-fns** - Date manipulation
-- **papaparse** - CSV parsing
-- **Lucide React** - Icon library
+4.  **Development Server**:
 
-### Development
+    ```bash
+    npm run dev
+    # or
+    pnpm dev
+    ```
 
-- **Vitest** - Unit testing
-- **TypeScript** - Type checking
-- **ESLint** - Code linting
-- **Prettier** - Code formatting
-- **Tailwind CSS** - Utility-first styling
+5.  **Preview Production Build**:
+    ```bash
+    npm run preview
+    # or
+    pnpm preview
+    ```
 
 ---
 
-## 📂 Project Structure
+## 🧩 Extending
 
-```
-git-viz/
-├── src/
-│   ├── App.tsx                      # Application shell
-│   ├── main.tsx                     # Entry point
-│   │
-│   ├── plugins/                     # Visualization plugins
-│   │   ├── core/
-│   │   │   ├── PluginRegistry.ts    # Plugin management
-│   │   │   └── __tests__/
-│   │   ├── timeline-heatmap/
-│   │   │   ├── TimelineHeatmapPlugin.ts
-│   │   │   └── components/
-│   │   └── treemap-animation/
-│   │       └── TreemapPlugin.ts
-│   │
-│   ├── services/                    # Business logic
-│   │   └── data/
-│   │       ├── DatasetRegistry.ts   # Dataset catalog
-│   │       ├── PluginDataLoader.ts  # Data loading
-│   │       ├── DataProcessor.ts     # Data transformation
-│   │       └── types.ts
-│   │
-│   ├── store/                       # State management
-│   │   ├── appStore.ts              # Zustand store
-│   │   └── __tests__/
-│   │
-│   ├── components/                  # Reusable components
-│   │   ├── common/                  # Shared UI components
-│   │   │   ├── FilterPanel.tsx
-│   │   │   ├── LoadingSpinner.tsx
-│   │   │   ├── ErrorDisplay.tsx
-│   │   │   └── ...
-│   │   └── layout/
-│   │       └── PluginSelector.tsx
-│   │
-│   ├── hooks/                       # Custom React hooks
-│   │   └── useScrollIndicators.tsx
-│   │
-│   ├── types/                       # TypeScript definitions
-│   │   ├── plugin.ts                # Plugin interfaces
-│   │   ├── domain.ts                # Domain models
-│   │   └── visualization.ts
-│   │
-│   └── utils/                       # Utility functions
-│       ├── dateHelpers.ts
-│       └── formatting.ts
-│
-├── public/
-│   └── DATASETS_*/                  # Pre-processed datasets
-│
-├── package.json
-├── tsconfig.json
-├── vite.config.ts
-└── tailwind.config.js
-```
+New visualizations can be added by creating a class that implements the Plugin interface (defining `metadata`, `init`, `render`, `update`, and `destroy`) and registering it via `PluginRegistry.register()`.
+
+The plugin system supports:
+
+- Declarative data requirements (required and optional datasets)
+- Automatic data validation
+- Abort signal support for cancellable operations
+- Lifecycle hooks for resource management
 
 ---
 
 ## 🧪 Testing
 
+The project includes comprehensive test coverage (72.56% statement coverage, 284 tests):
+
 ```bash
-# Run unit tests
+# Run all tests
+npm run test
+# or
 pnpm test
 
+# Run tests with coverage
+npm run test:coverage
+# or
+pnpm test:coverage
+
 # Run tests in watch mode
-pnpm test --watch
-
-# Type checking
-pnpm type-check
-
-# Linting
-pnpm lint
+npm run test:watch
+# or
+pnpm test:watch
 ```
-
-### Test Coverage
-
-- ✅ Plugin Registry (registration, validation, requirements)
-- ✅ Dataset Registry (schema validation, loading)
-- ✅ Plugin State Management (store integration)
-- 🚧 Data Processing (in progress)
-- 🚧 Component Tests (in progress)
 
 ---
 
-## 🎨 Styling & Theming
+## 📈 Test Statistics
 
-git-viz uses **Tailwind CSS** with a dark theme optimized for data visualization:
-
-### Color Palette
-
-```css
---zinc-950: #09090b; /* Background */
---zinc-900: #18181b; /* Surface */
---zinc-800: #27272a; /* Border */
---purple-600: #9333ea; /* Accent */
-```
-
-### Custom Classes
-
-- `.panel-transition` - Smooth panel animations
-- `.panel-hidden` - Collapsed state
-- `.sleek-scrollbar` - Minimalist scrollbars
+- **Test Files**: 27 passed
+- **Total Tests**: 284 passed
+- **Coverage**:
+  - Statements: 72.56%
+  - Branches: 63.43%
+  - Functions: 73.4%
+  - Lines: 74%
 
 ---
 
-## 🚧 Roadmap
+## 🏗️ Architecture Highlights
 
-### Current (v2.0)
+### Plugin System
 
-- ✅ Plugin architecture with control ownership
-- ✅ Timeline Heatmap visualization
-- ✅ Treemap visualization
-- ✅ Advanced filtering system
-- ✅ Plugin state management
+Each visualization plugin:
 
-### Planned (v2.1)
+- Declares its data requirements explicitly
+- Supports cancellable data processing via AbortSignal
+- Manages its own state independently
+- Provides UI controls, filters, and detail panels
+- Can be hot-reloaded during development
 
-- [ ] Network Graph plugin (author collaboration)
-- [ ] Code Churn visualization
-- [ ] Commit Message analysis
-- [ ] Plugin marketplace/discovery
+### State Management
 
-### Future
+- **Zustand Store**: Global state for data, filters, UI, and plugin states
+- **Plugin-Owned State**: Each plugin maintains its own configuration
+- **Separation of Concerns**: Processing state vs. rendering state clearly delineated
 
-- [ ] Real-time Git repository analysis
-- [ ] Export to static HTML
-- [ ] Comparative analysis (multi-repo)
-- [ ] Custom plugin templates
-- [ ] Layout configuration system (Phase 4)
+### Data Processing Pipeline
+
+1. **Load**: Fetch required datasets based on plugin requirements
+2. **Validate**: Check data availability and plugin compatibility
+3. **Process**: Transform raw data into visualization-ready format (cancellable)
+4. **Render**: Display visualization using D3.js and React
+
+---
+
+## 🔧 Configuration
+
+### Treemap Explorer Configuration
+
+```typescript
+{
+  lensMode: "debt" | "coupling" | "time",
+  sizeMetric: "commits" | "authors" | "events",
+  healthThreshold: number,        // Debt lens
+  couplingThreshold: number,      // Coupling lens
+  showArcs: boolean,              // Coupling lens
+  timePosition: number,           // Time lens (0-100)
+  playing: boolean,               // Time lens playback
+  timeFilters: {
+    showCreations: boolean,
+    fadeDormant: boolean
+  }
+}
+```
+
+### Timeline Heatmap Configuration
+
+```typescript
+{
+  metric: "commits",
+  timeBin: "day" | "week" | "month",
+  directoryCount: number,
+  excludedDirectories: string[]
+}
+```
+
+---
+
+## 📚 Additional Documentation
+
+- **Testing Strategy**: See `docs/TESTING_STRATEGY/`
+- **Architecture Diagrams**: See `docs/MERMAID_DIAGRAM/`
+- **Component Analysis**: See `docs/app-structure/`
 
 ---
 
 ## 🤝 Contributing
 
-Contributions are welcome! Here's how to get started:
+To add a new visualization plugin:
 
-1. **Fork the repository**
-2. **Create a feature branch** (`git checkout -b feature/amazing-viz`)
-3. **Follow the plugin development guide** above
-4. **Add tests** for new functionality
-5. **Commit your changes** (`git commit -m 'Add amazing visualization'`)
-6. **Push to the branch** (`git push origin feature/amazing-viz`)
-7. **Open a Pull Request**
+1. Create a class implementing `VisualizationPlugin<TConfig, TData, TState>`
+2. Define `metadata` including data requirements
+3. Implement lifecycle methods: `init()`, `processData()`, `render()`, `destroy()`
+4. (Optional) Implement control ownership: `getInitialState()`, `renderControls()`, `renderFilters()`
+5. Register in `src/plugins/init.ts`
 
-### Plugin Contribution Guidelines
+Example:
 
-- Follow TypeScript strict mode
-- Include data requirements in plugin metadata
-- Provide default configuration
-- Add JSDoc comments for public APIs
-- Include usage examples
-- Test with multiple datasets
+```typescript
+import { PluginRegistry } from "@/plugins/core/PluginRegistry";
+import { MyNewPlugin } from "./MyNewPlugin";
+
+const myPlugin = new MyNewPlugin();
+PluginRegistry.register(myPlugin);
+```
 
 ---
 
 ## 📄 License
 
-MIT License - see [LICENSE](LICENSE) for details
+See LICENSE file for details.
 
 ---
 
 ## 🙏 Acknowledgments
 
-- **D3.js** - Mike Bostock and contributors
-- **React** - Meta and contributors
-- **Excalidraw** - Sample dataset source
-- Inspired by software archaeology and repository mining research
-
----
-
-## 📞 Support
-
-- **Issues**: [GitHub Issues](https://github.com/yourusername/git-viz/issues)
-- **Discussions**: [GitHub Discussions](https://github.com/yourusername/git-viz/discussions)
-- **Documentation**: [Wiki](https://github.com/yourusername/git-viz/wiki)
-
----
-
-## 📊 Project Status
-
-**Current Version:** 2.0.0  
-**Status:** Active Development  
-**Last Updated:** January 2026
-
-Built with ❤️ for repository visualization and software archaeology
+Built with modern web technologies and best practices for performance, maintainability, and extensibility.
