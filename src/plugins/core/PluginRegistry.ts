@@ -13,9 +13,9 @@ import { DatasetRegistry } from "@/services/data/DatasetRegistry";
  */
 
 class PluginRegistryClass {
-  private plugins = new Map<string, VisualizationPlugin>();
+  private plugins = new Map<string, VisualizationPlugin<any, any, any>>();
 
-  register(plugin: VisualizationPlugin): void {
+  register(plugin: VisualizationPlugin<any, any, any>): void {
     if (this.plugins.has(plugin.metadata.id)) {
       console.warn(
         `Plugin ${plugin.metadata.id} is already registered. Overwriting...`,
@@ -55,11 +55,11 @@ class PluginRegistryClass {
     console.log(`Unregistered plugin: ${id}`);
   }
 
-  get(id: string): VisualizationPlugin | undefined {
+  get(id: string): VisualizationPlugin<any, any, any> | undefined {
     return this.plugins.get(id);
   }
 
-  getAll(): VisualizationPlugin[] {
+  getAll(): VisualizationPlugin<any, any, any>[] {
     return Array.from(this.plugins.values()).sort(
       (a, b) => a.metadata.priority - b.metadata.priority,
     );
@@ -161,7 +161,7 @@ class PluginRegistryClass {
   /**
    * Get all plugins that require a specific dataset
    */
-  getPluginsByDataset(datasetId: string): VisualizationPlugin[] {
+  getPluginsByDataset(datasetId: string): VisualizationPlugin<any, any, any>[] {
     return Array.from(this.plugins.values()).filter((plugin) => {
       const requirements = plugin.metadata.dataRequirements || [];
       return requirements.some((req) => req.dataset === datasetId);

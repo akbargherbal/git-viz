@@ -1,0 +1,2273 @@
+{
+  "metadata": {
+    "generatedAt": "2026-02-04T18:28:56.232Z",
+    "projectRoot": "/home/akbar/Jupyter_Notebooks/SOFTWARE_ARCHEOLOGY/git-viz",
+    "outputDirectory": "docs/app-structure"
+  },
+  "components": [
+    {
+      "path": "src/components/common/ErrorDisplay.tsx",
+      "exports": [
+        {
+          "name": "ErrorDisplay",
+          "kind": "VariableDeclaration"
+        },
+        {
+          "name": "default",
+          "kind": "VariableDeclaration"
+        }
+      ],
+      "imports": [
+        {
+          "from": "react",
+          "default": "React",
+          "named": []
+        },
+        {
+          "from": "lucide-react",
+          "named": [
+            "X"
+          ]
+        }
+      ],
+      "components": [
+        {
+          "name": "ErrorDisplay",
+          "type": "function",
+          "props": "unknown"
+        },
+        {
+          "name": "default",
+          "type": "function",
+          "props": "unknown"
+        }
+      ],
+      "hooks": [],
+      "types": []
+    },
+    {
+      "path": "src/components/common/FilterPanel.tsx",
+      "exports": [
+        {
+          "name": "FilterPanel",
+          "kind": "VariableDeclaration"
+        },
+        {
+          "name": "default",
+          "kind": "VariableDeclaration"
+        }
+      ],
+      "imports": [
+        {
+          "from": "react",
+          "default": "React",
+          "named": [
+            "useMemo",
+            "useState"
+          ]
+        },
+        {
+          "from": "@/store/appStore",
+          "named": [
+            "useAppStore"
+          ]
+        },
+        {
+          "from": "lucide-react",
+          "named": [
+            "X",
+            "Filter",
+            "User",
+            "File",
+            "RotateCcw",
+            "Search",
+            "ChevronDown",
+            "ChevronUp"
+          ]
+        },
+        {
+          "from": "@/types/domain",
+          "named": [
+            "RepoMetadata"
+          ]
+        }
+      ],
+      "components": [
+        {
+          "name": "FilterPanel",
+          "type": "function",
+          "props": "unknown"
+        },
+        {
+          "name": "default",
+          "type": "function",
+          "props": "unknown"
+        }
+      ],
+      "hooks": [],
+      "types": []
+    },
+    {
+      "path": "src/components/common/LoadingSpinner.tsx",
+      "exports": [
+        {
+          "name": "LoadingSpinner",
+          "kind": "VariableDeclaration"
+        },
+        {
+          "name": "default",
+          "kind": "VariableDeclaration"
+        }
+      ],
+      "imports": [
+        {
+          "from": "react",
+          "default": "React",
+          "named": []
+        }
+      ],
+      "components": [
+        {
+          "name": "LoadingSpinner",
+          "type": "function",
+          "props": "unknown"
+        },
+        {
+          "name": "default",
+          "type": "function",
+          "props": "unknown"
+        }
+      ],
+      "hooks": [],
+      "types": []
+    },
+    {
+      "path": "src/components/common/ScrollIndicatorOverlay.tsx",
+      "exports": [
+        {
+          "name": "ScrollIndicatorOverlay",
+          "kind": "VariableDeclaration"
+        },
+        {
+          "name": "default",
+          "kind": "VariableDeclaration"
+        }
+      ],
+      "imports": [
+        {
+          "from": "react",
+          "default": "React",
+          "named": [
+            "useRef",
+            "useEffect",
+            "useCallback"
+          ]
+        },
+        {
+          "from": "lucide-react",
+          "named": [
+            "ChevronLeft",
+            "ChevronRight",
+            "ChevronUp",
+            "ChevronDown"
+          ]
+        }
+      ],
+      "components": [
+        {
+          "name": "ScrollIndicatorOverlay",
+          "type": "function",
+          "props": "unknown"
+        },
+        {
+          "name": "default",
+          "type": "function",
+          "props": "unknown"
+        }
+      ],
+      "hooks": [],
+      "types": []
+    },
+    {
+      "path": "src/components/common/TimeBinSelector.tsx",
+      "exports": [
+        {
+          "name": "TimeBinSelector",
+          "kind": "VariableDeclaration"
+        },
+        {
+          "name": "default",
+          "kind": "VariableDeclaration"
+        }
+      ],
+      "imports": [
+        {
+          "from": "react",
+          "default": "React",
+          "named": []
+        },
+        {
+          "from": "@/store/appStore",
+          "named": [
+            "useAppStore"
+          ]
+        },
+        {
+          "from": "@/types/domain",
+          "named": [
+            "TimeBinType"
+          ]
+        },
+        {
+          "from": "lucide-react",
+          "named": [
+            "Calendar",
+            "CalendarRange",
+            "CalendarClock"
+          ]
+        }
+      ],
+      "components": [
+        {
+          "name": "TimeBinSelector",
+          "type": "function",
+          "props": "unknown"
+        },
+        {
+          "name": "default",
+          "type": "function",
+          "props": "unknown"
+        }
+      ],
+      "hooks": [],
+      "types": []
+    },
+    {
+      "path": "src/components/layout/PluginSelector.tsx",
+      "exports": [
+        {
+          "name": "PluginSelector",
+          "kind": "VariableDeclaration"
+        },
+        {
+          "name": "default",
+          "kind": "VariableDeclaration"
+        }
+      ],
+      "imports": [
+        {
+          "from": "react",
+          "default": "React",
+          "named": [
+            "useState",
+            "useRef",
+            "useEffect"
+          ]
+        },
+        {
+          "from": "react-dom",
+          "named": [
+            "createPortal"
+          ]
+        },
+        {
+          "from": "@/store/appStore",
+          "named": [
+            "useAppStore"
+          ]
+        },
+        {
+          "from": "@/types/plugin",
+          "named": [
+            "VisualizationPlugin"
+          ]
+        },
+        {
+          "from": "lucide-react",
+          "named": [
+            "ChevronDown",
+            "Check",
+            "LayoutGrid"
+          ]
+        }
+      ],
+      "components": [
+        {
+          "name": "PluginSelector",
+          "type": "function",
+          "props": "unknown"
+        },
+        {
+          "name": "default",
+          "type": "function",
+          "props": "unknown"
+        }
+      ],
+      "hooks": [],
+      "types": []
+    },
+    {
+      "path": "src/plugins/timeline-heatmap/components/CellDetailPanel.tsx",
+      "exports": [
+        {
+          "name": "CellDetailPanel",
+          "kind": "VariableDeclaration"
+        },
+        {
+          "name": "default",
+          "kind": "VariableDeclaration"
+        }
+      ],
+      "imports": [
+        {
+          "from": "react",
+          "default": "React",
+          "named": [
+            "useMemo"
+          ]
+        },
+        {
+          "from": "lucide-react",
+          "named": [
+            "X",
+            "Calendar",
+            "GitCommit",
+            "User",
+            "FileText",
+            "TrendingUp",
+            "Crown"
+          ]
+        },
+        {
+          "from": "date-fns",
+          "named": [
+            "format"
+          ]
+        },
+        {
+          "from": "@/store/appStore",
+          "named": [
+            "useAppStore"
+          ]
+        },
+        {
+          "from": "../TimelineHeatmapPlugin",
+          "named": [
+            "HeatmapCell"
+          ]
+        },
+        {
+          "from": "@/utils/formatting",
+          "named": [
+            "formatNumber"
+          ]
+        }
+      ],
+      "components": [
+        {
+          "name": "CellDetailPanel",
+          "type": "function",
+          "props": "unknown"
+        },
+        {
+          "name": "default",
+          "type": "function",
+          "props": "unknown"
+        }
+      ],
+      "hooks": [],
+      "types": []
+    },
+    {
+      "path": "src/plugins/treemap-explorer/components/CouplingView.tsx",
+      "exports": [
+        {
+          "name": "CouplingView",
+          "kind": "VariableDeclaration"
+        }
+      ],
+      "imports": [
+        {
+          "from": "react",
+          "default": "React",
+          "named": []
+        },
+        {
+          "from": "lucide-react",
+          "named": [
+            "Link"
+          ]
+        },
+        {
+          "from": "../types",
+          "named": [
+            "EnrichedFileData"
+          ]
+        },
+        {
+          "from": "@/services/data/CouplingDataProcessor",
+          "named": [
+            "CouplingDataProcessor",
+            "CouplingIndex",
+            "CouplingPartner"
+          ]
+        }
+      ],
+      "components": [
+        {
+          "name": "CouplingView",
+          "type": "function",
+          "props": "unknown"
+        }
+      ],
+      "hooks": [],
+      "types": []
+    },
+    {
+      "path": "src/plugins/treemap-explorer/components/DebtView.tsx",
+      "exports": [
+        {
+          "name": "DebtView",
+          "kind": "VariableDeclaration"
+        }
+      ],
+      "imports": [
+        {
+          "from": "react",
+          "default": "React",
+          "named": []
+        },
+        {
+          "from": "../types",
+          "named": [
+            "EnrichedFileData"
+          ]
+        }
+      ],
+      "components": [
+        {
+          "name": "DebtView",
+          "type": "function",
+          "props": "unknown"
+        }
+      ],
+      "hooks": [],
+      "types": []
+    },
+    {
+      "path": "src/plugins/treemap-explorer/components/LensModeSelector.tsx",
+      "exports": [
+        {
+          "name": "LensModeSelector",
+          "kind": "VariableDeclaration"
+        }
+      ],
+      "imports": [
+        {
+          "from": "react",
+          "default": "React",
+          "named": []
+        },
+        {
+          "from": "lucide-react",
+          "named": [
+            "AlertTriangle",
+            "GitBranch",
+            "Clock"
+          ]
+        }
+      ],
+      "components": [
+        {
+          "name": "LensModeSelector",
+          "type": "function",
+          "props": "unknown"
+        }
+      ],
+      "hooks": [],
+      "types": []
+    },
+    {
+      "path": "src/plugins/treemap-explorer/components/TimelineScrubber.tsx",
+      "exports": [
+        {
+          "name": "TimelineScrubber",
+          "kind": "VariableDeclaration"
+        },
+        {
+          "name": "default",
+          "kind": "VariableDeclaration"
+        }
+      ],
+      "imports": [
+        {
+          "from": "react",
+          "default": "React",
+          "named": []
+        },
+        {
+          "from": "lucide-react",
+          "named": [
+            "Play",
+            "Pause"
+          ]
+        }
+      ],
+      "components": [
+        {
+          "name": "TimelineScrubber",
+          "type": "function",
+          "props": "unknown"
+        },
+        {
+          "name": "default",
+          "type": "function",
+          "props": "unknown"
+        }
+      ],
+      "hooks": [],
+      "types": []
+    },
+    {
+      "path": "src/plugins/treemap-explorer/components/TimeView.tsx",
+      "exports": [
+        {
+          "name": "TimeView",
+          "kind": "VariableDeclaration"
+        }
+      ],
+      "imports": [
+        {
+          "from": "react",
+          "default": "React",
+          "named": []
+        },
+        {
+          "from": "../types",
+          "named": [
+            "EnrichedFileData",
+            "TemporalFileData"
+          ]
+        }
+      ],
+      "components": [
+        {
+          "name": "TimeView",
+          "type": "function",
+          "props": "unknown"
+        }
+      ],
+      "hooks": [],
+      "types": []
+    },
+    {
+      "path": "src/plugins/treemap-explorer/components/TreemapDetailPanel.tsx",
+      "exports": [
+        {
+          "name": "default",
+          "kind": "FunctionDeclaration"
+        },
+        {
+          "name": "TreemapDetailPanelProps",
+          "kind": "InterfaceDeclaration"
+        }
+      ],
+      "imports": [
+        {
+          "from": "lucide-react",
+          "named": [
+            "X"
+          ]
+        },
+        {
+          "from": "../types",
+          "named": [
+            "EnrichedFileData",
+            "TemporalFileData"
+          ]
+        },
+        {
+          "from": "./DebtView",
+          "named": [
+            "DebtView"
+          ]
+        },
+        {
+          "from": "./CouplingView",
+          "named": [
+            "CouplingView"
+          ]
+        },
+        {
+          "from": "./TimeView",
+          "named": [
+            "TimeView"
+          ]
+        },
+        {
+          "from": "@/utils/formatting",
+          "named": [
+            "cn"
+          ]
+        },
+        {
+          "from": "@/services/data/CouplingDataProcessor",
+          "named": [
+            "CouplingIndex"
+          ]
+        }
+      ],
+      "components": [
+        {
+          "name": "default",
+          "type": "function",
+          "props": "unknown"
+        }
+      ],
+      "hooks": [],
+      "types": [
+        {
+          "name": "TreemapDetailPanelProps",
+          "kind": "InterfaceDeclaration",
+          "definition": "export interface TreemapDetailPanelProps {\n  file: EnrichedFileData | TemporalFileData;\n  lensMode: \"debt\" | \"coupling\" | \"time\";\n  couplingIndex?: CouplingIndex;\n  couplingThreshold?: number;..."
+        }
+      ]
+    },
+    {
+      "path": "src/plugins/treemap-explorer/components/TreemapExplorerControls.tsx",
+      "exports": [
+        {
+          "name": "TreemapExplorerControls",
+          "kind": "VariableDeclaration"
+        }
+      ],
+      "imports": [
+        {
+          "from": "react",
+          "default": "React",
+          "named": []
+        },
+        {
+          "from": "@/types/plugin",
+          "named": [
+            "PluginControlProps"
+          ]
+        },
+        {
+          "from": "./LensModeSelector",
+          "named": [
+            "LensModeSelector"
+          ]
+        },
+        {
+          "from": "../types",
+          "named": [
+            "TreemapExplorerState"
+          ]
+        }
+      ],
+      "components": [
+        {
+          "name": "TreemapExplorerControls",
+          "type": "function",
+          "props": "unknown"
+        }
+      ],
+      "hooks": [],
+      "types": []
+    },
+    {
+      "path": "src/plugins/treemap-explorer/components/TreemapExplorerFilters.tsx",
+      "exports": [
+        {
+          "name": "TreemapExplorerFilters",
+          "kind": "VariableDeclaration"
+        }
+      ],
+      "imports": [
+        {
+          "from": "react",
+          "default": "React",
+          "named": []
+        },
+        {
+          "from": "../types",
+          "named": [
+            "TreemapExplorerState"
+          ]
+        }
+      ],
+      "components": [
+        {
+          "name": "TreemapExplorerFilters",
+          "type": "function",
+          "props": "unknown"
+        }
+      ],
+      "hooks": [],
+      "types": []
+    }
+  ],
+  "plugins": [
+    {
+      "path": "src/plugins/init.ts",
+      "exports": [
+        {
+          "name": "timelinePlugin",
+          "kind": "VariableDeclaration"
+        },
+        {
+          "name": "treemapExplorerPlugin",
+          "kind": "VariableDeclaration"
+        }
+      ],
+      "imports": [
+        {
+          "from": "@/plugins/core/PluginRegistry",
+          "named": [
+            "PluginRegistry"
+          ]
+        },
+        {
+          "from": "@/plugins/timeline-heatmap/TimelineHeatmapPlugin",
+          "named": [
+            "TimelineHeatmapPlugin"
+          ]
+        },
+        {
+          "from": "@/plugins/treemap-explorer/TreemapExplorerPlugin",
+          "named": [
+            "TreemapExplorerPlugin"
+          ]
+        }
+      ],
+      "components": [],
+      "hooks": [],
+      "types": []
+    },
+    {
+      "path": "src/plugins/core/PluginRegistry.ts",
+      "exports": [
+        {
+          "name": "PluginRegistry",
+          "kind": "VariableDeclaration"
+        }
+      ],
+      "imports": [
+        {
+          "from": "@/types/plugin",
+          "named": [
+            "VisualizationPlugin",
+            "PluginDataRequirement",
+            "PluginDataValidation"
+          ]
+        },
+        {
+          "from": "@/services/data/DatasetRegistry",
+          "named": [
+            "DatasetRegistry"
+          ]
+        }
+      ],
+      "components": [],
+      "hooks": [],
+      "types": []
+    },
+    {
+      "path": "src/plugins/timeline-heatmap/TimelineHeatmapPlugin.ts",
+      "exports": [
+        {
+          "name": "TimelineHeatmapState",
+          "kind": "InterfaceDeclaration"
+        },
+        {
+          "name": "HeatmapCell",
+          "kind": "InterfaceDeclaration"
+        },
+        {
+          "name": "TimelineHeatmapPlugin",
+          "kind": "ClassDeclaration"
+        }
+      ],
+      "imports": [
+        {
+          "from": "react",
+          "default": "React",
+          "named": []
+        },
+        {
+          "from": "@/types/plugin",
+          "named": [
+            "VisualizationPlugin",
+            "OptimizedDataset",
+            "PluginControlProps"
+          ]
+        },
+        {
+          "from": "@/types/domain",
+          "named": [
+            "TimeBinType",
+            "MetricType",
+            "OptimizedDirectoryNode"
+          ]
+        },
+        {
+          "from": "@/utils/dateHelpers",
+          "named": [
+            "getTimeBinStart",
+            "formatTimeBin",
+            "getNextTimeBin"
+          ]
+        },
+        {
+          "from": "@/utils/formatting",
+          "named": [
+            "formatNumber"
+          ]
+        },
+        {
+          "from": "@/services/data/DataProcessor",
+          "named": [
+            "DataProcessor"
+          ]
+        },
+        {
+          "from": "@/components/common/TimeBinSelector",
+          "named": [
+            "TimeBinSelector"
+          ]
+        },
+        {
+          "from": "@/components/common/FilterPanel",
+          "named": [
+            "FilterPanel"
+          ]
+        },
+        {
+          "from": "@/types/visualization",
+          "named": [
+            "FilterState"
+          ]
+        }
+      ],
+      "components": [],
+      "hooks": [],
+      "types": [
+        {
+          "name": "TimelineHeatmapState",
+          "kind": "InterfaceDeclaration",
+          "definition": "export interface TimelineHeatmapState extends Record<string, unknown> {\n  /** Selected metric for visualization (fixed to \"commits\") */\n  metric: MetricType;\n\n  /** Time bin granularity */..."
+        },
+        {
+          "name": "HeatmapCell",
+          "kind": "InterfaceDeclaration",
+          "definition": "export interface HeatmapCell {\n  directory: string;\n  timeBin: Date;\n  events: number;\n  commits: number;..."
+        }
+      ]
+    },
+    {
+      "path": "src/plugins/treemap-explorer/TreemapExplorerPlugin.tsx",
+      "exports": [
+        {
+          "name": "TreemapExplorerPlugin",
+          "kind": "ClassDeclaration"
+        }
+      ],
+      "imports": [
+        {
+          "from": "@/types/plugin",
+          "named": [
+            "VisualizationPlugin",
+            "PluginControlProps",
+            "ExportOptions"
+          ]
+        },
+        {
+          "from": "@/services/data/DataProcessor",
+          "named": [
+            "V2FileIndex"
+          ]
+        },
+        {
+          "from": "@/services/data/CouplingDataProcessor",
+          "named": [
+            "CouplingDataProcessor"
+          ]
+        },
+        {
+          "from": "@/services/data/TemporalDataProcessor",
+          "named": [
+            "TemporalDataProcessor",
+            "TemporalDailyData"
+          ]
+        },
+        {
+          "from": "@/services/data/HealthScoreCalculator",
+          "named": [
+            "HealthScoreCalculator"
+          ]
+        },
+        {
+          "from": "./components/TreemapExplorerControls",
+          "named": [
+            "TreemapExplorerControls"
+          ]
+        },
+        {
+          "from": "./components/TreemapExplorerFilters",
+          "named": [
+            "TreemapExplorerFilters"
+          ]
+        },
+        {
+          "from": "./components/TreemapDetailPanel",
+          "default": "TreemapDetailPanel",
+          "named": []
+        },
+        {
+          "from": "./components/TimelineScrubber",
+          "default": "TimelineScrubber",
+          "named": []
+        },
+        {
+          "from": "./renderers/CouplingArcRenderer",
+          "named": [
+            "CouplingArcRenderer"
+          ]
+        },
+        {
+          "from": "./types",
+          "named": [
+            "EnrichedFileData",
+            "TreemapExplorerState"
+          ]
+        },
+        {
+          "from": "@/types/domain",
+          "named": [
+            "ProjectHierarchyNode",
+            "FileMetrics"
+          ]
+        },
+        {
+          "from": "./renderers/BaseTreemapRenderer",
+          "named": [
+            "BaseTreemapRenderer"
+          ]
+        },
+        {
+          "from": "./renderers/DebtRenderer",
+          "named": [
+            "DebtRenderer"
+          ]
+        },
+        {
+          "from": "./renderers/CouplingRenderer",
+          "named": [
+            "CouplingRenderer"
+          ]
+        },
+        {
+          "from": "./renderers/TimeRenderer",
+          "named": [
+            "TimeRenderer"
+          ]
+        }
+      ],
+      "components": [],
+      "hooks": [],
+      "types": []
+    },
+    {
+      "path": "src/plugins/treemap-explorer/types.ts",
+      "exports": [
+        {
+          "name": "FileData",
+          "kind": "InterfaceDeclaration"
+        },
+        {
+          "name": "EnrichedFileData",
+          "kind": "InterfaceDeclaration"
+        },
+        {
+          "name": "TemporalFileData",
+          "kind": "InterfaceDeclaration"
+        },
+        {
+          "name": "TemporalDailyData",
+          "kind": "InterfaceDeclaration"
+        },
+        {
+          "name": "TreemapHierarchyDatum",
+          "kind": "InterfaceDeclaration"
+        },
+        {
+          "name": "TreemapExplorerState",
+          "kind": "InterfaceDeclaration"
+        }
+      ],
+      "imports": [],
+      "components": [],
+      "hooks": [],
+      "types": [
+        {
+          "name": "FileData",
+          "kind": "InterfaceDeclaration",
+          "definition": "export interface FileData {\n  key: string;\n  name: string;\n  path: string;\n  first_seen?: string;..."
+        },
+        {
+          "name": "EnrichedFileData",
+          "kind": "InterfaceDeclaration",
+          "definition": "export interface EnrichedFileData extends FileData {\n  healthScore?: {\n    score: number;\n    category: \"critical\" | \"medium\" | \"healthy\";\n    churnRate: number;..."
+        },
+        {
+          "name": "TemporalFileData",
+          "kind": "InterfaceDeclaration",
+          "definition": "export interface TemporalFileData extends EnrichedFileData {\n  // Temporal-specific fields\n  createdDate: string;\n  lastModifiedDate: string;\n  dormantDays: number;..."
+        },
+        {
+          "name": "TemporalDailyData",
+          "kind": "InterfaceDeclaration",
+          "definition": "export interface TemporalDailyData {\n  schema_version?: string;\n  aggregation_level?: string;\n  total_days?: number;\n  // Support both Array and Record formats to handle dataset variations..."
+        },
+        {
+          "name": "TreemapHierarchyDatum",
+          "kind": "InterfaceDeclaration",
+          "definition": "export interface TreemapHierarchyDatum {\n  data: EnrichedFileData | TemporalFileData;\n  x0: number;\n  y0: number;\n  x1: number;..."
+        },
+        {
+          "name": "TreemapExplorerState",
+          "kind": "InterfaceDeclaration",
+          "definition": "export interface TreemapExplorerState extends Record<string, unknown> {\n  lensMode: \"debt\" | \"coupling\" | \"time\";\n  sizeMetric: \"commits\" | \"authors\" | \"events\";\n  selectedFile: string | null;\n..."
+        }
+      ]
+    },
+    {
+      "path": "src/plugins/treemap-explorer/renderers/BaseTreemapRenderer.ts",
+      "exports": [
+        {
+          "name": "BaseTreemapRenderer",
+          "kind": "ClassDeclaration"
+        }
+      ],
+      "imports": [
+        {
+          "from": "../types",
+          "named": [
+            "EnrichedFileData",
+            "TreemapExplorerState"
+          ]
+        }
+      ],
+      "components": [],
+      "hooks": [],
+      "types": []
+    },
+    {
+      "path": "src/plugins/treemap-explorer/renderers/CouplingArcRenderer.ts",
+      "exports": [
+        {
+          "name": "CouplingArcRenderer",
+          "kind": "ClassDeclaration"
+        }
+      ],
+      "imports": [
+        {
+          "from": "../types",
+          "named": [
+            "EnrichedFileData"
+          ]
+        },
+        {
+          "from": "@/services/data/CouplingDataProcessor",
+          "named": [
+            "CouplingIndex",
+            "CouplingDataProcessor"
+          ]
+        }
+      ],
+      "components": [],
+      "hooks": [],
+      "types": []
+    },
+    {
+      "path": "src/plugins/treemap-explorer/renderers/CouplingRenderer.ts",
+      "exports": [
+        {
+          "name": "CouplingRenderer",
+          "kind": "ClassDeclaration"
+        }
+      ],
+      "imports": [
+        {
+          "from": "./BaseTreemapRenderer",
+          "named": [
+            "BaseTreemapRenderer"
+          ]
+        },
+        {
+          "from": "./CouplingArcRenderer",
+          "named": [
+            "CouplingArcRenderer"
+          ]
+        },
+        {
+          "from": "../types",
+          "named": [
+            "EnrichedFileData",
+            "TreemapExplorerState"
+          ]
+        },
+        {
+          "from": "../utils/colorScales",
+          "named": [
+            "getCellColor"
+          ]
+        }
+      ],
+      "components": [],
+      "hooks": [],
+      "types": []
+    },
+    {
+      "path": "src/plugins/treemap-explorer/renderers/DebtRenderer.ts",
+      "exports": [
+        {
+          "name": "DebtRenderer",
+          "kind": "ClassDeclaration"
+        }
+      ],
+      "imports": [
+        {
+          "from": "./BaseTreemapRenderer",
+          "named": [
+            "BaseTreemapRenderer"
+          ]
+        },
+        {
+          "from": "../types",
+          "named": [
+            "EnrichedFileData",
+            "TreemapExplorerState"
+          ]
+        }
+      ],
+      "components": [],
+      "hooks": [],
+      "types": []
+    },
+    {
+      "path": "src/plugins/treemap-explorer/renderers/TimeRenderer.ts",
+      "exports": [
+        {
+          "name": "TimeRenderer",
+          "kind": "ClassDeclaration"
+        }
+      ],
+      "imports": [
+        {
+          "from": "./BaseTreemapRenderer",
+          "named": [
+            "BaseTreemapRenderer"
+          ]
+        },
+        {
+          "from": "../types",
+          "named": [
+            "EnrichedFileData",
+            "TreemapExplorerState",
+            "TemporalFileData"
+          ]
+        },
+        {
+          "from": "../utils/colorScales",
+          "named": [
+            "getCellColor"
+          ]
+        },
+        {
+          "from": "../../../services/data/TemporalDataProcessor",
+          "named": [
+            "TemporalDataProcessor"
+          ]
+        }
+      ],
+      "components": [],
+      "hooks": [],
+      "types": []
+    },
+    {
+      "path": "src/plugins/treemap-explorer/utils/colorScales.ts",
+      "exports": [
+        {
+          "name": "getDebtColor",
+          "kind": "VariableDeclaration"
+        },
+        {
+          "name": "getCouplingColor",
+          "kind": "VariableDeclaration"
+        },
+        {
+          "name": "getTimeColor",
+          "kind": "VariableDeclaration"
+        },
+        {
+          "name": "getCellColor",
+          "kind": "VariableDeclaration"
+        }
+      ],
+      "imports": [
+        {
+          "from": "../types",
+          "named": [
+            "EnrichedFileData",
+            "TemporalFileData"
+          ]
+        }
+      ],
+      "components": [
+        {
+          "name": "getCouplingColor",
+          "type": "function",
+          "props": "unknown"
+        },
+        {
+          "name": "getTimeColor",
+          "type": "function",
+          "props": "unknown"
+        }
+      ],
+      "hooks": [],
+      "types": []
+    }
+  ],
+  "services": [
+    {
+      "path": "src/services/data/CouplingDataProcessor.ts",
+      "exports": [
+        {
+          "name": "CouplingEdge",
+          "kind": "InterfaceDeclaration"
+        },
+        {
+          "name": "CouplingPartner",
+          "kind": "InterfaceDeclaration"
+        },
+        {
+          "name": "FileCouplingData",
+          "kind": "InterfaceDeclaration"
+        },
+        {
+          "name": "CouplingNetworkData",
+          "kind": "InterfaceDeclaration"
+        },
+        {
+          "name": "CouplingIndex",
+          "kind": "TypeAliasDeclaration"
+        },
+        {
+          "name": "CouplingDataProcessor",
+          "kind": "ClassDeclaration"
+        }
+      ],
+      "imports": [
+        {
+          "from": "@/plugins/treemap-explorer/types",
+          "named": [
+            "EnrichedFileData"
+          ]
+        }
+      ],
+      "components": [],
+      "hooks": [],
+      "types": [
+        {
+          "name": "CouplingEdge",
+          "kind": "InterfaceDeclaration",
+          "definition": "export interface CouplingEdge {\n  source: string;\n  target: string;\n  cochangeCount: number;\n  coupling_strength?: number; // JSON schema uses snake_case..."
+        },
+        {
+          "name": "CouplingPartner",
+          "kind": "InterfaceDeclaration",
+          "definition": "export interface CouplingPartner {\n  filePath: string;\n  strength: number;\n  cochangeCount: number;\n}..."
+        },
+        {
+          "name": "FileCouplingData",
+          "kind": "InterfaceDeclaration",
+          "definition": "export interface FileCouplingData {\n  filePath: string;\n  partners: CouplingPartner[];\n  maxStrength: number;\n  avgStrength: number;..."
+        },
+        {
+          "name": "CouplingNetworkData",
+          "kind": "InterfaceDeclaration",
+          "definition": "export interface CouplingNetworkData {\n  schemaVersion: string;\n  networkType: string;\n  totalFiles: number;\n  totalEdges: number;..."
+        },
+        {
+          "name": "CouplingIndex",
+          "kind": "TypeAliasDeclaration",
+          "definition": "export type CouplingIndex = Map<string, FileCouplingData>;..."
+        }
+      ]
+    },
+    {
+      "path": "src/services/data/DataProcessor.ts",
+      "exports": [
+        {
+          "name": "RawLifecycleData",
+          "kind": "InterfaceDeclaration"
+        },
+        {
+          "name": "RawFileEvent",
+          "kind": "InterfaceDeclaration"
+        },
+        {
+          "name": "V2AuthorNetwork",
+          "kind": "InterfaceDeclaration"
+        },
+        {
+          "name": "V2FileIndex",
+          "kind": "InterfaceDeclaration"
+        },
+        {
+          "name": "V2DirectoryStats",
+          "kind": "InterfaceDeclaration"
+        },
+        {
+          "name": "DataProcessor",
+          "kind": "ClassDeclaration"
+        }
+      ],
+      "imports": [
+        {
+          "from": "@/types/domain",
+          "named": [
+            "RepoMetadata",
+            "OptimizedDirectoryNode",
+            "ActivityMatrixItem",
+            "FileStat",
+            "ProjectHierarchyNode",
+            "FileMetrics"
+          ]
+        },
+        {
+          "from": "@/types/plugin",
+          "named": [
+            "OptimizedDataset"
+          ]
+        },
+        {
+          "from": "@/types/visualization",
+          "named": [
+            "FilterState"
+          ]
+        },
+        {
+          "from": "date-fns",
+          "named": [
+            "format"
+          ]
+        }
+      ],
+      "components": [],
+      "hooks": [],
+      "types": [
+        {
+          "name": "RawLifecycleData",
+          "kind": "InterfaceDeclaration",
+          "definition": "export interface RawLifecycleData {\n  generated_at: string;\n  repository_path: string;\n  total_files: number;\n  total_commits: number;..."
+        },
+        {
+          "name": "RawFileEvent",
+          "kind": "InterfaceDeclaration",
+          "definition": "export interface RawFileEvent {\n  commit_hash: string;\n  timestamp: number;\n  datetime: string;\n  operation: \"A\" | \"M\" | \"D\" | \"R\";..."
+        },
+        {
+          "name": "V2AuthorNetwork",
+          "kind": "InterfaceDeclaration",
+          "definition": "export interface V2AuthorNetwork {\n  nodes: Array<{\n    id: string;\n    email: string;\n    commit_count: number;..."
+        },
+        {
+          "name": "V2FileIndex",
+          "kind": "InterfaceDeclaration",
+          "definition": "export interface V2FileIndex {\n  files: Record<\n    string,\n    {\n      total_commits: number;..."
+        },
+        {
+          "name": "V2DirectoryStats",
+          "kind": "InterfaceDeclaration",
+          "definition": "export interface V2DirectoryStats {\n  directories: Record<\n    string,\n    {\n      path: string;..."
+        }
+      ]
+    },
+    {
+      "path": "src/services/data/DatasetRegistry.ts",
+      "exports": [
+        {
+          "name": "DatasetDefinition",
+          "kind": "InterfaceDeclaration"
+        },
+        {
+          "name": "DatasetRegistryClass",
+          "kind": "ClassDeclaration"
+        },
+        {
+          "name": "DatasetRegistry",
+          "kind": "VariableDeclaration"
+        }
+      ],
+      "imports": [],
+      "components": [],
+      "hooks": [],
+      "types": [
+        {
+          "name": "DatasetDefinition",
+          "kind": "InterfaceDeclaration",
+          "definition": "export interface DatasetDefinition {\n  path: string;\n  type: \"time_series\" | \"hierarchy\" | \"network\" | \"metadata\" | \"snapshot\";\n  description: string;\n  schema_version?: string;..."
+        }
+      ]
+    },
+    {
+      "path": "src/services/data/HealthScoreCalculator.ts",
+      "exports": [
+        {
+          "name": "HealthScoreInputs",
+          "kind": "InterfaceDeclaration"
+        },
+        {
+          "name": "HealthScoreResult",
+          "kind": "InterfaceDeclaration"
+        },
+        {
+          "name": "HealthScoreCalculator",
+          "kind": "ClassDeclaration"
+        }
+      ],
+      "imports": [],
+      "components": [],
+      "hooks": [],
+      "types": [
+        {
+          "name": "HealthScoreInputs",
+          "kind": "InterfaceDeclaration",
+          "definition": "export interface HealthScoreInputs {\n  totalCommits: number;\n  uniqueAuthors: number;\n  operations: { M?: number; A?: number; D?: number; R?: number };\n  ageDays: number;..."
+        },
+        {
+          "name": "HealthScoreResult",
+          "kind": "InterfaceDeclaration",
+          "definition": "export interface HealthScoreResult {\n  score: number; // 0-100\n  category: \"critical\" | \"medium\" | \"healthy\";\n  churnRate: number; // 0-1\n  busFactor: \"high-risk\" | \"medium-risk\" | \"low-risk\";..."
+        }
+      ]
+    },
+    {
+      "path": "src/services/data/index.ts",
+      "exports": [
+        {
+          "name": "DatasetRegistry",
+          "kind": "VariableDeclaration"
+        },
+        {
+          "name": "DatasetRegistryClass",
+          "kind": "ClassDeclaration"
+        },
+        {
+          "name": "DatasetDefinition",
+          "kind": "InterfaceDeclaration"
+        },
+        {
+          "name": "PluginDataLoader",
+          "kind": "VariableDeclaration"
+        },
+        {
+          "name": "PluginDataLoaderClass",
+          "kind": "ClassDeclaration"
+        },
+        {
+          "name": "PluginDataRequirement",
+          "kind": "InterfaceDeclaration"
+        },
+        {
+          "name": "PluginDataLoadResult",
+          "kind": "InterfaceDeclaration"
+        },
+        {
+          "name": "LoadProgress",
+          "kind": "InterfaceDeclaration"
+        }
+      ],
+      "imports": [],
+      "components": [],
+      "hooks": [],
+      "types": [
+        {
+          "name": "DatasetDefinition",
+          "kind": "InterfaceDeclaration",
+          "definition": "export interface DatasetDefinition {\n  path: string;\n  type: \"time_series\" | \"hierarchy\" | \"network\" | \"metadata\" | \"snapshot\";\n  description: string;\n  schema_version?: string;..."
+        },
+        {
+          "name": "PluginDataRequirement",
+          "kind": "InterfaceDeclaration",
+          "definition": "export interface PluginDataRequirement {\n  dataset: string;\n  required: boolean;\n  transform?: (raw: any) => any;\n  alias?: string; // Optional alias for the dataset in the returned object..."
+        },
+        {
+          "name": "PluginDataLoadResult",
+          "kind": "InterfaceDeclaration",
+          "definition": "export interface PluginDataLoadResult {\n  success: boolean;\n  data: Record<string, any>;\n  errors: string[];\n  warnings: string[];..."
+        },
+        {
+          "name": "LoadProgress",
+          "kind": "InterfaceDeclaration",
+          "definition": "export interface LoadProgress {\n  loaded: number;\n  total: number;\n  phase: \"metadata\" | \"tree\" | \"activity\" | \"complete\";\n}..."
+        }
+      ]
+    },
+    {
+      "path": "src/services/data/PluginDataLoader.ts",
+      "exports": [
+        {
+          "name": "PluginDataRequirement",
+          "kind": "InterfaceDeclaration"
+        },
+        {
+          "name": "PluginDataLoadResult",
+          "kind": "InterfaceDeclaration"
+        },
+        {
+          "name": "PluginDataLoaderClass",
+          "kind": "ClassDeclaration"
+        },
+        {
+          "name": "PluginDataLoader",
+          "kind": "VariableDeclaration"
+        }
+      ],
+      "imports": [
+        {
+          "from": "./DatasetRegistry",
+          "named": [
+            "DatasetRegistry"
+          ]
+        }
+      ],
+      "components": [],
+      "hooks": [],
+      "types": [
+        {
+          "name": "PluginDataRequirement",
+          "kind": "InterfaceDeclaration",
+          "definition": "export interface PluginDataRequirement {\n  dataset: string;\n  required: boolean;\n  transform?: (raw: any) => any;\n  alias?: string; // Optional alias for the dataset in the returned object..."
+        },
+        {
+          "name": "PluginDataLoadResult",
+          "kind": "InterfaceDeclaration",
+          "definition": "export interface PluginDataLoadResult {\n  success: boolean;\n  data: Record<string, any>;\n  errors: string[];\n  warnings: string[];..."
+        }
+      ]
+    },
+    {
+      "path": "src/services/data/TemporalDataProcessor.ts",
+      "exports": [
+        {
+          "name": "TemporalDataProcessor",
+          "kind": "ClassDeclaration"
+        },
+        {
+          "name": "EnrichedFileData",
+          "kind": "InterfaceDeclaration"
+        },
+        {
+          "name": "TemporalFileData",
+          "kind": "InterfaceDeclaration"
+        },
+        {
+          "name": "TemporalDailyData",
+          "kind": "InterfaceDeclaration"
+        }
+      ],
+      "imports": [
+        {
+          "from": "@/plugins/treemap-explorer/types",
+          "named": [
+            "EnrichedFileData",
+            "TemporalFileData",
+            "TemporalDailyData"
+          ]
+        }
+      ],
+      "components": [],
+      "hooks": [],
+      "types": [
+        {
+          "name": "EnrichedFileData",
+          "kind": "InterfaceDeclaration",
+          "definition": "export interface EnrichedFileData extends FileData {\n  healthScore?: {\n    score: number;\n    category: \"critical\" | \"medium\" | \"healthy\";\n    churnRate: number;..."
+        },
+        {
+          "name": "TemporalFileData",
+          "kind": "InterfaceDeclaration",
+          "definition": "export interface TemporalFileData extends EnrichedFileData {\n  // Temporal-specific fields\n  createdDate: string;\n  lastModifiedDate: string;\n  dormantDays: number;..."
+        },
+        {
+          "name": "TemporalDailyData",
+          "kind": "InterfaceDeclaration",
+          "definition": "export interface TemporalDailyData {\n  schema_version?: string;\n  aggregation_level?: string;\n  total_days?: number;\n  // Support both Array and Record formats to handle dataset variations..."
+        }
+      ]
+    },
+    {
+      "path": "src/services/data/types.ts",
+      "exports": [
+        {
+          "name": "LoadProgress",
+          "kind": "InterfaceDeclaration"
+        }
+      ],
+      "imports": [],
+      "components": [],
+      "hooks": [],
+      "types": [
+        {
+          "name": "LoadProgress",
+          "kind": "InterfaceDeclaration",
+          "definition": "export interface LoadProgress {\n  loaded: number;\n  total: number;\n  phase: \"metadata\" | \"tree\" | \"activity\" | \"complete\";\n}..."
+        }
+      ]
+    }
+  ],
+  "hooks": [
+    {
+      "path": "src/hooks/useScrollIndicators.tsx",
+      "exports": [
+        {
+          "name": "useScrollIndicators",
+          "kind": "VariableDeclaration"
+        }
+      ],
+      "imports": [
+        {
+          "from": "react",
+          "named": [
+            "useState",
+            "useCallback",
+            "useLayoutEffect",
+            "RefObject"
+          ]
+        }
+      ],
+      "components": [
+        {
+          "name": "useScrollIndicators",
+          "type": "function",
+          "props": "unknown"
+        }
+      ],
+      "hooks": [
+        {
+          "name": "useScrollIndicators",
+          "returns": "(ref: React.RefObject<HTMLElement>, options?: UseScrollIndicatorsOptions) => { scroll: (direction: \"..."
+        }
+      ],
+      "types": []
+    }
+  ],
+  "types": [
+    {
+      "path": "src/types/domain.ts",
+      "exports": [
+        {
+          "name": "FileStat",
+          "kind": "InterfaceDeclaration"
+        },
+        {
+          "name": "RepoMetadata",
+          "kind": "InterfaceDeclaration"
+        },
+        {
+          "name": "OptimizedDirectoryNode",
+          "kind": "InterfaceDeclaration"
+        },
+        {
+          "name": "ActivityMatrixItem",
+          "kind": "InterfaceDeclaration"
+        },
+        {
+          "name": "TimeBinType",
+          "kind": "TypeAliasDeclaration"
+        },
+        {
+          "name": "MetricType",
+          "kind": "TypeAliasDeclaration"
+        },
+        {
+          "name": "TimeRange",
+          "kind": "InterfaceDeclaration"
+        },
+        {
+          "name": "FileMetrics",
+          "kind": "InterfaceDeclaration"
+        },
+        {
+          "name": "ProjectHierarchyNode",
+          "kind": "InterfaceDeclaration"
+        },
+        {
+          "name": "TemporalActivityMap",
+          "kind": "InterfaceDeclaration"
+        }
+      ],
+      "imports": [],
+      "components": [],
+      "hooks": [],
+      "types": [
+        {
+          "name": "FileStat",
+          "kind": "InterfaceDeclaration",
+          "definition": "export interface FileStat {\n  path: string;\n  total_commits: number;\n  primary_author?: {\n    email: string;..."
+        },
+        {
+          "name": "RepoMetadata",
+          "kind": "InterfaceDeclaration",
+          "definition": "export interface RepoMetadata {\n  repository_name: string;\n  generation_date: string;\n  date_range: {\n    start: string;..."
+        },
+        {
+          "name": "OptimizedDirectoryNode",
+          "kind": "InterfaceDeclaration",
+          "definition": "export interface OptimizedDirectoryNode {\n  id: number;\n  name: string;\n  path: string;\n  type: \"directory\" | \"file\";..."
+        },
+        {
+          "name": "ActivityMatrixItem",
+          "kind": "InterfaceDeclaration",
+          "definition": "export interface ActivityMatrixItem {\n  d: string; // Date (YYYY-MM-DD)\n  id: number; // Directory ID\n  a: number; // Added count\n  m: number; // Modified count..."
+        },
+        {
+          "name": "TimeBinType",
+          "kind": "TypeAliasDeclaration",
+          "definition": "export type TimeBinType = \"week\" | \"month\" | \"quarter\" | \"year\";..."
+        },
+        {
+          "name": "MetricType",
+          "kind": "TypeAliasDeclaration",
+          "definition": "export type MetricType = \"commits\";..."
+        },
+        {
+          "name": "TimeRange",
+          "kind": "InterfaceDeclaration",
+          "definition": "export interface TimeRange {\n  start: Date;\n  end: Date;\n}..."
+        },
+        {
+          "name": "FileMetrics",
+          "kind": "InterfaceDeclaration",
+          "definition": "export interface FileMetrics {\n  identifiers: {\n    author_ids: string[];\n    primary_author_id: string;\n    primary_author_percentage: number;..."
+        },
+        {
+          "name": "ProjectHierarchyNode",
+          "kind": "InterfaceDeclaration",
+          "definition": "export interface ProjectHierarchyNode {\n  name: string;\n  path: string;\n  type: \"directory\" | \"file\";\n  stats?: {..."
+        },
+        {
+          "name": "TemporalActivityMap",
+          "kind": "InterfaceDeclaration",
+          "definition": "export interface TemporalActivityMap {\n  meta: {\n    granularity: string;\n    start_date: string;\n    end_date: string;..."
+        }
+      ]
+    },
+    {
+      "path": "src/types/plugin.ts",
+      "exports": [
+        {
+          "name": "supportsControlOwnership",
+          "kind": "FunctionDeclaration"
+        },
+        {
+          "name": "getPluginLayout",
+          "kind": "FunctionDeclaration"
+        },
+        {
+          "name": "ExportOptions",
+          "kind": "InterfaceDeclaration"
+        },
+        {
+          "name": "OptimizedDataset",
+          "kind": "InterfaceDeclaration"
+        },
+        {
+          "name": "PluginDataRequirement",
+          "kind": "InterfaceDeclaration"
+        },
+        {
+          "name": "PluginDataValidation",
+          "kind": "InterfaceDeclaration"
+        },
+        {
+          "name": "EnhancedPluginMetadata",
+          "kind": "InterfaceDeclaration"
+        },
+        {
+          "name": "PluginProps",
+          "kind": "InterfaceDeclaration"
+        },
+        {
+          "name": "PluginControlProps",
+          "kind": "InterfaceDeclaration"
+        },
+        {
+          "name": "PluginLayoutConfig",
+          "kind": "InterfaceDeclaration"
+        },
+        {
+          "name": "VisualizationPlugin",
+          "kind": "InterfaceDeclaration"
+        }
+      ],
+      "imports": [
+        {
+          "from": "./domain",
+          "named": [
+            "RepoMetadata",
+            "OptimizedDirectoryNode",
+            "ActivityMatrixItem"
+          ]
+        },
+        {
+          "from": "./visualization",
+          "named": [
+            "PluginMetadata",
+            "ExportOptions"
+          ]
+        }
+      ],
+      "components": [
+        {
+          "name": "supportsControlOwnership",
+          "type": "function",
+          "props": "unknown"
+        },
+        {
+          "name": "getPluginLayout",
+          "type": "function",
+          "props": "unknown"
+        }
+      ],
+      "hooks": [],
+      "types": [
+        {
+          "name": "ExportOptions",
+          "kind": "InterfaceDeclaration",
+          "definition": "export interface ExportOptions {\n  format: \"png\" | \"svg\" | \"json\" | \"csv\";\n  filename?: string;\n  includeMetadata?: boolean;\n}..."
+        },
+        {
+          "name": "OptimizedDataset",
+          "kind": "InterfaceDeclaration",
+          "definition": "export interface OptimizedDataset {\n  metadata: RepoMetadata;\n  tree: OptimizedDirectoryNode;\n  activity: ActivityMatrixItem[];\n}..."
+        },
+        {
+          "name": "PluginDataRequirement",
+          "kind": "InterfaceDeclaration",
+          "definition": "export interface PluginDataRequirement {\n  /** Dataset ID from DatasetRegistry */\n  dataset: string;\n\n  /** Whether this dataset is required for plugin to function */..."
+        },
+        {
+          "name": "PluginDataValidation",
+          "kind": "InterfaceDeclaration",
+          "definition": "export interface PluginDataValidation {\n  valid: boolean;\n  missing: string[];\n  available: string[];\n  errors: string[];..."
+        },
+        {
+          "name": "EnhancedPluginMetadata",
+          "kind": "InterfaceDeclaration",
+          "definition": "export interface EnhancedPluginMetadata extends PluginMetadata {\n  /** Declarative data requirements for this plugin */\n  dataRequirements?: PluginDataRequirement[];\n}..."
+        },
+        {
+          "name": "PluginProps",
+          "kind": "InterfaceDeclaration",
+          "definition": "export interface PluginProps<TConfig = any, TData = any> {\n  /** Plugin configuration */\n  config: TConfig;\n\n  /** Processed data for the plugin */..."
+        },
+        {
+          "name": "PluginControlProps",
+          "kind": "InterfaceDeclaration",
+          "definition": "export interface PluginControlProps<TState = Record<string, unknown>> {\n  /** Current plugin state (managed by store) */\n  state: TState;\n\n  /** Update function for plugin state (merges updates) */..."
+        },
+        {
+          "name": "PluginLayoutConfig",
+          "kind": "InterfaceDeclaration",
+          "definition": "export interface PluginLayoutConfig {\n  /** Position of plugin controls in the UI */\n  controlsPosition: \"header\" | \"sidebar\" | \"bottom\";\n}..."
+        },
+        {
+          "name": "VisualizationPlugin",
+          "kind": "InterfaceDeclaration",
+          "definition": "export interface VisualizationPlugin<\n  TConfig = any,\n  TData = any,\n  TState = Record<string, unknown>,\n> {..."
+        }
+      ]
+    },
+    {
+      "path": "src/types/visualization.ts",
+      "exports": [
+        {
+          "name": "PluginMetadata",
+          "kind": "InterfaceDeclaration"
+        },
+        {
+          "name": "FilterState",
+          "kind": "InterfaceDeclaration"
+        },
+        {
+          "name": "ExportOptions",
+          "kind": "InterfaceDeclaration"
+        }
+      ],
+      "imports": [],
+      "components": [],
+      "hooks": [],
+      "types": [
+        {
+          "name": "PluginMetadata",
+          "kind": "InterfaceDeclaration",
+          "definition": "export interface PluginMetadata {\n  id: string;\n  name: string;\n  description: string;\n  version: string;..."
+        },
+        {
+          "name": "FilterState",
+          "kind": "InterfaceDeclaration",
+          "definition": "export interface FilterState {\n  authors: Set<string>;\n  directories: Set<string>;\n  fileTypes: Set<string>;\n  eventTypes: Set<string>;..."
+        },
+        {
+          "name": "ExportOptions",
+          "kind": "InterfaceDeclaration",
+          "definition": "export interface ExportOptions {\n  format: \"png\" | \"svg\" | \"json\" | \"csv\";\n  filename?: string;\n  includeMetadata?: boolean;\n}..."
+        }
+      ]
+    }
+  ],
+  "structure": {
+    "components": {
+      "src": {
+        "components": {
+          "common": {
+            "ErrorDisplay.tsx": {
+              "exports": [
+                "ErrorDisplay",
+                "default"
+              ],
+              "components": [
+                "ErrorDisplay",
+                "default"
+              ]
+            },
+            "FilterPanel.tsx": {
+              "exports": [
+                "FilterPanel",
+                "default"
+              ],
+              "components": [
+                "FilterPanel",
+                "default"
+              ]
+            },
+            "LoadingSpinner.tsx": {
+              "exports": [
+                "LoadingSpinner",
+                "default"
+              ],
+              "components": [
+                "LoadingSpinner",
+                "default"
+              ]
+            },
+            "ScrollIndicatorOverlay.tsx": {
+              "exports": [
+                "ScrollIndicatorOverlay",
+                "default"
+              ],
+              "components": [
+                "ScrollIndicatorOverlay",
+                "default"
+              ]
+            },
+            "TimeBinSelector.tsx": {
+              "exports": [
+                "TimeBinSelector",
+                "default"
+              ],
+              "components": [
+                "TimeBinSelector",
+                "default"
+              ]
+            }
+          },
+          "layout": {
+            "PluginSelector.tsx": {
+              "exports": [
+                "PluginSelector",
+                "default"
+              ],
+              "components": [
+                "PluginSelector",
+                "default"
+              ]
+            }
+          }
+        },
+        "plugins": {
+          "timeline-heatmap": {
+            "components": {
+              "CellDetailPanel.tsx": {
+                "exports": [
+                  "CellDetailPanel",
+                  "default"
+                ],
+                "components": [
+                  "CellDetailPanel",
+                  "default"
+                ]
+              }
+            }
+          },
+          "treemap-explorer": {
+            "components": {
+              "CouplingView.tsx": {
+                "exports": [
+                  "CouplingView"
+                ],
+                "components": [
+                  "CouplingView"
+                ]
+              },
+              "DebtView.tsx": {
+                "exports": [
+                  "DebtView"
+                ],
+                "components": [
+                  "DebtView"
+                ]
+              },
+              "LensModeSelector.tsx": {
+                "exports": [
+                  "LensModeSelector"
+                ],
+                "components": [
+                  "LensModeSelector"
+                ]
+              },
+              "TimelineScrubber.tsx": {
+                "exports": [
+                  "TimelineScrubber",
+                  "default"
+                ],
+                "components": [
+                  "TimelineScrubber",
+                  "default"
+                ]
+              },
+              "TimeView.tsx": {
+                "exports": [
+                  "TimeView"
+                ],
+                "components": [
+                  "TimeView"
+                ]
+              },
+              "TreemapDetailPanel.tsx": {
+                "exports": [
+                  "default",
+                  "TreemapDetailPanelProps"
+                ],
+                "components": [
+                  "default"
+                ]
+              },
+              "TreemapExplorerControls.tsx": {
+                "exports": [
+                  "TreemapExplorerControls"
+                ],
+                "components": [
+                  "TreemapExplorerControls"
+                ]
+              },
+              "TreemapExplorerFilters.tsx": {
+                "exports": [
+                  "TreemapExplorerFilters"
+                ],
+                "components": [
+                  "TreemapExplorerFilters"
+                ]
+              }
+            }
+          }
+        }
+      }
+    },
+    "plugins": {
+      "src": {
+        "plugins": {
+          "init.ts": {
+            "exports": [
+              "timelinePlugin",
+              "treemapExplorerPlugin"
+            ],
+            "components": []
+          },
+          "core": {
+            "PluginRegistry.ts": {
+              "exports": [
+                "PluginRegistry"
+              ],
+              "components": []
+            }
+          },
+          "timeline-heatmap": {
+            "TimelineHeatmapPlugin.ts": {
+              "exports": [
+                "TimelineHeatmapState",
+                "HeatmapCell",
+                "TimelineHeatmapPlugin"
+              ],
+              "components": []
+            }
+          },
+          "treemap-explorer": {
+            "TreemapExplorerPlugin.tsx": {
+              "exports": [
+                "TreemapExplorerPlugin"
+              ],
+              "components": []
+            },
+            "types.ts": {
+              "exports": [
+                "FileData",
+                "EnrichedFileData",
+                "TemporalFileData",
+                "TemporalDailyData",
+                "TreemapHierarchyDatum",
+                "TreemapExplorerState"
+              ],
+              "components": []
+            },
+            "renderers": {
+              "BaseTreemapRenderer.ts": {
+                "exports": [
+                  "BaseTreemapRenderer"
+                ],
+                "components": []
+              },
+              "CouplingArcRenderer.ts": {
+                "exports": [
+                  "CouplingArcRenderer"
+                ],
+                "components": []
+              },
+              "CouplingRenderer.ts": {
+                "exports": [
+                  "CouplingRenderer"
+                ],
+                "components": []
+              },
+              "DebtRenderer.ts": {
+                "exports": [
+                  "DebtRenderer"
+                ],
+                "components": []
+              },
+              "TimeRenderer.ts": {
+                "exports": [
+                  "TimeRenderer"
+                ],
+                "components": []
+              }
+            },
+            "utils": {
+              "colorScales.ts": {
+                "exports": [
+                  "getDebtColor",
+                  "getCouplingColor",
+                  "getTimeColor",
+                  "getCellColor"
+                ],
+                "components": [
+                  "getCouplingColor",
+                  "getTimeColor"
+                ]
+              }
+            }
+          }
+        }
+      }
+    },
+    "services": {
+      "src": {
+        "services": {
+          "data": {
+            "CouplingDataProcessor.ts": {
+              "exports": [
+                "CouplingEdge",
+                "CouplingPartner",
+                "FileCouplingData",
+                "CouplingNetworkData",
+                "CouplingIndex",
+                "CouplingDataProcessor"
+              ],
+              "components": []
+            },
+            "DataProcessor.ts": {
+              "exports": [
+                "RawLifecycleData",
+                "RawFileEvent",
+                "V2AuthorNetwork",
+                "V2FileIndex",
+                "V2DirectoryStats",
+                "DataProcessor"
+              ],
+              "components": []
+            },
+            "DatasetRegistry.ts": {
+              "exports": [
+                "DatasetDefinition",
+                "DatasetRegistryClass",
+                "DatasetRegistry"
+              ],
+              "components": []
+            },
+            "HealthScoreCalculator.ts": {
+              "exports": [
+                "HealthScoreInputs",
+                "HealthScoreResult",
+                "HealthScoreCalculator"
+              ],
+              "components": []
+            },
+            "index.ts": {
+              "exports": [
+                "DatasetRegistry",
+                "DatasetRegistryClass",
+                "DatasetDefinition",
+                "PluginDataLoader",
+                "PluginDataLoaderClass",
+                "PluginDataRequirement",
+                "PluginDataLoadResult",
+                "LoadProgress"
+              ],
+              "components": []
+            },
+            "PluginDataLoader.ts": {
+              "exports": [
+                "PluginDataRequirement",
+                "PluginDataLoadResult",
+                "PluginDataLoaderClass",
+                "PluginDataLoader"
+              ],
+              "components": []
+            },
+            "TemporalDataProcessor.ts": {
+              "exports": [
+                "TemporalDataProcessor",
+                "EnrichedFileData",
+                "TemporalFileData",
+                "TemporalDailyData"
+              ],
+              "components": []
+            },
+            "types.ts": {
+              "exports": [
+                "LoadProgress"
+              ],
+              "components": []
+            }
+          }
+        }
+      }
+    }
+  }
+}

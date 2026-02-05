@@ -7,7 +7,6 @@ import { PluginDataLoader } from "@/services/data/PluginDataLoader";
 import { DataProcessor } from "@/services/data/DataProcessor";
 import { useAppStore } from "@/store/appStore";
 import { PluginSelector } from "@/components/layout/PluginSelector";
-import { FilterPanel } from "@/components/common/FilterPanel";
 import { LoadingSpinner } from "@/components/common/LoadingSpinner";
 import { ErrorDisplay } from "@/components/common/ErrorDisplay";
 import { ScrollIndicatorOverlay } from "@/components/common/ScrollIndicatorOverlay";
@@ -65,6 +64,77 @@ const App: React.FC = () => {
     return pluginStates[ui.activePluginId] || EMPTY_STATE;
   }, [ui.activePluginId, pluginStates]);
 
+
+// ============================================================================
+  // FILTER PLAN PHASE 2: Processing Relevant State Selector
+  // ============================================================================
+
+  /**
+   * Memoized selector for state fields that affect data processing
+   * Only changes when processing-relevant state changes, preventing
+   * unnecessary expensive reprocessing on render-only state changes
+   * 
+   * This solves the filter bug where excludedDirectories changes weren't
+   * triggering reprocessing because currentPluginState was removed from
+   * the processData effect dependencies for performance reasons.
+   */
+  const processingRelevantState = useMemo(() => {
+    if (!activePlugin || !activePlugin.processingStateKeys) {
+      // If plugin doesn't declare keys, use entire state (safe default)
+      return currentPluginState;
+    }
+
+    if (activePlugin.processingStateKeys.length === 0) {
+      // Plugin declares no processing state (render-only)
+      return null;
+    }
+
+    // Extract only processing-relevant keys
+    const relevantState: Record<string, unknown> = {};
+    const state = currentPluginState as Record<string, unknown>; 
+activePlugin.processingStateKeys.forEach((key) => {
+  relevantState[key as string] = state[key as string]; 
+});
+
+    return relevantState;
+  }, [activePlugin, currentPluginState]);
+
+  /**
+   * Optional: Validate state changes in development
+   * Helps catch configuration errors during development
+   */
+  useEffect(() => {
+    if (process.env.NODE_ENV === "development" && activePlugin?.validateState) {
+      const errors = activePlugin.validateState(currentPluginState as any);
+      if (errors.length > 0) {
+        console.warn(
+          `[${activePlugin.metadata.id}] State validation errors:`,
+          errors,
+        );
+      }
+    }
+  }, [activePlugin, currentPluginState]);
+
+
+
+  /**
+   * Optional: Validate state changes in development
+   * Helps catch configuration errors during development
+   */
+  useEffect(() => {
+    if (process.env.NODE_ENV === "development" && activePlugin?.validateState) {
+      const errors = activePlugin.validateState(currentPluginState as any);
+      if (errors.length > 0) {
+        console.warn(
+          `[${activePlugin.metadata.id}] State validation errors:`,
+          errors,
+        );
+      }
+    }
+  }, [activePlugin, currentPluginState]);
+
+
+  
   // Active filter detection
   const hasActiveFilters = useMemo(() => {
     const globalActive =
@@ -248,7 +318,8 @@ const App: React.FC = () => {
     data.metadata,
   ]);
 
-  // Effect 1: Process Data (Expensive, Cancellable)
+
+// Effect 1: Process Data (Expensive, Cancellable)
   useEffect(() => {
     // Cleanup previous plugin if changed
     if (
@@ -324,7 +395,8 @@ const App: React.FC = () => {
       isMounted = false;
       controller.abort();
     };
-  }, [activePlugin, pluginDataInput, setError]); // Removed currentPluginState from dependencies!
+  }, [activePlugin, pluginDataInput, processingRelevantState, setError]); 
+
 
   // Effect 2: Render Visualization (Fast, Sync)
   // Runs when processedData is ready OR when state changes (scrubbing, filtering)
@@ -582,10 +654,10 @@ const App: React.FC = () => {
               onClose: () => setShowFilters(false),
             })
           ) : (
-            <FilterPanel
-              metadata={data.metadata}
-              onClose={() => setShowFilters(false)}
-            />
+  <div className="p-6 text-zinc-500 text-center">
+    <p className="text-sm">No filters available for this plugin.</p>
+  </div>
+
           )}
         </aside>
 

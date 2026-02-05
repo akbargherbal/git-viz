@@ -17,9 +17,7 @@ vi.mock("@/components/layout/PluginSelector", () => ({
   ),
 }));
 
-vi.mock("@/components/common/FilterPanel", () => ({
-  FilterPanel: () => <div data-testid="filter-panel">Filter Panel</div>,
-}));
+// FilterPanel mock removed as the component is deleted and no longer imported in App.tsx
 
 vi.mock("@/components/common/LoadingSpinner", () => ({
   LoadingSpinner: ({ message }: any) => (
@@ -66,6 +64,7 @@ describe("App Integration", () => {
   mockPlugin.processData = vi.fn().mockReturnValue({ processed: true });
   mockPlugin.cleanup = vi.fn();
   mockPlugin.defaultConfig = {};
+  // Note: mockPlugin does NOT have renderFilters, so it will trigger the fallback UI
 
   beforeEach(() => {
     vi.clearAllMocks();
@@ -142,7 +141,6 @@ describe("App Integration", () => {
   it("should load data for the active plugin", async () => {
     render(<App />);
 
-    // Wait for data loader to be called (this happens quickly with instant mock resolution)
     await waitFor(
       () => {
         expect(PluginDataLoader.loadForPlugin).toHaveBeenCalled();
@@ -150,7 +148,6 @@ describe("App Integration", () => {
       { timeout: 3000 },
     );
 
-    // Verify loading eventually completes (spinner may not be visible due to fast resolution)
     await waitFor(
       () => {
         expect(screen.queryByTestId("loading-spinner")).not.toBeInTheDocument();
@@ -182,8 +179,6 @@ describe("App Integration", () => {
   it("should initialize and render the plugin", async () => {
     render(<App />);
 
-    // Wait for all plugin lifecycle methods to be called
-    // These happen in sequence: processData -> init -> render
     await waitFor(
       () => {
         expect(mockPlugin.processData).toHaveBeenCalled();
@@ -209,7 +204,6 @@ describe("App Integration", () => {
   it("should toggle filter panel", async () => {
     render(<App />);
 
-    // Wait for initial render to complete
     await waitFor(
       () => {
         expect(screen.queryByTestId("loading-spinner")).not.toBeInTheDocument();
@@ -220,6 +214,11 @@ describe("App Integration", () => {
     const filterButton = screen.getByTitle("Filters");
     fireEvent.click(filterButton);
 
-    expect(screen.getByTestId("filter-panel")).toBeInTheDocument();
+    // Updated assertion: Check for the fallback text since the mock plugin has no renderFilters
+    expect(screen.getByText(/No filters available for this plugin/i)).toBeInTheDocument();
+    
+    // Also verify the container is visible
+    const container = screen.getByTestId("filter-panel-container");
+    expect(container).toHaveAttribute("data-visible", "true");
   });
 });

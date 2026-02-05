@@ -16,7 +16,13 @@
     "test:e2e": "playwright test",
     "test:e2e:ui": "playwright test --ui",
     "test:e2e:debug": "playwright test --debug",
-    "test:e2e:trace": "playwright show-trace test-results/*/trace.zip"
+    "test:e2e:trace": "playwright show-trace test-results/*/trace.zip",
+    "analyze:structure": "OUTPUT_DIR=docs/app-structure node scripts/analyze-structure.js",
+    "analyze:deps": "madge --extensions ts,tsx --json src/ > docs/app-structure/dependency-graph.json",
+    "analyze:deps-visual": "madge --extensions ts,tsx --image docs/app-structure/dependency-graph.svg src/",
+    "analyze:circular": "madge --extensions ts,tsx --circular src/",
+    "analyze:all": "pnpm analyze:structure && pnpm analyze:deps && pnpm analyze:deps-visual"
+
   },
   "dependencies": {
     "d3": "^7.8.5",
@@ -46,9 +52,11 @@
     "autoprefixer": "^10.4.16",
     "dependency-cruiser": "^17.3.6",
     "jsdom": "^27.4.0",
+    "madge": "^8.0.0",
     "postcss": "^8.4.32",
     "prettier": "^3.8.0",
     "tailwindcss": "^3.3.6",
+    "ts-morph": "^27.0.2",
     "ts-node": "^10.9.2",
     "tsx": "^4.21.0",
     "typescript": "^5.3.3",

@@ -39,8 +39,8 @@ describe("TimelineHeatmapPlugin", () => {
       expect(state).toEqual({
         metric: "commits", // Changed from "events" to "commits"
         timeBin: "week",
-        selectedAuthors: [],
-        selectedExtensions: [],
+        directoryCount: 20,
+        excludedDirectories: [],
       });
     });
 

@@ -78,7 +78,7 @@ export interface PluginProps<TConfig = any, TData = any> {
  * PHASE 1 ADDITION: Props passed to plugin control rendering
  * Enables plugins to own their control UI and state management
  */
-export interface PluginControlProps<TState = Record<string, unknown>> {
+export interface PluginControlProps<TState = any> {
   /** Current plugin state (managed by store) */
   state: TState;
 
@@ -107,11 +107,12 @@ export interface PluginLayoutConfig {
  *
  * PHASE 1 EXTENSION: Added optional methods for self-contained control management
  * PHASE 2 EXTENSION: Added cleanup() and processDataCancellable() for lifecycle management
+ * FILTER PLAN PHASE 1: Added processingStateKeys for smart state change detection
  */
 export interface VisualizationPlugin<
   TConfig = any,
   TData = any,
-  TState = Record<string, unknown>,
+  TState = any,
 > {
   metadata: EnhancedPluginMetadata;
 
@@ -204,6 +205,18 @@ export interface VisualizationPlugin<
     signal: AbortSignal,
     config?: TConfig,
   ): Promise<TData>;
+
+  // FILTER PLAN PHASE 1: State Management Metadata
+
+  /**
+   * FILTER PLAN PHASE 1: Declares which state fields affect data processing
+   */
+  processingStateKeys?: (Extract<keyof TState, string>)[];
+
+  /**
+   * FILTER PLAN PHASE 1: Optional method to validate state changes
+   */
+  validateState?: (state: TState) => string[];
 }
 
 /**

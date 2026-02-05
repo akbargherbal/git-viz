@@ -1,4 +1,5 @@
 // src/plugins/timeline-heatmap/TimelineHeatmapPlugin.ts
+// FILTER PLAN PHASE 1: Added processingStateKeys and validateState
 
 import React from "react";
 import type {
@@ -19,7 +20,7 @@ import {
 import { formatNumber } from "@/utils/formatting";
 import { DataProcessor } from "@/services/data/DataProcessor";
 import { TimeBinSelector } from "@/components/common/TimeBinSelector";
-import { FilterPanel } from "@/components/common/FilterPanel";
+import { TimelineHeatmapFilters } from "./components/TimelineHeatmapFilters";
 import { FilterState } from "@/types/visualization";
 
 // ============================================================================
@@ -37,11 +38,11 @@ export interface TimelineHeatmapState extends Record<string, unknown> {
   /** Time bin granularity */
   timeBin: TimeBinType;
 
-  /** Selected authors for filtering (email addresses) */
-  selectedAuthors: string[];
+  /** Number of directories to display (replaces fixed topN) */
+  directoryCount: number;
 
-  /** Selected file extensions for filtering */
-  selectedExtensions: string[];
+  /** Directories excluded from visualization */
+  excludedDirectories: string[];
 }
 
 // ============================================================================
@@ -58,8 +59,8 @@ interface HeatmapConfig {
   timeBin: TimeBinType;
   metric: MetricType;
   // Added filter fields to config
-  selectedAuthors?: string[];
-  selectedExtensions?: string[];
+  directoryCount?: number;
+  excludedDirectories?: string[];
   onCellClick?: (cell: any) => void;
 }
 
@@ -105,13 +106,13 @@ function getContrastingTextColor(
 export class TimelineHeatmapPlugin implements VisualizationPlugin<
   HeatmapConfig,
   HeatmapData,
-  Record<string, unknown>
+  TimelineHeatmapState
 > {
   metadata = {
     id: "timeline-heatmap",
     name: "Timeline Heatmap",
     description: "Repository activity across time and directory structure",
-    version: "4.3.0", // Bumped for metric simplification
+    version: "5.1.0", // FILTER PLAN PHASE 1: Added processing state metadata
     priority: 1,
     dataRequirements: [
       { dataset: "file_lifecycle", required: true, alias: "lifecycle" },
@@ -130,14 +131,57 @@ export class TimelineHeatmapPlugin implements VisualizationPlugin<
     colorScheme: "activity",
     timeBin: "week",
     metric: "commits", // Fixed to commits
-    selectedAuthors: [],
-    selectedExtensions: [],
+    directoryCount: 20,
+    excludedDirectories: [],
   };
 
   private container: HTMLElement | null = null;
 
   // PHASE 2: Abort flag for cancellation support
   private aborted = false;
+
+  // ============================================================================
+  // FILTER PLAN PHASE 1: Processing State Metadata
+  // ============================================================================
+
+  /**
+   * Declare which state fields require data reprocessing
+   * Other fields (if added later) only trigger re-render
+   * 
+   * NOTE: 'timeBin' affects processing but is handled separately via filters.timeBin
+   * NOTE: 'metric' is fixed to 'commits', so not needed in processing state
+   */
+  processingStateKeys: (Extract<keyof TimelineHeatmapState, string>)[] = [
+    'excludedDirectories',
+    'directoryCount',
+  ];
+
+  /**
+   * Validate state for debugging and development
+   * Helps catch configuration errors early
+   */
+  validateState = (state: TimelineHeatmapState): string[] => {
+    const errors: string[] = [];
+
+    if (state.directoryCount < 5 || state.directoryCount > 100) {
+      errors.push('directoryCount must be between 5 and 100');
+    }
+
+    if (!Array.isArray(state.excludedDirectories)) {
+      errors.push('excludedDirectories must be an array');
+    }
+
+    if (!['commits'].includes(state.metric)) {
+      errors.push('metric must be "commits"');
+    }
+
+    if (!['day', 'week', 'month'].includes(state.timeBin)) {
+      errors.push('timeBin must be one of: day, week, month');
+    }
+
+    return errors;
+  };
+
 
   // ============================================================================
   // PHASE 2: Initial State Definition
@@ -147,11 +191,11 @@ export class TimelineHeatmapPlugin implements VisualizationPlugin<
    * Returns initial state for the plugin
    * Called when plugin is first activated or when state needs to be reset
    */
-  getInitialState = (): Record<string, unknown> => ({
+  getInitialState = (): TimelineHeatmapState => ({
     metric: "commits" as MetricType, // Fixed to commits
     timeBin: "week" as TimeBinType,
-    selectedAuthors: [] as string[],
-    selectedExtensions: [] as string[],
+    directoryCount: 20,
+    excludedDirectories: [] as string[],
   });
 
   // ============================================================================
@@ -204,71 +248,65 @@ export class TimelineHeatmapPlugin implements VisualizationPlugin<
    * Renders plugin-specific controls
    * Metric is now fixed to "commits", so only time bin selector is shown
    */
-  renderControls = (props: PluginControlProps<Record<string, unknown>>) => {
-    const { state, updateState } = props;
+renderControls = (props: PluginControlProps<Record<string, unknown>>) => {
+  const { state, updateState } = props;
+  
+  // Cast state to our specific type inside the function
+  const typedState = state as TimelineHeatmapState;
 
-    // Cast state to our specific type
-    const typedState = state as unknown as TimelineHeatmapState;
+  return React.createElement(
+    "div",
+    { className: "flex gap-4 items-center flex-wrap" },
 
-    return React.createElement(
-      "div",
-      { className: "flex gap-4 items-center flex-wrap" },
-
-      // Time Bin Selector (only control now)
-      React.createElement(TimeBinSelector, {
-        value: typedState.timeBin,
-        onChange: (timeBin: TimeBinType) => updateState({ timeBin }),
-      }),
-    );
-  };
+    // Time Bin Selector (only control now)
+    React.createElement(TimeBinSelector, {
+      value: typedState.timeBin,
+      onChange: (timeBin: TimeBinType) => updateState({ timeBin }),
+    }),
+  );
+};
 
   /**
    * Renders plugin-specific filters in the sidebar
+   * Now uses the dedicated TimelineHeatmapFilters component
    */
+
   renderFilters = (
-    props: PluginControlProps<Record<string, unknown>> & {
-      onClose: () => void;
-    },
-  ) => {
-    const { state, updateState, data, onClose } = props;
-    const typedState = state as unknown as TimelineHeatmapState;
+  props: PluginControlProps<Record<string, unknown>> & {
+    onClose: () => void;
+  },
+) => {
+  const { state, updateState, data, onClose } = props;
+  
+  // Cast state to our specific type inside the function
+  const typedState = state as TimelineHeatmapState;
 
-    // Extract available authors and extensions from metadata
-    const authors = data?.metadata?.authors || [];
-    const fileTypes = data?.metadata?.file_types || [];
+  // Extract available data from metadata
+  const directories = data?.metadata?.directory_stats || [];
 
-    return React.createElement(FilterPanel, {
-      authors: authors.map((a: any) => ({
-        value: a.email,
-        label: a.name || a.email,
-        count: a.commit_count,
-      })),
-      extensions: fileTypes.map((ft: any) => ({
-        extension: ft.extension,
-        count: ft.count,
-      })),
-      selectedAuthors: typedState.selectedAuthors,
-      selectedExtensions: typedState.selectedExtensions,
-      onAuthorsChange: (authors: string[]) =>
-        updateState({ selectedAuthors: authors }),
-      onExtensionsChange: (extensions: string[]) =>
-        updateState({ selectedExtensions: extensions }),
-      onClose: onClose,
-    });
-  };
+  return React.createElement(TimelineHeatmapFilters, {
+    directories: directories,
+    excludedDirectories: typedState.excludedDirectories || [],
+    directoryCount: typedState.directoryCount || 20,
+    onExcludedDirectoriesChange: (excluded: string[]) =>
+      updateState({ excludedDirectories: excluded }),
+    onDirectoryCountChange: (count: number) =>
+      updateState({ directoryCount: count }),
+
+    onClose: onClose,
+  });
+};
 
   /**
    * Checks if there are any active filters
    */
-  checkActiveFilters = (state: Record<string, unknown>): boolean => {
-    const typedState = state as unknown as TimelineHeatmapState;
-    return (
-      (typedState.selectedAuthors && typedState.selectedAuthors.length > 0) ||
-      (typedState.selectedExtensions &&
-        typedState.selectedExtensions.length > 0)
-    );
-  };
-
+checkActiveFilters = (state: Record<string, unknown>): boolean => {
+  const typedState = state as TimelineHeatmapState;
+  return (
+    (typedState.excludedDirectories &&
+      typedState.excludedDirectories.length > 0)
+  );
+};
   // ============================================================================
   // PHASE 2: Layout Configuration
   // ============================================================================
@@ -302,8 +340,8 @@ export class TimelineHeatmapPlugin implements VisualizationPlugin<
     ) {
       // Construct FilterState from config to allow plugin-controlled filtering
       const filters: FilterState = {
-        authors: new Set(config?.selectedAuthors || []),
-        fileTypes: new Set(config?.selectedExtensions || []),
+        authors: new Set(),
+        fileTypes: new Set(),
         directories: new Set(), // Could be added to state later
         eventTypes: new Set(),
         timeRange: null,
@@ -334,7 +372,10 @@ export class TimelineHeatmapPlugin implements VisualizationPlugin<
 
     const { tree, activity, metadata } = optimizedData;
     const timeBinType = config?.timeBin || this.defaultConfig.timeBin;
-    const topN = config?.topN || this.defaultConfig.topN;
+
+    // PHASE 2: Use directoryCount from config/state instead of fixed topN
+    const directoryCount = config?.directoryCount ?? config?.topN ?? this.defaultConfig.topN;
+    const excludedDirs = new Set(config?.excludedDirectories || []);
 
     // 1. Map IDs to Directory Paths
     const idToPath = new Map<number, string>();
@@ -366,26 +407,27 @@ export class TimelineHeatmapPlugin implements VisualizationPlugin<
       throw new DOMException("Operation aborted", "AbortError");
     }
 
-    // 2. Determine Top Directories
+    // 2. Determine Top Directories (PHASE 2: Apply exclusions and dynamic count)
     let topDirectories: string[] = [];
 
     if (metadata.directory_stats && metadata.directory_stats.length > 0) {
       topDirectories = metadata.directory_stats
+        .filter((d) => !excludedDirs.has(d.path)) // PHASE 2: Filter exclusions
         .sort((a, b) => b.activity_score - a.activity_score)
-        .slice(0, topN)
+        .slice(0, directoryCount) // PHASE 2: Use dynamic count
         .map((d) => d.path);
     } else {
       const dirActivity = new Map<string, number>();
       activity.forEach((item) => {
         const path = idToPath.get(item.id);
-        if (path) {
+        if (path && !excludedDirs.has(path)) { // PHASE 2: Filter exclusions
           const totalEvents = item.a + item.m + item.del;
           dirActivity.set(path, (dirActivity.get(path) || 0) + totalEvents);
         }
       });
       topDirectories = Array.from(dirActivity.entries())
         .sort((a, b) => b[1] - a[1])
-        .slice(0, topN)
+        .slice(0, directoryCount) // PHASE 2: Use dynamic count
         .map(([dir]) => dir);
     }
 
@@ -525,6 +567,7 @@ export class TimelineHeatmapPlugin implements VisualizationPlugin<
   /**
    * Renders the heatmap visualization
    * Color scheme is fixed to Blue (hue 210°) for commits
+   * PHASE 2: Now reflects dynamic directoryCount
    */
   render(data: HeatmapData, config: HeatmapConfig): void {
     if (!this.container) return;
@@ -539,11 +582,12 @@ export class TimelineHeatmapPlugin implements VisualizationPlugin<
     const thead = document.createElement("thead");
     const headerRow = document.createElement("tr");
 
-    // Corner Cell
+    // Corner Cell (PHASE 2: Show actual directory count)
     const corner = document.createElement("th");
+    const actualCount = config.directoryCount ?? config.topN;
     corner.innerHTML = `<div class="flex flex-col items-start">
       <span class="text-zinc-400">Directory</span>
-      <span class="text-[10px] text-zinc-600 font-normal">Top ${config.topN} by Activity</span>
+      <span class="text-[10px] text-zinc-600 font-normal">Top ${actualCount} by Activity</span>
     </div>`;
     corner.style.position = "sticky";
     corner.style.left = "0";

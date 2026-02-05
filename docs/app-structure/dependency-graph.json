@@ -1,0 +1,204 @@
+{
+  "App.tsx": [],
+  "__tests__/App.test.tsx": [
+    "App.tsx"
+  ],
+  "components/common/ErrorDisplay.tsx": [],
+  "components/common/FilterPanel.tsx": [],
+  "components/common/LoadingSpinner.tsx": [],
+  "components/common/ScrollIndicatorOverlay.tsx": [],
+  "components/common/TimeBinSelector.tsx": [],
+  "components/common/__tests__/FilterPanel.test.tsx": [
+    "components/common/FilterPanel.tsx"
+  ],
+  "components/layout/PluginSelector.tsx": [],
+  "hooks/useScrollIndicators.tsx": [],
+  "index.css": [],
+  "main.tsx": [
+    "App.tsx",
+    "index.css"
+  ],
+  "plugins/core/PluginRegistry.ts": [],
+  "plugins/core/__tests__/PluginRegistry.test.ts": [
+    "plugins/core/PluginRegistry.ts"
+  ],
+  "plugins/init.ts": [],
+  "plugins/timeline-heatmap/TimelineHeatmapPlugin.ts": [],
+  "plugins/timeline-heatmap/__tests__/TimelineHeatmapPlugin.Granularity.test.ts": [
+    "plugins/timeline-heatmap/TimelineHeatmapPlugin.ts"
+  ],
+  "plugins/timeline-heatmap/__tests__/TimelineHeatmapPlugin.test.ts": [
+    "plugins/timeline-heatmap/TimelineHeatmapPlugin.ts"
+  ],
+  "plugins/timeline-heatmap/components/CellDetailPanel.tsx": [
+    "plugins/timeline-heatmap/TimelineHeatmapPlugin.ts"
+  ],
+  "plugins/treemap-explorer/TreemapExplorerPlugin.tsx": [
+    "plugins/treemap-explorer/components/TimelineScrubber.tsx",
+    "plugins/treemap-explorer/components/TreemapDetailPanel.tsx",
+    "plugins/treemap-explorer/components/TreemapExplorerControls.tsx",
+    "plugins/treemap-explorer/components/TreemapExplorerFilters.tsx",
+    "plugins/treemap-explorer/renderers/BaseTreemapRenderer.ts",
+    "plugins/treemap-explorer/renderers/CouplingArcRenderer.ts",
+    "plugins/treemap-explorer/renderers/CouplingRenderer.ts",
+    "plugins/treemap-explorer/renderers/DebtRenderer.ts",
+    "plugins/treemap-explorer/renderers/TimeRenderer.ts",
+    "plugins/treemap-explorer/types.ts"
+  ],
+  "plugins/treemap-explorer/__tests__/TreemapExplorer.TimeLens.integration.test.ts": [
+    "plugins/treemap-explorer/TreemapExplorerPlugin.tsx"
+  ],
+  "plugins/treemap-explorer/__tests__/TreemapExplorerPlugin.test.tsx": [
+    "plugins/treemap-explorer/TreemapExplorerPlugin.tsx"
+  ],
+  "plugins/treemap-explorer/components/CouplingView.tsx": [
+    "plugins/treemap-explorer/types.ts"
+  ],
+  "plugins/treemap-explorer/components/DebtView.tsx": [
+    "plugins/treemap-explorer/types.ts"
+  ],
+  "plugins/treemap-explorer/components/LensModeSelector.tsx": [],
+  "plugins/treemap-explorer/components/TimeView.tsx": [
+    "plugins/treemap-explorer/types.ts"
+  ],
+  "plugins/treemap-explorer/components/TimelineScrubber.tsx": [],
+  "plugins/treemap-explorer/components/TreemapDetailPanel.tsx": [
+    "plugins/treemap-explorer/components/CouplingView.tsx",
+    "plugins/treemap-explorer/components/DebtView.tsx",
+    "plugins/treemap-explorer/components/TimeView.tsx",
+    "plugins/treemap-explorer/types.ts"
+  ],
+  "plugins/treemap-explorer/components/TreemapExplorerControls.tsx": [
+    "plugins/treemap-explorer/components/LensModeSelector.tsx",
+    "plugins/treemap-explorer/types.ts"
+  ],
+  "plugins/treemap-explorer/components/TreemapExplorerFilters.tsx": [
+    "plugins/treemap-explorer/types.ts"
+  ],
+  "plugins/treemap-explorer/components/__tests__/CouplingView.test.tsx": [
+    "plugins/treemap-explorer/components/CouplingView.tsx"
+  ],
+  "plugins/treemap-explorer/components/__tests__/DebtView.test.tsx": [
+    "plugins/treemap-explorer/components/DebtView.tsx",
+    "plugins/treemap-explorer/types.ts"
+  ],
+  "plugins/treemap-explorer/components/__tests__/LensModeSelector.test.tsx": [
+    "plugins/treemap-explorer/components/LensModeSelector.tsx"
+  ],
+  "plugins/treemap-explorer/components/__tests__/TimeView.test.tsx": [
+    "plugins/treemap-explorer/components/TimeView.tsx"
+  ],
+  "plugins/treemap-explorer/components/__tests__/TimelineScrubber.test.tsx": [
+    "plugins/treemap-explorer/components/TimelineScrubber.tsx"
+  ],
+  "plugins/treemap-explorer/components/__tests__/TreemapDetailPanel.test.tsx": [
+    "plugins/treemap-explorer/components/TreemapDetailPanel.tsx"
+  ],
+  "plugins/treemap-explorer/components/__tests__/TreemapExplorerControls.test.tsx": [
+    "plugins/treemap-explorer/components/TreemapExplorerControls.tsx"
+  ],
+  "plugins/treemap-explorer/components/__tests__/TreemapExplorerFilters.test.tsx": [
+    "plugins/treemap-explorer/components/TreemapExplorerFilters.tsx",
+    "plugins/treemap-explorer/types.ts"
+  ],
+  "plugins/treemap-explorer/renderers/BaseTreemapRenderer.ts": [
+    "plugins/treemap-explorer/types.ts"
+  ],
+  "plugins/treemap-explorer/renderers/CouplingArcRenderer.ts": [
+    "plugins/treemap-explorer/types.ts"
+  ],
+  "plugins/treemap-explorer/renderers/CouplingRenderer.ts": [
+    "plugins/treemap-explorer/renderers/BaseTreemapRenderer.ts",
+    "plugins/treemap-explorer/renderers/CouplingArcRenderer.ts",
+    "plugins/treemap-explorer/types.ts",
+    "plugins/treemap-explorer/utils/colorScales.ts"
+  ],
+  "plugins/treemap-explorer/renderers/DebtRenderer.ts": [
+    "plugins/treemap-explorer/renderers/BaseTreemapRenderer.ts",
+    "plugins/treemap-explorer/types.ts"
+  ],
+  "plugins/treemap-explorer/renderers/TimeRenderer.ts": [
+    "plugins/treemap-explorer/renderers/BaseTreemapRenderer.ts",
+    "plugins/treemap-explorer/types.ts",
+    "plugins/treemap-explorer/utils/colorScales.ts",
+    "services/data/TemporalDataProcessor.ts"
+  ],
+  "plugins/treemap-explorer/renderers/__tests__/CouplingArcRenderer.test.ts": [
+    "plugins/treemap-explorer/renderers/CouplingArcRenderer.ts"
+  ],
+  "plugins/treemap-explorer/renderers/__tests__/DebtRenderer.test.ts": [
+    "plugins/treemap-explorer/renderers/DebtRenderer.ts",
+    "plugins/treemap-explorer/types.ts"
+  ],
+  "plugins/treemap-explorer/types.ts": [],
+  "plugins/treemap-explorer/utils/__tests__/colorScales.coupling.test.ts": [
+    "plugins/treemap-explorer/utils/colorScales.ts"
+  ],
+  "plugins/treemap-explorer/utils/colorScales.ts": [
+    "plugins/treemap-explorer/types.ts"
+  ],
+  "services/data/CouplingDataProcessor.ts": [],
+  "services/data/DataProcessor.ts": [],
+  "services/data/DatasetRegistry.ts": [],
+  "services/data/HealthScoreCalculator.ts": [],
+  "services/data/PluginDataLoader.ts": [
+    "services/data/DatasetRegistry.ts"
+  ],
+  "services/data/TemporalDataProcessor.ts": [],
+  "services/data/__tests__/CouplingDataProcessor.Advanced.test.ts": [
+    "services/data/CouplingDataProcessor.ts"
+  ],
+  "services/data/__tests__/CouplingDataProcessor.test.ts": [
+    "services/data/CouplingDataProcessor.ts"
+  ],
+  "services/data/__tests__/DataProcessor.test.ts": [
+    "services/data/DataProcessor.ts"
+  ],
+  "services/data/__tests__/DatasetRegistry.test.ts": [
+    "services/data/DatasetRegistry.ts"
+  ],
+  "services/data/__tests__/HealthScoreCalculator.test.ts": [
+    "services/data/HealthScoreCalculator.ts"
+  ],
+  "services/data/__tests__/TemporalDataProcessor.test.ts": [
+    "services/data/TemporalDataProcessor.ts"
+  ],
+  "services/data/index.ts": [
+    "services/data/DatasetRegistry.ts",
+    "services/data/PluginDataLoader.ts",
+    "services/data/types.ts"
+  ],
+  "services/data/types.ts": [],
+  "setupTests.ts": [],
+  "store/__tests__/appStore.general.test.ts": [
+    "store/appStore.ts"
+  ],
+  "store/__tests__/appStore.pluginState.test.ts": [
+    "store/appStore.ts"
+  ],
+  "store/appStore.ts": [],
+  "test-utils/__tests__/helpers.test.ts": [
+    "test-utils/helpers.ts"
+  ],
+  "test-utils/factories.ts": [],
+  "test-utils/helpers.ts": [],
+  "test-utils/index.ts": [
+    "test-utils/factories.ts",
+    "test-utils/helpers.ts",
+    "test-utils/mocks.ts",
+    "test-utils/render.tsx"
+  ],
+  "test-utils/mocks.ts": [],
+  "test-utils/render.tsx": [],
+  "types/domain.ts": [],
+  "types/plugin.ts": [
+    "types/domain.ts",
+    "types/visualization.ts"
+  ],
+  "types/visualization.ts": [],
+  "utils/__tests__/formatting.test.ts": [
+    "utils/formatting.ts"
+  ],
+  "utils/dateHelpers.ts": [],
+  "utils/formatting.ts": []
+}
