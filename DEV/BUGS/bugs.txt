@@ -1,2 +1,0 @@
-HEATMAP TIMELINE; REMOVE DAY --> Why and no axis?
-=======

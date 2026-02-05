@@ -39,7 +39,11 @@ const App: React.FC = () => {
     phase: "metadata",
   });
 
-  const [processedPluginData, setProcessedPluginData] = useState<any>(null);
+  // ISSUE #06 FIX: Tag processed data with pluginId to prevent race conditions
+  const [processedPluginData, setProcessedPluginData] = useState<{
+    pluginId: string;
+    data: any;
+  } | null>(null);
 
   // Zustand store - handles data, filters, UI, and plugin states
   const {
@@ -64,77 +68,27 @@ const App: React.FC = () => {
     return pluginStates[ui.activePluginId] || EMPTY_STATE;
   }, [ui.activePluginId, pluginStates]);
 
-
-// ============================================================================
-  // FILTER PLAN PHASE 2: Processing Relevant State Selector
-  // ============================================================================
-
   /**
    * Memoized selector for state fields that affect data processing
-   * Only changes when processing-relevant state changes, preventing
-   * unnecessary expensive reprocessing on render-only state changes
-   * 
-   * This solves the filter bug where excludedDirectories changes weren't
-   * triggering reprocessing because currentPluginState was removed from
-   * the processData effect dependencies for performance reasons.
    */
   const processingRelevantState = useMemo(() => {
     if (!activePlugin || !activePlugin.processingStateKeys) {
-      // If plugin doesn't declare keys, use entire state (safe default)
       return currentPluginState;
     }
 
     if (activePlugin.processingStateKeys.length === 0) {
-      // Plugin declares no processing state (render-only)
       return null;
     }
 
-    // Extract only processing-relevant keys
     const relevantState: Record<string, unknown> = {};
-    const state = currentPluginState as Record<string, unknown>; 
-activePlugin.processingStateKeys.forEach((key) => {
-  relevantState[key as string] = state[key as string]; 
-});
+    const state = currentPluginState as Record<string, unknown>;
+    activePlugin.processingStateKeys.forEach((key) => {
+      relevantState[key as string] = state[key as string];
+    });
 
     return relevantState;
   }, [activePlugin, currentPluginState]);
 
-  /**
-   * Optional: Validate state changes in development
-   * Helps catch configuration errors during development
-   */
-  useEffect(() => {
-    if (process.env.NODE_ENV === "development" && activePlugin?.validateState) {
-      const errors = activePlugin.validateState(currentPluginState as any);
-      if (errors.length > 0) {
-        console.warn(
-          `[${activePlugin.metadata.id}] State validation errors:`,
-          errors,
-        );
-      }
-    }
-  }, [activePlugin, currentPluginState]);
-
-
-
-  /**
-   * Optional: Validate state changes in development
-   * Helps catch configuration errors during development
-   */
-  useEffect(() => {
-    if (process.env.NODE_ENV === "development" && activePlugin?.validateState) {
-      const errors = activePlugin.validateState(currentPluginState as any);
-      if (errors.length > 0) {
-        console.warn(
-          `[${activePlugin.metadata.id}] State validation errors:`,
-          errors,
-        );
-      }
-    }
-  }, [activePlugin, currentPluginState]);
-
-
-  
   // Active filter detection
   const hasActiveFilters = useMemo(() => {
     const globalActive =
@@ -231,7 +185,6 @@ activePlugin.processingStateKeys.forEach((key) => {
     if (!rawData) return;
 
     try {
-      // NEW: Handle Frontend-Ready Data
       if (rawData.project_hierarchy && rawData.file_metrics_index) {
         const optimized = DataProcessor.processFrontendData(
           rawData.project_hierarchy,
@@ -245,7 +198,6 @@ activePlugin.processingStateKeys.forEach((key) => {
         return;
       }
 
-      // LEGACY: Handle Raw Data
       if (
         rawData.lifecycle &&
         rawData.authors &&
@@ -286,21 +238,16 @@ activePlugin.processingStateKeys.forEach((key) => {
     }
   }, [ui.activePluginId, setSelectedCell]);
 
-  // This ensures TreemapExplorer doesn't re-process when global data.tree updates
   const pluginDataInput = useMemo(() => {
     if (!activePlugin || !rawData) return null;
 
-    // For TreemapExplorer, we only need rawData (specifically file_index)
     if (activePlugin.metadata.id === "treemap-explorer") {
-      // Check for new data first
       if (rawData.project_hierarchy && rawData.file_metrics_index)
         return rawData;
-      // Fallback
       if (!rawData.file_index) return null;
       return rawData;
     }
 
-    // For other plugins, check traditional data
     if (!data.tree || !data.activity || !data.metadata) return null;
 
     return rawData && Object.keys(rawData).length > 0
@@ -318,24 +265,16 @@ activePlugin.processingStateKeys.forEach((key) => {
     data.metadata,
   ]);
 
-
-// Effect 1: Process Data (Expensive, Cancellable)
+  // Effect 1: Process Data (Expensive, Cancellable)
   useEffect(() => {
-    // Cleanup previous plugin if changed
     if (
       previousPluginRef.current &&
       previousPluginRef.current !== activePlugin
     ) {
-      console.log(
-        "[App] Cleaning up previous plugin:",
-        previousPluginRef.current.metadata.id,
-      );
       previousPluginRef.current.cleanup?.();
     }
 
-    // Abort previous processing
     if (abortControllerRef.current) {
-      console.log("[App] Aborting previous processing operation");
       abortControllerRef.current.abort();
     }
 
@@ -347,8 +286,6 @@ activePlugin.processingStateKeys.forEach((key) => {
 
     const processData = async () => {
       try {
-        // Some plugins might need config for processing, but most don't
-        // We pass currentPluginState just in case, but ideally processing is config-agnostic
         const config = {
           ...activePlugin.defaultConfig,
           ...currentPluginState,
@@ -356,25 +293,21 @@ activePlugin.processingStateKeys.forEach((key) => {
 
         let processed;
         if (activePlugin.processDataCancellable) {
-          console.log(
-            "[App] Using cancellable processData for:",
-            activePlugin.metadata.id,
-          );
           processed = await activePlugin.processDataCancellable(
             pluginDataInput,
             controller.signal,
             config,
           );
         } else {
-          console.log(
-            "[App] Using regular processData (no cancellation) for:",
-            activePlugin.metadata.id,
-          );
           processed = activePlugin.processData(pluginDataInput, config);
         }
 
         if (!controller.signal.aborted && isMounted) {
-          setProcessedPluginData(processed);
+          // ISSUE #06 FIX: Tag the data with the plugin ID
+          setProcessedPluginData({
+            pluginId: activePlugin.metadata.id,
+            data: processed,
+          });
         }
       } catch (error) {
         if (error instanceof Error && error.name === "AbortError") {
@@ -395,13 +328,16 @@ activePlugin.processingStateKeys.forEach((key) => {
       isMounted = false;
       controller.abort();
     };
-  }, [activePlugin, pluginDataInput, processingRelevantState, setError]); 
-
+  }, [activePlugin, pluginDataInput, processingRelevantState, setError]);
 
   // Effect 2: Render Visualization (Fast, Sync)
-  // Runs when processedData is ready OR when state changes (scrubbing, filtering)
   useEffect(() => {
     if (!activePlugin || !containerRef.current || !processedPluginData) return;
+
+    // ISSUE #06 FIX: Ensure data belongs to the active plugin before rendering
+    if (processedPluginData.pluginId !== activePlugin.metadata.id) {
+      return;
+    }
 
     try {
       const config = {
@@ -414,9 +350,8 @@ activePlugin.processingStateKeys.forEach((key) => {
         },
       };
 
-      // Init and Render
       activePlugin.init(containerRef.current, config);
-      activePlugin.render(processedPluginData, config);
+      activePlugin.render(processedPluginData.data, config);
       mainScroll.checkScrollability();
     } catch (error) {
       console.error("Error rendering visualization:", error);
@@ -428,27 +363,24 @@ activePlugin.processingStateKeys.forEach((key) => {
     }
   }, [
     activePlugin,
-    processedPluginData, // Only re-render if data is ready
-    currentPluginState, // Or if state changes (scrubbing)
+    processedPluginData,
+    currentPluginState,
     filters.timeBin,
     filters.metric,
     setSelectedCell,
     setError,
   ]);
 
-  // Check if plugin uses new control pattern
   const usesPluginControls = useMemo(() => {
     return activePlugin && supportsControlOwnership(activePlugin);
   }, [activePlugin]);
 
-  // Plugin state update callback
   const updatePluginState = (updates: Record<string, unknown>) => {
     if (ui.activePluginId) {
       setPluginState(ui.activePluginId, updates);
     }
   };
 
-  // Render plugin-owned controls
   const renderPluginControls = () => {
     if (!activePlugin || !usesPluginControls) return null;
 
@@ -464,7 +396,6 @@ activePlugin.processingStateKeys.forEach((key) => {
     });
   };
 
-  // Render appropriate detail panel based on active plugin
   const renderDetailPanel = () => {
     if (!ui.selectedCell) return null;
 
@@ -473,7 +404,6 @@ activePlugin.processingStateKeys.forEach((key) => {
       const couplingThreshold =
         (currentPluginState as any).couplingThreshold || 0.3;
 
-      // Get coupling index from plugin
       const treemapPlugin = activePlugin as any;
       const couplingIndex = treemapPlugin.getCouplingIndex
         ? treemapPlugin.getCouplingIndex()
@@ -500,13 +430,10 @@ activePlugin.processingStateKeys.forEach((key) => {
     return null;
   };
 
-  // Loading state
   if (data.loading) {
     return (
-      <div 
+      <div
         data-testid="loading-container"
-        data-loading-phase={loadingProgress.phase}
-        data-progress={`${loadingProgress.loaded}/${loadingProgress.total}`}
         className="h-screen bg-zinc-950 text-white flex items-center justify-center"
       >
         <div className="text-center space-y-6 max-w-md w-full px-6">
@@ -519,12 +446,10 @@ activePlugin.processingStateKeys.forEach((key) => {
     );
   }
 
-  // Error state
   if (data.error) {
     return (
-      <div 
+      <div
         data-testid="error-container"
-        data-has-error={true}
         className="h-screen bg-zinc-950 text-white"
       >
         <ErrorDisplay error={data.error} onDismiss={() => setError(null)} />
@@ -532,17 +457,17 @@ activePlugin.processingStateKeys.forEach((key) => {
     );
   }
 
+  // Determine if data is ready and matches the active plugin
+  const isDataReady =
+    processedPluginData?.pluginId === activePlugin?.metadata.id;
+
   return (
-    <div 
+    <div
       className="h-screen bg-zinc-950 text-white flex flex-col overflow-hidden"
       data-testid="app-container"
-      data-loading={data.loading}
-      data-loading-phase={loadingProgress.phase}
-      data-has-error={!!data.error}
       data-active-plugin={ui.activePluginId || "none"}
-      data-plugin-data-ready={!!processedPluginData}
+      data-plugin-data-ready={isDataReady}
     >
-      {/* Header - Universal controls only */}
       <header
         ref={headerContainerRef}
         data-testid="app-header"
@@ -550,7 +475,6 @@ activePlugin.processingStateKeys.forEach((key) => {
         data-uses-plugin-controls={usesPluginControls}
         className="bg-zinc-900 border-b border-zinc-800 h-14 min-h-14 max-h-14 flex-none z-50 relative select-none"
       >
-        {/* Scroll fade hints */}
         {headerScroll.canScrollLeft && (
           <div className="absolute left-0 top-0 bottom-0 w-12 bg-gradient-to-r from-zinc-900 via-zinc-900/80 to-transparent pointer-events-none z-10" />
         )}
@@ -563,7 +487,6 @@ activePlugin.processingStateKeys.forEach((key) => {
           className="h-full w-full overflow-x-auto overflow-y-hidden px-4 sleek-scrollbar"
         >
           <div className="flex items-center justify-between gap-4 h-full min-w-max">
-            {/* Left: App title and plugin selector */}
             <div className="flex items-center gap-4 flex-shrink-0">
               <div className="flex flex-col">
                 <h1 className="text-base font-bold leading-tight">
@@ -577,7 +500,6 @@ activePlugin.processingStateKeys.forEach((key) => {
               <PluginSelector plugins={plugins} />
             </div>
 
-            {/* Right: Plugin-owned controls + filter button */}
             <div className="flex items-center gap-2 flex-shrink-0">
               {usesPluginControls && (
                 <div className="flex items-center gap-2">
@@ -592,8 +514,14 @@ activePlugin.processingStateKeys.forEach((key) => {
                 data-testid="filters-toggle"
                 data-active={ui.showFilters}
                 data-has-active-filters={hasActiveFilters}
-                data-filter-count={filters.authors.size + filters.fileTypes.size + filters.directories.size + filters.eventTypes.size}
+                data-filter-count={
+                  filters.authors.size +
+                  filters.fileTypes.size +
+                  filters.directories.size +
+                  filters.eventTypes.size
+                }
                 data-disabled={false}
+                title={hasActiveFilters ? "Filters Active" : "Filters"}
                 className={`relative p-2 rounded-lg transition-all duration-200 ${
                   ui.showFilters
                     ? "bg-purple-600 text-white shadow-lg shadow-purple-900/20"
@@ -601,7 +529,6 @@ activePlugin.processingStateKeys.forEach((key) => {
                       ? "bg-zinc-800 text-purple-400 ring-1 ring-purple-500/50 hover:bg-zinc-700 hover:text-purple-300"
                       : "bg-zinc-800 text-zinc-400 hover:text-white hover:bg-zinc-700"
                 }`}
-                title={hasActiveFilters ? "Filters Active" : "Filters"}
               >
                 <Filter size={18} />
                 {hasActiveFilters && !ui.showFilters && (
@@ -613,14 +540,12 @@ activePlugin.processingStateKeys.forEach((key) => {
         </div>
       </header>
 
-      {/* Main layout */}
       <div className="flex-1 flex overflow-hidden">
-        {/* Visualization area */}
         <main
           ref={mainContainerRef}
           data-testid="visualization-container"
           data-active-plugin={ui.activePluginId || "none"}
-          data-rendering={!!processedPluginData && !!activePlugin}
+          data-rendering={isDataReady}
           className="flex-1 flex flex-col overflow-hidden relative"
         >
           <ScrollIndicatorOverlay
@@ -630,7 +555,6 @@ activePlugin.processingStateKeys.forEach((key) => {
           <div ref={containerRef} className="flex-1 overflow-auto"></div>
         </main>
 
-        {/* Filter Panel */}
         <aside
           data-testid="filter-panel-container"
           data-visible={ui.showFilters}
@@ -640,7 +564,6 @@ activePlugin.processingStateKeys.forEach((key) => {
             !ui.showFilters ? "panel-hidden" : ""
           }`}
         >
-          {/* Render plugin-specific filters if available, otherwise fallback to global */}
           {activePlugin?.renderFilters ? (
             activePlugin.renderFilters({
               state: currentPluginState,
@@ -654,14 +577,12 @@ activePlugin.processingStateKeys.forEach((key) => {
               onClose: () => setShowFilters(false),
             })
           ) : (
-  <div className="p-6 text-zinc-500 text-center">
-    <p className="text-sm">No filters available for this plugin.</p>
-  </div>
-
+            <div className="p-6 text-zinc-500 text-center">
+              <p className="text-sm">No filters available for this plugin.</p>
+            </div>
           )}
         </aside>
 
-        {/* Detail Panel */}
         <aside
           data-testid="detail-panel-container"
           data-visible={!!ui.selectedCell}

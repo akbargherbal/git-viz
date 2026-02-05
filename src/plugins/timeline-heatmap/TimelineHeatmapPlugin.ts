@@ -564,14 +564,26 @@ checkActiveFilters = (state: Record<string, unknown>): boolean => {
     return { cells, directories: topDirectories, timeBins, maxValue };
   }
 
-  /**
+
+/**
    * Renders the heatmap visualization
    * Color scheme is fixed to Blue (hue 210°) for commits
    * PHASE 2: Now reflects dynamic directoryCount
    */
   render(data: HeatmapData, config: HeatmapConfig): void {
     if (!this.container) return;
+
+    // ISSUE #06: Structural validation guard
+    if (!data || !data.directories || !Array.isArray(data.cells)) {
+      console.warn(
+        `[TimelineHeatmap] Received invalid data format. Expected HeatmapData object, got:`,
+        Array.isArray(data) ? "Array" : typeof data
+      );
+      return;
+    }
+
     this.container.innerHTML = "";
+
 
     const table = document.createElement("table");
     table.style.borderCollapse = "separate";
