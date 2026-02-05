@@ -505,7 +505,6 @@ export const createMockFileIndex = (overrides?: {
   );
 };
 
-
 /**
  * Factory for project_hierarchy mock data (PHASE 5)
  * Builds a proper tree structure from file paths
@@ -542,7 +541,9 @@ export const createMockProjectHierarchy = (overrides?: {
       const dirName = parts[i];
       const dirPath = parts.slice(0, i + 1).join("/");
 
-      let dir = current.children?.find((c: any) => c.name === dirName && c.type === "directory");
+      let dir = current.children?.find(
+        (c: any) => c.name === dirName && c.type === "directory",
+      );
       if (!dir) {
         dir = {
           name: dirName,
@@ -584,7 +585,6 @@ export const createMockProjectHierarchy = (overrides?: {
   return { tree: root };
 };
 
-
 /**
  * Factory for file_metrics_index mock data (PHASE 5)
  */
@@ -603,22 +603,22 @@ export const createMockFileMetricsIndex = (overrides?: {
             total_commits: file.total_commits || 0,
             lines_added: 0,
             lines_deleted: 0,
-            net_change: 0
+            net_change: 0,
           },
           coupling: {
             top_partners: [],
-            max_strength: 0
+            max_strength: 0,
           },
           lifecycle: {
-             created_iso: file.first_seen,
-             last_modified_iso: file.last_modified,
-             is_dormant: false
+            created_iso: file.first_seen,
+            last_modified_iso: file.last_modified,
+            is_dormant: false,
           },
           identifiers: {
-             author_ids: [],
-             primary_author_id: "unknown",
-             primary_author_percentage: 0
-          }
+            author_ids: [],
+            primary_author_id: "unknown",
+            primary_author_percentage: 0,
+          },
         };
       }
       return acc;

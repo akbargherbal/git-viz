@@ -215,8 +215,10 @@ describe("App Integration", () => {
     fireEvent.click(filterButton);
 
     // Updated assertion: Check for the fallback text since the mock plugin has no renderFilters
-    expect(screen.getByText(/No filters available for this plugin/i)).toBeInTheDocument();
-    
+    expect(
+      screen.getByText(/No filters available for this plugin/i),
+    ).toBeInTheDocument();
+
     // Also verify the container is visible
     const container = screen.getByTestId("filter-panel-container");
     expect(container).toHaveAttribute("data-visible", "true");

@@ -476,7 +476,6 @@ export class TreemapExplorerPlugin implements VisualizationPlugin<TreemapExplore
       "[TreemapExplorer] Required datasets missing - cannot process data",
     );
     return [];
-
   }
 
   /**

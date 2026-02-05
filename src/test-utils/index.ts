@@ -44,8 +44,8 @@ export {
   createEnrichedFileList,
   // Dataset factories
   createMockFileIndex,
-  createMockProjectHierarchy,  // PHASE 5: NEW
-  createMockFileMetricsIndex,  // PHASE 5: NEW
+  createMockProjectHierarchy, // PHASE 5: NEW
+  createMockFileMetricsIndex, // PHASE 5: NEW
   // State factories
   createMockTreemapState,
   createMockTemporalData,

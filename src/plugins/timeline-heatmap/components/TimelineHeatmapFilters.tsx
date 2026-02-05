@@ -115,7 +115,8 @@ export const TimelineHeatmapFilters: React.FC<TimelineHeatmapFiltersProps> = ({
             )}
           </div>
           <p className="text-xs text-zinc-500">
-            Hide specific directories from the heatmap (showing top 50 candidates)
+            Hide specific directories from the heatmap (showing top 50
+            candidates)
           </p>
 
           <div className="space-y-1 max-h-[400px] overflow-y-auto border border-zinc-800 rounded p-2">

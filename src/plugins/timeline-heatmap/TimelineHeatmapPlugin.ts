@@ -147,13 +147,13 @@ export class TimelineHeatmapPlugin implements VisualizationPlugin<
   /**
    * Declare which state fields require data reprocessing
    * Other fields (if added later) only trigger re-render
-   * 
+   *
    * NOTE: 'timeBin' affects processing but is handled separately via filters.timeBin
    * NOTE: 'metric' is fixed to 'commits', so not needed in processing state
    */
-  processingStateKeys: (Extract<keyof TimelineHeatmapState, string>)[] = [
-    'excludedDirectories',
-    'directoryCount',
+  processingStateKeys: Extract<keyof TimelineHeatmapState, string>[] = [
+    "excludedDirectories",
+    "directoryCount",
   ];
 
   /**
@@ -164,24 +164,23 @@ export class TimelineHeatmapPlugin implements VisualizationPlugin<
     const errors: string[] = [];
 
     if (state.directoryCount < 5 || state.directoryCount > 100) {
-      errors.push('directoryCount must be between 5 and 100');
+      errors.push("directoryCount must be between 5 and 100");
     }
 
     if (!Array.isArray(state.excludedDirectories)) {
-      errors.push('excludedDirectories must be an array');
+      errors.push("excludedDirectories must be an array");
     }
 
-    if (!['commits'].includes(state.metric)) {
+    if (!["commits"].includes(state.metric)) {
       errors.push('metric must be "commits"');
     }
 
-    if (!['day', 'week', 'month'].includes(state.timeBin)) {
-      errors.push('timeBin must be one of: day, week, month');
+    if (!["day", "week", "month"].includes(state.timeBin)) {
+      errors.push("timeBin must be one of: day, week, month");
     }
 
     return errors;
   };
-
 
   // ============================================================================
   // PHASE 2: Initial State Definition
@@ -248,23 +247,23 @@ export class TimelineHeatmapPlugin implements VisualizationPlugin<
    * Renders plugin-specific controls
    * Metric is now fixed to "commits", so only time bin selector is shown
    */
-renderControls = (props: PluginControlProps<Record<string, unknown>>) => {
-  const { state, updateState } = props;
-  
-  // Cast state to our specific type inside the function
-  const typedState = state as TimelineHeatmapState;
+  renderControls = (props: PluginControlProps<Record<string, unknown>>) => {
+    const { state, updateState } = props;
 
-  return React.createElement(
-    "div",
-    { className: "flex gap-4 items-center flex-wrap" },
+    // Cast state to our specific type inside the function
+    const typedState = state as TimelineHeatmapState;
 
-    // Time Bin Selector (only control now)
-    React.createElement(TimeBinSelector, {
-      value: typedState.timeBin,
-      onChange: (timeBin: TimeBinType) => updateState({ timeBin }),
-    }),
-  );
-};
+    return React.createElement(
+      "div",
+      { className: "flex gap-4 items-center flex-wrap" },
+
+      // Time Bin Selector (only control now)
+      React.createElement(TimeBinSelector, {
+        value: typedState.timeBin,
+        onChange: (timeBin: TimeBinType) => updateState({ timeBin }),
+      }),
+    );
+  };
 
   /**
    * Renders plugin-specific filters in the sidebar
@@ -272,41 +271,41 @@ renderControls = (props: PluginControlProps<Record<string, unknown>>) => {
    */
 
   renderFilters = (
-  props: PluginControlProps<Record<string, unknown>> & {
-    onClose: () => void;
-  },
-) => {
-  const { state, updateState, data, onClose } = props;
-  
-  // Cast state to our specific type inside the function
-  const typedState = state as TimelineHeatmapState;
+    props: PluginControlProps<Record<string, unknown>> & {
+      onClose: () => void;
+    },
+  ) => {
+    const { state, updateState, data, onClose } = props;
 
-  // Extract available data from metadata
-  const directories = data?.metadata?.directory_stats || [];
+    // Cast state to our specific type inside the function
+    const typedState = state as TimelineHeatmapState;
 
-  return React.createElement(TimelineHeatmapFilters, {
-    directories: directories,
-    excludedDirectories: typedState.excludedDirectories || [],
-    directoryCount: typedState.directoryCount || 20,
-    onExcludedDirectoriesChange: (excluded: string[]) =>
-      updateState({ excludedDirectories: excluded }),
-    onDirectoryCountChange: (count: number) =>
-      updateState({ directoryCount: count }),
+    // Extract available data from metadata
+    const directories = data?.metadata?.directory_stats || [];
 
-    onClose: onClose,
-  });
-};
+    return React.createElement(TimelineHeatmapFilters, {
+      directories: directories,
+      excludedDirectories: typedState.excludedDirectories || [],
+      directoryCount: typedState.directoryCount || 20,
+      onExcludedDirectoriesChange: (excluded: string[]) =>
+        updateState({ excludedDirectories: excluded }),
+      onDirectoryCountChange: (count: number) =>
+        updateState({ directoryCount: count }),
+
+      onClose: onClose,
+    });
+  };
 
   /**
    * Checks if there are any active filters
    */
-checkActiveFilters = (state: Record<string, unknown>): boolean => {
-  const typedState = state as TimelineHeatmapState;
-  return (
-    (typedState.excludedDirectories &&
-      typedState.excludedDirectories.length > 0)
-  );
-};
+  checkActiveFilters = (state: Record<string, unknown>): boolean => {
+    const typedState = state as TimelineHeatmapState;
+    return (
+      typedState.excludedDirectories &&
+      typedState.excludedDirectories.length > 0
+    );
+  };
   // ============================================================================
   // PHASE 2: Layout Configuration
   // ============================================================================
@@ -374,7 +373,8 @@ checkActiveFilters = (state: Record<string, unknown>): boolean => {
     const timeBinType = config?.timeBin || this.defaultConfig.timeBin;
 
     // PHASE 2: Use directoryCount from config/state instead of fixed topN
-    const directoryCount = config?.directoryCount ?? config?.topN ?? this.defaultConfig.topN;
+    const directoryCount =
+      config?.directoryCount ?? config?.topN ?? this.defaultConfig.topN;
     const excludedDirs = new Set(config?.excludedDirectories || []);
 
     // 1. Map IDs to Directory Paths
@@ -420,7 +420,8 @@ checkActiveFilters = (state: Record<string, unknown>): boolean => {
       const dirActivity = new Map<string, number>();
       activity.forEach((item) => {
         const path = idToPath.get(item.id);
-        if (path && !excludedDirs.has(path)) { // PHASE 2: Filter exclusions
+        if (path && !excludedDirs.has(path)) {
+          // PHASE 2: Filter exclusions
           const totalEvents = item.a + item.m + item.del;
           dirActivity.set(path, (dirActivity.get(path) || 0) + totalEvents);
         }
@@ -564,8 +565,7 @@ checkActiveFilters = (state: Record<string, unknown>): boolean => {
     return { cells, directories: topDirectories, timeBins, maxValue };
   }
 
-
-/**
+  /**
    * Renders the heatmap visualization
    * Color scheme is fixed to Blue (hue 210°) for commits
    * PHASE 2: Now reflects dynamic directoryCount
@@ -577,13 +577,12 @@ checkActiveFilters = (state: Record<string, unknown>): boolean => {
     if (!data || !data.directories || !Array.isArray(data.cells)) {
       console.warn(
         `[TimelineHeatmap] Received invalid data format. Expected HeatmapData object, got:`,
-        Array.isArray(data) ? "Array" : typeof data
+        Array.isArray(data) ? "Array" : typeof data,
       );
       return;
     }
 
     this.container.innerHTML = "";
-
 
     const table = document.createElement("table");
     table.style.borderCollapse = "separate";

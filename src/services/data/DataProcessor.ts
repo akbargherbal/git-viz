@@ -12,7 +12,6 @@ import { OptimizedDataset } from "@/types/plugin";
 import { FilterState } from "@/types/visualization";
 import { format } from "date-fns";
 
-
 // ... existing interfaces ...
 export interface RawLifecycleData {
   generated_at: string;
@@ -75,7 +74,6 @@ export interface V2DirectoryStats {
 }
 
 export class DataProcessor {
-
   /**
    * NEW: Process pre-computed frontend data (V2.1)
    * Replaces the heavy ETL logic in processRawData

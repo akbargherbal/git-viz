@@ -31,7 +31,9 @@ export default function TreemapDetailPanel({
       data-file-path={file.key}
       data-file-name={file.key.split("/").pop()}
       data-has-coupling-data={lensMode === "coupling" && !!couplingIndex}
-      data-coupling-threshold={lensMode === "coupling" ? couplingThreshold : undefined}
+      data-coupling-threshold={
+        lensMode === "coupling" ? couplingThreshold : undefined
+      }
     >
       {/* Header */}
       <div className="sticky top-0 bg-zinc-900 border-b border-zinc-800 p-4 flex items-start justify-between gap-3 z-10">

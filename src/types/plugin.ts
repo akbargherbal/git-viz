@@ -109,11 +109,7 @@ export interface PluginLayoutConfig {
  * PHASE 2 EXTENSION: Added cleanup() and processDataCancellable() for lifecycle management
  * FILTER PLAN PHASE 1: Added processingStateKeys for smart state change detection
  */
-export interface VisualizationPlugin<
-  TConfig = any,
-  TData = any,
-  TState = any,
-> {
+export interface VisualizationPlugin<TConfig = any, TData = any, TState = any> {
   metadata: EnhancedPluginMetadata;
 
   // Configuration
@@ -211,7 +207,7 @@ export interface VisualizationPlugin<
   /**
    * FILTER PLAN PHASE 1: Declares which state fields affect data processing
    */
-  processingStateKeys?: (Extract<keyof TState, string>)[];
+  processingStateKeys?: Extract<keyof TState, string>[];
 
   /**
    * FILTER PLAN PHASE 1: Optional method to validate state changes

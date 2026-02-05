@@ -1,106 +1,119 @@
 ## Artifact Analysis
 
-I have analyzed the provided source code. This is a sophisticated **React-based Data Visualization Dashboard** built to analyze Git repository history. It uses **Zustand** for state management, **D3.js** for complex rendering (Treemaps, Arcs), and **Tailwind CSS** for styling.
+Based on the provided source code, I have analyzed the application structure, state management, and UI components. Here is the breakdown of the **Git Repository Evolution** application.
 
-The application revolves around a "Plugin" architecture with two distinct visualization modes:
+### **Detected Layout**
+- **Header**: Contains the app title, a **Visualization Selector** (Dropdown), and a **Global Toolbar** (Time binning, Filter toggle).
+- **Main Canvas**: A large, scrollable area (`<main>`) rendering D3.js visualizations (Heatmap or Treemap). It includes custom overlay scroll controls.
+- **Right Sidebar (Dynamic)**:
+    - **Filter Panel**: Configuration specific to the active visualization (sliders, checkboxes).
+    - **Detail Panel**: Context-aware details that slide in when a data point (file or cell) is clicked.
+- **Bottom Overlay**: A **Timeline Scrubber** that appears specifically when the "Evolution" lens is active in the Treemap.
 
-1.  **Timeline Heatmap**: A temporal grid showing activity intensity per directory over time.
-2.  **Treemap Explorer**: A hierarchical view of the codebase with three distinct "Lenses" (Technical Debt, Coupling, Evolution).
+### **Key Interactions**
+- **Visualization Switching**: Toggling between "Timeline Heatmap" and "Treemap Explorer".
+- **Lens Switching**: Inside Treemap, switching between "Technical Debt", "Coupling", and "Evolution".
+- **Drill-down**: Clicking a heatmap cell or treemap node opens a detailed side panel.
+- **Playback**: A play/pause mechanism for animating the repository history.
 
-### Detected Data Schema
-
-The app relies on a complex set of JSON datasets:
-
-- **Hierarchy**: `project_hierarchy.json` (Folder structure)
-- **Metrics**: `file_metrics_index.json` (Health scores, churn, volume)
-- **Network**: `cochange_network.json` (File coupling/dependencies)
-- **Lifecycle**: `file_lifecycle.json` (Creation dates, dormancy)
-- **People**: `author_network.json` (Contributor stats)
+### **Data Schema (Inferred)**
+The app relies on a complex set of JSON datasets (`file_lifecycle`, `author_network`, `file_metrics`, etc.). The UI consumes aggregated objects looking like:
+```json
+{
+  "path": "src/components/App.js",
+  "healthScore": { "score": 45, "category": "medium", "churnRate": 0.6 },
+  "couplingMetrics": { "maxStrength": 0.8, "coupledFiles": [...] },
+  "activityTimeline": [{ "date": "2023-01-01", "commits": 5 }],
+  "stats": { "total_commits": 150, "unique_authors": 3 }
+}
+```
 
 ---
 
 ## User Journeys
 
-Here are the specific user journeys derived from the code logic:
+Here are the distinct user journeys a user goes through when interacting with this web application:
 
-### 1. The Temporal Overview (Heatmap Analysis)
+### 1. The "High-Level Overview" Journey (Timeline Heatmap)
+*   **Entry**: User loads the app. The **Timeline Heatmap** loads by default.
+*   **Navigation**: User uses the custom on-screen arrow overlays or mouse drag to pan across a large grid of Directories (rows) vs. Time (columns).
+*   **Configuration**:
+    *   User clicks the **Time Bin** selector in the header to group columns by "Week", "Month", or "Quarter".
+    *   User opens the **Filter Panel** to adjust the "Number of Directories" slider (5 to 100) to reduce noise.
+*   **Investigation**:
+    *   User spots a "hot" cell (bright red/orange indicating high activity).
+    *   User **clicks the cell**.
+    *   **Detail Panel** slides in showing:
+        *   Exact commit count, author count, and event composition (Added vs. Deleted vs. Modified).
+        *   "Top Contributors" for that specific time/directory.
+        *   "Most Active Files" list.
 
-**Goal**: Identify when and where the most intense development activity occurred.
+### 2. The "Code Health" Audit (Treemap - Debt Lens)
+*   **Switching Context**: User clicks the Visualization Selector (top left) and chooses **"Treemap Explorer"**.
+*   **Lens Selection**: User ensures the **"Technical Debt"** lens is active (default).
+*   **Visual Scan**: User sees a nested box layout where:
+    *   **Size** = Total Commits (or Authors, togglable via header).
+    *   **Color** = Health Score (Green = Healthy, Red = Critical).
+*   **Filtering**: User opens the Filter Panel and toggles **"Critical Only"** to hide healthy files.
+*   **Deep Dive**:
+    *   User clicks a large red block.
+    *   **Detail Panel** opens showing:
+        *   Health Score (e.g., 30/100).
+        *   Risk factors: "Churn Rate" (high modifications) and "Bus Factor" (low author diversity).
+        *   Lifecycle status (Active vs. Dormant).
 
-- **Trigger**: User loads the app (Default view) or selects "Timeline Heatmap" from the top-left dropdown.
-- **Steps**:
-  1.  User views a matrix where Rows = Directories and Columns = Time (Weeks/Months).
-  2.  User toggles the **Metric** control (Commits vs. Events vs. Authors) to change color intensity.
-  3.  User changes the **Time Bin** (Week, Month, Quarter) to aggregate data differently.
-  4.  User hovers over a specific cell to see a tooltip summary.
-  5.  User **clicks a cell** (intersection of a specific folder and date).
-- **System Response**: A side panel slides in (`Dy` component) showing:
-  - Event composition (Added vs. Modified vs. Deleted).
-  - Top contributors for that specific period/folder.
-  - Most active files within that folder.
+### 3. The "Dependency Discovery" Journey (Treemap - Coupling Lens)
+*   **Lens Selection**: User switches the Treemap lens to **"Coupling Analysis"**.
+*   **Visual Feedback**: The color scale changes to purple (indicating coupling strength).
+*   **Interaction**:
+    *   User hovers over a file.
+    *   **Arcs (Curved Lines)** appear, connecting the hovered file to other files it frequently changes with.
+*   **Refinement**:
+    *   User opens Filters and adjusts the **"Coupling Strength Threshold"** slider.
+    *   Weak connections disappear, leaving only strong architectural dependencies.
+*   **Analysis**:
+    *   User clicks a file.
+    *   **Detail Panel** lists specific "Coupling Partners" sorted by strength (e.g., "Very High - 90%").
 
-### 2. The Technical Debt Audit (Treemap - Debt Lens)
+### 4. The "Time Travel" Journey (Treemap - Evolution Lens)
+*   **Lens Selection**: User switches the Treemap lens to **"Evolution"**.
+*   **Interface Change**: A **Timeline Scrubber** bar appears at the bottom of the screen.
+*   **Playback**:
+    *   User presses the **Play button**.
+    *   The Treemap animates: Files pop in (green) as they are created and fade to grey/dark as they become dormant.
+*   **Manual Scrubbing**:
+    *   User pauses and drags the slider to a specific date (e.g., "Jan 2022").
+    *   User toggles **"Highlight New Files"** in the filter panel to easily spot code introduced at that specific time.
+*   **History Check**:
+    *   User clicks a file.
+    *   **Detail Panel** shows an "Activity Timeline" sparkline graph, visualizing the file's commit history over its entire lifespan.
 
-**Goal**: Find risky files that need refactoring.
 
-- **Trigger**: User switches to "Treemap Explorer" and selects the "DEBT" lens.
-- **Steps**:
-  1.  User sees a nested box layout where Box Size = Commits/Authors and Color = Health Score (Red = Critical, Green = Healthy).
-  2.  User opens the **Filters** panel (`Qf` icon) and checks "Critical Only (Health ≤ 30)".
-  3.  User identifies a large red box and clicks it.
-- **System Response**: The Detail Panel (`ah` component) opens in "Debt Mode":
-  - Displays **Health Score** (0-100).
-  - Shows **Churn Rate** (frequency of rewrites).
-  - Shows **Bus Factor** (risk of knowledge silos/single author).
+---
 
-### 3. The Dependency Investigation (Treemap - Coupling Lens)
+### 1. Shared / Core Datasets
+These are used by multiple views or are fundamental to the file metadata.
+*   **`file_index`**: Contains file-level metadata, primary authors, and basic statistics.
+*   **`file_lifecycle`**: Contains the complete event stream (creations, modifications, deletions) for files.
 
-**Goal**: Understand file inter-dependencies before a refactor.
+### 2. Timeline Heatmap Specific
+Used specifically to generate the directory-over-time visualization.
+*   **`author_network`**: Used to map author IDs to names and calculate contributor stats.
+*   **`directory_stats`**: Pre-aggregated statistics for the directory hierarchy rows.
 
-- **Trigger**: User selects the "COUP" (Coupling) lens in Treemap Explorer.
-- **Steps**:
-  1.  User adjusts the **Coupling Threshold** slider in the settings panel to filter out weak links.
-  2.  User toggles "Show Coupling Arcs" to visualize connections as drawn lines (`w2` D3 renderer).
-  3.  User clicks on a specific file.
-- **System Response**:
-  - The Detail Panel shows a list of **Coupled Files** (files that frequently change together).
-  - It displays the **Coupling Strength** (0.0 - 1.0).
-  - Visual arcs are drawn on the canvas connecting the selected file to its partners.
+### 3. Treemap Explorer Specific
+Used to generate the nested box visualization and its specific lenses (Debt, Coupling, Evolution).
+*   **`project_hierarchy`**: The complete directory tree structure used to build the D3 treemap layout.
+*   **`file_metrics_index`**: Contains the calculated health scores, churn rates, and bus factors.
+*   **`cochange_network`**: Used specifically for the **Coupling Lens** to draw arcs and calculate dependency strength.
+*   **`temporal_daily`**: Used specifically for the **Evolution Lens** to drive the timeline scrubber and animation.
+*   **`temporal_activity_map`**: Listed as an optional requirement for the Treemap, likely for detailed sparklines.
 
-### 4. The Repository Evolution (Treemap - Time Lens)
+---
 
-**Goal**: Visualize how the codebase grew over time and identify dormant code.
+### Datasets Registered but NOT Used
+The following datasets appear in the registry (`Yf` class) but are **not** requested by any active plugin in the provided code:
+*   `temporal_monthly`
+*   `release_snapshots`
 
-- **Trigger**: User selects the "TIME" (Evolution) lens in Treemap Explorer.
-- **Steps**:
-  1.  A **Timeline Scrubber** (`v2` component) appears at the bottom of the screen.
-  2.  User presses **Play** or drags the scrubber.
-  3.  User toggles "Highlight New Files" or "Fade Dormant Files" in settings.
-- **System Response**:
-  - The Treemap updates dynamically.
-  - New files flash **Green** as they appear in the timeline.
-  - Old, untouched files fade to **Dark Grey** (Dormant status).
-  - The Detail Panel shows the file's "Age" and "Last Modified" dates.
-
-### 5. The Contributor Deep Dive (Global Filtering)
-
-**Goal**: Analyze the impact of a specific developer or file type.
-
-- **Trigger**: User clicks the Filter toggle button.
-- **Steps**:
-  1.  User types a name in the **Author Search** box.
-  2.  User selects specific authors (e.g., "John Doe").
-  3.  User selects specific file extensions (e.g., `.ts`, `.tsx`).
-- **System Response**:
-  - The visualization (Heatmap or Treemap) immediately redraws.
-  - Data points not matching the selected authors/extensions are hidden or zeroed out.
-  - A badge on the filter icon shows the count of active filters.
-
-### 6. Navigation & Export
-
-**Goal**: Explore large datasets or save findings.
-
-- **Steps**:
-  1.  **Panning**: User drags the canvas (if zoomed in) or uses the custom arrow overlays (`Ty` component) on the edges of the screen.
-  2.  **Zooming**: User uses the mouse wheel to zoom in/out of the Treemap.
-  3.  **Error Recovery**: If a dataset fails to load, an Error Boundary (`by` component) appears, allowing the user to dismiss and retry.
+---
