@@ -54,7 +54,11 @@ describe("TimelineHeatmapPlugin - Granularity & Continuity", () => {
     (DataProcessor.processRawData as any).mockReturnValue(mockOptimizedData);
 
     const mockRawDataset = {
-      lifecycle: {},
+      lifecycle: {
+        files: {
+          "src/file.ts": { commits: [], timeline: [] }, // FIX: Add minimal valid structure
+        },
+      },
       authors: [],
       files: {},
       dirs: [],
