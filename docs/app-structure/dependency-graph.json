@@ -4,13 +4,9 @@
     "App.tsx"
   ],
   "components/common/ErrorDisplay.tsx": [],
-  "components/common/FilterPanel.tsx": [],
   "components/common/LoadingSpinner.tsx": [],
   "components/common/ScrollIndicatorOverlay.tsx": [],
   "components/common/TimeBinSelector.tsx": [],
-  "components/common/__tests__/FilterPanel.test.tsx": [
-    "components/common/FilterPanel.tsx"
-  ],
   "components/layout/PluginSelector.tsx": [],
   "hooks/useScrollIndicators.tsx": [],
   "index.css": [],
@@ -23,7 +19,9 @@
     "plugins/core/PluginRegistry.ts"
   ],
   "plugins/init.ts": [],
-  "plugins/timeline-heatmap/TimelineHeatmapPlugin.ts": [],
+  "plugins/timeline-heatmap/TimelineHeatmapPlugin.ts": [
+    "plugins/timeline-heatmap/components/TimelineHeatmapFilters.tsx"
+  ],
   "plugins/timeline-heatmap/__tests__/TimelineHeatmapPlugin.Granularity.test.ts": [
     "plugins/timeline-heatmap/TimelineHeatmapPlugin.ts"
   ],
@@ -33,9 +31,9 @@
   "plugins/timeline-heatmap/components/CellDetailPanel.tsx": [
     "plugins/timeline-heatmap/TimelineHeatmapPlugin.ts"
   ],
+  "plugins/timeline-heatmap/components/TimelineHeatmapFilters.tsx": [],
   "plugins/treemap-explorer/TreemapExplorerPlugin.tsx": [
     "plugins/treemap-explorer/components/TimelineScrubber.tsx",
-    "plugins/treemap-explorer/components/TreemapDetailPanel.tsx",
     "plugins/treemap-explorer/components/TreemapExplorerControls.tsx",
     "plugins/treemap-explorer/components/TreemapExplorerFilters.tsx",
     "plugins/treemap-explorer/renderers/BaseTreemapRenderer.ts",
@@ -48,8 +46,9 @@
   "plugins/treemap-explorer/__tests__/TreemapExplorer.TimeLens.integration.test.ts": [
     "plugins/treemap-explorer/TreemapExplorerPlugin.tsx"
   ],
-  "plugins/treemap-explorer/__tests__/TreemapExplorerPlugin.test.tsx": [
-    "plugins/treemap-explorer/TreemapExplorerPlugin.tsx"
+  "plugins/treemap-explorer/__tests__/TreemapExplorerPlugin.Temporal.test.tsx": [
+    "plugins/treemap-explorer/TreemapExplorerPlugin.tsx",
+    "plugins/treemap-explorer/types.ts"
   ],
   "plugins/treemap-explorer/components/CouplingView.tsx": [
     "plugins/treemap-explorer/types.ts"

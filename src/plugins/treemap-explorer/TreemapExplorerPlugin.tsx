@@ -16,7 +16,6 @@ import {
 import { HealthScoreCalculator } from "@/services/data/HealthScoreCalculator";
 import { TreemapExplorerControls } from "./components/TreemapExplorerControls";
 import { TreemapExplorerFilters } from "./components/TreemapExplorerFilters";
-import TreemapDetailPanel from "./components/TreemapDetailPanel";
 import TimelineScrubber from "./components/TimelineScrubber";
 import { CouplingArcRenderer } from "./renderers/CouplingArcRenderer";
 import { EnrichedFileData, TreemapExplorerState } from "./types";
@@ -436,6 +435,54 @@ export class TreemapExplorerPlugin implements VisualizationPlugin<TreemapExplore
 
       this.temporalData = dataset.temporal_daily;
 
+      // FALLBACK: If temporal_daily is missing, calculate range from file metadata
+      if (!this.temporalData && enrichedFiles.length > 0) {
+        console.log(
+          "[TreemapExplorer] temporal_daily missing - calculating fallback range from files",
+        );
+
+        let minTime = Infinity;
+        let maxTime = -Infinity;
+
+        enrichedFiles.forEach((file) => {
+          if (file.first_seen) {
+            const t = new Date(file.first_seen).getTime();
+            if (!isNaN(t) && t < minTime) minTime = t;
+          }
+          if (file.last_modified) {
+            const t = new Date(file.last_modified).getTime();
+            if (!isNaN(t) && t > maxTime) maxTime = t;
+          }
+        });
+
+        if (minTime !== Infinity && maxTime !== -Infinity) {
+          const minDate = new Date(minTime).toISOString().split("T")[0];
+          const maxDate = new Date(maxTime).toISOString().split("T")[0];
+
+          // Create synthetic temporal data
+          this.temporalData = {
+            days: [
+              {
+                date: minDate,
+                commits: 0,
+                files_changed: 0,
+                unique_authors: 0,
+                key: minDate,
+                operations: {},
+              },
+              {
+                date: maxDate,
+                commits: 0,
+                files_changed: 0,
+                unique_authors: 0,
+                key: maxDate,
+                operations: {},
+              },
+            ],
+          } as any;
+        }
+      }
+
       // DEBUG: Check temporal data loading
       console.log("[TreemapExplorer] DEBUG - temporal_daily status:", {
         exists: !!dataset.temporal_daily,
@@ -443,29 +490,33 @@ export class TreemapExplorerPlugin implements VisualizationPlugin<TreemapExplore
           ? Object.keys(dataset.temporal_daily.days || {}).length
           : 0,
         timeRendererExists: !!this.timeRenderer,
+        fallbackApplied: !dataset.temporal_daily && !!this.temporalData,
       });
 
-      if (this.temporalData) {
-        this.dateRange = TemporalDataProcessor.getDateRange(this.temporalData);
+      // PHASE 1 FIX: Always set dateRange. TemporalDataProcessor.getDateRange
+      // handles null gracefully by returning default range (2020-2024).
+      this.dateRange = TemporalDataProcessor.getDateRange(
+        this.temporalData as TemporalDailyData,
+      );
 
-        // PHASE 4: Set temporal data on time renderer (even if it doesn't exist yet)
-        // It will be set again in render() if needed
-        if (this.timeRenderer) {
-          console.log(
-            "[TreemapExplorer] Setting temporal data on TimeRenderer in processData",
-          );
-          this.timeRenderer.setTemporalData(
-            this.temporalData,
-            this.timelineCache,
-          );
-        } else {
-          console.warn(
-            "[TreemapExplorer] TimeRenderer not initialized yet - will set temporal data during render",
-          );
-        }
+      if (!this.temporalData) {
+        console.warn(
+          "[TreemapExplorer] temporal_daily dataset missing - using default date range",
+        );
+      }
+
+      // Set temporal data on time renderer
+      if (this.timeRenderer) {
+        console.log(
+          "[TreemapExplorer] Setting temporal data on TimeRenderer in processData",
+        );
+        this.timeRenderer.setTemporalData(
+          this.temporalData,
+          this.timelineCache,
+        );
       } else {
         console.warn(
-          "[TreemapExplorer] temporal_daily dataset is undefined or null",
+          "[TreemapExplorer] TimeRenderer not initialized yet - will set temporal data during render",
         );
       }
 
@@ -654,6 +705,39 @@ export class TreemapExplorerPlugin implements VisualizationPlugin<TreemapExplore
     );
   }
 
+  renderOverlay(props: PluginControlProps<TreemapExplorerState>) {
+    // DEBUG: Check dateRange value
+    console.log("[TreemapExplorer] renderOverlay - dateRange:", this.dateRange);
+
+    const { state, updateState } = props;
+
+    // Only render if we have a valid date range
+    if (!this.dateRange) return null;
+
+    return (
+      <TimelineScrubber
+        minDate={this.dateRange.min}
+        maxDate={this.dateRange.max}
+        currentPosition={state.timePosition ?? 100}
+        visible={state.lensMode === "time"}
+        onPositionChange={(position) => {
+          updateState({ timePosition: position });
+        }}
+        onPlayToggle={() => {
+          const isPlaying = !state.playing;
+          updateState({ playing: isPlaying });
+
+          if (isPlaying) {
+            this.startPlayback(state, updateState);
+          } else {
+            this.stopPlayback();
+          }
+        }}
+        playing={state.playing ?? false}
+      />
+    );
+  }
+
   private startPlayback(
     state: TreemapExplorerState,
     updateState: (updates: Partial<TreemapExplorerState>) => void,
@@ -678,58 +762,5 @@ export class TreemapExplorerPlugin implements VisualizationPlugin<TreemapExplore
       clearInterval(this.playbackInterval);
       this.playbackInterval = null;
     }
-  }
-
-  renderUI(
-    state: TreemapExplorerState,
-    updateState: (updates: Partial<TreemapExplorerState>) => void,
-  ): JSX.Element {
-    const selectedFile = this.data.find((f) => f.key === state.selectedFile);
-
-    return (
-      <>
-        <TreemapExplorerControls
-          state={state}
-          updateState={updateState}
-          data={this.data}
-        />
-        <TreemapExplorerFilters
-          state={state}
-          onStateChange={updateState}
-          onClose={() => {}}
-        />
-        {selectedFile && (
-          <TreemapDetailPanel
-            file={selectedFile}
-            lensMode={state.lensMode}
-            couplingIndex={this.couplingIndex}
-            couplingThreshold={state.couplingThreshold}
-            onClose={() => updateState({ selectedFile: null })}
-          />
-        )}
-        {state.lensMode === "time" && this.dateRange && (
-          <TimelineScrubber
-            minDate={this.dateRange.min}
-            maxDate={this.dateRange.max}
-            currentPosition={state.timePosition ?? 100}
-            visible={true}
-            onPositionChange={(position) => {
-              updateState({ timePosition: position });
-            }}
-            onPlayToggle={() => {
-              const isPlaying = !state.playing;
-              updateState({ playing: isPlaying });
-
-              if (isPlaying) {
-                this.startPlayback(state, updateState);
-              } else {
-                this.stopPlayback();
-              }
-            }}
-            playing={state.playing ?? false}
-          />
-        )}
-      </>
-    );
   }
 }

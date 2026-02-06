@@ -1,6 +1,6 @@
 {
   "metadata": {
-    "generatedAt": "2026-02-04T18:28:56.232Z",
+    "generatedAt": "2026-02-06T12:58:33.252Z",
     "projectRoot": "/home/akbar/Jupyter_Notebooks/SOFTWARE_ARCHEOLOGY/git-viz",
     "outputDirectory": "docs/app-structure"
   },
@@ -33,68 +33,6 @@
       "components": [
         {
           "name": "ErrorDisplay",
-          "type": "function",
-          "props": "unknown"
-        },
-        {
-          "name": "default",
-          "type": "function",
-          "props": "unknown"
-        }
-      ],
-      "hooks": [],
-      "types": []
-    },
-    {
-      "path": "src/components/common/FilterPanel.tsx",
-      "exports": [
-        {
-          "name": "FilterPanel",
-          "kind": "VariableDeclaration"
-        },
-        {
-          "name": "default",
-          "kind": "VariableDeclaration"
-        }
-      ],
-      "imports": [
-        {
-          "from": "react",
-          "default": "React",
-          "named": [
-            "useMemo",
-            "useState"
-          ]
-        },
-        {
-          "from": "@/store/appStore",
-          "named": [
-            "useAppStore"
-          ]
-        },
-        {
-          "from": "lucide-react",
-          "named": [
-            "X",
-            "Filter",
-            "User",
-            "File",
-            "RotateCcw",
-            "Search",
-            "ChevronDown",
-            "ChevronUp"
-          ]
-        },
-        {
-          "from": "@/types/domain",
-          "named": [
-            "RepoMetadata"
-          ]
-        }
-      ],
-      "components": [
-        {
-          "name": "FilterPanel",
           "type": "function",
           "props": "unknown"
         },
@@ -371,6 +309,33 @@
         },
         {
           "name": "default",
+          "type": "function",
+          "props": "unknown"
+        }
+      ],
+      "hooks": [],
+      "types": []
+    },
+    {
+      "path": "src/plugins/timeline-heatmap/components/TimelineHeatmapFilters.tsx",
+      "exports": [
+        {
+          "name": "TimelineHeatmapFilters",
+          "kind": "VariableDeclaration"
+        }
+      ],
+      "imports": [
+        {
+          "from": "react",
+          "default": "React",
+          "named": [
+            "useMemo"
+          ]
+        }
+      ],
+      "components": [
+        {
+          "name": "TimelineHeatmapFilters",
           "type": "function",
           "props": "unknown"
         }
@@ -838,9 +803,9 @@
           ]
         },
         {
-          "from": "@/components/common/FilterPanel",
+          "from": "./components/TimelineHeatmapFilters",
           "named": [
-            "FilterPanel"
+            "TimelineHeatmapFilters"
           ]
         },
         {
@@ -918,11 +883,6 @@
           "named": [
             "TreemapExplorerFilters"
           ]
-        },
-        {
-          "from": "./components/TreemapDetailPanel",
-          "default": "TreemapDetailPanel",
-          "named": []
         },
         {
           "from": "./components/TimelineScrubber",
@@ -1880,7 +1840,7 @@
         {
           "name": "PluginControlProps",
           "kind": "InterfaceDeclaration",
-          "definition": "export interface PluginControlProps<TState = Record<string, unknown>> {\n  /** Current plugin state (managed by store) */\n  state: TState;\n\n  /** Update function for plugin state (merges updates) */..."
+          "definition": "export interface PluginControlProps<TState = any> {\n  /** Current plugin state (managed by store) */\n  state: TState;\n\n  /** Update function for plugin state (merges updates) */..."
         },
         {
           "name": "PluginLayoutConfig",
@@ -1890,7 +1850,7 @@
         {
           "name": "VisualizationPlugin",
           "kind": "InterfaceDeclaration",
-          "definition": "export interface VisualizationPlugin<\n  TConfig = any,\n  TData = any,\n  TState = Record<string, unknown>,\n> {..."
+          "definition": "export interface VisualizationPlugin<TConfig = any, TData = any, TState = any> {\n  metadata: EnhancedPluginMetadata;\n\n  // Configuration\n  defaultConfig: TConfig;..."
         }
       ]
     },
@@ -1944,16 +1904,6 @@
               ],
               "components": [
                 "ErrorDisplay",
-                "default"
-              ]
-            },
-            "FilterPanel.tsx": {
-              "exports": [
-                "FilterPanel",
-                "default"
-              ],
-              "components": [
-                "FilterPanel",
                 "default"
               ]
             },
@@ -2012,6 +1962,14 @@
                 "components": [
                   "CellDetailPanel",
                   "default"
+                ]
+              },
+              "TimelineHeatmapFilters.tsx": {
+                "exports": [
+                  "TimelineHeatmapFilters"
+                ],
+                "components": [
+                  "TimelineHeatmapFilters"
                 ]
               }
             }

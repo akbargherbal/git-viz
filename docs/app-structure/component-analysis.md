@@ -1,15 +1,11 @@
 # React Application Structure Analysis
 
-Generated: 2026-02-04T18:28:56.232Z
+Generated: 2026-02-06T12:58:33.252Z
 
 ## Components
 
 ### src/components/common/ErrorDisplay.tsx
 - **ErrorDisplay** (function)
-- **default** (function)
-
-### src/components/common/FilterPanel.tsx
-- **FilterPanel** (function)
 - **default** (function)
 
 ### src/components/common/LoadingSpinner.tsx
@@ -31,6 +27,9 @@ Generated: 2026-02-04T18:28:56.232Z
 ### src/plugins/timeline-heatmap/components/CellDetailPanel.tsx
 - **CellDetailPanel** (function)
 - **default** (function)
+
+### src/plugins/timeline-heatmap/components/TimelineHeatmapFilters.tsx
+- **TimelineHeatmapFilters** (function)
 
 ### src/plugins/treemap-explorer/components/CouplingView.tsx
 - **CouplingView** (function)
