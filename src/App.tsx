@@ -464,6 +464,21 @@ const App: React.FC = () => {
     });
   };
 
+  const renderPluginOverlay = () => {
+    if (!activePlugin) return null;
+
+    return activePlugin.renderOverlay?.({
+      state: currentPluginState,
+      updateState: updatePluginState,
+      data: {
+        metadata: data.metadata,
+        tree: data.tree,
+        activity: data.activity,
+      },
+      config: activePlugin.defaultConfig,
+    });
+  };
+
   const renderDetailPanel = () => {
     if (!ui.selectedCell) return null;
 
@@ -622,6 +637,7 @@ const App: React.FC = () => {
             state={mainScroll}
             onScroll={mainScroll.scroll}
           />
+          {renderPluginOverlay()}
           <div ref={containerRef} className="flex-1 overflow-auto"></div>
         </main>
 

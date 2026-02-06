@@ -108,6 +108,7 @@ export interface PluginLayoutConfig {
  * PHASE 1 EXTENSION: Added optional methods for self-contained control management
  * PHASE 2 EXTENSION: Added cleanup() and processDataCancellable() for lifecycle management
  * FILTER PLAN PHASE 1: Added processingStateKeys for smart state change detection
+ * BUG #1 FIX: Added renderOverlay() for plugin overlay components (time scrubbers, etc.)
  */
 export interface VisualizationPlugin<TConfig = any, TData = any, TState = any> {
   metadata: EnhancedPluginMetadata;
@@ -155,6 +156,15 @@ export interface VisualizationPlugin<TConfig = any, TData = any, TState = any> {
   renderFilters?: (
     props: PluginControlProps<TState> & { onClose: () => void },
   ) => React.ReactNode;
+
+  /**
+   * Render custom overlay for this plugin
+   * Rendered on top of the visualization (e.g., timeline scrubbers, playback controls)
+   *
+   * @param props - Control rendering props including state and update callback
+   * @returns React element to render as an overlay
+   */
+  renderOverlay?: (props: PluginControlProps<TState>) => React.ReactNode;
 
   /**
    * Check if the plugin has active filters
