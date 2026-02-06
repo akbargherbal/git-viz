@@ -7,6 +7,19 @@ import {
   TemporalDailyData,
 } from "@/plugins/treemap-explorer/types";
 
+export enum DateRangeConfidence {
+  HIGH = "high", // From real temporal_daily data
+  MEDIUM = "medium", // Calculated from file metadata
+  LOW = "low", // Hardcoded fallback
+}
+
+export interface DateRangeResult {
+  min: string;
+  max: string;
+  confidence: DateRangeConfidence;
+  source: string;
+}
+
 /**
  * Processes temporal data and enriches files with time-based context
  */
@@ -21,7 +34,9 @@ export class TemporalDataProcessor {
     currentPosition: number,
     timelineCache?: Map<string, Array<{ date: string; commits: number }>>,
   ): TemporalFileData[] {
-    const dateRange = this.getDateRange(temporalDaily);
+    // Use the new getDateRange API but extract just min/max for internal use
+    const dateRangeResult = this.getDateRange(temporalDaily);
+    const dateRange = { min: dateRangeResult.min, max: dateRangeResult.max };
 
     return files.map((file) => {
       const createdDate = file.first_seen || "";
@@ -44,7 +59,8 @@ export class TemporalDataProcessor {
 
       // FIX: Clamp position between 0 and 100 to handle dates outside range
       let createdPosition = 0;
-      if (maxTimestamp > minTimestamp) {
+      // ✅ ADDED CHECK: !isNaN(createdTimestamp) to prevent NaN when date is missing
+      if (!isNaN(createdTimestamp) && maxTimestamp > minTimestamp) {
         const rawPosition =
           ((createdTimestamp - minTimestamp) / (maxTimestamp - minTimestamp)) *
           100;
@@ -82,33 +98,94 @@ export class TemporalDataProcessor {
   /**
    * Get date range from temporal daily data
    */
-  static getDateRange(temporalDaily: TemporalDailyData): {
-    min: string;
-    max: string;
-  } {
-    if (!temporalDaily) {
-      return { min: "2020-01-01", max: "2024-12-31" };
+  static getDateRange(temporalDaily: TemporalDailyData): DateRangeResult {
+    // Case 1: Real temporal data exists
+    if (temporalDaily) {
+      let daysArray: any[] = [];
+      if (Array.isArray(temporalDaily.days)) {
+        daysArray = temporalDaily.days;
+      } else if (
+        typeof temporalDaily.days === "object" &&
+        temporalDaily.days !== null
+      ) {
+        daysArray = Object.values(temporalDaily.days);
+      }
+
+      if (daysArray.length > 0) {
+        const dates = daysArray.map((d) => d.date).sort();
+        console.log("[TemporalDataProcessor] Using real temporal data", {
+          dateCount: dates.length,
+          range: [dates[0], dates[dates.length - 1]],
+        });
+        return {
+          min: dates[0],
+          max: dates[dates.length - 1],
+          confidence: DateRangeConfidence.HIGH,
+          source: "temporal_daily dataset",
+        };
+      }
     }
 
-    // Handle both Array and Object formats for 'days'
-    let daysArray: any[] = [];
-    if (Array.isArray(temporalDaily.days)) {
-      daysArray = temporalDaily.days;
-    } else if (
-      typeof temporalDaily.days === "object" &&
-      temporalDaily.days !== null
-    ) {
-      daysArray = Object.values(temporalDaily.days);
-    }
+    // Case 2: Fallback to hardcoded range
+    console.warn(
+      "[TemporalDataProcessor] ⚠️ FALLBACK: Using hardcoded date range. " +
+        "temporal_daily dataset is missing or empty. Time lens will show full timeline.",
+    );
 
-    if (daysArray.length === 0) {
-      return { min: "2020-01-01", max: "2024-12-31" };
-    }
-
-    const dates = daysArray.map((d) => d.date).sort();
     return {
-      min: dates[0],
-      max: dates[dates.length - 1],
+      min: "2020-01-01",
+      max: "2024-12-31",
+      confidence: DateRangeConfidence.LOW,
+      source: "hardcoded fallback",
+    };
+  }
+
+  /**
+   * Calculate date range from file metadata (medium confidence)
+   * Used when temporal_daily is missing but files have dates
+   */
+  static calculateRangeFromFiles(
+    files: Array<{ first_seen?: string; last_modified?: string }>,
+  ): DateRangeResult | null {
+    let minTime = Infinity;
+    let maxTime = -Infinity;
+    let validDates = 0;
+
+    files.forEach((file) => {
+      if (file.first_seen) {
+        const t = new Date(file.first_seen).getTime();
+        if (!isNaN(t) && t < minTime) {
+          minTime = t;
+          validDates++;
+        }
+      }
+      if (file.last_modified) {
+        const t = new Date(file.last_modified).getTime();
+        if (!isNaN(t) && t > maxTime) {
+          maxTime = t;
+          validDates++;
+        }
+      }
+    });
+
+    if (minTime === Infinity || maxTime === -Infinity || validDates < 2) {
+      return null; // Not enough data
+    }
+
+    const minDate = new Date(minTime).toISOString().split("T")[0];
+    const maxDate = new Date(maxTime).toISOString().split("T")[0];
+
+    console.log("[TemporalDataProcessor] Calculated range from file metadata", {
+      filesScanned: files.length,
+      validDates,
+      range: [minDate, maxDate],
+    });
+
+    return {
+      min: minDate,
+      max: maxDate,
+      confidence: DateRangeConfidence.MEDIUM,
+      source: "calculated from file metadata",
     };
   }
 

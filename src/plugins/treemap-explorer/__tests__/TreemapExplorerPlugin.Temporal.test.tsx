@@ -3,7 +3,7 @@
 import { describe, it, expect, beforeEach, vi } from "vitest";
 import { TreemapExplorerPlugin } from "../TreemapExplorerPlugin";
 import { TreemapExplorerState } from "../types";
-import { TemporalDataProcessor } from "@/services/data/TemporalDataProcessor";
+import { TemporalDataProcessor, DateRangeConfidence } from "@/services/data/TemporalDataProcessor";
 import {
   createTemporalFile,
   createMockProjectHierarchy,
@@ -105,7 +105,7 @@ describe("TreemapExplorerPlugin - Temporal Behavior", () => {
       const overlay = plugin.renderOverlay(overlayProps);
 
       expect(overlay).not.toBeNull();
-      
+
       const dateRange = (plugin as any).dateRange;
       expect(dateRange).not.toBeNull();
       expect(dateRange.min).toBe("2023-01-15");
@@ -129,7 +129,7 @@ describe("TreemapExplorerPlugin - Temporal Behavior", () => {
       const overlay = plugin.renderOverlay(overlayProps);
 
       expect(overlay).not.toBeNull();
-      
+
       const dateRange = (plugin as any).dateRange;
       expect(dateRange).not.toBeNull();
       expect(dateRange.min).toBe("2022-01-01");
@@ -156,7 +156,7 @@ describe("TreemapExplorerPlugin - Temporal Behavior", () => {
       const overlay = plugin.renderOverlay(overlayProps);
 
       expect(overlay).not.toBeNull();
-      
+
       const dateRange = (plugin as any).dateRange;
       expect(dateRange).toEqual({
         min: "2020-01-01",
@@ -172,6 +172,8 @@ describe("TreemapExplorerPlugin - Temporal Behavior", () => {
       expect(result).toEqual({
         min: "2020-01-01",
         max: "2024-12-31",
+        confidence: DateRangeConfidence.LOW,
+        source: "hardcoded fallback",
       });
     });
 
@@ -183,6 +185,8 @@ describe("TreemapExplorerPlugin - Temporal Behavior", () => {
       expect(result).toEqual({
         min: "2020-01-01",
         max: "2024-12-31",
+        confidence: DateRangeConfidence.LOW,
+        source: "hardcoded fallback",
       });
     });
   });
@@ -208,7 +212,7 @@ describe("TreemapExplorerPlugin - Temporal Behavior", () => {
       const overlay = plugin.renderOverlay(overlayProps);
 
       expect(overlay).not.toBeNull();
-      
+
       const dateRange = (plugin as any).dateRange;
       expect(dateRange).not.toBeNull();
       expect(dateRange).toEqual({
@@ -253,7 +257,7 @@ describe("TreemapExplorerPlugin - Temporal Behavior", () => {
       const overlay = plugin.renderOverlay(overlayProps);
 
       expect(overlay).not.toBeNull();
-      
+
       const dateRange = (plugin as any).dateRange;
       expect(dateRange.min).toBe("2022-01-01");
       expect(dateRange.max).toBe("2025-01-15");

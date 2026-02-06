@@ -22,6 +22,9 @@ export class TimeRenderer extends BaseTreemapRenderer {
   private timelineCache: Map<string, Array<{ date: string; commits: number }>> =
     new Map();
 
+  // Track initialization state
+  private isInitialized: boolean = false;
+
   /**
    * Set temporal data and timeline cache for enrichment
    */
@@ -31,6 +34,24 @@ export class TimeRenderer extends BaseTreemapRenderer {
   ): void {
     this.temporalData = temporalData;
     this.timelineCache = timelineCache;
+    this.isInitialized = true;
+
+    console.log("[TimeRenderer] Temporal data set - renderer initialized");
+  }
+
+  /**
+   * Validate that temporal data has been set before rendering
+   */
+  private ensureInitialized(methodName: string): void {
+    if (!this.isInitialized) {
+      const error = new Error(
+        `[TimeRenderer] ${methodName}() called before setTemporalData(). ` +
+          `Temporal data must be set via setTemporalData() before rendering methods can be called. ` +
+          `Check that TreemapExplorerPlugin.processData() completed successfully.`,
+      );
+      console.error(error.message);
+      throw error;
+    }
   }
 
   /**
@@ -41,6 +62,8 @@ export class TimeRenderer extends BaseTreemapRenderer {
     data: EnrichedFileData[],
     state: TreemapExplorerState,
   ): EnrichedFileData[] {
+    this.ensureInitialized("enrichData");
+
     // If no temporal data, return files as-is (they'll all be visible at position 100)
     if (!this.temporalData) {
       console.info(
@@ -70,6 +93,8 @@ export class TimeRenderer extends BaseTreemapRenderer {
     data: EnrichedFileData[],
     state: TreemapExplorerState,
   ): EnrichedFileData[] {
+    this.ensureInitialized("filterData");
+
     const timePosition = state.timePosition ?? 100;
 
     return data.filter((f: any) => {
@@ -86,6 +111,8 @@ export class TimeRenderer extends BaseTreemapRenderer {
    * Use time-based color scale from utils
    */
   getCellColor(file: EnrichedFileData, state: TreemapExplorerState): string {
+    // No validation needed here as it's called by base class during render
+    // and doesn't depend on temporalData directly (uses file properties)
     return getCellColor(file, state.lensMode, {
       timePosition: state.timePosition,
       timeFilters: state.timeFilters,
@@ -101,6 +128,7 @@ export class TimeRenderer extends BaseTreemapRenderer {
     _cells: d3.HierarchyRectangularNode<any>[],
     _state: TreemapExplorerState,
   ): void {
+    this.ensureInitialized("renderExtras");
     // No overlays needed for time lens
   }
 
@@ -114,6 +142,7 @@ export class TimeRenderer extends BaseTreemapRenderer {
     show: boolean;
     additionalRows?: Array<{ label: string; value: string }>;
   } {
+    // No validation needed here as it operates on already enriched file data
     const additionalRows: Array<{ label: string; value: string }> = [];
 
     // Check if file has temporal data
@@ -147,9 +176,12 @@ export class TimeRenderer extends BaseTreemapRenderer {
   }
 
   /**
-   * No special cleanup for time lens
+   * Reset initialization state
    */
   cleanup(): void {
-    // No resources to cleanup
+    this.isInitialized = false;
+    this.temporalData = null;
+    this.timelineCache.clear();
+    console.log("[TimeRenderer] Cleanup complete - renderer deinitialized");
   }
 }

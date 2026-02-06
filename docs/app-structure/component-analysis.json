@@ -1,6 +1,6 @@
 {
   "metadata": {
-    "generatedAt": "2026-02-06T12:58:33.252Z",
+    "generatedAt": "2026-02-06T18:24:00.366Z",
     "projectRoot": "/home/akbar/Jupyter_Notebooks/SOFTWARE_ARCHEOLOGY/git-viz",
     "outputDirectory": "docs/app-structure"
   },
@@ -863,7 +863,8 @@
           "from": "@/services/data/TemporalDataProcessor",
           "named": [
             "TemporalDataProcessor",
-            "TemporalDailyData"
+            "TemporalDailyData",
+            "DateRangeConfidence"
           ]
         },
         {
@@ -1269,6 +1270,33 @@
       ]
     },
     {
+      "path": "src/services/data/DataFormatAdapter.ts",
+      "exports": [
+        {
+          "name": "DataFormat",
+          "kind": "EnumDeclaration"
+        },
+        {
+          "name": "AdaptedDataset",
+          "kind": "InterfaceDeclaration"
+        },
+        {
+          "name": "DataFormatAdapter",
+          "kind": "ClassDeclaration"
+        }
+      ],
+      "imports": [],
+      "components": [],
+      "hooks": [],
+      "types": [
+        {
+          "name": "AdaptedDataset",
+          "kind": "InterfaceDeclaration",
+          "definition": "export interface AdaptedDataset {\n  data: Record<string, any>;\n  format: DataFormat;\n  adaptations: string[]; // List of transformations applied\n  warnings: string[];    // Non-fatal issues encountered..."
+        }
+      ]
+    },
+    {
       "path": "src/services/data/DataProcessor.ts",
       "exports": [
         {
@@ -1525,6 +1553,14 @@
       "path": "src/services/data/TemporalDataProcessor.ts",
       "exports": [
         {
+          "name": "DateRangeConfidence",
+          "kind": "EnumDeclaration"
+        },
+        {
+          "name": "DateRangeResult",
+          "kind": "InterfaceDeclaration"
+        },
+        {
           "name": "TemporalDataProcessor",
           "kind": "ClassDeclaration"
         },
@@ -1554,6 +1590,11 @@
       "components": [],
       "hooks": [],
       "types": [
+        {
+          "name": "DateRangeResult",
+          "kind": "InterfaceDeclaration",
+          "definition": "export interface DateRangeResult {\n  min: string;\n  max: string;\n  confidence: DateRangeConfidence;\n  source: string;..."
+        },
         {
           "name": "EnrichedFileData",
           "kind": "InterfaceDeclaration",
@@ -2159,6 +2200,14 @@
               ],
               "components": []
             },
+            "DataFormatAdapter.ts": {
+              "exports": [
+                "DataFormat",
+                "AdaptedDataset",
+                "DataFormatAdapter"
+              ],
+              "components": []
+            },
             "DataProcessor.ts": {
               "exports": [
                 "RawLifecycleData",
@@ -2210,6 +2259,8 @@
             },
             "TemporalDataProcessor.ts": {
               "exports": [
+                "DateRangeConfidence",
+                "DateRangeResult",
                 "TemporalDataProcessor",
                 "EnrichedFileData",
                 "TemporalFileData",

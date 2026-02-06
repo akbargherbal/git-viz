@@ -337,11 +337,25 @@ export class TimelineHeatmapPlugin implements VisualizationPlugin<
       dataset.files &&
       dataset.dirs
     ) {
+      // DataFormatAdapter ensures these datasets exist (even if empty)
+      // Just check if they have actual data
+      if (Object.keys(dataset.lifecycle.files || {}).length === 0) {
+        console.warn(
+          "[TimelineHeatmap] file_lifecycle is empty - no timeline data to display",
+        );
+        return {
+          cells: [],
+          directories: [],
+          timeBins: [],
+          maxValue: 0,
+        };
+      }
+
       // Construct FilterState from config to allow plugin-controlled filtering
       const filters: FilterState = {
         authors: new Set(),
         fileTypes: new Set(),
-        directories: new Set(), // Could be added to state later
+        directories: new Set(),
         eventTypes: new Set(),
         timeRange: null,
       };

@@ -39,6 +39,17 @@ const App: React.FC = () => {
     phase: "metadata",
   });
 
+  // Plugin Initialization State Machine
+  const [pluginInitState, setPluginInitState] = useState<{
+    pluginId: string | null;
+    phase: "loading" | "processing" | "ready" | "error";
+    startTime: number;
+  }>({
+    pluginId: null,
+    phase: "loading",
+    startTime: Date.now(),
+  });
+
   // ISSUE #06 FIX: Tag processed data with pluginId to prevent race conditions
   const [processedPluginData, setProcessedPluginData] = useState<{
     pluginId: string;
@@ -150,6 +161,13 @@ const App: React.FC = () => {
       const plugin = PluginRegistry.get(ui.activePluginId);
       if (!plugin) return;
 
+      // Signal loading phase
+      setPluginInitState({
+        pluginId: ui.activePluginId,
+        phase: "loading",
+        startTime: Date.now(),
+      });
+
       setLoading(true);
       setError(null);
       setRawData(null);
@@ -169,9 +187,17 @@ const App: React.FC = () => {
 
         setLoadingProgress({ loaded: 1, total: 1, phase: "complete" });
         setRawData(result.data);
+        // Data loaded successfully, ready for processing
+        // Don't set to 'processing' here - let next effect do it
       } catch (err) {
         console.error("Error loading plugin data:", err);
         setError(err instanceof Error ? err.message : "Unknown error");
+
+        // Signal error state
+        setPluginInitState((prev) => ({
+          ...prev,
+          phase: "error",
+        }));
       } finally {
         setLoading(false);
       }
@@ -280,6 +306,16 @@ const App: React.FC = () => {
 
     if (!activePlugin || !pluginDataInput) return;
 
+    // Signal processing phase start
+    setPluginInitState((prev) => ({
+      pluginId: activePlugin.metadata.id,
+      phase: "processing",
+      startTime:
+        prev.pluginId === activePlugin.metadata.id
+          ? prev.startTime
+          : Date.now(),
+    }));
+
     const controller = new AbortController();
     abortControllerRef.current = controller;
     let isMounted = true;
@@ -308,6 +344,13 @@ const App: React.FC = () => {
             pluginId: activePlugin.metadata.id,
             data: processed,
           });
+
+          // Signal ready phase - data is processed and ready to render
+          setPluginInitState({
+            pluginId: activePlugin.metadata.id,
+            phase: "ready",
+            startTime: Date.now(),
+          });
         }
       } catch (error) {
         if (error instanceof Error && error.name === "AbortError") {
@@ -317,6 +360,12 @@ const App: React.FC = () => {
           setError(
             error instanceof Error ? error.message : "Failed to process data",
           );
+
+          // Signal error state
+          setPluginInitState((prev) => ({
+            ...prev,
+            phase: "error",
+          }));
         }
       }
     };
@@ -334,8 +383,23 @@ const App: React.FC = () => {
   useEffect(() => {
     if (!activePlugin || !containerRef.current || !processedPluginData) return;
 
+    // Wait for 'ready' phase before rendering
+    if (
+      pluginInitState.phase !== "ready" ||
+      pluginInitState.pluginId !== activePlugin.metadata.id
+    ) {
+      console.log("[App] Waiting for plugin to be ready", {
+        currentPhase: pluginInitState.phase,
+        pluginMatch: pluginInitState.pluginId === activePlugin.metadata.id,
+      });
+      return;
+    }
+
     // ISSUE #06 FIX: Ensure data belongs to the active plugin before rendering
     if (processedPluginData.pluginId !== activePlugin.metadata.id) {
+      console.warn(
+        "[App] Data mismatch - this shouldn't happen with new state machine",
+      );
       return;
     }
 
@@ -350,6 +414,9 @@ const App: React.FC = () => {
         },
       };
 
+      console.log(
+        `[App] Rendering ${activePlugin.metadata.id} in phase: ${pluginInitState.phase}`,
+      );
       activePlugin.init(containerRef.current, config);
       activePlugin.render(processedPluginData.data, config);
       mainScroll.checkScrollability();
@@ -364,6 +431,7 @@ const App: React.FC = () => {
   }, [
     activePlugin,
     processedPluginData,
+    pluginInitState,
     currentPluginState,
     filters.timeBin,
     filters.metric,
@@ -467,6 +535,8 @@ const App: React.FC = () => {
       data-testid="app-container"
       data-active-plugin={ui.activePluginId || "none"}
       data-plugin-data-ready={isDataReady}
+      data-plugin-init-phase={pluginInitState.phase}
+      data-plugin-init-id={pluginInitState.pluginId}
     >
       <header
         ref={headerContainerRef}

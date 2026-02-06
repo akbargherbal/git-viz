@@ -1,6 +1,6 @@
 # React Application Structure Analysis
 
-Generated: 2026-02-06T12:58:33.252Z
+Generated: 2026-02-06T18:24:00.366Z
 
 ## Components
 
@@ -96,6 +96,9 @@ Exports: getDebtColor, getCouplingColor, getTimeColor, getCellColor
 ### src/services/data/CouplingDataProcessor.ts
 Exports: CouplingEdge, CouplingPartner, FileCouplingData, CouplingNetworkData, CouplingIndex, CouplingDataProcessor
 
+### src/services/data/DataFormatAdapter.ts
+Exports: DataFormat, AdaptedDataset, DataFormatAdapter
+
 ### src/services/data/DataProcessor.ts
 Exports: RawLifecycleData, RawFileEvent, V2AuthorNetwork, V2FileIndex, V2DirectoryStats, DataProcessor
 
@@ -112,7 +115,7 @@ Exports: DatasetRegistry, DatasetRegistryClass, DatasetDefinition, PluginDataLoa
 Exports: PluginDataRequirement, PluginDataLoadResult, PluginDataLoaderClass, PluginDataLoader
 
 ### src/services/data/TemporalDataProcessor.ts
-Exports: TemporalDataProcessor, EnrichedFileData, TemporalFileData, TemporalDailyData
+Exports: DateRangeConfidence, DateRangeResult, TemporalDataProcessor, EnrichedFileData, TemporalFileData, TemporalDailyData
 
 ### src/services/data/types.ts
 Exports: LoadProgress

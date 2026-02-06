@@ -137,6 +137,7 @@
     "plugins/treemap-explorer/types.ts"
   ],
   "services/data/CouplingDataProcessor.ts": [],
+  "services/data/DataFormatAdapter.ts": [],
   "services/data/DataProcessor.ts": [],
   "services/data/DatasetRegistry.ts": [],
   "services/data/HealthScoreCalculator.ts": [],
@@ -149,6 +150,9 @@
   ],
   "services/data/__tests__/CouplingDataProcessor.test.ts": [
     "services/data/CouplingDataProcessor.ts"
+  ],
+  "services/data/__tests__/DataFormatAdapter.test.ts": [
+    "services/data/DataFormatAdapter.ts"
   ],
   "services/data/__tests__/DataProcessor.test.ts": [
     "services/data/DataProcessor.ts"

@@ -13,9 +13,32 @@ export abstract class BaseTreemapRenderer<
   protected container: HTMLElement;
   protected tooltip: HTMLElement | null;
 
+  // Track base initialization
+  protected baseInitialized: boolean = true;
+
   constructor(container: HTMLElement, tooltip: HTMLElement | null) {
     this.container = container;
     this.tooltip = tooltip;
+
+    if (!container) {
+      console.error("[BaseTreemapRenderer] Missing required container", {
+        container: !!container,
+        tooltip: !!tooltip,
+      });
+      this.baseInitialized = false;
+    }
+  }
+
+  /**
+   * Validation helper for derived classes
+   */
+  protected ensureBaseInitialized(methodName: string): void {
+    if (!this.baseInitialized) {
+      throw new Error(
+        `[BaseTreemapRenderer] ${methodName}() called with invalid container/tooltip. ` +
+          `Ensure renderer is properly constructed.`,
+      );
+    }
   }
 
   /**
@@ -79,6 +102,8 @@ export abstract class BaseTreemapRenderer<
     height: number,
     sizeMetric: string,
   ): d3.HierarchyRectangularNode<any>[] {
+    this.ensureBaseInitialized("buildTreemapLayout");
+
     const root = d3
       .hierarchy({ children: data } as any)
       .sum((d: any) => this.getSizeValue(d, sizeMetric))
@@ -122,6 +147,8 @@ export abstract class BaseTreemapRenderer<
     state: TState,
     onCellClick?: (file: EnrichedFileData) => void,
   ): void {
+    this.ensureBaseInitialized("renderCells");
+
     const cellGroups = svg
       .selectAll("g.cell-group")
       .data(cells)

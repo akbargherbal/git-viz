@@ -12,6 +12,7 @@ import { CouplingDataProcessor } from "@/services/data/CouplingDataProcessor";
 import {
   TemporalDataProcessor,
   TemporalDailyData,
+  DateRangeConfidence,
 } from "@/services/data/TemporalDataProcessor";
 import { HealthScoreCalculator } from "@/services/data/HealthScoreCalculator";
 import { TreemapExplorerControls } from "./components/TreemapExplorerControls";
@@ -95,6 +96,7 @@ export class TreemapExplorerPlugin implements VisualizationPlugin<TreemapExplore
   private currentSignal: AbortSignal | null = null;
   private timelineCache: Map<string, Array<{ date: string; commits: number }>> =
     new Map();
+  private temporalDataReady: boolean = false;
 
   // PHASE 4: All three renderer instances
   private debtRenderer: DebtRenderer | null = null;
@@ -108,6 +110,7 @@ export class TreemapExplorerPlugin implements VisualizationPlugin<TreemapExplore
   cleanup(): void {
     console.log("[TreemapExplorer] Cleanup called - aborting operations");
     this.stopPlayback();
+    this.temporalDataReady = false;
 
     // PHASE 4: Cleanup all renderers
     this.debtRenderer?.cleanup();
@@ -435,52 +438,35 @@ export class TreemapExplorerPlugin implements VisualizationPlugin<TreemapExplore
 
       this.temporalData = dataset.temporal_daily;
 
-      // FALLBACK: If temporal_daily is missing, calculate range from file metadata
-      if (!this.temporalData && enrichedFiles.length > 0) {
-        console.log(
-          "[TreemapExplorer] temporal_daily missing - calculating fallback range from files",
-        );
+      // NEW LOGIC START: Centralized fallback handling
+      // Try to get range from temporal data first
+      let dateRangeResult = TemporalDataProcessor.getDateRange(
+        this.temporalData as TemporalDailyData,
+      );
 
-        let minTime = Infinity;
-        let maxTime = -Infinity;
-
-        enrichedFiles.forEach((file) => {
-          if (file.first_seen) {
-            const t = new Date(file.first_seen).getTime();
-            if (!isNaN(t) && t < minTime) minTime = t;
-          }
-          if (file.last_modified) {
-            const t = new Date(file.last_modified).getTime();
-            if (!isNaN(t) && t > maxTime) maxTime = t;
-          }
-        });
-
-        if (minTime !== Infinity && maxTime !== -Infinity) {
-          const minDate = new Date(minTime).toISOString().split("T")[0];
-          const maxDate = new Date(maxTime).toISOString().split("T")[0];
-
-          // Create synthetic temporal data
-          this.temporalData = {
-            days: [
-              {
-                date: minDate,
-                commits: 0,
-                files_changed: 0,
-                unique_authors: 0,
-                key: minDate,
-                operations: {},
-              },
-              {
-                date: maxDate,
-                commits: 0,
-                files_changed: 0,
-                unique_authors: 0,
-                key: maxDate,
-                operations: {},
-              },
-            ],
-          } as any;
+      // If low confidence and we have file metadata, try to calculate better range
+      if (
+        dateRangeResult.confidence === DateRangeConfidence.LOW &&
+        enrichedFiles.length > 0
+      ) {
+        const calculatedRange =
+          TemporalDataProcessor.calculateRangeFromFiles(enrichedFiles);
+        if (calculatedRange) {
+          dateRangeResult = calculatedRange;
         }
+      }
+
+      // Store the date range (now always set)
+      this.dateRange = {
+        min: dateRangeResult.min,
+        max: dateRangeResult.max,
+      };
+
+      // Log the confidence level
+      if (dateRangeResult.confidence !== DateRangeConfidence.HIGH) {
+        console.warn(
+          `[TreemapExplorer] Using ${dateRangeResult.confidence} confidence date range from ${dateRangeResult.source}`,
+        );
       }
 
       // DEBUG: Check temporal data loading
@@ -493,18 +479,6 @@ export class TreemapExplorerPlugin implements VisualizationPlugin<TreemapExplore
         fallbackApplied: !dataset.temporal_daily && !!this.temporalData,
       });
 
-      // PHASE 1 FIX: Always set dateRange. TemporalDataProcessor.getDateRange
-      // handles null gracefully by returning default range (2020-2024).
-      this.dateRange = TemporalDataProcessor.getDateRange(
-        this.temporalData as TemporalDailyData,
-      );
-
-      if (!this.temporalData) {
-        console.warn(
-          "[TreemapExplorer] temporal_daily dataset missing - using default date range",
-        );
-      }
-
       // Set temporal data on time renderer
       if (this.timeRenderer) {
         console.log(
@@ -514,6 +488,8 @@ export class TreemapExplorerPlugin implements VisualizationPlugin<TreemapExplore
           this.temporalData,
           this.timelineCache,
         );
+        this.temporalDataReady = true;
+        console.log("[TreemapExplorer] Temporal data marked as ready");
       } else {
         console.warn(
           "[TreemapExplorer] TimeRenderer not initialized yet - will set temporal data during render",
@@ -711,8 +687,14 @@ export class TreemapExplorerPlugin implements VisualizationPlugin<TreemapExplore
 
     const { state, updateState } = props;
 
-    // Only render if we have a valid date range
-    if (!this.dateRange) return null;
+    // Only render if we have a valid date range and data is ready
+    if (!this.temporalDataReady || !this.dateRange) {
+      console.log("[TreemapExplorer] renderOverlay - Not ready yet", {
+        temporalDataReady: this.temporalDataReady,
+        dateRange: !!this.dateRange,
+      });
+      return null;
+    }
 
     return (
       <TimelineScrubber
