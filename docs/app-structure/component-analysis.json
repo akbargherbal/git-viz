@@ -1,6 +1,6 @@
 {
   "metadata": {
-    "generatedAt": "2026-02-07T07:36:50.951Z",
+    "generatedAt": "2026-02-07T20:42:51.603Z",
     "projectRoot": "/home/akbar/Jupyter_Notebooks/SOFTWARE_ARCHEOLOGY/git-viz",
     "outputDirectory": "docs/app-structure"
   },
@@ -1292,7 +1292,7 @@
         {
           "name": "AdaptedDataset",
           "kind": "InterfaceDeclaration",
-          "definition": "export interface AdaptedDataset {\n  data: Record<string, any>;\n  format: DataFormat;\n  adaptations: string[]; // List of transformations applied\n  warnings: string[];    // Non-fatal issues encountered..."
+          "definition": "export interface AdaptedDataset {\n  data: Record<string, any>;\n  format: DataFormat;\n  adaptations: string[]; // List of transformations applied\n  warnings: string[]; // Non-fatal issues encountered..."
         }
       ]
     },
