@@ -1,5 +1,4 @@
 // src/services/data/TemporalDataProcessor.ts
-// PHASE 3: Time Lens Activity Data - Activity timeline implementation with date validation
 
 import {
   EnrichedFileData,
@@ -199,12 +198,13 @@ export class TemporalDataProcessor {
   }
 
   /**
-   * PHASE 3: Build activity timeline for a file (bucketed into weeks)
+   * PHASE 3: Build activity timeline for a file (bucketed into weeks or quarters)
    */
   private static buildActivityTimeline(
     file: EnrichedFileData,
     fileLifecycle: any, // FileLifecycleData type
     bucketWeeks: number = 4,
+    globalDateRange?: { min: string; max: string },
   ): Array<{ date: string; commits: number }> | undefined {
     // fileLifecycle structure: { files: { [path: string]: Array<{ date, type, ... }> } }
     const events = fileLifecycle?.files?.[file.path];
@@ -219,7 +219,12 @@ export class TemporalDataProcessor {
       return undefined; // No valid events
     }
 
-    // Group events into weekly buckets
+    // NEW LOGIC: Use global range if provided
+    if (globalDateRange) {
+      return this.bucketEventsByQuarter(validEvents, globalDateRange);
+    }
+
+    // Group events into weekly buckets (legacy behavior)
     const buckets = this.bucketEventsByWeek(validEvents, bucketWeeks);
 
     // Return sparkline data points
@@ -227,6 +232,71 @@ export class TemporalDataProcessor {
       date: bucket.weekStart,
       commits: bucket.commitCount,
     }));
+  }
+
+  /**
+   * NEW METHOD: Group events into quarterly buckets based on global range
+   */
+  private static bucketEventsByQuarter(
+    events: Array<{ datetime: string; type: string }>,
+    range: { min: string; max: string },
+  ): Array<{ date: string; commits: number }> {
+    const startDate = new Date(range.min);
+    const endDate = new Date(range.max);
+
+    if (isNaN(startDate.getTime()) || isNaN(endDate.getTime())) {
+      console.warn("[TemporalDataProcessor] Invalid global date range");
+      return [];
+    }
+
+    // Generate quarters
+    const quarters: Array<{
+      date: string;
+      commits: number;
+      start: Date;
+      end: Date;
+    }> = [];
+    let current = new Date(
+      startDate.getFullYear(),
+      Math.floor(startDate.getMonth() / 3) * 3,
+      1,
+    );
+
+    // Ensure we cover up to the end date
+    while (current <= endDate || quarters.length === 0) {
+      const qStart = new Date(current);
+      const qEnd = new Date(current.getFullYear(), current.getMonth() + 3, 0); // End of quarter
+      qEnd.setHours(23, 59, 59, 999);
+
+      quarters.push({
+        date: `Q${Math.floor(current.getMonth() / 3) + 1} ${current.getFullYear()}`,
+        commits: 0,
+        start: qStart,
+        end: qEnd,
+      });
+
+      // Move to next quarter
+      current.setMonth(current.getMonth() + 3);
+      
+      // Safety break to prevent infinite loops if dates are weird
+      if (quarters.length > 100) break; 
+    }
+
+    // Assign events to quarters
+    events.forEach((event) => {
+      const eventDate = new Date(event.datetime);
+      if (isNaN(eventDate.getTime())) return;
+
+      // Find matching quarter
+      const quarter = quarters.find(
+        (q) => eventDate >= q.start && eventDate <= q.end,
+      );
+      if (quarter) {
+        quarter.commits++;
+      }
+    });
+
+    return quarters.map((q) => ({ date: q.date, commits: q.commits }));
   }
 
   /**
@@ -320,6 +390,7 @@ export class TemporalDataProcessor {
     files: EnrichedFileData[],
     fileLifecycle: any,
     bucketWeeks: number = 4,
+    globalDateRange?: { min: string; max: string },
   ): Map<string, Array<{ date: string; commits: number }>> {
     const cache = new Map<string, Array<{ date: string; commits: number }>>();
     let successCount = 0;
@@ -331,6 +402,7 @@ export class TemporalDataProcessor {
           file,
           fileLifecycle,
           bucketWeeks,
+          globalDateRange,
         );
         if (timeline) {
           cache.set(file.key, timeline);

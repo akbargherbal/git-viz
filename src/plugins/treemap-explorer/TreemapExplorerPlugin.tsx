@@ -395,42 +395,9 @@ export class TreemapExplorerPlugin implements VisualizationPlugin<TreemapExplore
         }
       }
 
-      // Pre-compute activity timelines if file_lifecycle available
-      if (dataset.file_lifecycle) {
-        console.log("[TreemapExplorer] DEBUG - file_lifecycle status:", {
-          exists: !!dataset.file_lifecycle,
-          hasFiles: !!dataset.file_lifecycle.files,
-          fileCount: dataset.file_lifecycle.files
-            ? Object.keys(dataset.file_lifecycle.files).length
-            : 0,
-          samplePaths: dataset.file_lifecycle.files
-            ? Object.keys(dataset.file_lifecycle.files).slice(0, 3)
-            : [],
-        });
-        console.log(
-          "[TreemapExplorer] DEBUG - enrichedFiles sample paths:",
-          enrichedFiles.slice(0, 3).map((f) => f.path),
-        );
-
-        console.log(
-          "[TreemapExplorer] Pre-computing activity timelines from file_lifecycle",
-        );
-        this.timelineCache = TemporalDataProcessor.precomputeTimelines(
-          enrichedFiles,
-          dataset.file_lifecycle,
-        );
-
-        enrichedFiles.forEach((file) => {
-          const timeline = this.timelineCache.get(file.key);
-          if (timeline) {
-            file.activityTimeline = timeline;
-          }
-        });
-      }
-
+      // NEW LOGIC START: Calculate date range BEFORE precomputing timelines
       this.temporalData = dataset.temporal_daily;
 
-      // NEW LOGIC START: Centralized fallback handling
       // Try to get range from temporal data first
       let dateRangeResult = TemporalDataProcessor.getDateRange(
         this.temporalData as TemporalDailyData,
@@ -459,6 +426,43 @@ export class TreemapExplorerPlugin implements VisualizationPlugin<TreemapExplore
         console.warn(
           `[TreemapExplorer] Using ${dateRangeResult.confidence} confidence date range from ${dateRangeResult.source}`,
         );
+      }
+
+      // Pre-compute activity timelines if file_lifecycle available
+      if (dataset.file_lifecycle) {
+        console.log("[TreemapExplorer] DEBUG - file_lifecycle status:", {
+          exists: !!dataset.file_lifecycle,
+          hasFiles: !!dataset.file_lifecycle.files,
+          fileCount: dataset.file_lifecycle.files
+            ? Object.keys(dataset.file_lifecycle.files).length
+            : 0,
+          samplePaths: dataset.file_lifecycle.files
+            ? Object.keys(dataset.file_lifecycle.files).slice(0, 3)
+            : [],
+        });
+        console.log(
+          "[TreemapExplorer] DEBUG - enrichedFiles sample paths:",
+          enrichedFiles.slice(0, 3).map((f) => f.path),
+        );
+
+        console.log(
+          "[TreemapExplorer] Pre-computing activity timelines from file_lifecycle",
+        );
+
+        // UPDATED: Pass the global date range to precomputeTimelines
+        this.timelineCache = TemporalDataProcessor.precomputeTimelines(
+          enrichedFiles,
+          dataset.file_lifecycle,
+          4, // bucketWeeks (ignored if global range provided)
+          this.dateRange, // Pass global range for unified timeline
+        );
+
+        enrichedFiles.forEach((file) => {
+          const timeline = this.timelineCache.get(file.key);
+          if (timeline) {
+            file.activityTimeline = timeline;
+          }
+        });
       }
 
       // DEBUG: Check temporal data loading
