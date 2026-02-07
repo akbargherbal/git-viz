@@ -45,7 +45,7 @@ export const TimeBinSelector: React.FC<
 
   return (
     <div
-      className="flex items-center bg-zinc-900 rounded-lg p-1 border border-zinc-800"
+      className="flex items-center rounded-lg border border-zinc-800 bg-zinc-900 p-1"
       data-testid="timebin-selector"
       data-current-timebin={currentValue}
       data-mode={isControlled ? "controlled" : "uncontrolled"}
@@ -56,14 +56,11 @@ export const TimeBinSelector: React.FC<
           data-testid={`timebin-${option.value}`}
           data-selected={currentValue === option.value}
           onClick={() => handleChange(option.value)}
-          className={`
-            flex items-center gap-2 px-3 py-1.5 rounded-md text-xs font-medium transition-all
-            ${
-              currentValue === option.value
-                ? "bg-zinc-700 text-white shadow-sm"
-                : "text-zinc-400 hover:text-zinc-200 hover:bg-zinc-800"
-            }
-          `}
+          className={`flex items-center gap-2 rounded-md px-3 py-1.5 text-xs font-medium transition-all ${
+            currentValue === option.value
+              ? "bg-zinc-700 text-white shadow-sm"
+              : "text-zinc-400 hover:bg-zinc-800 hover:text-zinc-200"
+          } `}
           title={`Group by ${option.label}`}
         >
           {option.icon}

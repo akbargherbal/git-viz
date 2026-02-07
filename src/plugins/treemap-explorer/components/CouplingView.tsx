@@ -64,7 +64,7 @@ export const CouplingView: React.FC<CouplingViewProps> = ({
           <div className="text-2xl font-bold text-purple-400">
             {metrics.totalPartners}
           </div>
-          <div className="text-zinc-500 text-[10px] uppercase tracking-wider mt-1">
+          <div className="mt-1 text-[10px] uppercase tracking-wider text-zinc-500">
             Coupled Files
           </div>
         </div>
@@ -72,7 +72,7 @@ export const CouplingView: React.FC<CouplingViewProps> = ({
           <div className="text-2xl font-bold text-white">
             {(metrics.maxStrength || 0).toFixed(2)}
           </div>
-          <div className="text-zinc-500 text-[10px] uppercase tracking-wider mt-1">
+          <div className="mt-1 text-[10px] uppercase tracking-wider text-zinc-500">
             Max Strength
           </div>
         </div>
@@ -80,7 +80,7 @@ export const CouplingView: React.FC<CouplingViewProps> = ({
 
       {/* Key Metrics Section */}
       <div className="space-y-3">
-        <div className="text-[10px] text-zinc-400 font-bold uppercase tracking-widest">
+        <div className="text-[10px] font-bold uppercase tracking-widest text-zinc-400">
           Coupling Metrics
         </div>
 
@@ -107,11 +107,11 @@ export const CouplingView: React.FC<CouplingViewProps> = ({
       </div>
 
       {/* Insight Box */}
-      <div className="bg-purple-950/20 border border-purple-900/50 rounded-lg p-3">
+      <div className="rounded-lg border border-purple-900/50 bg-purple-950/20 p-3">
         <div className="flex items-start gap-2">
           <div className="mt-0.5">
             <svg
-              className="w-4 h-4 text-purple-400"
+              className="h-4 w-4 text-purple-400"
               fill="none"
               viewBox="0 0 24 24"
               stroke="currentColor"
@@ -124,7 +124,7 @@ export const CouplingView: React.FC<CouplingViewProps> = ({
               />
             </svg>
           </div>
-          <p className="text-xs text-zinc-300 leading-relaxed">
+          <p className="text-xs leading-relaxed text-zinc-300">
             {getInsight()}
           </p>
         </div>
@@ -133,8 +133,8 @@ export const CouplingView: React.FC<CouplingViewProps> = ({
       {/* Top Coupling Partners */}
       {partners.length > 0 && (
         <div>
-          <div className="text-[10px] text-zinc-400 mb-3 font-bold uppercase tracking-widest flex items-center gap-2">
-            <Link className="w-3 h-3" />
+          <div className="mb-3 flex items-center gap-2 text-[10px] font-bold uppercase tracking-widest text-zinc-400">
+            <Link className="h-3 w-3" />
             Top Coupling Partners
           </div>
           <div className="space-y-2">
@@ -151,11 +151,11 @@ export const CouplingView: React.FC<CouplingViewProps> = ({
 
       {/* No coupling partners message */}
       {partners.length === 0 && metrics.totalPartners > 0 && (
-        <div className="text-center py-6">
-          <div className="text-zinc-500 text-sm">
+        <div className="py-6 text-center">
+          <div className="text-sm text-zinc-500">
             No coupling partners above threshold {couplingThreshold.toFixed(1)}
           </div>
-          <div className="text-zinc-600 text-xs mt-1">
+          <div className="mt-1 text-xs text-zinc-600">
             Adjust the coupling threshold in filters to see weaker relationships
           </div>
         </div>
@@ -163,11 +163,11 @@ export const CouplingView: React.FC<CouplingViewProps> = ({
 
       {/* Truly isolated file */}
       {metrics.totalPartners === 0 && (
-        <div className="text-center py-6">
-          <div className="text-zinc-500 text-sm">
+        <div className="py-6 text-center">
+          <div className="text-sm text-zinc-500">
             No coupling relationships detected
           </div>
-          <div className="text-zinc-600 text-xs mt-1">
+          <div className="mt-1 text-xs text-zinc-600">
             This file does not co-change with others
           </div>
         </div>
@@ -205,23 +205,23 @@ const CouplingPartnerCard: React.FC<CouplingPartnerCardProps> = ({
   const strengthInfo = getStrengthInfo(partner.strength);
 
   return (
-    <div className="p-3 bg-zinc-800/50 border border-zinc-700 rounded-lg hover:border-purple-500/50 transition-colors">
+    <div className="rounded-lg border border-zinc-700 bg-zinc-800/50 p-3 transition-colors hover:border-purple-500/50">
       {/* Rank badge */}
       <div className="flex items-start gap-3">
-        <div className="flex-shrink-0 w-6 h-6 rounded-full bg-purple-950/50 border border-purple-800/50 flex items-center justify-center">
+        <div className="flex h-6 w-6 flex-shrink-0 items-center justify-center rounded-full border border-purple-800/50 bg-purple-950/50">
           <span className="text-[10px] font-bold text-purple-400">
             {index + 1}
           </span>
         </div>
 
-        <div className="flex-1 min-w-0">
+        <div className="min-w-0 flex-1">
           {/* File name */}
-          <div className="text-xs text-zinc-200 font-mono truncate font-medium">
+          <div className="truncate font-mono text-xs font-medium text-zinc-200">
             {fileName}
           </div>
 
           {/* Directory path */}
-          <div className="text-[10px] text-zinc-500 font-mono truncate mt-0.5">
+          <div className="mt-0.5 truncate font-mono text-[10px] text-zinc-500">
             {directory}
           </div>
 
@@ -229,14 +229,14 @@ const CouplingPartnerCard: React.FC<CouplingPartnerCardProps> = ({
           <div className="mt-2 space-y-1.5">
             {/* Progress bar */}
             <div className="flex items-center gap-2">
-              <div className="flex-1 h-1.5 bg-zinc-700 rounded-full overflow-hidden">
+              <div className="h-1.5 flex-1 overflow-hidden rounded-full bg-zinc-700">
                 <div
-                  className="h-full bg-gradient-to-r from-purple-500 to-purple-400 rounded-full transition-all"
+                  className="h-full rounded-full bg-gradient-to-r from-purple-500 to-purple-400 transition-all"
                   style={{ width: `${partner.strength * 100}%` }}
                 />
               </div>
               <span
-                className={`text-[10px] font-mono font-bold ${strengthInfo.color}`}
+                className={`font-mono text-[10px] font-bold ${strengthInfo.color}`}
               >
                 {partner.strength.toFixed(2)}
               </span>

@@ -86,10 +86,10 @@ export const TimeView: React.FC<TimeViewProps> = ({ file }) => {
     <div className="space-y-4">
       {/* Lifecycle Status Badge */}
       <div
-        className={`flex items-center justify-between p-3 rounded-lg border ${getLifecycleColor(isDormant)}`}
+        className={`flex items-center justify-between rounded-lg border p-3 ${getLifecycleColor(isDormant)}`}
       >
         <span className="text-xs text-zinc-400">Lifecycle Status</span>
-        <span className="text-sm font-bold flex items-center gap-2">
+        <span className="flex items-center gap-2 text-sm font-bold">
           <span>{getLifecycleIcon(isDormant)}</span>
           <span>{getLifecycleText(isDormant)}</span>
         </span>
@@ -97,24 +97,24 @@ export const TimeView: React.FC<TimeViewProps> = ({ file }) => {
 
       {/* Key Dates Grid */}
       <div className="grid grid-cols-2 gap-3">
-        <div className="bg-zinc-900/50 p-3 rounded-lg">
-          <div className="text-xs text-zinc-500 mb-1">Created</div>
-          <div className="text-sm font-mono text-zinc-200">{firstSeenDate}</div>
+        <div className="rounded-lg bg-zinc-900/50 p-3">
+          <div className="mb-1 text-xs text-zinc-500">Created</div>
+          <div className="font-mono text-sm text-zinc-200">{firstSeenDate}</div>
         </div>
-        <div className="bg-zinc-900/50 p-3 rounded-lg">
-          <div className="text-xs text-zinc-500 mb-1">Last Modified</div>
-          <div className="text-sm font-mono text-zinc-200">
+        <div className="rounded-lg bg-zinc-900/50 p-3">
+          <div className="mb-1 text-xs text-zinc-500">Last Modified</div>
+          <div className="font-mono text-sm text-zinc-200">
             {lastModifiedDate}
           </div>
         </div>
-        <div className="bg-zinc-900/50 p-3 rounded-lg">
-          <div className="text-xs text-zinc-500 mb-1">Age</div>
-          <div className="text-sm font-mono text-zinc-200">{ageDays} days</div>
+        <div className="rounded-lg bg-zinc-900/50 p-3">
+          <div className="mb-1 text-xs text-zinc-500">Age</div>
+          <div className="font-mono text-sm text-zinc-200">{ageDays} days</div>
         </div>
-        <div className="bg-zinc-900/50 p-3 rounded-lg">
-          <div className="text-xs text-zinc-500 mb-1">Dormant Period</div>
+        <div className="rounded-lg bg-zinc-900/50 p-3">
+          <div className="mb-1 text-xs text-zinc-500">Dormant Period</div>
           <div
-            className={`text-sm font-mono ${isDormant ? "text-red-400" : "text-green-400"}`}
+            className={`font-mono text-sm ${isDormant ? "text-red-400" : "text-green-400"}`}
           >
             {daysSinceModified} days
           </div>
@@ -123,13 +123,13 @@ export const TimeView: React.FC<TimeViewProps> = ({ file }) => {
 
       {/* Activity Timeline Sparkline */}
       {activityTimeline && activityTimeline.length > 0 && (
-        <div className="space-y-2 pt-4 border-t border-zinc-800">
-          <h4 className="text-xs font-semibold text-zinc-400 uppercase">
+        <div className="space-y-2 border-t border-zinc-800 pt-4">
+          <h4 className="text-xs font-semibold uppercase text-zinc-400">
             Activity Timeline
           </h4>
-          <div className="h-16 bg-zinc-900/50 rounded-lg p-2">
+          <div className="h-16 rounded-lg bg-zinc-900/50 p-2">
             {/* Simple sparkline visualization */}
-            <div className="flex items-end justify-between h-full gap-0.5">
+            <div className="flex h-full items-end justify-between gap-0.5">
               {activityTimeline.map((point, i) => {
                 const maxCommits = Math.max(
                   ...activityTimeline.map((p) => p.commits),
@@ -139,7 +139,7 @@ export const TimeView: React.FC<TimeViewProps> = ({ file }) => {
                 return (
                   <div
                     key={i}
-                    className="flex-1 bg-blue-500/50 rounded-sm"
+                    className="flex-1 rounded-sm bg-blue-500/50"
                     style={{ height: `${height}%` }}
                     title={`${point.date}: ${point.commits} commits`}
                   />
@@ -151,44 +151,44 @@ export const TimeView: React.FC<TimeViewProps> = ({ file }) => {
       )}
 
       {/* Activity Metrics */}
-      <div className="space-y-3 pt-4 border-t border-zinc-800">
-        <h4 className="text-xs font-semibold text-zinc-400 uppercase">
+      <div className="space-y-3 border-t border-zinc-800 pt-4">
+        <h4 className="text-xs font-semibold uppercase text-zinc-400">
           Activity Metrics
         </h4>
 
         <div className="flex items-center justify-between">
           <span className="text-xs text-zinc-500">Total Commits</span>
-          <span className="text-sm font-mono text-zinc-200">
+          <span className="font-mono text-sm text-zinc-200">
             {totalCommits}
           </span>
         </div>
 
         <div className="flex items-center justify-between">
           <span className="text-xs text-zinc-500">Unique Authors</span>
-          <span className="text-sm font-mono text-zinc-200">
+          <span className="font-mono text-sm text-zinc-200">
             {uniqueAuthors}
           </span>
         </div>
 
         <div className="flex items-center justify-between">
           <span className="text-xs text-zinc-500">Commits per Day</span>
-          <span className="text-sm font-mono text-zinc-200">
+          <span className="font-mono text-sm text-zinc-200">
             {ageDays > 0 ? (totalCommits / ageDays).toFixed(2) : "0.00"}
           </span>
         </div>
       </div>
 
       {/* Lifecycle Insights */}
-      <div className="space-y-2 pt-4 border-t border-zinc-800">
-        <h4 className="text-xs font-semibold text-zinc-400 uppercase">
+      <div className="space-y-2 border-t border-zinc-800 pt-4">
+        <h4 className="text-xs font-semibold uppercase text-zinc-400">
           Lifecycle Insights
         </h4>
-        <div className="text-sm text-zinc-400 space-y-2">
+        <div className="space-y-2 text-sm text-zinc-400">
           {isDormant ? (
             <>
               <p>
                 ⚠️ This file has been{" "}
-                <span className="text-red-400 font-semibold">dormant</span> for{" "}
+                <span className="font-semibold text-red-400">dormant</span> for{" "}
                 {daysSinceModified} days (no modifications in 180+ days).
               </p>
               <p className="text-xs">
@@ -200,7 +200,7 @@ export const TimeView: React.FC<TimeViewProps> = ({ file }) => {
             <>
               <p>
                 ✓ This file is{" "}
-                <span className="text-green-400 font-semibold">
+                <span className="font-semibold text-green-400">
                   actively maintained
                 </span>{" "}
                 (modified within the last 180 days).
@@ -215,15 +215,15 @@ export const TimeView: React.FC<TimeViewProps> = ({ file }) => {
 
       {/* Operations Breakdown */}
       {file.operations && (
-        <div className="space-y-2 pt-4 border-t border-zinc-800">
-          <h4 className="text-xs font-semibold text-zinc-400 uppercase">
+        <div className="space-y-2 border-t border-zinc-800 pt-4">
+          <h4 className="text-xs font-semibold uppercase text-zinc-400">
             Operations
           </h4>
           <div className="grid grid-cols-2 gap-2 text-xs">
             {file.operations.M !== undefined && (
               <div className="flex items-center justify-between">
                 <span className="text-zinc-500">Modified</span>
-                <span className="text-sm font-mono text-amber-400">
+                <span className="font-mono text-sm text-amber-400">
                   {file.operations.M}
                 </span>
               </div>
@@ -231,7 +231,7 @@ export const TimeView: React.FC<TimeViewProps> = ({ file }) => {
             {file.operations.A !== undefined && (
               <div className="flex items-center justify-between">
                 <span className="text-zinc-500">Added</span>
-                <span className="text-sm font-mono text-green-400">
+                <span className="font-mono text-sm text-green-400">
                   {file.operations.A}
                 </span>
               </div>
@@ -239,7 +239,7 @@ export const TimeView: React.FC<TimeViewProps> = ({ file }) => {
             {file.operations.D !== undefined && (
               <div className="flex items-center justify-between">
                 <span className="text-zinc-500">Deleted</span>
-                <span className="text-sm font-mono text-red-400">
+                <span className="font-mono text-sm text-red-400">
                   {file.operations.D}
                 </span>
               </div>
@@ -247,7 +247,7 @@ export const TimeView: React.FC<TimeViewProps> = ({ file }) => {
             {file.operations.R !== undefined && (
               <div className="flex items-center justify-between">
                 <span className="text-zinc-500">Renamed</span>
-                <span className="text-sm font-mono text-blue-400">
+                <span className="font-mono text-sm text-blue-400">
                   {file.operations.R}
                 </span>
               </div>

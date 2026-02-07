@@ -28,7 +28,7 @@ export const TreemapExplorerControls: React.FC<
 
   return (
     <div
-      className="flex gap-4 items-center flex-wrap"
+      className="flex flex-wrap items-center gap-4"
       data-testid="treemap-controls"
       data-lens-mode={lensMode}
       data-size-metric={sizeMetric}
@@ -41,7 +41,7 @@ export const TreemapExplorerControls: React.FC<
 
       {/* Size Metric Selector */}
       <div
-        className="flex bg-zinc-950 rounded-lg p-1 border border-zinc-800"
+        className="flex rounded-lg border border-zinc-800 bg-zinc-950 p-1"
         data-testid="size-metric-selector"
         data-active-metric={sizeMetric}
       >
@@ -51,14 +51,11 @@ export const TreemapExplorerControls: React.FC<
             data-testid={`metric-${metric.id}`}
             data-active={sizeMetric === metric.id}
             onClick={() => updateState({ sizeMetric: metric.id as any })}
-            className={`
-              px-3 py-1 rounded-md text-xs font-medium transition-all
-              ${
-                sizeMetric === metric.id
-                  ? "bg-zinc-700 text-white"
-                  : "text-zinc-400 hover:text-zinc-200"
-              }
-            `}
+            className={`rounded-md px-3 py-1 text-xs font-medium transition-all ${
+              sizeMetric === metric.id
+                ? "bg-zinc-700 text-white"
+                : "text-zinc-400 hover:text-zinc-200"
+            } `}
           >
             {metric.label}
           </button>

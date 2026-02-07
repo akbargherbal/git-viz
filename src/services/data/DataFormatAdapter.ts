@@ -1,9 +1,9 @@
 /**
  * DataFormatAdapter.ts
- * 
+ *
  * Centralized adapter for normalizing data formats between different versions
  * and ensuring plugins receive data in their expected format.
- * 
+ *
  * Session 5: Data Format Adapter
  * Addresses: Bug #3 - Cascade failure on missing temporal_daily
  */
@@ -23,7 +23,7 @@ export interface AdaptedDataset {
   data: Record<string, any>;
   format: DataFormat;
   adaptations: string[]; // List of transformations applied
-  warnings: string[];    // Non-fatal issues encountered
+  warnings: string[]; // Non-fatal issues encountered
 }
 
 /**
@@ -35,7 +35,7 @@ export class DataFormatAdapter {
    */
   static adapt(
     rawDataset: Record<string, any>,
-    targetFormat: DataFormat
+    targetFormat: DataFormat,
   ): AdaptedDataset {
     const adaptations: string[] = [];
     const warnings: string[] = [];
@@ -44,7 +44,7 @@ export class DataFormatAdapter {
     // Detect source format
     const sourceFormat = this.detectFormat(rawDataset);
     console.log(
-      `[DataFormatAdapter] Adapting from ${sourceFormat} to ${targetFormat}`
+      `[DataFormatAdapter] Adapting from ${sourceFormat} to ${targetFormat}`,
     );
 
     // Apply transformations based on source and target
@@ -79,7 +79,7 @@ export class DataFormatAdapter {
   private static ensureV2_1Format(
     data: Record<string, any>,
     adaptations: string[],
-    warnings: string[]
+    warnings: string[],
   ): void {
     // Required datasets for V2.1
     const requiredDatasets = [
@@ -98,7 +98,7 @@ export class DataFormatAdapter {
     // Ensure temporal_daily exists (even if empty)
     if (!data.temporal_daily) {
       console.warn(
-        "[DataFormatAdapter] temporal_daily missing - creating empty structure"
+        "[DataFormatAdapter] temporal_daily missing - creating empty structure",
       );
       data.temporal_daily = {
         days: [],
@@ -109,7 +109,7 @@ export class DataFormatAdapter {
       };
       adaptations.push("created_empty_temporal_daily");
       warnings.push(
-        "temporal_daily dataset missing - time lens features will be limited"
+        "temporal_daily dataset missing - time lens features will be limited",
       );
     }
 
@@ -117,7 +117,7 @@ export class DataFormatAdapter {
     if (data.temporal_daily && typeof data.temporal_daily.days === "object") {
       if (!Array.isArray(data.temporal_daily.days)) {
         console.log(
-          "[DataFormatAdapter] Converting temporal_daily.days from object to array"
+          "[DataFormatAdapter] Converting temporal_daily.days from object to array",
         );
         data.temporal_daily.days = Object.values(data.temporal_daily.days);
         adaptations.push("normalized_temporal_daily_to_array");
@@ -127,14 +127,14 @@ export class DataFormatAdapter {
     // Ensure file_lifecycle exists (even if empty)
     if (!data.file_lifecycle) {
       console.warn(
-        "[DataFormatAdapter] file_lifecycle missing - creating empty structure"
+        "[DataFormatAdapter] file_lifecycle missing - creating empty structure",
       );
       data.file_lifecycle = {
         files: {},
       };
       adaptations.push("created_empty_file_lifecycle");
       warnings.push(
-        "file_lifecycle dataset missing - timeline features will be limited"
+        "file_lifecycle dataset missing - timeline features will be limited",
       );
     }
 
@@ -154,7 +154,7 @@ export class DataFormatAdapter {
   static validateForPlugin(
     dataset: Record<string, any>,
     pluginId: string,
-    requirements: Array<{ dataset: string; required: boolean }>
+    requirements: Array<{ dataset: string; required: boolean }>,
   ): { valid: boolean; errors: string[]; warnings: string[] } {
     const errors: string[] = [];
     const warnings: string[] = [];
@@ -164,12 +164,10 @@ export class DataFormatAdapter {
 
       if (!exists) {
         if (req.required) {
-          errors.push(
-            `[${pluginId}] Missing required dataset: ${req.dataset}`
-          );
+          errors.push(`[${pluginId}] Missing required dataset: ${req.dataset}`);
         } else {
           warnings.push(
-            `[${pluginId}] Missing optional dataset: ${req.dataset} - some features may be unavailable`
+            `[${pluginId}] Missing optional dataset: ${req.dataset} - some features may be unavailable`,
           );
         }
       }
@@ -220,14 +218,14 @@ export class DataFormatAdapter {
     if (result.adaptations.length > 0) {
       console.log(
         `[DataFormatAdapter] Applied ${result.adaptations.length} adaptations:`,
-        result.adaptations
+        result.adaptations,
       );
     }
 
     if (result.warnings.length > 0) {
       console.warn(
         `[DataFormatAdapter] ${result.warnings.length} warnings:`,
-        result.warnings
+        result.warnings,
       );
     }
   }

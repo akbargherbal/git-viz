@@ -90,19 +90,10 @@ export const ScrollIndicatorOverlay: React.FC<ScrollIndicatorOverlayProps> = ({
   };
 
   return (
-    <div className="absolute inset-0 pointer-events-none overflow-hidden rounded-lg z-40">
+    <div className="pointer-events-none absolute inset-0 z-40 overflow-hidden rounded-lg">
       {/* Left Indicator */}
       <div
-        className={`
-          ${baseClasses} 
-          left-3 
-          top-1/2 
-          -translate-y-1/2 
-          w-8 
-          h-16 
-          rounded-xl
-          ${getClasses(state.isHoveringLeft, state.canScrollLeft)}
-        `}
+        className={` ${baseClasses} left-3 top-1/2 h-16 w-8 -translate-y-1/2 rounded-xl ${getClasses(state.isHoveringLeft, state.canScrollLeft)} `}
         style={{
           pointerEvents: state.canScrollLeft ? "auto" : "none",
         }}
@@ -118,16 +109,7 @@ export const ScrollIndicatorOverlay: React.FC<ScrollIndicatorOverlayProps> = ({
 
       {/* Right Indicator */}
       <div
-        className={`
-          ${baseClasses} 
-          right-3 
-          top-1/2 
-          -translate-y-1/2 
-          w-8 
-          h-16 
-          rounded-xl
-          ${getClasses(state.isHoveringRight, state.canScrollRight)}
-        `}
+        className={` ${baseClasses} right-3 top-1/2 h-16 w-8 -translate-y-1/2 rounded-xl ${getClasses(state.isHoveringRight, state.canScrollRight)} `}
         style={{
           pointerEvents: state.canScrollRight ? "auto" : "none",
         }}
@@ -143,16 +125,7 @@ export const ScrollIndicatorOverlay: React.FC<ScrollIndicatorOverlayProps> = ({
 
       {/* Top Indicator */}
       <div
-        className={`
-          ${baseClasses} 
-          top-3 
-          left-1/2 
-          -translate-x-1/2 
-          w-16
-          h-12 
-          rounded-xl
-          ${getClasses(state.isHoveringTop, state.canScrollTop)}
-        `}
+        className={` ${baseClasses} left-1/2 top-3 h-12 w-16 -translate-x-1/2 rounded-xl ${getClasses(state.isHoveringTop, state.canScrollTop)} `}
         style={{
           pointerEvents: state.canScrollTop ? "auto" : "none",
         }}
@@ -168,16 +141,7 @@ export const ScrollIndicatorOverlay: React.FC<ScrollIndicatorOverlayProps> = ({
 
       {/* Bottom Indicator */}
       <div
-        className={`
-          ${baseClasses} 
-          bottom-3 
-          left-1/2 
-          -translate-x-1/2 
-          w-16
-          h-12 
-          rounded-xl
-          ${getClasses(state.isHoveringBottom, state.canScrollBottom)}
-        `}
+        className={` ${baseClasses} bottom-3 left-1/2 h-12 w-16 -translate-x-1/2 rounded-xl ${getClasses(state.isHoveringBottom, state.canScrollBottom)} `}
         style={{
           pointerEvents: state.canScrollBottom ? "auto" : "none",
         }}

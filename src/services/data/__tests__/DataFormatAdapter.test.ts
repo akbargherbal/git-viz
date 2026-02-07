@@ -1,6 +1,6 @@
 /**
  * DataFormatAdapter.test.ts
- * 
+ *
  * Tests for data format adaptation and normalization
  */
 
@@ -69,7 +69,9 @@ describe("DataFormatAdapter", () => {
 
       expect(Array.isArray(result.data.temporal_daily.days)).toBe(true);
       expect(result.data.temporal_daily.days).toHaveLength(2);
-      expect(result.adaptations).toContain("normalized_temporal_daily_to_array");
+      expect(result.adaptations).toContain(
+        "normalized_temporal_daily_to_array",
+      );
     });
 
     it("should preserve existing temporal_daily array", () => {
@@ -90,7 +92,9 @@ describe("DataFormatAdapter", () => {
 
       expect(Array.isArray(result.data.temporal_daily.days)).toBe(true);
       expect(result.data.temporal_daily.days).toHaveLength(2);
-      expect(result.adaptations).not.toContain("normalized_temporal_daily_to_array");
+      expect(result.adaptations).not.toContain(
+        "normalized_temporal_daily_to_array",
+      );
     });
 
     it("should create empty file_lifecycle if missing", () => {
@@ -129,8 +133,12 @@ describe("DataFormatAdapter", () => {
 
       const result = DataFormatAdapter.adapt(dataset, DataFormat.V2_1_FRONTEND);
 
-      expect(result.warnings).toContain("Missing required dataset: project_hierarchy");
-      expect(result.warnings).toContain("Missing required dataset: file_metrics_index");
+      expect(result.warnings).toContain(
+        "Missing required dataset: project_hierarchy",
+      );
+      expect(result.warnings).toContain(
+        "Missing required dataset: file_metrics_index",
+      );
       expect(result.warnings).toContain("Missing required dataset: file_index");
     });
   });
@@ -152,7 +160,7 @@ describe("DataFormatAdapter", () => {
       const result = DataFormatAdapter.validateForPlugin(
         dataset,
         "test-plugin",
-        requirements
+        requirements,
       );
 
       expect(result.valid).toBe(true);
@@ -174,7 +182,7 @@ describe("DataFormatAdapter", () => {
       const result = DataFormatAdapter.validateForPlugin(
         dataset,
         "test-plugin",
-        requirements
+        requirements,
       );
 
       expect(result.valid).toBe(false);
@@ -199,7 +207,7 @@ describe("DataFormatAdapter", () => {
       const result = DataFormatAdapter.validateForPlugin(
         dataset,
         "test-plugin",
-        requirements
+        requirements,
       );
 
       expect(result.valid).toBe(true);
@@ -211,7 +219,7 @@ describe("DataFormatAdapter", () => {
   describe("Empty Dataset Creation", () => {
     it("should create valid empty V2.1 dataset", () => {
       const empty = DataFormatAdapter.createEmptyDataset(
-        DataFormat.V2_1_FRONTEND
+        DataFormat.V2_1_FRONTEND,
       );
 
       expect(empty.project_hierarchy).toBeDefined();

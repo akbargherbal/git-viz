@@ -62,19 +62,15 @@ export const LensModeSelector: React.FC<LensModeSelectorProps> = ({
             data-testid={`lens-${lens.id}`}
             data-selected={isActive}
             onClick={() => onLensChange(lens.id)}
-            className={`
-              px-2 py-1 rounded text-[10px] font-medium transition-all border
-              flex items-center gap-1.5
-              ${
-                isActive
-                  ? "bg-purple-600 text-white border-purple-500 shadow-sm"
-                  : "bg-zinc-800 text-zinc-400 hover:text-zinc-200 border-zinc-700 hover:border-zinc-600"
-              }
-            `}
+            className={`flex items-center gap-1.5 rounded border px-2 py-1 text-[10px] font-medium transition-all ${
+              isActive
+                ? "border-purple-500 bg-purple-600 text-white shadow-sm"
+                : "border-zinc-700 bg-zinc-800 text-zinc-400 hover:border-zinc-600 hover:text-zinc-200"
+            } `}
             aria-pressed={isActive}
             title={lens.description}
           >
-            <Icon className="w-3 h-3" />
+            <Icon className="h-3 w-3" />
             <span>{lens.short}</span>
           </button>
         );

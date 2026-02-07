@@ -17,12 +17,12 @@ interface TimelineScrubberProps {
 
 /**
  * Timeline scrubber control for the Time Lens
- * 
+ *
  * LAYOUT STRATEGY: This component is positioned at absolute bottom-0 with h-20 (80px).
  * The TreemapExplorerPlugin reserves this space by subtracting TIMELINE_SCRUBBER_HEIGHT
  * from the available height when in time lens mode. This prevents the scrubber from
  * obscuring bottom treemap cells.
- * 
+ *
  * When switching between lenses, the treemap smoothly resizes thanks to CSS transitions
  * on the parent container, making the layout shift feel intentional.
  */
@@ -77,48 +77,36 @@ export const TimelineScrubber: React.FC<TimelineScrubberProps> = ({
 
   return (
     <div
-      className={`
-        absolute bottom-0 left-0 w-full h-20
-        flex items-center px-8 gap-4
-        bg-gradient-to-t from-zinc-900 via-zinc-900/95 to-transparent
-        transition-opacity duration-300
-        ${visible ? "opacity-100" : "opacity-0 pointer-events-none"}
-      `}
+      className={`absolute bottom-0 left-0 flex h-20 w-full items-center gap-4 bg-gradient-to-t from-zinc-900 via-zinc-900/95 to-transparent px-8 transition-opacity duration-300 ${visible ? "opacity-100" : "pointer-events-none opacity-0"} `}
       style={{ zIndex: 10 }}
     >
       {/* Play/Pause Button */}
       {onPlayToggle && (
         <button
           onClick={onPlayToggle}
-          className="
-            flex-shrink-0 w-8 h-8 rounded-full
-            bg-purple-600 hover:bg-purple-500
-            flex items-center justify-center
-            transition-colors
-            text-white
-          "
+          className="flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-full bg-purple-600 text-white transition-colors hover:bg-purple-500"
           aria-label={playing ? "Pause" : "Play"}
         >
           {playing ? (
-            <Pause className="w-4 h-4" />
+            <Pause className="h-4 w-4" />
           ) : (
-            <Play className="w-4 h-4 ml-0.5" />
+            <Play className="ml-0.5 h-4 w-4" />
           )}
         </button>
       )}
 
       {/* Start Date */}
-      <span className="flex-shrink-0 text-xs text-zinc-500 font-mono w-24 text-left">
+      <span className="w-24 flex-shrink-0 text-left font-mono text-xs text-zinc-500">
         {formatDate(minDate)}
       </span>
 
       {/* Unified Slider + Progress Timeline */}
-      <div className="flex-1 relative">
+      <div className="relative flex-1">
         {/* Progress bar background - positioned under the slider */}
-        <div className="absolute inset-0 flex items-center pointer-events-none">
-          <div className="relative w-full h-2 bg-zinc-700 rounded-lg overflow-hidden">
+        <div className="pointer-events-none absolute inset-0 flex items-center">
+          <div className="relative h-2 w-full overflow-hidden rounded-lg bg-zinc-700">
             <div
-              className="absolute top-0 left-0 h-full bg-purple-500/30 transition-all duration-100"
+              className="absolute left-0 top-0 h-full bg-purple-500/30 transition-all duration-100"
               style={{ width: `${currentPosition}%` }}
             />
           </div>
@@ -133,42 +121,22 @@ export const TimelineScrubber: React.FC<TimelineScrubberProps> = ({
           step="0.1"
           value={currentPosition}
           onChange={(e) => onPositionChange(parseFloat(e.target.value))}
-          className="
-            relative w-full h-2 bg-transparent rounded-lg appearance-none cursor-pointer
-            [&::-webkit-slider-track]:bg-transparent
-            [&::-webkit-slider-track]:h-2
-            [&::-webkit-slider-thumb]:appearance-none
-            [&::-webkit-slider-thumb]:w-4
-            [&::-webkit-slider-thumb]:h-4
-            [&::-webkit-slider-thumb]:rounded-full
-            [&::-webkit-slider-thumb]:bg-purple-500
-            [&::-webkit-slider-thumb]:cursor-pointer
-            [&::-webkit-slider-thumb]:shadow-lg
-            [&::-moz-range-track]:bg-transparent
-            [&::-moz-range-track]:h-2
-            [&::-moz-range-thumb]:w-4
-            [&::-moz-range-thumb]:h-4
-            [&::-moz-range-thumb]:rounded-full
-            [&::-moz-range-thumb]:bg-purple-500
-            [&::-moz-range-thumb]:cursor-pointer
-            [&::-moz-range-thumb]:border-0
-            [&::-moz-range-thumb]:shadow-lg
-          "
+          className="relative h-2 w-full cursor-pointer appearance-none rounded-lg bg-transparent [&::-moz-range-thumb]:h-4 [&::-moz-range-thumb]:w-4 [&::-moz-range-thumb]:cursor-pointer [&::-moz-range-thumb]:rounded-full [&::-moz-range-thumb]:border-0 [&::-moz-range-thumb]:bg-purple-500 [&::-moz-range-thumb]:shadow-lg [&::-moz-range-track]:h-2 [&::-moz-range-track]:bg-transparent [&::-webkit-slider-thumb]:h-4 [&::-webkit-slider-thumb]:w-4 [&::-webkit-slider-thumb]:cursor-pointer [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:bg-purple-500 [&::-webkit-slider-thumb]:shadow-lg [&::-webkit-slider-track]:h-2 [&::-webkit-slider-track]:bg-transparent"
           aria-label="Timeline position"
         />
       </div>
 
       {/* End Date */}
-      <span className="flex-shrink-0 text-xs text-zinc-500 font-mono w-24 text-right">
+      <span className="w-24 flex-shrink-0 text-right font-mono text-xs text-zinc-500">
         {formatDate(maxDate)}
       </span>
 
       {/* Current Position Info */}
-      <div className="flex-shrink-0 flex flex-col items-end gap-0.5 min-w-[120px]">
-        <span className="text-xs text-zinc-400 font-mono">
+      <div className="flex min-w-[120px] flex-shrink-0 flex-col items-end gap-0.5">
+        <span className="font-mono text-xs text-zinc-400">
           {getCurrentDate()}
         </span>
-        <span className="text-[10px] text-zinc-600 font-mono">
+        <span className="font-mono text-[10px] text-zinc-600">
           Commit {currentCommit.toLocaleString()}/
           {totalCommits.toLocaleString()}
         </span>

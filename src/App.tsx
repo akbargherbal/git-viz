@@ -517,12 +517,12 @@ const App: React.FC = () => {
     return (
       <div
         data-testid="loading-container"
-        className="h-screen bg-zinc-950 text-white flex items-center justify-center"
+        className="flex h-screen items-center justify-center bg-zinc-950 text-white"
       >
-        <div className="text-center space-y-6 max-w-md w-full px-6">
+        <div className="w-full max-w-md space-y-6 px-6 text-center">
           <LoadingSpinner message={`Loading ${loadingProgress.phase}...`} />
-          <div className="w-full bg-zinc-800 rounded-full h-2 overflow-hidden">
-            <div className="bg-purple-600 h-full animate-pulse w-full"></div>
+          <div className="h-2 w-full overflow-hidden rounded-full bg-zinc-800">
+            <div className="h-full w-full animate-pulse bg-purple-600"></div>
           </div>
         </div>
       </div>
@@ -546,7 +546,7 @@ const App: React.FC = () => {
 
   return (
     <div
-      className="h-screen bg-zinc-950 text-white flex flex-col overflow-hidden"
+      className="flex h-screen flex-col overflow-hidden bg-zinc-950 text-white"
       data-testid="app-container"
       data-active-plugin={ui.activePluginId || "none"}
       data-plugin-data-ready={isDataReady}
@@ -558,26 +558,26 @@ const App: React.FC = () => {
         data-testid="app-header"
         data-active-plugin={ui.activePluginId || "none"}
         data-uses-plugin-controls={usesPluginControls}
-        className="bg-zinc-900 border-b border-zinc-800 h-14 min-h-14 max-h-14 flex-none z-50 relative select-none"
+        className="relative z-50 h-14 max-h-14 min-h-14 flex-none select-none border-b border-zinc-800 bg-zinc-900"
       >
         {headerScroll.canScrollLeft && (
-          <div className="absolute left-0 top-0 bottom-0 w-12 bg-gradient-to-r from-zinc-900 via-zinc-900/80 to-transparent pointer-events-none z-10" />
+          <div className="pointer-events-none absolute bottom-0 left-0 top-0 z-10 w-12 bg-gradient-to-r from-zinc-900 via-zinc-900/80 to-transparent" />
         )}
         {headerScroll.canScrollRight && (
-          <div className="absolute right-0 top-0 bottom-0 w-12 bg-gradient-to-l from-zinc-900 via-zinc-900/80 to-transparent pointer-events-none z-10" />
+          <div className="pointer-events-none absolute bottom-0 right-0 top-0 z-10 w-12 bg-gradient-to-l from-zinc-900 via-zinc-900/80 to-transparent" />
         )}
 
         <div
           ref={headerScrollRef}
-          className="h-full w-full overflow-x-auto overflow-y-hidden px-4 sleek-scrollbar"
+          className="sleek-scrollbar h-full w-full overflow-x-auto overflow-y-hidden px-4"
         >
-          <div className="flex items-center justify-between gap-4 h-full min-w-max">
-            <div className="flex items-center gap-4 flex-shrink-0">
+          <div className="flex h-full min-w-max items-center justify-between gap-4">
+            <div className="flex flex-shrink-0 items-center gap-4">
               <div className="flex flex-col">
                 <h1 className="text-base font-bold leading-tight">
                   Git Repository Visualization
                 </h1>
-                <p className="text-[10px] text-zinc-500 font-mono leading-tight">
+                <p className="font-mono text-[10px] leading-tight text-zinc-500">
                   {data.metadata?.repository_name || "Loading..."}
                 </p>
               </div>
@@ -585,7 +585,7 @@ const App: React.FC = () => {
               <PluginSelector plugins={plugins} />
             </div>
 
-            <div className="flex items-center gap-2 flex-shrink-0">
+            <div className="flex flex-shrink-0 items-center gap-2">
               {usesPluginControls && (
                 <div className="flex items-center gap-2">
                   {renderPluginControls()}
@@ -607,17 +607,17 @@ const App: React.FC = () => {
                 }
                 data-disabled={false}
                 title={hasActiveFilters ? "Filters Active" : "Filters"}
-                className={`relative p-2 rounded-lg transition-all duration-200 ${
+                className={`relative rounded-lg p-2 transition-all duration-200 ${
                   ui.showFilters
                     ? "bg-purple-600 text-white shadow-lg shadow-purple-900/20"
                     : hasActiveFilters
                       ? "bg-zinc-800 text-purple-400 ring-1 ring-purple-500/50 hover:bg-zinc-700 hover:text-purple-300"
-                      : "bg-zinc-800 text-zinc-400 hover:text-white hover:bg-zinc-700"
+                      : "bg-zinc-800 text-zinc-400 hover:bg-zinc-700 hover:text-white"
                 }`}
               >
                 <Filter size={18} />
                 {hasActiveFilters && !ui.showFilters && (
-                  <span className="absolute top-2 right-2 w-1.5 h-1.5 bg-purple-500 rounded-full shadow-[0_0_8px_rgba(168,85,247,0.8)]" />
+                  <span className="absolute right-2 top-2 h-1.5 w-1.5 rounded-full bg-purple-500 shadow-[0_0_8px_rgba(168,85,247,0.8)]" />
                 )}
               </button>
             </div>
@@ -625,13 +625,13 @@ const App: React.FC = () => {
         </div>
       </header>
 
-      <div className="flex-1 flex overflow-hidden">
+      <div className="flex flex-1 overflow-hidden">
         <main
           ref={mainContainerRef}
           data-testid="visualization-container"
           data-active-plugin={ui.activePluginId || "none"}
           data-rendering={isDataReady}
-          className="flex-1 flex flex-col overflow-hidden relative"
+          className="relative flex flex-1 flex-col overflow-hidden"
         >
           <ScrollIndicatorOverlay
             state={mainScroll}
@@ -646,7 +646,7 @@ const App: React.FC = () => {
           data-visible={ui.showFilters}
           data-plugin-owned={!!activePlugin?.renderFilters}
           data-active-plugin={ui.activePluginId || "none"}
-          className={`w-80 bg-zinc-900 border-l border-zinc-800 overflow-y-auto flex-none panel-transition ${
+          className={`panel-transition w-80 flex-none overflow-y-auto border-l border-zinc-800 bg-zinc-900 ${
             !ui.showFilters ? "panel-hidden" : ""
           }`}
         >
@@ -663,7 +663,7 @@ const App: React.FC = () => {
               onClose: () => setShowFilters(false),
             })
           ) : (
-            <div className="p-6 text-zinc-500 text-center">
+            <div className="p-6 text-center text-zinc-500">
               <p className="text-sm">No filters available for this plugin.</p>
             </div>
           )}
@@ -674,7 +674,7 @@ const App: React.FC = () => {
           data-visible={!!ui.selectedCell}
           data-active-plugin={ui.activePluginId || "none"}
           data-cell-type={ui.selectedCell ? "present" : "none"}
-          className={`bg-zinc-900 border-l border-zinc-800 flex-none panel-transition relative ${
+          className={`panel-transition relative flex-none border-l border-zinc-800 bg-zinc-900 ${
             !ui.selectedCell ? "panel-hidden" : ""
           }`}
         >

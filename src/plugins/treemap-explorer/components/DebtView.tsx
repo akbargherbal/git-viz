@@ -61,7 +61,7 @@ export const DebtView: React.FC<DebtViewProps> = ({ file }) => {
     <div className="space-y-4">
       {/* Health Score Badge */}
       <div
-        className={`flex items-center justify-between p-3 rounded-lg border ${getCategoryBg(healthScore.category)}`}
+        className={`flex items-center justify-between rounded-lg border p-3 ${getCategoryBg(healthScore.category)}`}
       >
         <span className="text-xs text-zinc-400">Health Score</span>
         <div className="flex items-center gap-2">
@@ -88,13 +88,13 @@ export const DebtView: React.FC<DebtViewProps> = ({ file }) => {
       <div className="space-y-2">
         <div className="flex items-center justify-between">
           <span className="text-xs text-zinc-400">Churn Rate</span>
-          <span className="text-sm font-mono text-zinc-200">
+          <span className="font-mono text-sm text-zinc-200">
             {(healthScore.churnRate * 100).toFixed(1)}%
           </span>
         </div>
-        <div className="w-full bg-zinc-800 rounded-full h-2">
+        <div className="h-2 w-full rounded-full bg-zinc-800">
           <div
-            className="bg-amber-500 h-2 rounded-full transition-all"
+            className="h-2 rounded-full bg-amber-500 transition-all"
             style={{ width: `${healthScore.churnRate * 100}%` }}
           />
         </div>
@@ -104,7 +104,7 @@ export const DebtView: React.FC<DebtViewProps> = ({ file }) => {
       <div className="flex items-center justify-between">
         <span className="text-xs text-zinc-400">Bus Factor</span>
         <span
-          className={`text-xs font-semibold uppercase px-2 py-1 rounded border ${getRiskBadgeColor(
+          className={`rounded border px-2 py-1 text-xs font-semibold uppercase ${getRiskBadgeColor(
             healthScore.busFactor,
           )}`}
         >
@@ -113,8 +113,8 @@ export const DebtView: React.FC<DebtViewProps> = ({ file }) => {
       </div>
 
       {/* Contributing Factors */}
-      <div className="space-y-3 pt-4 border-t border-zinc-800">
-        <h4 className="text-xs font-semibold text-zinc-400 uppercase">
+      <div className="space-y-3 border-t border-zinc-800 pt-4">
+        <h4 className="text-xs font-semibold uppercase text-zinc-400">
           Contributing Factors
         </h4>
 
@@ -129,13 +129,13 @@ export const DebtView: React.FC<DebtViewProps> = ({ file }) => {
               </span>
             </div>
             <div className="flex items-center gap-2">
-              <div className="flex-1 bg-zinc-800 rounded-full h-1.5">
+              <div className="h-1.5 flex-1 rounded-full bg-zinc-800">
                 <div
-                  className="bg-amber-500 h-1.5 rounded-full"
+                  className="h-1.5 rounded-full bg-amber-500"
                   style={{ width: `${healthScore.factors.churn.score || 0}%` }}
                 />
               </div>
-              <span className="text-xs font-mono text-zinc-300 w-12 text-right">
+              <span className="w-12 text-right font-mono text-xs text-zinc-300">
                 {(healthScore.factors.churn.score || 0).toFixed(0)}
               </span>
             </div>
@@ -153,15 +153,15 @@ export const DebtView: React.FC<DebtViewProps> = ({ file }) => {
               </span>
             </div>
             <div className="flex items-center gap-2">
-              <div className="flex-1 bg-zinc-800 rounded-full h-1.5">
+              <div className="h-1.5 flex-1 rounded-full bg-zinc-800">
                 <div
-                  className="bg-blue-500 h-1.5 rounded-full"
+                  className="h-1.5 rounded-full bg-blue-500"
                   style={{
                     width: `${healthScore.factors.authors.score || 0}%`,
                   }}
                 />
               </div>
-              <span className="text-xs font-mono text-zinc-300 w-12 text-right">
+              <span className="w-12 text-right font-mono text-xs text-zinc-300">
                 {(healthScore.factors.authors.score || 0).toFixed(0)}
               </span>
             </div>
@@ -179,13 +179,13 @@ export const DebtView: React.FC<DebtViewProps> = ({ file }) => {
               </span>
             </div>
             <div className="flex items-center gap-2">
-              <div className="flex-1 bg-zinc-800 rounded-full h-1.5">
+              <div className="h-1.5 flex-1 rounded-full bg-zinc-800">
                 <div
-                  className="bg-purple-500 h-1.5 rounded-full"
+                  className="h-1.5 rounded-full bg-purple-500"
                   style={{ width: `${healthScore.factors.age.score || 0}%` }}
                 />
               </div>
-              <span className="text-xs font-mono text-zinc-300 w-12 text-right">
+              <span className="w-12 text-right font-mono text-xs text-zinc-300">
                 {(healthScore.factors.age.score || 0).toFixed(0)}
               </span>
             </div>
@@ -194,16 +194,16 @@ export const DebtView: React.FC<DebtViewProps> = ({ file }) => {
       </div>
 
       {/* File Stats */}
-      <div className="grid grid-cols-2 gap-3 pt-4 border-t border-zinc-800">
+      <div className="grid grid-cols-2 gap-3 border-t border-zinc-800 pt-4">
         <div>
-          <div className="text-xs text-zinc-500 mb-1">Total Commits</div>
-          <div className="text-lg font-mono text-zinc-200">
+          <div className="mb-1 text-xs text-zinc-500">Total Commits</div>
+          <div className="font-mono text-lg text-zinc-200">
             {file.total_commits}
           </div>
         </div>
         <div>
-          <div className="text-xs text-zinc-500 mb-1">Contributors</div>
-          <div className="text-lg font-mono text-zinc-200">
+          <div className="mb-1 text-xs text-zinc-500">Contributors</div>
+          <div className="font-mono text-lg text-zinc-200">
             {file.unique_authors}
           </div>
         </div>
@@ -211,8 +211,8 @@ export const DebtView: React.FC<DebtViewProps> = ({ file }) => {
 
       {/* Operations Breakdown */}
       {file.operations && (
-        <div className="space-y-2 pt-4 border-t border-zinc-800">
-          <h4 className="text-xs font-semibold text-zinc-400 uppercase">
+        <div className="space-y-2 border-t border-zinc-800 pt-4">
+          <h4 className="text-xs font-semibold uppercase text-zinc-400">
             Operations
           </h4>
           <div className="grid grid-cols-2 gap-2 text-xs">

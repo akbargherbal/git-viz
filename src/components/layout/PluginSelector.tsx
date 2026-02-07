@@ -78,14 +78,11 @@ export const PluginSelector: React.FC<PluginSelectorProps> = ({ plugins }) => {
         data-testid="viz-selector"
         data-active-plugin={activePlugin.metadata.id}
         data-open={isOpen}
-        className={`
-          flex items-center gap-2 px-3 py-1.5 rounded-lg text-sm font-medium transition-all border
-          ${
-            isOpen
-              ? "bg-zinc-800 border-zinc-600 text-white"
-              : "bg-zinc-900 border-zinc-800 text-zinc-300 hover:bg-zinc-800 hover:text-white"
-          }
-        `}
+        className={`flex items-center gap-2 rounded-lg border px-3 py-1.5 text-sm font-medium transition-all ${
+          isOpen
+            ? "border-zinc-600 bg-zinc-800 text-white"
+            : "border-zinc-800 bg-zinc-900 text-zinc-300 hover:bg-zinc-800 hover:text-white"
+        } `}
         title="Select Visualization"
         aria-label="Select Visualization"
       >
@@ -103,7 +100,7 @@ export const PluginSelector: React.FC<PluginSelectorProps> = ({ plugins }) => {
         createPortal(
           <div
             id="plugin-selector-dropdown"
-            className="fixed bg-zinc-900 border border-zinc-700 rounded-lg shadow-xl z-[100] py-1 animate-in fade-in zoom-in-95 duration-100"
+            className="animate-in fade-in zoom-in-95 fixed z-[100] rounded-lg border border-zinc-700 bg-zinc-900 py-1 shadow-xl duration-100"
             style={{
               top: `${coords.top}px`,
               left: `${coords.left}px`,
@@ -119,14 +116,11 @@ export const PluginSelector: React.FC<PluginSelectorProps> = ({ plugins }) => {
                   setActivePlugin(plugin.metadata.id);
                   setIsOpen(false);
                 }}
-                className={`
-                w-full flex items-center justify-between px-3 py-2 text-sm text-left transition-colors
-                ${
+                className={`flex w-full items-center justify-between px-3 py-2 text-left text-sm transition-colors ${
                   ui.activePluginId === plugin.metadata.id
                     ? "bg-purple-900/20 text-purple-300"
                     : "text-zinc-400 hover:bg-zinc-800 hover:text-zinc-200"
-                }
-              `}
+                } `}
               >
                 <span>{plugin.metadata.name}</span>
                 {ui.activePluginId === plugin.metadata.id && (

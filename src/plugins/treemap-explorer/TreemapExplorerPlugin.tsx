@@ -497,7 +497,6 @@ export class TreemapExplorerPlugin implements VisualizationPlugin<TreemapExplore
     return [];
   }
 
-
   render(data: EnrichedFileData[], state: TreemapExplorerState): void {
     if (!this.container) return;
 
@@ -523,7 +522,6 @@ export class TreemapExplorerPlugin implements VisualizationPlugin<TreemapExplore
     console.log(`[TreemapExplorer] Rendering with ${state.lensMode} lens`);
     this.renderWithUnifiedSystem(data, state);
   }
-
 
   private renderWithUnifiedSystem(
     data: EnrichedFileData[],
@@ -566,13 +564,14 @@ export class TreemapExplorerPlugin implements VisualizationPlugin<TreemapExplore
 
     const rect = this.container.getBoundingClientRect();
     const width = rect.width;
-    
+
     // RESERVED SPACE: Subtract timeline scrubber height when in time lens mode
     // This prevents the scrubber from obscuring bottom treemap cells
     const TIMELINE_SCRUBBER_HEIGHT = 80; // Matches h-20 (5rem) in TimelineScrubber.tsx
-    const height = state.lensMode === "time" 
-      ? rect.height - TIMELINE_SCRUBBER_HEIGHT 
-      : rect.height;
+    const height =
+      state.lensMode === "time"
+        ? rect.height - TIMELINE_SCRUBBER_HEIGHT
+        : rect.height;
 
     // Build treemap layout with adjusted height
     const cells = renderer["buildTreemapLayout"](
@@ -593,7 +592,6 @@ export class TreemapExplorerPlugin implements VisualizationPlugin<TreemapExplore
     // Render lens-specific extras
     renderer.renderExtras(svg, cells, state);
   }
-
 
   private getRenderer(lensMode: string): BaseTreemapRenderer | null {
     switch (lensMode) {

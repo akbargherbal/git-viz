@@ -25,7 +25,7 @@ export default function TreemapDetailPanel({
 }: TreemapDetailPanelProps) {
   return (
     <div
-      className="absolute top-0 right-0 h-full w-96 bg-zinc-900 border-l border-zinc-800 shadow-2xl z-40 overflow-y-auto flex flex-col animate-slide-in-right"
+      className="animate-slide-in-right absolute right-0 top-0 z-40 flex h-full w-96 flex-col overflow-y-auto border-l border-zinc-800 bg-zinc-900 shadow-2xl"
       data-testid="detail-panel"
       data-lens-mode={lensMode}
       data-file-path={file.key}
@@ -36,16 +36,16 @@ export default function TreemapDetailPanel({
       }
     >
       {/* Header */}
-      <div className="sticky top-0 bg-zinc-900 border-b border-zinc-800 p-4 flex items-start justify-between gap-3 z-10">
-        <div className="flex-1 min-w-0">
+      <div className="sticky top-0 z-10 flex items-start justify-between gap-3 border-b border-zinc-800 bg-zinc-900 p-4">
+        <div className="min-w-0 flex-1">
           <h3
-            className="text-sm font-bold text-zinc-100 truncate"
+            className="truncate text-sm font-bold text-zinc-100"
             title={file.key}
           >
             {file.key.split("/").pop()}
           </h3>
           <p
-            className="text-xs text-zinc-500 font-mono truncate mt-0.5"
+            className="mt-0.5 truncate font-mono text-xs text-zinc-500"
             title={file.key}
           >
             {file.key}
@@ -54,15 +54,15 @@ export default function TreemapDetailPanel({
         <button
           onClick={onClose}
           data-testid="close-detail-panel"
-          className="flex-shrink-0 p-1.5 rounded hover:bg-zinc-800 transition-colors text-zinc-400 hover:text-zinc-100"
+          className="flex-shrink-0 rounded p-1.5 text-zinc-400 transition-colors hover:bg-zinc-800 hover:text-zinc-100"
           aria-label="Close panel"
         >
-          <X className="w-4 h-4" />
+          <X className="h-4 w-4" />
         </button>
       </div>
 
       {/* Content based on lens mode */}
-      <div className="flex-1 p-4 space-y-4">
+      <div className="flex-1 space-y-4 p-4">
         {lensMode === "debt" && <DebtView file={file as EnrichedFileData} />}
         {lensMode === "coupling" &&
           couplingIndex &&
@@ -77,17 +77,17 @@ export default function TreemapDetailPanel({
       </div>
 
       {/* Lens Mode Indicator */}
-      <div className="sticky bottom-0 bg-zinc-900 border-t border-zinc-800 p-3">
+      <div className="sticky bottom-0 border-t border-zinc-800 bg-zinc-900 p-3">
         <div className="flex items-center gap-2 text-xs text-zinc-500">
           <div
             className={cn(
-              "w-2 h-2 rounded-full",
+              "h-2 w-2 rounded-full",
               lensMode === "debt" && "bg-red-500",
               lensMode === "coupling" && "bg-purple-500",
               lensMode === "time" && "bg-blue-500",
             )}
           />
-          <span className="uppercase font-semibold">
+          <span className="font-semibold uppercase">
             {lensMode === "debt" && "Technical Debt Lens"}
             {lensMode === "coupling" && "Coupling Lens"}
             {lensMode === "time" && "Temporal Lens"}

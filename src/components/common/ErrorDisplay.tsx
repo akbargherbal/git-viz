@@ -13,10 +13,10 @@ export const ErrorDisplay: React.FC<ErrorDisplayProps> = ({
   onDismiss,
 }) => {
   return (
-    <div className="flex items-center justify-center h-full p-8">
-      <div className="bg-red-950/50 border border-red-800 rounded-lg p-6 max-w-md">
-        <div className="flex items-start justify-between mb-2">
-          <h3 className="text-red-400 font-bold text-lg">Error</h3>
+    <div className="flex h-full items-center justify-center p-8">
+      <div className="max-w-md rounded-lg border border-red-800 bg-red-950/50 p-6">
+        <div className="mb-2 flex items-start justify-between">
+          <h3 className="text-lg font-bold text-red-400">Error</h3>
           {onDismiss && (
             <button
               onClick={onDismiss}
@@ -26,7 +26,7 @@ export const ErrorDisplay: React.FC<ErrorDisplayProps> = ({
             </button>
           )}
         </div>
-        <p className="text-red-200 text-sm">{error}</p>
+        <p className="text-sm text-red-200">{error}</p>
         <div className="mt-4 text-xs text-red-300">
           Please check the console for more details or try reloading the page.
         </div>

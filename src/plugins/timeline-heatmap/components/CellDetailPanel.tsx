@@ -74,7 +74,7 @@ export const CellDetailPanel: React.FC<CellDetailPanelProps> = ({
 
   return (
     <div
-      className="absolute top-0 right-0 w-80 bg-zinc-900/95 backdrop-blur border border-zinc-700 rounded-xl shadow-2xl overflow-hidden z-50 flex flex-col animate-in slide-in-from-right-10 duration-200 max-h-[calc(100vh-2rem)] overflow-y-auto sleek-scrollbar pb-8"
+      className="animate-in slide-in-from-right-10 sleek-scrollbar absolute right-0 top-0 z-50 flex max-h-[calc(100vh-2rem)] w-80 flex-col overflow-hidden overflow-y-auto rounded-xl border border-zinc-700 bg-zinc-900/95 pb-8 shadow-2xl backdrop-blur duration-200"
       data-testid="cell-detail-panel"
       data-metric={metric}
       data-directory={directoryName}
@@ -86,7 +86,7 @@ export const CellDetailPanel: React.FC<CellDetailPanelProps> = ({
       data-has-data={true}
     >
       {/* Header */}
-      <div className="p-4 border-b border-zinc-800 bg-zinc-950/50 flex justify-between items-start sticky top-0 z-10 backdrop-blur-md">
+      <div className="sticky top-0 z-10 flex items-start justify-between border-b border-zinc-800 bg-zinc-950/50 p-4 backdrop-blur-md">
         <div className="overflow-hidden">
           <div className={`flex items-center gap-2 ${headerConfig.color} mb-1`}>
             <HeaderIcon size={14} />
@@ -95,38 +95,38 @@ export const CellDetailPanel: React.FC<CellDetailPanelProps> = ({
             </span>
           </div>
           <h3
-            className="text-sm font-bold text-white break-all leading-tight font-mono"
+            className="break-all font-mono text-sm font-bold leading-tight text-white"
             title={cell.directory}
           >
             {directoryName}
           </h3>
-          <div className="text-xs text-zinc-500 truncate">{cell.directory}</div>
+          <div className="truncate text-xs text-zinc-500">{cell.directory}</div>
         </div>
         <button
           onClick={onClose}
-          className="text-zinc-400 hover:text-white p-1 hover:bg-zinc-800 rounded transition-colors"
+          className="rounded p-1 text-zinc-400 transition-colors hover:bg-zinc-800 hover:text-white"
         >
           <X size={18} />
         </button>
       </div>
 
       {/* Primary Stats */}
-      <div className="grid grid-cols-2 gap-px bg-zinc-800 border-b border-zinc-800">
-        <div className="bg-zinc-900 p-4 flex flex-col items-center justify-center text-center">
+      <div className="grid grid-cols-2 gap-px border-b border-zinc-800 bg-zinc-800">
+        <div className="flex flex-col items-center justify-center bg-zinc-900 p-4 text-center">
           <div
             className={`text-2xl font-bold ${headerConfig.color.replace("text-", "text-")}`}
           >
             {formatNumber(headerConfig.primaryValue)}
           </div>
-          <div className="text-zinc-500 text-[10px] uppercase tracking-wider mt-1">
+          <div className="mt-1 text-[10px] uppercase tracking-wider text-zinc-500">
             {headerConfig.primaryLabel}
           </div>
         </div>
 
         {/* Secondary Stat - Authors */}
-        <div className="bg-zinc-900 p-4 flex flex-col items-center justify-center text-center">
+        <div className="flex flex-col items-center justify-center bg-zinc-900 p-4 text-center">
           <div className="text-2xl font-bold text-white">{cell.authors}</div>
-          <div className="text-zinc-500 text-[10px] uppercase tracking-wider mt-1">
+          <div className="mt-1 text-[10px] uppercase tracking-wider text-zinc-500">
             Authors
           </div>
         </div>
@@ -134,21 +134,21 @@ export const CellDetailPanel: React.FC<CellDetailPanelProps> = ({
 
       {/* Lifetime Context (New V2 Feature) */}
       {lifetimeStats && (
-        <div className="p-3 bg-zinc-900/50 border-b border-zinc-800">
-          <div className="flex items-center gap-2 text-xs text-zinc-400 mb-2 font-medium">
+        <div className="border-b border-zinc-800 bg-zinc-900/50 p-3">
+          <div className="mb-2 flex items-center gap-2 text-xs font-medium text-zinc-400">
             <TrendingUp size={12} />
             <span>All-Time Directory Stats</span>
           </div>
           <div className="grid grid-cols-2 gap-2">
-            <div className="bg-zinc-950 rounded p-2 border border-zinc-800/50">
+            <div className="rounded border border-zinc-800/50 bg-zinc-950 p-2">
               <div className="text-[10px] text-zinc-500">Activity Score</div>
-              <div className="text-sm font-mono text-zinc-300">
+              <div className="font-mono text-sm text-zinc-300">
                 {lifetimeStats.activity_score.toFixed(1)}
               </div>
             </div>
-            <div className="bg-zinc-950 rounded p-2 border border-zinc-800/50">
+            <div className="rounded border border-zinc-800/50 bg-zinc-950 p-2">
               <div className="text-[10px] text-zinc-500">Total Commits</div>
-              <div className="text-sm font-mono text-zinc-300">
+              <div className="font-mono text-sm text-zinc-300">
                 {formatNumber(lifetimeStats.total_commits)}
               </div>
             </div>
@@ -157,12 +157,12 @@ export const CellDetailPanel: React.FC<CellDetailPanelProps> = ({
       )}
 
       {/* Activity Breakdown Chart (Always useful) */}
-      <div className="p-4 bg-zinc-900 border-b border-zinc-800">
-        <div className="text-xs text-zinc-400 mb-3 font-medium">
+      <div className="border-b border-zinc-800 bg-zinc-900 p-4">
+        <div className="mb-3 text-xs font-medium text-zinc-400">
           Event Composition
         </div>
 
-        <div className="h-4 w-full flex rounded-full overflow-hidden mb-3 bg-zinc-800">
+        <div className="mb-3 flex h-4 w-full overflow-hidden rounded-full bg-zinc-800">
           {pCreate > 0 && (
             <div style={{ width: `${pCreate}%` }} className="bg-green-500" />
           )}
@@ -174,17 +174,17 @@ export const CellDetailPanel: React.FC<CellDetailPanelProps> = ({
           )}
         </div>
 
-        <div className="flex justify-between text-[10px] text-zinc-400 px-1">
+        <div className="flex justify-between px-1 text-[10px] text-zinc-400">
           <span className="flex items-center gap-1">
-            <div className="w-2 h-2 rounded-full bg-green-500" /> +
+            <div className="h-2 w-2 rounded-full bg-green-500" /> +
             {cell.creations}
           </span>
           <span className="flex items-center gap-1">
-            <div className="w-2 h-2 rounded-full bg-blue-500" /> ~
+            <div className="h-2 w-2 rounded-full bg-blue-500" /> ~
             {cell.modifications}
           </span>
           <span className="flex items-center gap-1">
-            <div className="w-2 h-2 rounded-full bg-red-500" /> -
+            <div className="h-2 w-2 rounded-full bg-red-500" /> -
             {cell.deletions}
           </span>
         </div>
@@ -192,8 +192,8 @@ export const CellDetailPanel: React.FC<CellDetailPanelProps> = ({
 
       {/* Top Contributors */}
       {cell.topContributors && cell.topContributors.length > 0 && (
-        <div className="p-4 bg-zinc-900 border-b border-zinc-800">
-          <div className="text-xs text-zinc-400 mb-2 font-medium flex items-center gap-2">
+        <div className="border-b border-zinc-800 bg-zinc-900 p-4">
+          <div className="mb-2 flex items-center gap-2 text-xs font-medium text-zinc-400">
             <User size={12} />
             Top Contributors
           </div>
@@ -201,7 +201,7 @@ export const CellDetailPanel: React.FC<CellDetailPanelProps> = ({
             {cell.topContributors.map((author: string, idx: number) => (
               <div
                 key={idx}
-                className="text-xs text-zinc-300 truncate pl-3 border-l-2 border-zinc-700 hover:border-orange-500 transition-colors"
+                className="truncate border-l-2 border-zinc-700 pl-3 text-xs text-zinc-300 transition-colors hover:border-orange-500"
               >
                 {author}
               </div>
@@ -212,24 +212,24 @@ export const CellDetailPanel: React.FC<CellDetailPanelProps> = ({
 
       {/* Top Files - Enhanced with V2 Data */}
       {enrichedFiles.length > 0 && (
-        <div className="p-4 bg-zinc-900 border-b border-zinc-800">
-          <div className="text-xs text-zinc-400 mb-2 font-medium flex items-center gap-2">
+        <div className="border-b border-zinc-800 bg-zinc-900 p-4">
+          <div className="mb-2 flex items-center gap-2 text-xs font-medium text-zinc-400">
             <FileText size={12} /> Most Active Files
           </div>
           <div className="space-y-2">
             {enrichedFiles.map((file: any, idx: number) => (
               <div key={idx} className="group">
                 <div
-                  className="text-xs text-zinc-300 truncate pl-3 border-l-2 border-zinc-700 font-mono group-hover:border-purple-500 transition-colors"
+                  className="truncate border-l-2 border-zinc-700 pl-3 font-mono text-xs text-zinc-300 transition-colors group-hover:border-purple-500"
                   title={file.name}
                 >
                   {file.name}
                 </div>
                 {/* V2 Enhancement: Primary Author */}
                 {file.stats?.primary_author && (
-                  <div className="pl-3.5 mt-0.5 flex items-center gap-1.5 text-[10px] text-zinc-500">
+                  <div className="mt-0.5 flex items-center gap-1.5 pl-3.5 text-[10px] text-zinc-500">
                     <Crown size={8} className="text-yellow-600" />
-                    <span className="truncate max-w-[180px]">
+                    <span className="max-w-[180px] truncate">
                       {file.stats.primary_author.email.split("@")[0]}
                     </span>
                     <span className="text-zinc-600">
@@ -244,7 +244,7 @@ export const CellDetailPanel: React.FC<CellDetailPanelProps> = ({
       )}
 
       {/* Context Info */}
-      <div className="p-4 bg-zinc-900 text-xs text-zinc-500 space-y-2">
+      <div className="space-y-2 bg-zinc-900 p-4 text-xs text-zinc-500">
         <div className="flex items-center gap-2">
           <Calendar size={12} />
           <span>Period: {format(new Date(cell.timeBin), "MMM d, yyyy")}</span>

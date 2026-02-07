@@ -3,7 +3,10 @@
 import { describe, it, expect, beforeEach, vi } from "vitest";
 import { TreemapExplorerPlugin } from "../TreemapExplorerPlugin";
 import { TreemapExplorerState } from "../types";
-import { TemporalDataProcessor, DateRangeConfidence } from "@/services/data/TemporalDataProcessor";
+import {
+  TemporalDataProcessor,
+  DateRangeConfidence,
+} from "@/services/data/TemporalDataProcessor";
 import {
   createTemporalFile,
   createMockProjectHierarchy,
@@ -27,10 +30,12 @@ describe("TreemapExplorerPlugin - Temporal Behavior", () => {
   /**
    * Helper to create complete dataset with optional temporal_daily
    */
-  const createDataset = (options: {
-    includeTemporalDaily?: boolean;
-    filesWithoutDates?: boolean;
-  } = {}) => {
+  const createDataset = (
+    options: {
+      includeTemporalDaily?: boolean;
+      filesWithoutDates?: boolean;
+    } = {},
+  ) => {
     const files = options.filesWithoutDates
       ? [
           createTemporalFile({
