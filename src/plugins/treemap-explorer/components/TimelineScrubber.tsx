@@ -1,4 +1,5 @@
 // src/plugins/treemap-explorer/components/TimelineScrubber.tsx
+// OPTION 1 IMPLEMENTATION: Works with reserved layout space strategy
 
 import React from "react";
 import { Play, Pause } from "lucide-react";
@@ -16,7 +17,14 @@ interface TimelineScrubberProps {
 
 /**
  * Timeline scrubber control for the Time Lens
- * Appears on hover over treemap area, allows scrubbing through repository history
+ * 
+ * LAYOUT STRATEGY: This component is positioned at absolute bottom-0 with h-20 (80px).
+ * The TreemapExplorerPlugin reserves this space by subtracting TIMELINE_SCRUBBER_HEIGHT
+ * from the available height when in time lens mode. This prevents the scrubber from
+ * obscuring bottom treemap cells.
+ * 
+ * When switching between lenses, the treemap smoothly resizes thanks to CSS transitions
+ * on the parent container, making the layout shift feel intentional.
  */
 export const TimelineScrubber: React.FC<TimelineScrubberProps> = ({
   minDate,
@@ -104,8 +112,19 @@ export const TimelineScrubber: React.FC<TimelineScrubberProps> = ({
         {formatDate(minDate)}
       </span>
 
-      {/* Slider */}
-      <div className="flex-1 flex flex-col gap-1">
+      {/* Unified Slider + Progress Timeline */}
+      <div className="flex-1 relative">
+        {/* Progress bar background - positioned under the slider */}
+        <div className="absolute inset-0 flex items-center pointer-events-none">
+          <div className="relative w-full h-2 bg-zinc-700 rounded-lg overflow-hidden">
+            <div
+              className="absolute top-0 left-0 h-full bg-purple-500/30 transition-all duration-100"
+              style={{ width: `${currentPosition}%` }}
+            />
+          </div>
+        </div>
+
+        {/* Slider - overlaid on top with transparent track */}
         <input
           type="range"
           data-testid="timeline-scrubber"
@@ -115,8 +134,9 @@ export const TimelineScrubber: React.FC<TimelineScrubberProps> = ({
           value={currentPosition}
           onChange={(e) => onPositionChange(parseFloat(e.target.value))}
           className="
-            w-full h-2 bg-zinc-700 rounded-lg appearance-none cursor-pointer
-            accent-purple-500
+            relative w-full h-2 bg-transparent rounded-lg appearance-none cursor-pointer
+            [&::-webkit-slider-track]:bg-transparent
+            [&::-webkit-slider-track]:h-2
             [&::-webkit-slider-thumb]:appearance-none
             [&::-webkit-slider-thumb]:w-4
             [&::-webkit-slider-thumb]:h-4
@@ -124,6 +144,8 @@ export const TimelineScrubber: React.FC<TimelineScrubberProps> = ({
             [&::-webkit-slider-thumb]:bg-purple-500
             [&::-webkit-slider-thumb]:cursor-pointer
             [&::-webkit-slider-thumb]:shadow-lg
+            [&::-moz-range-track]:bg-transparent
+            [&::-moz-range-track]:h-2
             [&::-moz-range-thumb]:w-4
             [&::-moz-range-thumb]:h-4
             [&::-moz-range-thumb]:rounded-full
@@ -134,14 +156,6 @@ export const TimelineScrubber: React.FC<TimelineScrubberProps> = ({
           "
           aria-label="Timeline position"
         />
-
-        {/* Progress bar background */}
-        <div className="relative w-full h-1 bg-zinc-800 rounded-full overflow-hidden">
-          <div
-            className="absolute top-0 left-0 h-full bg-purple-500/30 transition-all duration-100"
-            style={{ width: `${currentPosition}%` }}
-          />
-        </div>
       </div>
 
       {/* End Date */}

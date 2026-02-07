@@ -1,5 +1,4 @@
 // src/plugins/treemap-explorer/TreemapExplorerPlugin.tsx
-// PHASE 4: Renderer Unification - All lenses use unified renderer system
 
 import {
   VisualizationPlugin,
@@ -22,7 +21,6 @@ import { CouplingArcRenderer } from "./renderers/CouplingArcRenderer";
 import { EnrichedFileData, TreemapExplorerState } from "./types";
 import { ProjectHierarchyNode, FileMetrics } from "@/types/domain";
 
-// PHASE 4: Import all renderer classes
 import { BaseTreemapRenderer } from "./renderers/BaseTreemapRenderer";
 import { DebtRenderer } from "./renderers/DebtRenderer";
 import { CouplingRenderer } from "./renderers/CouplingRenderer";
@@ -98,7 +96,6 @@ export class TreemapExplorerPlugin implements VisualizationPlugin<TreemapExplore
     new Map();
   private temporalDataReady: boolean = false;
 
-  // PHASE 4: All three renderer instances
   private debtRenderer: DebtRenderer | null = null;
   private couplingRenderer: CouplingRenderer | null = null;
   private timeRenderer: TimeRenderer | null = null;
@@ -112,7 +109,6 @@ export class TreemapExplorerPlugin implements VisualizationPlugin<TreemapExplore
     this.stopPlayback();
     this.temporalDataReady = false;
 
-    // PHASE 4: Cleanup all renderers
     this.debtRenderer?.cleanup();
     this.couplingRenderer?.cleanup();
     this.timeRenderer?.cleanup();
@@ -149,7 +145,6 @@ export class TreemapExplorerPlugin implements VisualizationPlugin<TreemapExplore
 
     this.createTooltip();
 
-    // PHASE 4: Initialize all three renderers
     console.log(
       "[TreemapExplorer] DEBUG - Creating renderers, container:",
       !!this.container,
@@ -241,7 +236,6 @@ export class TreemapExplorerPlugin implements VisualizationPlugin<TreemapExplore
       Object.keys(dataset),
     );
 
-    // PHASE 1: Enhanced Frontend-Ready Data Path
     if (
       dataset.project_hierarchy &&
       dataset.file_metrics_index &&
@@ -363,7 +357,6 @@ export class TreemapExplorerPlugin implements VisualizationPlugin<TreemapExplore
           }
         });
 
-        // PHASE 4: Set coupling index on coupling renderer
         if (this.couplingRenderer) {
           this.couplingRenderer.setCouplingIndex(this.couplingIndex);
         }
@@ -397,7 +390,6 @@ export class TreemapExplorerPlugin implements VisualizationPlugin<TreemapExplore
           }
         });
 
-        // PHASE 4: Set coupling index on coupling renderer
         if (this.couplingRenderer) {
           this.couplingRenderer.setCouplingIndex(this.couplingIndex);
         }
@@ -505,9 +497,7 @@ export class TreemapExplorerPlugin implements VisualizationPlugin<TreemapExplore
     return [];
   }
 
-  /**
-   * PHASE 4: Unified render using renderer system for all lenses
-   */
+
   render(data: EnrichedFileData[], state: TreemapExplorerState): void {
     if (!this.container) return;
 
@@ -521,7 +511,6 @@ export class TreemapExplorerPlugin implements VisualizationPlugin<TreemapExplore
       return;
     }
 
-    // PHASE 4: Ensure temporal data is set on time renderer before rendering
     // (Fallback in case processData was called before init)
     if (state.lensMode === "time" && this.timeRenderer && this.temporalData) {
       console.log(
@@ -535,9 +524,7 @@ export class TreemapExplorerPlugin implements VisualizationPlugin<TreemapExplore
     this.renderWithUnifiedSystem(data, state);
   }
 
-  /**
-   * PHASE 4: Render using the unified renderer system
-   */
+
   private renderWithUnifiedSystem(
     data: EnrichedFileData[],
     state: TreemapExplorerState,
@@ -579,9 +566,15 @@ export class TreemapExplorerPlugin implements VisualizationPlugin<TreemapExplore
 
     const rect = this.container.getBoundingClientRect();
     const width = rect.width;
-    const height = rect.height;
+    
+    // RESERVED SPACE: Subtract timeline scrubber height when in time lens mode
+    // This prevents the scrubber from obscuring bottom treemap cells
+    const TIMELINE_SCRUBBER_HEIGHT = 80; // Matches h-20 (5rem) in TimelineScrubber.tsx
+    const height = state.lensMode === "time" 
+      ? rect.height - TIMELINE_SCRUBBER_HEIGHT 
+      : rect.height;
 
-    // Build treemap layout
+    // Build treemap layout with adjusted height
     const cells = renderer["buildTreemapLayout"](
       filteredData,
       width,
@@ -601,9 +594,7 @@ export class TreemapExplorerPlugin implements VisualizationPlugin<TreemapExplore
     renderer.renderExtras(svg, cells, state);
   }
 
-  /**
-   * PHASE 4: Get appropriate renderer for lens mode
-   */
+
   private getRenderer(lensMode: string): BaseTreemapRenderer | null {
     switch (lensMode) {
       case "debt":
