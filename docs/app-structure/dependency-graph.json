@@ -46,6 +46,10 @@
   "plugins/treemap-explorer/__tests__/TreemapExplorer.TimeLens.integration.test.ts": [
     "plugins/treemap-explorer/TreemapExplorerPlugin.tsx"
   ],
+  "plugins/treemap-explorer/__tests__/TreemapExplorerPlugin.Resize.test.tsx": [
+    "plugins/treemap-explorer/TreemapExplorerPlugin.tsx",
+    "plugins/treemap-explorer/types.ts"
+  ],
   "plugins/treemap-explorer/__tests__/TreemapExplorerPlugin.Temporal.test.tsx": [
     "plugins/treemap-explorer/TreemapExplorerPlugin.tsx",
     "plugins/treemap-explorer/types.ts"

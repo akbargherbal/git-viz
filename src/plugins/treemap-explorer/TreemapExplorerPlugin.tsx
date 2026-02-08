@@ -103,6 +103,8 @@ export class TreemapExplorerPlugin implements VisualizationPlugin<TreemapExplore
   // Added for resize handling
   private resizeObserver: ResizeObserver | null = null;
   private lastRenderedState: TreemapExplorerState | null = null;
+  private resizeDebounceTimer: number | null = null;
+  private lastDimensions: { width: number; height: number } | null = null;
 
   getInitialState(): TreemapExplorerState {
     return { ...this.defaultConfig };
@@ -120,6 +122,11 @@ export class TreemapExplorerPlugin implements VisualizationPlugin<TreemapExplore
     if (this.resizeObserver) {
       this.resizeObserver.disconnect();
       this.resizeObserver = null;
+    }
+
+    if (this.resizeDebounceTimer !== null) {
+      clearTimeout(this.resizeDebounceTimer);
+      this.resizeDebounceTimer = null;
     }
 
     if (this.arcRenderer) {
@@ -170,13 +177,33 @@ export class TreemapExplorerPlugin implements VisualizationPlugin<TreemapExplore
 
       // Initialize ResizeObserver to handle layout changes
       this.resizeObserver = new ResizeObserver(() => {
-        if (this.data.length > 0 && this.lastRenderedState && this.container) {
-          window.requestAnimationFrame(() => {
-            if (this.container && this.lastRenderedState) {
-              this.render(this.data, this.lastRenderedState);
-            }
-          });
+        // Clear existing debounce timer
+        if (this.resizeDebounceTimer !== null) {
+          clearTimeout(this.resizeDebounceTimer);
         }
+
+        // Debounce: only re-render after resize activity stops for 150ms
+        this.resizeDebounceTimer = window.setTimeout(() => {
+          if (this.data.length > 0 && this.lastRenderedState && this.container) {
+            const rect = this.container.getBoundingClientRect();
+            const currentDimensions = { width: rect.width, height: rect.height };
+
+            // Only re-render if dimensions actually changed
+            if (
+              !this.lastDimensions ||
+              this.lastDimensions.width !== currentDimensions.width ||
+              this.lastDimensions.height !== currentDimensions.height
+            ) {
+              this.lastDimensions = currentDimensions;
+
+              window.requestAnimationFrame(() => {
+                if (this.container && this.lastRenderedState) {
+                  this.render(this.data, this.lastRenderedState);
+                }
+              });
+            }
+          }
+        }, 150);
       });
       this.resizeObserver.observe(this.container);
 
@@ -650,6 +677,11 @@ export class TreemapExplorerPlugin implements VisualizationPlugin<TreemapExplore
     if (this.resizeObserver) {
       this.resizeObserver.disconnect();
       this.resizeObserver = null;
+    }
+
+    if (this.resizeDebounceTimer !== null) {
+      clearTimeout(this.resizeDebounceTimer);
+      this.resizeDebounceTimer = null;
     }
 
     if (this.arcRenderer) {
