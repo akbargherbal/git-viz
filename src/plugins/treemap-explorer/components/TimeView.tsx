@@ -221,7 +221,7 @@ export const TimeView: React.FC<TimeViewProps> = ({ file }) => {
           </h4>
           <div className="grid grid-cols-2 gap-2 text-xs">
             {file.operations.M !== undefined && (
-              <div className="flex items-center justify-between">
+              <div className="flex items-center justify-between pr-12">
                 <span className="text-zinc-500">Modified</span>
                 <span className="font-mono text-sm text-amber-400">
                   {file.operations.M}
@@ -229,7 +229,7 @@ export const TimeView: React.FC<TimeViewProps> = ({ file }) => {
               </div>
             )}
             {file.operations.A !== undefined && (
-              <div className="flex items-center justify-between">
+              <div className="flex items-center justify-between pr-12">
                 <span className="text-zinc-500">Added</span>
                 <span className="font-mono text-sm text-green-400">
                   {file.operations.A}
@@ -237,7 +237,7 @@ export const TimeView: React.FC<TimeViewProps> = ({ file }) => {
               </div>
             )}
             {file.operations.D !== undefined && (
-              <div className="flex items-center justify-between">
+              <div className="flex items-center justify-between pr-12">
                 <span className="text-zinc-500">Deleted</span>
                 <span className="font-mono text-sm text-red-400">
                   {file.operations.D}
@@ -245,7 +245,7 @@ export const TimeView: React.FC<TimeViewProps> = ({ file }) => {
               </div>
             )}
             {file.operations.R !== undefined && (
-              <div className="flex items-center justify-between">
+              <div className="flex items-center justify-between pr-12">
                 <span className="text-zinc-500">Renamed</span>
                 <span className="font-mono text-sm text-blue-400">
                   {file.operations.R}
