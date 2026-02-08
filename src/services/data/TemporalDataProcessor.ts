@@ -277,9 +277,9 @@ export class TemporalDataProcessor {
 
       // Move to next quarter
       current.setMonth(current.getMonth() + 3);
-      
+
       // Safety break to prevent infinite loops if dates are weird
-      if (quarters.length > 100) break; 
+      if (quarters.length > 100) break;
     }
 
     // Assign events to quarters

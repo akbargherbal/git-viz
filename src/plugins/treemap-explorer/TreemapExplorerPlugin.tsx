@@ -100,6 +100,10 @@ export class TreemapExplorerPlugin implements VisualizationPlugin<TreemapExplore
   private couplingRenderer: CouplingRenderer | null = null;
   private timeRenderer: TimeRenderer | null = null;
 
+  // Added for resize handling
+  private resizeObserver: ResizeObserver | null = null;
+  private lastRenderedState: TreemapExplorerState | null = null;
+
   getInitialState(): TreemapExplorerState {
     return { ...this.defaultConfig };
   }
@@ -112,6 +116,11 @@ export class TreemapExplorerPlugin implements VisualizationPlugin<TreemapExplore
     this.debtRenderer?.cleanup();
     this.couplingRenderer?.cleanup();
     this.timeRenderer?.cleanup();
+
+    if (this.resizeObserver) {
+      this.resizeObserver.disconnect();
+      this.resizeObserver = null;
+    }
 
     if (this.arcRenderer) {
       this.arcRenderer.destroy();
@@ -158,6 +167,19 @@ export class TreemapExplorerPlugin implements VisualizationPlugin<TreemapExplore
         this.tooltip,
       );
       this.timeRenderer = new TimeRenderer(this.container, this.tooltip);
+
+      // Initialize ResizeObserver to handle layout changes
+      this.resizeObserver = new ResizeObserver(() => {
+        if (this.data.length > 0 && this.lastRenderedState && this.container) {
+          window.requestAnimationFrame(() => {
+            if (this.container && this.lastRenderedState) {
+              this.render(this.data, this.lastRenderedState);
+            }
+          });
+        }
+      });
+      this.resizeObserver.observe(this.container);
+
       console.log("[TreemapExplorer] DEBUG - Renderers created:", {
         debt: !!this.debtRenderer,
         coupling: !!this.couplingRenderer,
@@ -504,6 +526,9 @@ export class TreemapExplorerPlugin implements VisualizationPlugin<TreemapExplore
   render(data: EnrichedFileData[], state: TreemapExplorerState): void {
     if (!this.container) return;
 
+    // Save state for re-renders on resize
+    this.lastRenderedState = state;
+
     if (!Array.isArray(data)) {
       console.error("[TreemapExplorer] Received invalid data format:", data);
       return;
@@ -622,6 +647,11 @@ export class TreemapExplorerPlugin implements VisualizationPlugin<TreemapExplore
     this.couplingRenderer?.cleanup();
     this.timeRenderer?.cleanup();
 
+    if (this.resizeObserver) {
+      this.resizeObserver.disconnect();
+      this.resizeObserver = null;
+    }
+
     if (this.arcRenderer) {
       this.arcRenderer.destroy();
     }
@@ -675,17 +705,10 @@ export class TreemapExplorerPlugin implements VisualizationPlugin<TreemapExplore
   }
 
   renderOverlay(props: PluginControlProps<TreemapExplorerState>) {
-    // DEBUG: Check dateRange value
-    console.log("[TreemapExplorer] renderOverlay - dateRange:", this.dateRange);
-
     const { state, updateState } = props;
 
     // Only render if we have a valid date range and data is ready
     if (!this.temporalDataReady || !this.dateRange) {
-      console.log("[TreemapExplorer] renderOverlay - Not ready yet", {
-        temporalDataReady: this.temporalDataReady,
-        dateRange: !!this.dateRange,
-      });
       return null;
     }
 
