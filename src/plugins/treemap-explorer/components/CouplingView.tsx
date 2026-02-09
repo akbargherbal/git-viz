@@ -1,13 +1,14 @@
 // src/plugins/treemap-explorer/components/CouplingView.tsx
 
-import React from "react";
-import { Link } from "lucide-react";
+import React, { useState } from "react";
+import { Link, HelpCircle, Info } from "lucide-react";
 import { EnrichedFileData } from "../types";
 import {
   CouplingDataProcessor,
   CouplingIndex,
   CouplingPartner,
 } from "@/services/data/CouplingDataProcessor";
+import CouplingGlossaryModal from "./CouplingGlossaryModal";
 
 interface CouplingViewProps {
   file: EnrichedFileData;
@@ -20,11 +21,18 @@ export const CouplingView: React.FC<CouplingViewProps> = ({
   couplingIndex,
   couplingThreshold,
 }) => {
-  // ... existing implementation ...
+  const [isGlossaryOpen, setIsGlossaryOpen] = useState(false);
+  const [highlightedTerm, setHighlightedTerm] = useState<string | undefined>();
+
+  const openGlossary = (termId?: string) => {
+    setHighlightedTerm(termId);
+    setIsGlossaryOpen(true);
+  };
+
   // Get coupling partners filtered by threshold
   const partners = CouplingDataProcessor.getTopCouplings(
     couplingIndex,
-    file.key, // Use key instead of path if path is missing
+    file.key,
     10,
   ).filter((p) => p.strength >= couplingThreshold);
 
@@ -57,122 +65,181 @@ export const CouplingView: React.FC<CouplingViewProps> = ({
   };
 
   return (
-    <div className="space-y-6">
-      {/* Coupling Statistics Grid */}
-      <div className="grid grid-cols-2 gap-px bg-zinc-800">
-        <div className="bg-zinc-900 p-4 text-center">
-          <div className="text-2xl font-bold text-purple-400">
-            {metrics.totalPartners}
-          </div>
-          <div className="mt-1 text-[10px] uppercase tracking-wider text-zinc-500">
-            Coupled Files
-          </div>
-        </div>
-        <div className="bg-zinc-900 p-4 text-center">
-          <div className="text-2xl font-bold text-white">
-            {(metrics.maxStrength || 0).toFixed(2)}
-          </div>
-          <div className="mt-1 text-[10px] uppercase tracking-wider text-zinc-500">
-            Max Strength
-          </div>
-        </div>
-      </div>
+    <>
+      <div className="space-y-6">
+        {/* Help Button */}
+        <button
+          onClick={() => openGlossary()}
+          className="flex w-full items-center justify-center gap-2 rounded-lg border border-zinc-700 bg-zinc-800/50 py-2 text-xs text-zinc-400 transition-colors hover:border-purple-500 hover:bg-zinc-800 hover:text-purple-400"
+        >
+          <HelpCircle className="h-4 w-4" />
+          <span>Open Metrics Glossary</span>
+        </button>
 
-      {/* Key Metrics Section */}
-      <div className="space-y-3">
-        <div className="text-[10px] font-bold uppercase tracking-widest text-zinc-400">
-          Coupling Metrics
-        </div>
-
-        <div className="space-y-2">
-          <div className="flex justify-between text-xs">
-            <span className="text-zinc-400">Average Strength</span>
-            <span className="font-mono text-zinc-300">
-              {(metrics.avgStrength || 0).toFixed(2)}
-            </span>
-          </div>
-          <div className="flex justify-between text-xs">
-            <span className="text-zinc-400">Strong Couplings</span>
-            <span className="font-mono text-zinc-300">
-              {metrics.strongCouplings} (&gt;0.5)
-            </span>
-          </div>
-          <div className="flex justify-between text-xs">
-            <span className="text-zinc-400">Current Threshold</span>
-            <span className="font-mono text-purple-400">
-              {couplingThreshold.toFixed(1)}
-            </span>
-          </div>
-        </div>
-      </div>
-
-      {/* Insight Box */}
-      <div className="rounded-lg border border-purple-900/50 bg-purple-950/20 p-3">
-        <div className="flex items-start gap-2">
-          <div className="mt-0.5">
-            <svg
-              className="h-4 w-4 text-purple-400"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
+        {/* Coupling Statistics Grid */}
+        <div className="grid grid-cols-2 gap-px bg-zinc-800">
+          <div className="bg-zinc-900 p-4 text-center">
+            <button
+              onClick={() => openGlossary("coupled-files-count")}
+              className="mx-auto block transition-opacity hover:opacity-80"
             >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
-              />
-            </svg>
+              <div className="text-2xl font-bold text-purple-400">
+                {metrics.totalPartners}
+              </div>
+              <div className="mt-1 flex items-center justify-center gap-1 text-[10px] uppercase tracking-wider text-zinc-500">
+                <span>Coupled Files</span>
+                <Info className="h-2.5 w-2.5" />
+              </div>
+            </button>
           </div>
-          <p className="text-xs leading-relaxed text-zinc-300">
-            {getInsight()}
-          </p>
+          <div className="bg-zinc-900 p-4 text-center">
+            <button
+              onClick={() => openGlossary("max-strength")}
+              className="mx-auto block transition-opacity hover:opacity-80"
+            >
+              <div className="text-2xl font-bold text-white">
+                {(metrics.maxStrength || 0).toFixed(2)}
+              </div>
+              <div className="mt-1 flex items-center justify-center gap-1 text-[10px] uppercase tracking-wider text-zinc-500">
+                <span>Max Strength</span>
+                <Info className="h-2.5 w-2.5" />
+              </div>
+            </button>
+          </div>
         </div>
+
+        {/* Key Metrics Section */}
+        <div className="space-y-3">
+          <div className="text-[10px] font-bold uppercase tracking-widest text-zinc-400">
+            Coupling Metrics
+          </div>
+
+          <div className="space-y-2">
+            <div className="flex justify-between text-xs">
+              <button
+                onClick={() => openGlossary("avg-strength")}
+                className="flex items-center gap-1 text-zinc-400 transition-colors hover:text-zinc-300"
+              >
+                <span>Average Strength</span>
+                <Info className="h-2.5 w-2.5" />
+              </button>
+              <span className="font-mono text-zinc-300">
+                {(metrics.avgStrength || 0).toFixed(2)}
+              </span>
+            </div>
+            <div className="flex justify-between text-xs">
+              <button
+                onClick={() => openGlossary("strong-couplings")}
+                className="flex items-center gap-1 text-zinc-400 transition-colors hover:text-zinc-300"
+              >
+                <span>Strong Couplings</span>
+                <Info className="h-2.5 w-2.5" />
+              </button>
+              <span className="font-mono text-zinc-300">
+                {metrics.strongCouplings} (&gt;0.5)
+              </span>
+            </div>
+            <div className="flex justify-between text-xs">
+              <button
+                onClick={() => openGlossary("coupling-threshold")}
+                className="flex items-center gap-1 text-zinc-400 transition-colors hover:text-zinc-300"
+              >
+                <span>Current Threshold</span>
+                <Info className="h-2.5 w-2.5" />
+              </button>
+              <span className="font-mono text-purple-400">
+                {couplingThreshold.toFixed(1)}
+              </span>
+            </div>
+          </div>
+        </div>
+
+        {/* Insight Box */}
+        <div className="rounded-lg border border-purple-900/50 bg-purple-950/20 p-3">
+          <div className="flex items-start gap-2">
+            <button
+              onClick={() => openGlossary("coupling-insight")}
+              className="mt-0.5 transition-opacity hover:opacity-80"
+            >
+              <svg
+                className="h-4 w-4 text-purple-400"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+                />
+              </svg>
+            </button>
+            <p className="text-xs leading-relaxed text-zinc-300">
+              {getInsight()}
+            </p>
+          </div>
+        </div>
+
+        {/* Top Coupling Partners */}
+        {partners.length > 0 && (
+          <div>
+            <button
+              onClick={() => openGlossary("top-coupling-partners")}
+              className="mb-3 flex items-center gap-2 text-[10px] font-bold uppercase tracking-widest text-zinc-400 transition-colors hover:text-zinc-300"
+            >
+              <Link className="h-3 w-3" />
+              <span>Top Coupling Partners</span>
+              <Info className="h-2.5 w-2.5" />
+            </button>
+            <div className="space-y-2">
+              {partners.map((partner, index) => (
+                <CouplingPartnerCard
+                  key={partner.filePath}
+                  partner={partner}
+                  index={index}
+                  onStrengthClick={() => openGlossary("coupling-strength")}
+                  onCochangeClick={() => openGlossary("cochange-count")}
+                />
+              ))}
+            </div>
+          </div>
+        )}
+
+        {/* No coupling partners message */}
+        {partners.length === 0 && metrics.totalPartners > 0 && (
+          <div className="py-6 text-center">
+            <div className="text-sm text-zinc-500">
+              No coupling partners above threshold{" "}
+              {couplingThreshold.toFixed(1)}
+            </div>
+            <div className="mt-1 text-xs text-zinc-600">
+              Adjust the coupling threshold in filters to see weaker
+              relationships
+            </div>
+          </div>
+        )}
+
+        {/* Truly isolated file */}
+        {metrics.totalPartners === 0 && (
+          <div className="py-6 text-center">
+            <div className="text-sm text-zinc-500">
+              No coupling relationships detected
+            </div>
+            <div className="mt-1 text-xs text-zinc-600">
+              This file does not co-change with others
+            </div>
+          </div>
+        )}
       </div>
 
-      {/* Top Coupling Partners */}
-      {partners.length > 0 && (
-        <div>
-          <div className="mb-3 flex items-center gap-2 text-[10px] font-bold uppercase tracking-widest text-zinc-400">
-            <Link className="h-3 w-3" />
-            Top Coupling Partners
-          </div>
-          <div className="space-y-2">
-            {partners.map((partner, index) => (
-              <CouplingPartnerCard
-                key={partner.filePath}
-                partner={partner}
-                index={index}
-              />
-            ))}
-          </div>
-        </div>
-      )}
-
-      {/* No coupling partners message */}
-      {partners.length === 0 && metrics.totalPartners > 0 && (
-        <div className="py-6 text-center">
-          <div className="text-sm text-zinc-500">
-            No coupling partners above threshold {couplingThreshold.toFixed(1)}
-          </div>
-          <div className="mt-1 text-xs text-zinc-600">
-            Adjust the coupling threshold in filters to see weaker relationships
-          </div>
-        </div>
-      )}
-
-      {/* Truly isolated file */}
-      {metrics.totalPartners === 0 && (
-        <div className="py-6 text-center">
-          <div className="text-sm text-zinc-500">
-            No coupling relationships detected
-          </div>
-          <div className="mt-1 text-xs text-zinc-600">
-            This file does not co-change with others
-          </div>
-        </div>
-      )}
-    </div>
+      {/* Glossary Modal */}
+      <CouplingGlossaryModal
+        isOpen={isGlossaryOpen}
+        onClose={() => setIsGlossaryOpen(false)}
+        highlightedTermId={highlightedTerm}
+      />
+    </>
   );
 };
 
@@ -182,11 +249,15 @@ export const CouplingView: React.FC<CouplingViewProps> = ({
 interface CouplingPartnerCardProps {
   partner: CouplingPartner;
   index: number;
+  onStrengthClick: () => void;
+  onCochangeClick: () => void;
 }
 
 const CouplingPartnerCard: React.FC<CouplingPartnerCardProps> = ({
   partner,
   index,
+  onStrengthClick,
+  onCochangeClick,
 }) => {
   const fileName = partner.filePath.split("/").pop() || partner.filePath;
   const directory = partner.filePath.split("/").slice(0, -1).join("/") || "/";
@@ -235,11 +306,12 @@ const CouplingPartnerCard: React.FC<CouplingPartnerCardProps> = ({
                   style={{ width: `${partner.strength * 100}%` }}
                 />
               </div>
-              <span
-                className={`font-mono text-[10px] font-bold ${strengthInfo.color}`}
+              <button
+                onClick={onStrengthClick}
+                className={`font-mono text-[10px] font-bold transition-opacity hover:opacity-80 ${strengthInfo.color}`}
               >
                 {partner.strength.toFixed(2)}
-              </span>
+              </button>
             </div>
 
             {/* Metadata row */}
@@ -247,9 +319,12 @@ const CouplingPartnerCard: React.FC<CouplingPartnerCardProps> = ({
               <span className={`font-medium ${strengthInfo.color}`}>
                 {strengthInfo.label}
               </span>
-              <span className="text-zinc-500">
+              <button
+                onClick={onCochangeClick}
+                className="text-zinc-500 transition-colors hover:text-zinc-400"
+              >
                 {partner.cochangeCount} co-changes
-              </span>
+              </button>
             </div>
           </div>
         </div>

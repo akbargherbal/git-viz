@@ -184,9 +184,16 @@ export class TreemapExplorerPlugin implements VisualizationPlugin<TreemapExplore
 
         // Debounce: only re-render after resize activity stops for 150ms
         this.resizeDebounceTimer = window.setTimeout(() => {
-          if (this.data.length > 0 && this.lastRenderedState && this.container) {
+          if (
+            this.data.length > 0 &&
+            this.lastRenderedState &&
+            this.container
+          ) {
             const rect = this.container.getBoundingClientRect();
-            const currentDimensions = { width: rect.width, height: rect.height };
+            const currentDimensions = {
+              width: rect.width,
+              height: rect.height,
+            };
 
             // Only re-render if dimensions actually changed
             if (
