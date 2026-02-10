@@ -506,7 +506,6 @@ export const createMockFileIndex = (overrides?: {
 };
 
 /**
- * Factory for project_hierarchy mock data (PHASE 5)
  * Builds a proper tree structure from file paths
  */
 export const createMockProjectHierarchy = (overrides?: {
@@ -586,7 +585,7 @@ export const createMockProjectHierarchy = (overrides?: {
 };
 
 /**
- * Factory for file_metrics_index mock data (PHASE 5)
+ * Factory for file_metrics_index mock data
  */
 export const createMockFileMetricsIndex = (overrides?: {
   files?: Array<Partial<TemporalFileData>>;

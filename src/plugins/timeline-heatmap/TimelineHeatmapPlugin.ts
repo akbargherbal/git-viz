@@ -1,5 +1,4 @@
 // src/plugins/timeline-heatmap/TimelineHeatmapPlugin.ts
-// FILTER PLAN PHASE 1: Added processingStateKeys and validateState
 
 import React from "react";
 import type {
@@ -22,10 +21,6 @@ import { DataProcessor } from "@/services/data/DataProcessor";
 import { TimeBinSelector } from "@/components/common/TimeBinSelector";
 import { TimelineHeatmapFilters } from "./components/TimelineHeatmapFilters";
 import { FilterState } from "@/types/visualization";
-
-// ============================================================================
-// PHASE 2: Plugin State Interface
-// ============================================================================
 
 /**
  * State shape for Timeline Heatmap Plugin
@@ -112,7 +107,7 @@ export class TimelineHeatmapPlugin implements VisualizationPlugin<
     id: "timeline-heatmap",
     name: "Timeline Heatmap",
     description: "Repository activity across time and directory structure",
-    version: "5.1.0", // FILTER PLAN PHASE 1: Added processing state metadata
+    version: "5.1.0",
     priority: 1,
     dataRequirements: [
       { dataset: "file_lifecycle", required: true, alias: "lifecycle" },
@@ -137,12 +132,7 @@ export class TimelineHeatmapPlugin implements VisualizationPlugin<
 
   private container: HTMLElement | null = null;
 
-  // PHASE 2: Abort flag for cancellation support
   private aborted = false;
-
-  // ============================================================================
-  // FILTER PLAN PHASE 1: Processing State Metadata
-  // ============================================================================
 
   /**
    * Declare which state fields require data reprocessing
@@ -182,10 +172,6 @@ export class TimelineHeatmapPlugin implements VisualizationPlugin<
     return errors;
   };
 
-  // ============================================================================
-  // PHASE 2: Initial State Definition
-  // ============================================================================
-
   /**
    * Returns initial state for the plugin
    * Called when plugin is first activated or when state needs to be reset
@@ -197,12 +183,7 @@ export class TimelineHeatmapPlugin implements VisualizationPlugin<
     excludedDirectories: [] as string[],
   });
 
-  // ============================================================================
-  // PHASE 2: Lifecycle Methods
-  // ============================================================================
-
   /**
-   * PHASE 2: Cleanup method called when plugin is unmounted
    * Aborts any ongoing operations
    */
   cleanup(): void {
@@ -212,7 +193,6 @@ export class TimelineHeatmapPlugin implements VisualizationPlugin<
   }
 
   /**
-   * PHASE 2: Cancellable version of processData
    * Checks abort signal periodically during expensive operations
    */
   async processDataCancellable(
@@ -238,10 +218,6 @@ export class TimelineHeatmapPlugin implements VisualizationPlugin<
     // The traverse function and other methods will check this.aborted
     return this.processData(dataset, config);
   }
-
-  // ============================================================================
-  // PHASE 2: Control Rendering
-  // ============================================================================
 
   /**
    * Renders plugin-specific controls
@@ -306,9 +282,6 @@ export class TimelineHeatmapPlugin implements VisualizationPlugin<
       typedState.excludedDirectories.length > 0
     );
   };
-  // ============================================================================
-  // PHASE 2: Layout Configuration
-  // ============================================================================
 
   layoutConfig = {
     controlsPosition: "header" as const,
@@ -386,7 +359,6 @@ export class TimelineHeatmapPlugin implements VisualizationPlugin<
     const { tree, activity, metadata } = optimizedData;
     const timeBinType = config?.timeBin || this.defaultConfig.timeBin;
 
-    // PHASE 2: Use directoryCount from config/state instead of fixed topN
     const directoryCount =
       config?.directoryCount ?? config?.topN ?? this.defaultConfig.topN;
     const excludedDirs = new Set(config?.excludedDirectories || []);
@@ -394,7 +366,6 @@ export class TimelineHeatmapPlugin implements VisualizationPlugin<
     // 1. Map IDs to Directory Paths
     const idToPath = new Map<number, string>();
     const traverse = (node: OptimizedDirectoryNode) => {
-      // PHASE 2: Check abort flag periodically
       if (this.aborted) {
         console.log("[TimelineHeatmap] Aborting traverse");
         return;
@@ -415,38 +386,34 @@ export class TimelineHeatmapPlugin implements VisualizationPlugin<
     };
     traverse(tree);
 
-    // PHASE 2: Check if aborted after traverse
     if (this.aborted) {
       console.log("[TimelineHeatmap] Aborted after tree traversal");
       throw new DOMException("Operation aborted", "AbortError");
     }
 
-    // 2. Determine Top Directories (PHASE 2: Apply exclusions and dynamic count)
     let topDirectories: string[] = [];
 
     if (metadata.directory_stats && metadata.directory_stats.length > 0) {
       topDirectories = metadata.directory_stats
-        .filter((d) => !excludedDirs.has(d.path)) // PHASE 2: Filter exclusions
+        .filter((d) => !excludedDirs.has(d.path))
         .sort((a, b) => b.activity_score - a.activity_score)
-        .slice(0, directoryCount) // PHASE 2: Use dynamic count
+        .slice(0, directoryCount)
         .map((d) => d.path);
     } else {
       const dirActivity = new Map<string, number>();
       activity.forEach((item) => {
         const path = idToPath.get(item.id);
         if (path && !excludedDirs.has(path)) {
-          // PHASE 2: Filter exclusions
           const totalEvents = item.a + item.m + item.del;
           dirActivity.set(path, (dirActivity.get(path) || 0) + totalEvents);
         }
       });
       topDirectories = Array.from(dirActivity.entries())
         .sort((a, b) => b[1] - a[1])
-        .slice(0, directoryCount) // PHASE 2: Use dynamic count
+        .slice(0, directoryCount)
         .map(([dir]) => dir);
     }
 
-    // PHASE 2: Check abort before heavy processing
     if (this.aborted) {
       console.log("[TimelineHeatmap] Aborted before aggregation");
       throw new DOMException("Operation aborted", "AbortError");
@@ -495,7 +462,6 @@ export class TimelineHeatmapPlugin implements VisualizationPlugin<
       safetyCounter++;
     }
 
-    // PHASE 2: Check abort periodically during iteration
     let processedCount = 0;
     for (const item of activity) {
       if (this.aborted && processedCount % 100 === 0) {
@@ -541,7 +507,6 @@ export class TimelineHeatmapPlugin implements VisualizationPlugin<
       processedCount++;
     }
 
-    // PHASE 2: Final abort check
     if (this.aborted) {
       console.log("[TimelineHeatmap] Aborted before building grid");
       throw new DOMException("Operation aborted", "AbortError");
@@ -582,7 +547,6 @@ export class TimelineHeatmapPlugin implements VisualizationPlugin<
   /**
    * Renders the heatmap visualization
    * Color scheme is fixed to Blue (hue 210°) for commits
-   * PHASE 2: Now reflects dynamic directoryCount
    */
   render(data: HeatmapData, config: HeatmapConfig): void {
     if (!this.container) return;
@@ -607,7 +571,6 @@ export class TimelineHeatmapPlugin implements VisualizationPlugin<
     const thead = document.createElement("thead");
     const headerRow = document.createElement("tr");
 
-    // Corner Cell (PHASE 2: Show actual directory count)
     const corner = document.createElement("th");
     const actualCount = config.directoryCount ?? config.topN;
     corner.innerHTML = `<div class="flex flex-col items-start">

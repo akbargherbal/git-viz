@@ -8,8 +8,6 @@ import { TreemapExplorerState } from "../types";
 /**
  * Header controls for Treemap Explorer
  * Renders inline controls: Lens Mode buttons + Size Metric selector
- *
- * Phase 3 Enhancement: Added data attributes for state visibility
  * - Container exposes lens mode and size metric state
  * - Size metric selector exposes active metric
  * - Individual buttons expose active state

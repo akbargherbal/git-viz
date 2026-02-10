@@ -57,11 +57,6 @@ interface AppState {
   setSelectedCell: (cell: any | null) => void;
   setShowFilters: (show: boolean) => void;
 
-  // PHASE 1 ADDITION: Plugin State Management
-  /**
-   * Per-plugin state storage
-   * Key: plugin ID, Value: plugin-specific state object
-   */
   pluginStates: Record<string, Record<string, unknown>>;
 
   /**
@@ -225,7 +220,6 @@ export const useAppStore = create<AppState>((set, get) => ({
       },
     })),
 
-  // PHASE 1 ADDITION: Plugin state management
   pluginStates: {},
 
   setPluginState: (pluginId, updates) =>

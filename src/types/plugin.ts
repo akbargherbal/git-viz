@@ -75,7 +75,6 @@ export interface PluginProps<TConfig = any, TData = any> {
 }
 
 /**
- * PHASE 1 ADDITION: Props passed to plugin control rendering
  * Enables plugins to own their control UI and state management
  */
 export interface PluginControlProps<TState = any> {
@@ -93,7 +92,6 @@ export interface PluginControlProps<TState = any> {
 }
 
 /**
- * PHASE 1 ADDITION: Layout configuration for plugin controls
  * Allows plugins to specify where their controls should be positioned
  */
 export interface PluginLayoutConfig {
@@ -101,15 +99,6 @@ export interface PluginLayoutConfig {
   controlsPosition: "header" | "sidebar" | "bottom";
 }
 
-/**
- * Main visualization plugin interface
- * Supports both legacy direct data access and new declarative data loading
- *
- * PHASE 1 EXTENSION: Added optional methods for self-contained control management
- * PHASE 2 EXTENSION: Added cleanup() and processDataCancellable() for lifecycle management
- * FILTER PLAN PHASE 1: Added processingStateKeys for smart state change detection
- * BUG #1 FIX: Added renderOverlay() for plugin overlay components (time scrubbers, etc.)
- */
 export interface VisualizationPlugin<TConfig = any, TData = any, TState = any> {
   metadata: EnhancedPluginMetadata;
 
@@ -135,8 +124,6 @@ export interface VisualizationPlugin<TConfig = any, TData = any, TState = any> {
     config: TConfig;
     onChange: (config: TConfig) => void;
   }>;
-
-  // PHASE 1 ADDITIONS: Optional methods for plugin control ownership
 
   /**
    * Render custom controls for this plugin
@@ -187,17 +174,9 @@ export interface VisualizationPlugin<TConfig = any, TData = any, TState = any> {
    */
   layoutConfig?: PluginLayoutConfig;
 
-  // PHASE 2 ADDITIONS: Lifecycle management for cancellation
-
-  /**
-   * PHASE 2: Cleanup method called when plugin is being unmounted
-   * Use this to abort in-flight operations, clear timers, remove event listeners
-   * Optional for backward compatibility
-   */
   cleanup?(): void;
 
   /**
-   * PHASE 2: Cancellable version of processData that supports AbortSignal
    * Falls back to regular processData if not implemented
    * Optional for backward compatibility
    *
@@ -212,16 +191,8 @@ export interface VisualizationPlugin<TConfig = any, TData = any, TState = any> {
     config?: TConfig,
   ): Promise<TData>;
 
-  // FILTER PLAN PHASE 1: State Management Metadata
-
-  /**
-   * FILTER PLAN PHASE 1: Declares which state fields affect data processing
-   */
   processingStateKeys?: Extract<keyof TState, string>[];
 
-  /**
-   * FILTER PLAN PHASE 1: Optional method to validate state changes
-   */
   validateState?: (state: TState) => string[];
 }
 

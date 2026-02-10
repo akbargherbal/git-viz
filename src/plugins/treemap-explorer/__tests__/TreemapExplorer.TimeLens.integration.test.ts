@@ -64,7 +64,6 @@ describe("TreemapExplorer - Time Lens Integration", () => {
 
   describe("Data Processing", () => {
     it("should process temporal data and enrich files", () => {
-      // PHASE 5: Provide all required datasets
       const dataset = {
         file_index: { files: mockFileIndex },
         project_hierarchy: createMockProjectHierarchy({ files: mockFileData }),
@@ -79,7 +78,6 @@ describe("TreemapExplorer - Time Lens Integration", () => {
     });
 
     it("should handle missing temporal data gracefully", () => {
-      // PHASE 5: Provide required datasets (no temporal_daily)
       const dataset = {
         file_index: { files: mockFileIndex },
         project_hierarchy: createMockProjectHierarchy({ files: mockFileData }),
@@ -93,7 +91,6 @@ describe("TreemapExplorer - Time Lens Integration", () => {
     });
 
     it("should calculate date range from temporal data", () => {
-      // PHASE 5: Provide all required datasets
       const dataset = {
         file_index: { files: mockFileIndex },
         project_hierarchy: createMockProjectHierarchy({ files: mockFileData }),

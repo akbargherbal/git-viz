@@ -289,7 +289,7 @@ export class PluginDataLoaderClass {
     commonDatasets: string[] = [
       "project_hierarchy", // Treemap required
       "file_metrics_index", // Treemap required
-      "file_index", // Treemap required (Phase 1)
+      "file_index", // Treemap required
       "temporal_daily", // Treemap optional but commonly used
     ],
   ): Promise<void> {

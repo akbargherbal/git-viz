@@ -25,7 +25,6 @@ export interface DateRangeResult {
 export class TemporalDataProcessor {
   /**
    * Enrich files with temporal context based on timeline position
-   * PHASE 3: Now accepts optional timeline cache for performance
    */
   static enrichFilesWithTemporal(
     files: EnrichedFileData[],
@@ -69,7 +68,6 @@ export class TemporalDataProcessor {
       // Determine if file is visible at current timeline position
       const isVisible = createdPosition <= currentPosition;
 
-      // PHASE 3: Use pre-computed timeline from cache if available
       const activityTimeline = timelineCache?.get(file.key);
 
       const enriched: TemporalFileData = {
@@ -188,18 +186,12 @@ export class TemporalDataProcessor {
     };
   }
 
-  /**
-   * PHASE 3: Validate if a date string is valid
-   */
   private static isValidDate(dateString: string): boolean {
     if (!dateString) return false;
     const date = new Date(dateString);
     return !isNaN(date.getTime());
   }
 
-  /**
-   * PHASE 3: Build activity timeline for a file (bucketed into weeks or quarters)
-   */
   private static buildActivityTimeline(
     file: EnrichedFileData,
     fileLifecycle: any, // FileLifecycleData type
@@ -210,7 +202,6 @@ export class TemporalDataProcessor {
     const events = fileLifecycle?.files?.[file.path];
     if (!events || events.length === 0) return undefined;
 
-    // PHASE 3: Filter out events with invalid dates
     const validEvents = events.filter(
       (event: any) => event.datetime && this.isValidDate(event.datetime),
     );
@@ -299,9 +290,6 @@ export class TemporalDataProcessor {
     return quarters.map((q) => ({ date: q.date, commits: q.commits }));
   }
 
-  /**
-   * PHASE 3: Group events into weekly buckets for sparkline visualization
-   */
   private static bucketEventsByWeek(
     events: Array<{ datetime: string; type: string }>,
     numBuckets: number = 4,
@@ -319,7 +307,6 @@ export class TemporalDataProcessor {
     const firstDate = new Date(sortedEvents[0].datetime);
     const lastDate = new Date(sortedEvents[sortedEvents.length - 1].datetime);
 
-    // PHASE 3: Validate that firstDate and lastDate are valid
     if (isNaN(firstDate.getTime()) || isNaN(lastDate.getTime())) {
       console.warn(
         "[TemporalDataProcessor] Invalid dates in event range, skipping timeline",
@@ -344,7 +331,6 @@ export class TemporalDataProcessor {
         firstDate.getTime() + i * bucketSizeDays * 24 * 60 * 60 * 1000,
       );
 
-      // PHASE 3: Validate bucket date before calling toISOString
       if (isNaN(bucketStart.getTime())) {
         console.warn(
           "[TemporalDataProcessor] Invalid bucket date computed, using fallback",
@@ -365,7 +351,6 @@ export class TemporalDataProcessor {
     sortedEvents.forEach((event) => {
       const eventDate = new Date(event.datetime);
 
-      // PHASE 3: Skip invalid event dates
       if (isNaN(eventDate.getTime())) {
         return;
       }
@@ -383,9 +368,6 @@ export class TemporalDataProcessor {
     return buckets;
   }
 
-  /**
-   * PHASE 3: Pre-compute timelines for all files (performance optimization)
-   */
   static precomputeTimelines(
     files: EnrichedFileData[],
     fileLifecycle: any,
@@ -409,7 +391,6 @@ export class TemporalDataProcessor {
           successCount++;
         }
       } catch (error) {
-        // PHASE 3: Gracefully handle errors for individual files
         failCount++;
         console.warn(
           `[TemporalDataProcessor] Failed to build timeline for ${file.key}:`,
