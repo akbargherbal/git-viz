@@ -1,0 +1,2624 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CouplingArcRenderer.test.ts - Code Taxonomy</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Highlight.js for syntax highlighting -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/typescript.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/javascript.min.js"></script>
+</head>
+<body class="bg-gray-50 text-gray-900">
+    
+    <!-- Header -->
+    <div class="bg-gradient-to-r from-blue-600 to-blue-700 text-white py-8 px-6 shadow-lg">
+        <div class="max-w-7xl mx-auto">
+            <div class="text-sm text-blue-100 mb-2">src/plugins/treemap-explorer/renderers/__tests__</div>
+            <h1 class="text-4xl font-bold mb-2">CouplingArcRenderer.test.ts</h1>
+            <p class="text-blue-100">Unit tests for CouplingArcRenderer class, verifying arc rendering behavior for coupling visualization</p>
+        </div>
+    </div>
+
+    <!-- Metadata & Stats Bar -->
+    <div class="bg-white shadow-sm border-b">
+        <div class="max-w-7xl mx-auto py-6 px-6">
+            <div class="grid grid-cols-2 md:grid-cols-5 gap-6">
+                <div>
+                    <div class="text-xs font-semibold text-gray-500 uppercase tracking-wide mb-1">Type</div>
+                    <div class="text-lg font-bold text-gray-900">Test</div>
+                </div>
+                <div>
+                    <div class="text-xs font-semibold text-gray-500 uppercase tracking-wide mb-1">Priority</div>
+                    <div class="text-lg font-bold text-gray-900">Application</div>
+                </div>
+                <div>
+                    <div class="text-xs font-semibold text-gray-500 uppercase tracking-wide mb-1">Total Concepts</div>
+                    <div class="text-lg font-bold text-blue-600">40</div>
+                </div>
+                <div>
+                    <div class="text-xs font-semibold text-gray-500 uppercase tracking-wide mb-1">Categories</div>
+                    <div class="text-lg font-bold text-blue-600">9</div>
+                </div>
+                <div>
+                    <div class="text-xs font-semibold text-gray-500 uppercase tracking-wide mb-1">Complexity</div>
+                    <div class="text-sm font-mono text-gray-700">
+                        <span class="text-green-600">18</span> / 
+                        <span class="text-yellow-600">21</span> / 
+                        <span class="text-red-600">1</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="max-w-7xl mx-auto py-8 px-6">
+        
+        <!-- Summary Section -->
+        <div class="mb-8">
+            <h2 class="text-2xl font-bold mb-4">📊 Summary</h2>
+            
+            <div class="grid md:grid-cols-2 gap-6 mb-6">
+                <!-- Category Counts -->
+                <div class="bg-white rounded-lg shadow p-6">
+                    <h3 class="text-lg font-semibold mb-4 text-gray-700">Concepts by Category</h3>
+                    <div class="space-y-3">
+
+                        <div class="flex justify-between items-center">
+                            <span class="text-sm text-gray-600">Import/Module Management</span>
+                            <span class="bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm font-semibold">5</span>
+                        </div>
+
+                        <div class="flex justify-between items-center">
+                            <span class="text-sm text-gray-600">Testing Patterns</span>
+                            <span class="bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm font-semibold">17</span>
+                        </div>
+
+                        <div class="flex justify-between items-center">
+                            <span class="text-sm text-gray-600">TypeScript/Type System</span>
+                            <span class="bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm font-semibold">2</span>
+                        </div>
+
+                        <div class="flex justify-between items-center">
+                            <span class="text-sm text-gray-600">Code Organization</span>
+                            <span class="bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm font-semibold">5</span>
+                        </div>
+
+                        <div class="flex justify-between items-center">
+                            <span class="text-sm text-gray-600">JavaScript/ES6 Syntax</span>
+                            <span class="bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm font-semibold">6</span>
+                        </div>
+
+                        <div class="flex justify-between items-center">
+                            <span class="text-sm text-gray-600">D3 Patterns</span>
+                            <span class="bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm font-semibold">1</span>
+                        </div>
+
+                        <div class="flex justify-between items-center">
+                            <span class="text-sm text-gray-600">TypeScript/Object-Oriented Patterns</span>
+                            <span class="bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm font-semibold">2</span>
+                        </div>
+
+                        <div class="flex justify-between items-center">
+                            <span class="text-sm text-gray-600">CSS/Selectors</span>
+                            <span class="bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm font-semibold">1</span>
+                        </div>
+
+                        <div class="flex justify-between items-center">
+                            <span class="text-sm text-gray-600">Testing Patterns</span>
+                            <span class="bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm font-semibold">1</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Complexity Breakdown -->
+                <div class="bg-white rounded-lg shadow p-6">
+                    <h3 class="text-lg font-semibold mb-4 text-gray-700">Complexity Distribution</h3>
+                    <div class="space-y-4">
+
+                        <div>
+                            <div class="flex justify-between mb-1">
+                                <span class="text-sm font-medium text-green-700">Beginner</span>
+                                <span class="text-sm font-semibold text-green-700">18 concepts</span>
+                            </div>
+                            <div class="w-full bg-gray-200 rounded-full h-2">
+                                <div class="bg-green-500 h-2 rounded-full" style="width: 45%"></div>
+                            </div>
+                        </div>
+
+                        <div>
+                            <div class="flex justify-between mb-1">
+                                <span class="text-sm font-medium text-yellow-700">Intermediate</span>
+                                <span class="text-sm font-semibold text-yellow-700">21 concepts</span>
+                            </div>
+                            <div class="w-full bg-gray-200 rounded-full h-2">
+                                <div class="bg-yellow-500 h-2 rounded-full" style="width: 52%"></div>
+                            </div>
+                        </div>
+
+                        <div>
+                            <div class="flex justify-between mb-1">
+                                <span class="text-sm font-medium text-red-700">Advanced</span>
+                                <span class="text-sm font-semibold text-red-700">1 concepts</span>
+                            </div>
+                            <div class="w-full bg-gray-200 rounded-full h-2">
+                                <div class="bg-red-500 h-2 rounded-full" style="width: 2%"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tag Cloud -->
+            <div class="bg-white rounded-lg shadow p-6">
+                <h3 class="text-lg font-semibold mb-4 text-gray-700">🏷️ Tags</h3>
+                <div class="flex flex-wrap gap-2">
+                    <span class="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-sm">aftereach</span>
+                    <span class="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-sm">any-type</span>
+                    <span class="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-sm">approximate-equality</span>
+                    <span class="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-sm">array-indexing</span>
+                    <span class="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-sm">array-literal</span>
+                    <span class="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-sm">assertion</span>
+                    <span class="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-sm">bdd-style</span>
+                    <span class="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-sm">before-after-pattern</span>
+                    <span class="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-sm">beforeeach</span>
+                    <span class="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-sm">boundary-testing</span>
+                    <span class="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-sm">calculation</span>
+                    <span class="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-sm">class-import</span>
+                    <span class="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-sm">class-instantiation</span>
+                    <span class="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-sm">class-method</span>
+                    <span class="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-sm">class-selector</span>
+                    <span class="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-sm">cleanup-testing</span>
+                    <span class="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-sm">code-formatting</span>
+                    <span class="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-sm">code-organization</span>
+                    <span class="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-sm">comments</span>
+                    <span class="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-sm">concise-syntax</span>
+                    <span class="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-sm">const-declaration</span>
+                    <span class="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-sm">constructor</span>
+                    <span class="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-sm">coordinates</span>
+                    <span class="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-sm">css</span>
+                    <span class="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-sm">css-selector</span>
+                    <span class="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-sm">d3</span>
+                    <span class="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-sm">data-builder</span>
+                    <span class="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-sm">data-processing</span>
+                    <span class="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-sm">data-structure</span>
+                    <span class="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-sm">data-values</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Concepts Section -->
+        <div>
+            <h2 class="text-2xl font-bold mb-4">💡 Concepts</h2>
+            
+            <div class="space-y-6">
+
+                <!-- CONCEPT-001 -->
+                <div class="bg-white rounded-lg shadow-md overflow-hidden border border-gray-200">
+                    <!-- Concept Header -->
+                    <div class="bg-gradient-to-r from-gray-50 to-gray-100 px-6 py-4 border-b border-gray-200">
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <div class="text-xs font-mono text-gray-500 mb-1">CONCEPT-001</div>
+                                <h3 class="text-xl font-bold text-gray-900"></h3>
+                                <div class="text-sm text-blue-600 font-medium mt-1">Import/Module Management</div>
+                            </div>
+                            <span class="bg-green-100 text-green-800 px-3 py-1 rounded-full text-xs font-semibold">Beginner</span>
+                        </div>
+                    </div>
+
+                    <!-- Code Snippet with Syntax Highlighting -->
+                    <div class="px-6 py-4 bg-gray-900">
+                        <pre><code class="language-typescript">import { describe, it, expect, beforeEach, afterEach } from &quot;@/test-utils&quot;;</code></pre>
+                    </div>
+
+                    <!-- Concept Details -->
+                    <div class="px-6 py-5 space-y-4">
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">What</h4>
+                            <p class="text-gray-600 leading-relaxed">Imports testing framework functions (describe, it, expect) and lifecycle hooks (beforeEach, afterEach) from a centralized test utilities module using path alias</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Why</h4>
+                            <p class="text-gray-600 leading-relaxed">Centralizes test framework imports in one location for consistency across test files; allows switching test frameworks without changing every test file; path alias makes imports cleaner and more maintainable; provides a single source of truth for test utilities</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">How</h4>
+                            <p class="text-gray-600 leading-relaxed">Uses ES6 named import syntax with path alias (@/) to import specific testing functions from a barrel export or re-export module that wraps the underlying test framework (likely Vitest or Jest)</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Context</h4>
+                            <p class="text-gray-600 leading-relaxed">Imports core testing functions needed for this test suite: describe for grouping tests, it for individual test cases, expect for assertions, and lifecycle hooks for setup/teardown</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Alternatives</h4>
+                            <p class="text-gray-600 leading-relaxed">Direct import from test framework like &#x27;vitest&#x27; or &#x27;jest&#x27;; global test functions without imports; separate imports for each function; importing entire test utils as namespace</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Tags</h4>
+                            <div class="flex flex-wrap gap-2 mt-2">
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">import</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">test-utils</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">path-alias</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">named-import</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">testing</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">test-framework</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- CONCEPT-002 -->
+                <div class="bg-white rounded-lg shadow-md overflow-hidden border border-gray-200">
+                    <!-- Concept Header -->
+                    <div class="bg-gradient-to-r from-gray-50 to-gray-100 px-6 py-4 border-b border-gray-200">
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <div class="text-xs font-mono text-gray-500 mb-1">CONCEPT-002</div>
+                                <h3 class="text-xl font-bold text-gray-900"></h3>
+                                <div class="text-sm text-blue-600 font-medium mt-1">Import/Module Management</div>
+                            </div>
+                            <span class="bg-green-100 text-green-800 px-3 py-1 rounded-full text-xs font-semibold">Beginner</span>
+                        </div>
+                    </div>
+
+                    <!-- Code Snippet with Syntax Highlighting -->
+                    <div class="px-6 py-4 bg-gray-900">
+                        <pre><code class="language-typescript">import * as d3 from &quot;d3&quot;;</code></pre>
+                    </div>
+
+                    <!-- Concept Details -->
+                    <div class="px-6 py-5 space-y-4">
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">What</h4>
+                            <p class="text-gray-600 leading-relaxed">Imports entire D3.js library as a namespace object, making all D3 exports accessible under the &#x27;d3&#x27; identifier</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Why</h4>
+                            <p class="text-gray-600 leading-relaxed">D3 has many submodules and functions; namespace import provides convenient access to all D3 functionality without listing individual imports; matches D3 documentation examples; allows using d3.select(), d3.scaleLinear(), etc. with familiar syntax; reduces import statement complexity</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">How</h4>
+                            <p class="text-gray-600 leading-relaxed">ES6 namespace import syntax (* as name) creates an object containing all named exports from the module; all D3 functions become properties of the d3 object</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Context</h4>
+                            <p class="text-gray-600 leading-relaxed">Imports D3 for DOM selection and manipulation in tests, specifically using d3.select() to create SVG elements for testing the renderer</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Alternatives</h4>
+                            <p class="text-gray-600 leading-relaxed">Named imports for specific functions like &#x27;import { select } from &quot;d3&quot;&#x27;; importing specific D3 submodules like &#x27;d3-selection&#x27;; using global D3 from CDN; importing only needed submodules</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Tags</h4>
+                            <div class="flex flex-wrap gap-2 mt-2">
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">import</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">namespace-import</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">d3</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">visualization-library</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">wildcard-import</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- CONCEPT-003 -->
+                <div class="bg-white rounded-lg shadow-md overflow-hidden border border-gray-200">
+                    <!-- Concept Header -->
+                    <div class="bg-gradient-to-r from-gray-50 to-gray-100 px-6 py-4 border-b border-gray-200">
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <div class="text-xs font-mono text-gray-500 mb-1">CONCEPT-003</div>
+                                <h3 class="text-xl font-bold text-gray-900"></h3>
+                                <div class="text-sm text-blue-600 font-medium mt-1">Import/Module Management</div>
+                            </div>
+                            <span class="bg-green-100 text-green-800 px-3 py-1 rounded-full text-xs font-semibold">Beginner</span>
+                        </div>
+                    </div>
+
+                    <!-- Code Snippet with Syntax Highlighting -->
+                    <div class="px-6 py-4 bg-gray-900">
+                        <pre><code class="language-typescript">import { CouplingArcRenderer } from &quot;../CouplingArcRenderer&quot;;</code></pre>
+                    </div>
+
+                    <!-- Concept Details -->
+                    <div class="px-6 py-5 space-y-4">
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">What</h4>
+                            <p class="text-gray-600 leading-relaxed">Imports the class being tested using relative path navigation from test directory to parent directory</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Why</h4>
+                            <p class="text-gray-600 leading-relaxed">Tests need access to the implementation they&#x27;re testing; relative import keeps test file close to implementation; &#x27;../&#x27; navigates from __tests__ directory to parent renderers directory; named import indicates this is not the default export</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">How</h4>
+                            <p class="text-gray-600 leading-relaxed">Relative path &#x27;../&#x27; moves up one directory level from __tests__ to renderers, then imports the named export CouplingArcRenderer from the module</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Context</h4>
+                            <p class="text-gray-600 leading-relaxed">Imports the main class under test - CouplingArcRenderer - which is responsible for rendering coupling arcs in the visualization</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Alternatives</h4>
+                            <p class="text-gray-600 leading-relaxed">Path alias import like &#x27;@/plugins/treemap-explorer/renderers/CouplingArcRenderer&#x27;; absolute import; default import if class was default export</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Tags</h4>
+                            <div class="flex flex-wrap gap-2 mt-2">
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">import</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">relative-import</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">named-import</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">test-subject</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">class-import</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- CONCEPT-004 -->
+                <div class="bg-white rounded-lg shadow-md overflow-hidden border border-gray-200">
+                    <!-- Concept Header -->
+                    <div class="bg-gradient-to-r from-gray-50 to-gray-100 px-6 py-4 border-b border-gray-200">
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <div class="text-xs font-mono text-gray-500 mb-1">CONCEPT-004</div>
+                                <h3 class="text-xl font-bold text-gray-900"></h3>
+                                <div class="text-sm text-blue-600 font-medium mt-1">Import/Module Management</div>
+                            </div>
+                            <span class="bg-green-100 text-green-800 px-3 py-1 rounded-full text-xs font-semibold">Beginner</span>
+                        </div>
+                    </div>
+
+                    <!-- Code Snippet with Syntax Highlighting -->
+                    <div class="px-6 py-4 bg-gray-900">
+                        <pre><code class="language-typescript">import { CouplingDataProcessor } from &quot;@/services/data/CouplingDataProcessor&quot;;</code></pre>
+                    </div>
+
+                    <!-- Concept Details -->
+                    <div class="px-6 py-5 space-y-4">
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">What</h4>
+                            <p class="text-gray-600 leading-relaxed">Imports a service class used to process coupling data, using path alias to access services directory</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Why</h4>
+                            <p class="text-gray-600 leading-relaxed">Tests need to create processed coupling data that matches production data structure; importing the actual processor ensures test data matches real data format; path alias provides clean, maintainable import path</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">How</h4>
+                            <p class="text-gray-600 leading-relaxed">Path alias @/ resolves to project root (typically src/), then navigates to services/data directory to import the CouplingDataProcessor class</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Context</h4>
+                            <p class="text-gray-600 leading-relaxed">Used to process mock coupling data into the CouplingIndex format expected by the renderer, ensuring test data structure matches production</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Alternatives</h4>
+                            <p class="text-gray-600 leading-relaxed">Relative import; mocking the processor; manually creating processed data structure; importing from barrel export</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Tags</h4>
+                            <div class="flex flex-wrap gap-2 mt-2">
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">import</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">path-alias</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">named-import</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">service-dependency</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">test-setup</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- CONCEPT-005 -->
+                <div class="bg-white rounded-lg shadow-md overflow-hidden border border-gray-200">
+                    <!-- Concept Header -->
+                    <div class="bg-gradient-to-r from-gray-50 to-gray-100 px-6 py-4 border-b border-gray-200">
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <div class="text-xs font-mono text-gray-500 mb-1">CONCEPT-005</div>
+                                <h3 class="text-xl font-bold text-gray-900"></h3>
+                                <div class="text-sm text-blue-600 font-medium mt-1">Import/Module Management</div>
+                            </div>
+                            <span class="bg-green-100 text-green-800 px-3 py-1 rounded-full text-xs font-semibold">Beginner</span>
+                        </div>
+                    </div>
+
+                    <!-- Code Snippet with Syntax Highlighting -->
+                    <div class="px-6 py-4 bg-gray-900">
+                        <pre><code class="language-typescript">import {
+  createCouplingData,
+  createMockContainer,
+  destroyMockContainer,
+} from &quot;@/test-utils&quot;;</code></pre>
+                    </div>
+
+                    <!-- Concept Details -->
+                    <div class="px-6 py-5 space-y-4">
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">What</h4>
+                            <p class="text-gray-600 leading-relaxed">Imports multiple test helper functions from test utilities module, formatted across multiple lines for readability</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Why</h4>
+                            <p class="text-gray-600 leading-relaxed">Multiple imports from same module are grouped together; multi-line format improves readability when importing several items; each helper on its own line makes it easy to see what&#x27;s imported; trailing comma allows easy addition of new imports</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">How</h4>
+                            <p class="text-gray-600 leading-relaxed">ES6 named import syntax with destructuring spread across multiple lines; each import on separate line with consistent indentation; trailing comma after last import is modern JavaScript convention</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Context</h4>
+                            <p class="text-gray-600 leading-relaxed">Imports test helper functions for creating mock data (createCouplingData) and managing test DOM elements (createMockContainer, destroyMockContainer)</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Alternatives</h4>
+                            <p class="text-gray-600 leading-relaxed">Single-line import; separate import statements for each function; importing entire test-utils as namespace; importing from more specific test utility modules</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Tags</h4>
+                            <div class="flex flex-wrap gap-2 mt-2">
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">import</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">named-import</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">multi-line-import</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">test-helpers</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">code-formatting</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">trailing-comma</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- CONCEPT-006 -->
+                <div class="bg-white rounded-lg shadow-md overflow-hidden border border-gray-200">
+                    <!-- Concept Header -->
+                    <div class="bg-gradient-to-r from-gray-50 to-gray-100 px-6 py-4 border-b border-gray-200">
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <div class="text-xs font-mono text-gray-500 mb-1">CONCEPT-006</div>
+                                <h3 class="text-xl font-bold text-gray-900"></h3>
+                                <div class="text-sm text-blue-600 font-medium mt-1">Testing Patterns</div>
+                            </div>
+                            <span class="bg-green-100 text-green-800 px-3 py-1 rounded-full text-xs font-semibold">Beginner</span>
+                        </div>
+                    </div>
+
+                    <!-- Code Snippet with Syntax Highlighting -->
+                    <div class="px-6 py-4 bg-gray-900">
+                        <pre><code class="language-typescript">describe(&quot;CouplingArcRenderer&quot;, () =&gt; { ... });</code></pre>
+                    </div>
+
+                    <!-- Concept Details -->
+                    <div class="px-6 py-5 space-y-4">
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">What</h4>
+                            <p class="text-gray-600 leading-relaxed">Creates a test suite grouping related tests for the CouplingArcRenderer class using the describe function</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Why</h4>
+                            <p class="text-gray-600 leading-relaxed">Organizes tests into logical groups; provides context for test output; allows shared setup/teardown for related tests; makes test reports more readable; enables running specific test suites; groups tests by component or feature</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">How</h4>
+                            <p class="text-gray-600 leading-relaxed">describe() function takes a string description and callback function; all tests within the callback are grouped under this suite; test framework executes the callback to discover and run tests</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Context</h4>
+                            <p class="text-gray-600 leading-relaxed">Groups all tests for CouplingArcRenderer class, providing clear test organization and shared test fixtures</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Alternatives</h4>
+                            <p class="text-gray-600 leading-relaxed">Flat test structure without grouping; nested describe blocks for sub-features; using test.describe() in some frameworks; context() alias in some frameworks</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Tags</h4>
+                            <div class="flex flex-wrap gap-2 mt-2">
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">testing</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">test-suite</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">describe-block</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">test-organization</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">bdd-style</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- CONCEPT-007 -->
+                <div class="bg-white rounded-lg shadow-md overflow-hidden border border-gray-200">
+                    <!-- Concept Header -->
+                    <div class="bg-gradient-to-r from-gray-50 to-gray-100 px-6 py-4 border-b border-gray-200">
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <div class="text-xs font-mono text-gray-500 mb-1">CONCEPT-007</div>
+                                <h3 class="text-xl font-bold text-gray-900"></h3>
+                                <div class="text-sm text-blue-600 font-medium mt-1">Testing Patterns</div>
+                            </div>
+                            <span class="bg-yellow-100 text-yellow-800 px-3 py-1 rounded-full text-xs font-semibold">Intermediate</span>
+                        </div>
+                    </div>
+
+                    <!-- Code Snippet with Syntax Highlighting -->
+                    <div class="px-6 py-4 bg-gray-900">
+                        <pre><code class="language-typescript">let svg: d3.Selection&lt;SVGSVGElement, unknown, null, undefined&gt;;
+  let container: HTMLElement;
+  let renderer: CouplingArcRenderer;</code></pre>
+                    </div>
+
+                    <!-- Concept Details -->
+                    <div class="px-6 py-5 space-y-4">
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">What</h4>
+                            <p class="text-gray-600 leading-relaxed">Declares test fixture variables at test suite scope using let keyword with TypeScript type annotations</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Why</h4>
+                            <p class="text-gray-600 leading-relaxed">Shared fixtures allow reuse across multiple tests; let allows reassignment in beforeEach; suite-level scope makes fixtures accessible to all tests; type annotations provide type safety; separates declaration from initialization for clarity</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">How</h4>
+                            <p class="text-gray-600 leading-relaxed">Variables declared with let at top of describe block; typed with TypeScript annotations; initialized in beforeEach hook before each test; cleaned up in afterEach hook</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Context</h4>
+                            <p class="text-gray-600 leading-relaxed">Declares three fixtures: svg (D3 selection), container (DOM element), and renderer (class instance under test). These are reinitialized before each test.</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Alternatives</h4>
+                            <p class="text-gray-600 leading-relaxed">Const with object reassignment; initializing inline; using beforeAll for shared fixtures; factory functions; test-specific fixtures</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Tags</h4>
+                            <div class="flex flex-wrap gap-2 mt-2">
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">testing</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">test-fixtures</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">variable-declaration</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">typescript</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">type-annotation</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">test-setup</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- CONCEPT-008 -->
+                <div class="bg-white rounded-lg shadow-md overflow-hidden border border-gray-200">
+                    <!-- Concept Header -->
+                    <div class="bg-gradient-to-r from-gray-50 to-gray-100 px-6 py-4 border-b border-gray-200">
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <div class="text-xs font-mono text-gray-500 mb-1">CONCEPT-008</div>
+                                <h3 class="text-xl font-bold text-gray-900"></h3>
+                                <div class="text-sm text-blue-600 font-medium mt-1">TypeScript/Type System</div>
+                            </div>
+                            <span class="bg-red-100 text-red-800 px-3 py-1 rounded-full text-xs font-semibold">Advanced</span>
+                        </div>
+                    </div>
+
+                    <!-- Code Snippet with Syntax Highlighting -->
+                    <div class="px-6 py-4 bg-gray-900">
+                        <pre><code class="language-typescript">d3.Selection&lt;SVGSVGElement, unknown, null, undefined&gt;</code></pre>
+                    </div>
+
+                    <!-- Concept Details -->
+                    <div class="px-6 py-5 space-y-4">
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">What</h4>
+                            <p class="text-gray-600 leading-relaxed">Generic type annotation for D3 selection with four type parameters: element type, datum type, parent element type, and parent datum type</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Why</h4>
+                            <p class="text-gray-600 leading-relaxed">D3 selections are generic types that track element types and data binding; proper typing enables type-safe D3 operations; prevents runtime errors from incorrect element access; provides IDE autocomplete for D3 methods; documents what type of selection this is</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">How</h4>
+                            <p class="text-gray-600 leading-relaxed">D3.Selection is a generic type with four parameters: &lt;ElementType, Datum, ParentElement, ParentDatum&gt;. SVGSVGElement specifies this selects SVG elements; unknown indicates no data bound; null/undefined for parent types</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Context</h4>
+                            <p class="text-gray-600 leading-relaxed">Types the svg variable as a D3 selection of SVG elements with no data binding, used for creating test SVG containers</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Alternatives</h4>
+                            <p class="text-gray-600 leading-relaxed">Using &#x27;any&#x27; type; omitting type annotation; using d3.Selection without generics; using more specific datum types if data is bound</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Tags</h4>
+                            <div class="flex flex-wrap gap-2 mt-2">
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">typescript</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">type-annotation</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">generics</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">d3</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">dom-types</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">type-parameters</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- CONCEPT-009 -->
+                <div class="bg-white rounded-lg shadow-md overflow-hidden border border-gray-200">
+                    <!-- Concept Header -->
+                    <div class="bg-gradient-to-r from-gray-50 to-gray-100 px-6 py-4 border-b border-gray-200">
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <div class="text-xs font-mono text-gray-500 mb-1">CONCEPT-009</div>
+                                <h3 class="text-xl font-bold text-gray-900"></h3>
+                                <div class="text-sm text-blue-600 font-medium mt-1">Code Organization</div>
+                            </div>
+                            <span class="bg-green-100 text-green-800 px-3 py-1 rounded-full text-xs font-semibold">Beginner</span>
+                        </div>
+                    </div>
+
+                    <!-- Code Snippet with Syntax Highlighting -->
+                    <div class="px-6 py-4 bg-gray-900">
+                        <pre><code class="language-typescript">// Mock Data</code></pre>
+                    </div>
+
+                    <!-- Concept Details -->
+                    <div class="px-6 py-5 space-y-4">
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">What</h4>
+                            <p class="text-gray-600 leading-relaxed">Single-line comment used as section header to organize and label test data declarations</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Why</h4>
+                            <p class="text-gray-600 leading-relaxed">Improves test readability by clearly separating mock data from test logic; helps developers quickly locate test data; provides visual structure to test file; makes test maintenance easier</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">How</h4>
+                            <p class="text-gray-600 leading-relaxed">Double-slash comment syntax creates a single-line comment that&#x27;s ignored by JavaScript/TypeScript compiler; used as organizational marker rather than explanatory comment</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Context</h4>
+                            <p class="text-gray-600 leading-relaxed">Marks the beginning of mock data declarations section, separating fixture variables from test data constants</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Alternatives</h4>
+                            <p class="text-gray-600 leading-relaxed">Multi-line comment block; JSDoc comment; no comment; organizing data in separate file; using describe block for data setup</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Tags</h4>
+                            <div class="flex flex-wrap gap-2 mt-2">
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">comments</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">code-organization</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">test-structure</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">documentation</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">section-header</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- CONCEPT-010 -->
+                <div class="bg-white rounded-lg shadow-md overflow-hidden border border-gray-200">
+                    <!-- Concept Header -->
+                    <div class="bg-gradient-to-r from-gray-50 to-gray-100 px-6 py-4 border-b border-gray-200">
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <div class="text-xs font-mono text-gray-500 mb-1">CONCEPT-010</div>
+                                <h3 class="text-xl font-bold text-gray-900"></h3>
+                                <div class="text-sm text-blue-600 font-medium mt-1">Testing Patterns</div>
+                            </div>
+                            <span class="bg-green-100 text-green-800 px-3 py-1 rounded-full text-xs font-semibold">Beginner</span>
+                        </div>
+                    </div>
+
+                    <!-- Code Snippet with Syntax Highlighting -->
+                    <div class="px-6 py-4 bg-gray-900">
+                        <pre><code class="language-typescript">const mockCouplingData = createCouplingData({ ... });</code></pre>
+                    </div>
+
+                    <!-- Concept Details -->
+                    <div class="px-6 py-5 space-y-4">
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">What</h4>
+                            <p class="text-gray-600 leading-relaxed">Declares immutable constant holding mock coupling data created by test helper function</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Why</h4>
+                            <p class="text-gray-600 leading-relaxed">Const prevents accidental reassignment of test data; immutability ensures consistent test data across tests; factory function (createCouplingData) provides type-safe mock data creation; shared mock data reduces duplication</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">How</h4>
+                            <p class="text-gray-600 leading-relaxed">Const keyword creates immutable binding; createCouplingData factory function generates properly structured mock data; object literal passed to factory configures the mock data</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Context</h4>
+                            <p class="text-gray-600 leading-relaxed">Creates mock coupling data with two edges representing file relationships, used across multiple tests to verify renderer behavior</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Alternatives</h4>
+                            <p class="text-gray-600 leading-relaxed">Let declaration; inline object literal; importing mock data from file; generating data in beforeEach; using test framework&#x27;s mock utilities</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Tags</h4>
+                            <div class="flex flex-wrap gap-2 mt-2">
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">testing</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">mock-data</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">const-declaration</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">test-fixtures</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">factory-function</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- CONCEPT-011 -->
+                <div class="bg-white rounded-lg shadow-md overflow-hidden border border-gray-200">
+                    <!-- Concept Header -->
+                    <div class="bg-gradient-to-r from-gray-50 to-gray-100 px-6 py-4 border-b border-gray-200">
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <div class="text-xs font-mono text-gray-500 mb-1">CONCEPT-011</div>
+                                <h3 class="text-xl font-bold text-gray-900"></h3>
+                                <div class="text-sm text-blue-600 font-medium mt-1">Testing Patterns</div>
+                            </div>
+                            <span class="bg-yellow-100 text-yellow-800 px-3 py-1 rounded-full text-xs font-semibold">Intermediate</span>
+                        </div>
+                    </div>
+
+                    <!-- Code Snippet with Syntax Highlighting -->
+                    <div class="px-6 py-4 bg-gray-900">
+                        <pre><code class="language-typescript">createCouplingData({
+    edges: [
+      {
+        source: &quot;file1&quot;,
+        target: &quot;file2&quot;,
+        couplingStrength: 0.9,
+        cochangeCount: 10,
+      },
+      {
+        source: &quot;file1&quot;,
+        target: &quot;file3&quot;,
+        couplingStrength: 0.2,
+        cochangeCount: 2,
+      },
+    ],
+  })</code></pre>
+                    </div>
+
+                    <!-- Concept Details -->
+                    <div class="px-6 py-5 space-y-4">
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">What</h4>
+                            <p class="text-gray-600 leading-relaxed">Calls factory function to create mock coupling data with specified edges configuration</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Why</h4>
+                            <p class="text-gray-600 leading-relaxed">Factory functions ensure mock data has correct structure and required fields; provides type safety for test data; centralizes mock data creation logic; makes tests more maintainable; allows easy creation of variations</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">How</h4>
+                            <p class="text-gray-600 leading-relaxed">Factory function accepts configuration object with edges array; each edge has source, target, couplingStrength, and cochangeCount properties; function returns properly structured coupling data object</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Context</h4>
+                            <p class="text-gray-600 leading-relaxed">Creates coupling data with two edges: strong coupling (0.9) between file1-file2, weak coupling (0.2) between file1-file3. Used to test threshold filtering behavior.</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Alternatives</h4>
+                            <p class="text-gray-600 leading-relaxed">Manual object literal creation; importing pre-built mock data; using test framework&#x27;s mock builders; class-based mock builders</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Tags</h4>
+                            <div class="flex flex-wrap gap-2 mt-2">
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">testing</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">factory-pattern</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">mock-data</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">test-helpers</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">data-builder</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- CONCEPT-012 -->
+                <div class="bg-white rounded-lg shadow-md overflow-hidden border border-gray-200">
+                    <!-- Concept Header -->
+                    <div class="bg-gradient-to-r from-gray-50 to-gray-100 px-6 py-4 border-b border-gray-200">
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <div class="text-xs font-mono text-gray-500 mb-1">CONCEPT-012</div>
+                                <h3 class="text-xl font-bold text-gray-900"></h3>
+                                <div class="text-sm text-blue-600 font-medium mt-1">JavaScript/ES6 Syntax</div>
+                            </div>
+                            <span class="bg-green-100 text-green-800 px-3 py-1 rounded-full text-xs font-semibold">Beginner</span>
+                        </div>
+                    </div>
+
+                    <!-- Code Snippet with Syntax Highlighting -->
+                    <div class="px-6 py-4 bg-gray-900">
+                        <pre><code class="language-typescript">{
+    edges: [
+      { source: &quot;file1&quot;, target: &quot;file2&quot;, couplingStrength: 0.9, cochangeCount: 10 },
+      { source: &quot;file1&quot;, target: &quot;file3&quot;, couplingStrength: 0.2, cochangeCount: 2 },
+    ],
+  }</code></pre>
+                    </div>
+
+                    <!-- Concept Details -->
+                    <div class="px-6 py-5 space-y-4">
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">What</h4>
+                            <p class="text-gray-600 leading-relaxed">Object literal containing an edges property that holds an array of edge objects</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Why</h4>
+                            <p class="text-gray-600 leading-relaxed">Provides structured data format for coupling relationships; array allows multiple edges; object literals provide clear, readable data structure; matches expected data shape for coupling data</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">How</h4>
+                            <p class="text-gray-600 leading-relaxed">Object literal syntax with property name &#x27;edges&#x27; followed by colon and array literal; array contains multiple object literals representing individual edges</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Context</h4>
+                            <p class="text-gray-600 leading-relaxed">Defines coupling data structure with edges array containing relationship information between files</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Alternatives</h4>
+                            <p class="text-gray-600 leading-relaxed">Class instances; Map data structure; separate arrays for each property; nested arrays; using builder pattern</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Tags</h4>
+                            <div class="flex flex-wrap gap-2 mt-2">
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">javascript</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">object-literal</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">array-literal</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">data-structure</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">nested-objects</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- CONCEPT-013 -->
+                <div class="bg-white rounded-lg shadow-md overflow-hidden border border-gray-200">
+                    <!-- Concept Header -->
+                    <div class="bg-gradient-to-r from-gray-50 to-gray-100 px-6 py-4 border-b border-gray-200">
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <div class="text-xs font-mono text-gray-500 mb-1">CONCEPT-013</div>
+                                <h3 class="text-xl font-bold text-gray-900"></h3>
+                                <div class="text-sm text-blue-600 font-medium mt-1">JavaScript/ES6 Syntax</div>
+                            </div>
+                            <span class="bg-green-100 text-green-800 px-3 py-1 rounded-full text-xs font-semibold">Beginner</span>
+                        </div>
+                    </div>
+
+                    <!-- Code Snippet with Syntax Highlighting -->
+                    <div class="px-6 py-4 bg-gray-900">
+                        <pre><code class="language-typescript">couplingStrength: 0.9</code></pre>
+                    </div>
+
+                    <!-- Concept Details -->
+                    <div class="px-6 py-5 space-y-4">
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">What</h4>
+                            <p class="text-gray-600 leading-relaxed">Floating-point numeric literal representing coupling strength as decimal value between 0 and 1</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Why</h4>
+                            <p class="text-gray-600 leading-relaxed">Decimal notation clearly represents percentage or ratio values; 0.9 represents 90% coupling strength; floating-point allows precise strength measurements; standard format for normalized values</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">How</h4>
+                            <p class="text-gray-600 leading-relaxed">JavaScript numeric literal with decimal point; no quotes needed for numbers; automatically typed as number in TypeScript</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Context</h4>
+                            <p class="text-gray-600 leading-relaxed">Represents coupling strength between files, with 0.9 indicating strong coupling (90%) and 0.2 indicating weak coupling (20%)</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Alternatives</h4>
+                            <p class="text-gray-600 leading-relaxed">Integer percentage (90); string representation; enum values; using constants for thresholds</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Tags</h4>
+                            <div class="flex flex-wrap gap-2 mt-2">
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">javascript</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">numeric-literal</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">floating-point</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">data-values</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- CONCEPT-014 -->
+                <div class="bg-white rounded-lg shadow-md overflow-hidden border border-gray-200">
+                    <!-- Concept Header -->
+                    <div class="bg-gradient-to-r from-gray-50 to-gray-100 px-6 py-4 border-b border-gray-200">
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <div class="text-xs font-mono text-gray-500 mb-1">CONCEPT-014</div>
+                                <h3 class="text-xl font-bold text-gray-900"></h3>
+                                <div class="text-sm text-blue-600 font-medium mt-1">TypeScript/Object-Oriented Patterns</div>
+                            </div>
+                            <span class="bg-yellow-100 text-yellow-800 px-3 py-1 rounded-full text-xs font-semibold">Intermediate</span>
+                        </div>
+                    </div>
+
+                    <!-- Code Snippet with Syntax Highlighting -->
+                    <div class="px-6 py-4 bg-gray-900">
+                        <pre><code class="language-typescript">const mockCouplingIndex = CouplingDataProcessor.process(mockCouplingData);</code></pre>
+                    </div>
+
+                    <!-- Concept Details -->
+                    <div class="px-6 py-5 space-y-4">
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">What</h4>
+                            <p class="text-gray-600 leading-relaxed">Calls static method on CouplingDataProcessor class to transform raw coupling data into processed index format</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Why</h4>
+                            <p class="text-gray-600 leading-relaxed">Static methods don&#x27;t require class instantiation; process() is a pure transformation function suitable for static method; creates processed data structure that matches production format; ensures test data matches real data structure</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">How</h4>
+                            <p class="text-gray-600 leading-relaxed">Class name followed by dot notation to access static method; method called with mock data as argument; returns processed coupling index</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Context</h4>
+                            <p class="text-gray-600 leading-relaxed">Processes mock coupling data into CouplingIndex format expected by renderer, ensuring test uses realistic data structure</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Alternatives</h4>
+                            <p class="text-gray-600 leading-relaxed">Instance method; standalone function; manually creating processed structure; mocking the processor</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Tags</h4>
+                            <div class="flex flex-wrap gap-2 mt-2">
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">typescript</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">static-method</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">class-method</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">data-processing</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">test-setup</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- CONCEPT-015 -->
+                <div class="bg-white rounded-lg shadow-md overflow-hidden border border-gray-200">
+                    <!-- Concept Header -->
+                    <div class="bg-gradient-to-r from-gray-50 to-gray-100 px-6 py-4 border-b border-gray-200">
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <div class="text-xs font-mono text-gray-500 mb-1">CONCEPT-015</div>
+                                <h3 class="text-xl font-bold text-gray-900"></h3>
+                                <div class="text-sm text-blue-600 font-medium mt-1">Code Organization</div>
+                            </div>
+                            <span class="bg-green-100 text-green-800 px-3 py-1 rounded-full text-xs font-semibold">Beginner</span>
+                        </div>
+                    </div>
+
+                    <!-- Code Snippet with Syntax Highlighting -->
+                    <div class="px-6 py-4 bg-gray-900">
+                        <pre><code class="language-typescript">// Mock D3 Hierarchy Leaves (simplified)
+  // Structure matches real D3 hierarchy output: leaf.data points directly to EnrichedFileData</code></pre>
+                    </div>
+
+                    <!-- Concept Details -->
+                    <div class="px-6 py-5 space-y-4">
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">What</h4>
+                            <p class="text-gray-600 leading-relaxed">Two consecutive single-line comments explaining the structure and purpose of mock data</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Why</h4>
+                            <p class="text-gray-600 leading-relaxed">Documents that mock data is simplified version of real D3 hierarchy; explains the data structure relationship (leaf.data points to EnrichedFileData); helps developers understand mock data design decisions; clarifies why structure looks this way</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">How</h4>
+                            <p class="text-gray-600 leading-relaxed">Two single-line comments using // syntax; first line describes what the data represents; second line explains structural details</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Context</h4>
+                            <p class="text-gray-600 leading-relaxed">Documents mock D3 hierarchy leaves structure, explaining it&#x27;s simplified but matches real D3 output structure</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Alternatives</h4>
+                            <p class="text-gray-600 leading-relaxed">Multi-line /* */ comment; JSDoc comment; inline comments; no comments; separate documentation file</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Tags</h4>
+                            <div class="flex flex-wrap gap-2 mt-2">
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">comments</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">documentation</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">data-structure</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">test-documentation</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">mock-explanation</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- CONCEPT-016 -->
+                <div class="bg-white rounded-lg shadow-md overflow-hidden border border-gray-200">
+                    <!-- Concept Header -->
+                    <div class="bg-gradient-to-r from-gray-50 to-gray-100 px-6 py-4 border-b border-gray-200">
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <div class="text-xs font-mono text-gray-500 mb-1">CONCEPT-016</div>
+                                <h3 class="text-xl font-bold text-gray-900"></h3>
+                                <div class="text-sm text-blue-600 font-medium mt-1">TypeScript/Type System</div>
+                            </div>
+                            <span class="bg-yellow-100 text-yellow-800 px-3 py-1 rounded-full text-xs font-semibold">Intermediate</span>
+                        </div>
+                    </div>
+
+                    <!-- Code Snippet with Syntax Highlighting -->
+                    <div class="px-6 py-4 bg-gray-900">
+                        <pre><code class="language-typescript">] as any[];</code></pre>
+                    </div>
+
+                    <!-- Concept Details -->
+                    <div class="px-6 py-5 space-y-4">
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">What</h4>
+                            <p class="text-gray-600 leading-relaxed">Type assertion that tells TypeScript to treat the array as &#x27;any[]&#x27;, bypassing type checking for this value</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Why</h4>
+                            <p class="text-gray-600 leading-relaxed">Mock data doesn&#x27;t fully implement D3 hierarchy node interface; creating complete mock would be verbose and unnecessary; &#x27;as any&#x27; allows using simplified mock while avoiding type errors; common pattern in tests where full type compliance isn&#x27;t needed</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">How</h4>
+                            <p class="text-gray-600 leading-relaxed">&#x27;as&#x27; keyword followed by type annotation; &#x27;any&#x27; type disables type checking; array type &#x27;[]&#x27; indicates this is an array of any</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Context</h4>
+                            <p class="text-gray-600 leading-relaxed">Allows simplified mock D3 hierarchy leaves without implementing full D3 HierarchyNode interface, which would require many unused properties</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Alternatives</h4>
+                            <p class="text-gray-600 leading-relaxed">Creating full mock implementing complete interface; using Partial&lt;HierarchyNode&gt;; using unknown type; creating custom test type; using @ts-ignore comment</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Tags</h4>
+                            <div class="flex flex-wrap gap-2 mt-2">
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">typescript</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">type-assertion</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">any-type</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">type-escape-hatch</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">testing</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">mock-data</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- CONCEPT-017 -->
+                <div class="bg-white rounded-lg shadow-md overflow-hidden border border-gray-200">
+                    <!-- Concept Header -->
+                    <div class="bg-gradient-to-r from-gray-50 to-gray-100 px-6 py-4 border-b border-gray-200">
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <div class="text-xs font-mono text-gray-500 mb-1">CONCEPT-017</div>
+                                <h3 class="text-xl font-bold text-gray-900"></h3>
+                                <div class="text-sm text-blue-600 font-medium mt-1">Testing Patterns</div>
+                            </div>
+                            <span class="bg-yellow-100 text-yellow-800 px-3 py-1 rounded-full text-xs font-semibold">Intermediate</span>
+                        </div>
+                    </div>
+
+                    <!-- Code Snippet with Syntax Highlighting -->
+                    <div class="px-6 py-4 bg-gray-900">
+                        <pre><code class="language-typescript">{ x0: 0, x1: 100, y0: 0, y1: 100, data: { key: &quot;file1&quot;, path: &quot;file1&quot; } }</code></pre>
+                    </div>
+
+                    <!-- Concept Details -->
+                    <div class="px-6 py-5 space-y-4">
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">What</h4>
+                            <p class="text-gray-600 leading-relaxed">Mock object representing D3 treemap node with bounding box coordinates (x0, x1, y0, y1) and data payload</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Why</h4>
+                            <p class="text-gray-600 leading-relaxed">Simulates D3 treemap layout output which includes rectangle coordinates; x0/x1 define horizontal bounds, y0/y1 define vertical bounds; data property contains file information; minimal mock includes only properties needed for testing</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">How</h4>
+                            <p class="text-gray-600 leading-relaxed">Object literal with coordinate properties defining rectangle bounds and nested data object with file identifiers</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Context</h4>
+                            <p class="text-gray-600 leading-relaxed">Represents treemap leaf node for file1 positioned at coordinates (0,0) to (100,100), containing file identification data</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Alternatives</h4>
+                            <p class="text-gray-600 leading-relaxed">Full D3 HierarchyNode implementation; class-based mock; using actual D3 to generate nodes; factory function for nodes</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Tags</h4>
+                            <div class="flex flex-wrap gap-2 mt-2">
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">testing</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">mock-data</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">object-literal</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">d3</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">treemap-data</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">coordinates</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- CONCEPT-018 -->
+                <div class="bg-white rounded-lg shadow-md overflow-hidden border border-gray-200">
+                    <!-- Concept Header -->
+                    <div class="bg-gradient-to-r from-gray-50 to-gray-100 px-6 py-4 border-b border-gray-200">
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <div class="text-xs font-mono text-gray-500 mb-1">CONCEPT-018</div>
+                                <h3 class="text-xl font-bold text-gray-900"></h3>
+                                <div class="text-sm text-blue-600 font-medium mt-1">Testing Patterns</div>
+                            </div>
+                            <span class="bg-green-100 text-green-800 px-3 py-1 rounded-full text-xs font-semibold">Beginner</span>
+                        </div>
+                    </div>
+
+                    <!-- Code Snippet with Syntax Highlighting -->
+                    <div class="px-6 py-4 bg-gray-900">
+                        <pre><code class="language-typescript">beforeEach(() =&gt; {
+    container = createMockContainer();
+    svg = d3.select(container).append(&quot;svg&quot;) as any;
+    renderer = new CouplingArcRenderer(svg);
+  });</code></pre>
+                    </div>
+
+                    <!-- Concept Details -->
+                    <div class="px-6 py-5 space-y-4">
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">What</h4>
+                            <p class="text-gray-600 leading-relaxed">Lifecycle hook that runs before each test case, initializing fresh test fixtures</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Why</h4>
+                            <p class="text-gray-600 leading-relaxed">Ensures test isolation - each test gets fresh fixtures; prevents test pollution where one test affects another; creates clean state for every test; allows tests to modify fixtures without affecting other tests; standard testing best practice</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">How</h4>
+                            <p class="text-gray-600 leading-relaxed">beforeEach() function accepts callback that runs before each &#x27;it&#x27; block; callback creates new container, SVG, and renderer instance; fixtures are reassigned to suite-level variables</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Context</h4>
+                            <p class="text-gray-600 leading-relaxed">Sets up test environment by creating DOM container, D3 SVG selection, and renderer instance before each test</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Alternatives</h4>
+                            <p class="text-gray-600 leading-relaxed">beforeAll for shared setup; inline setup in each test; factory functions; setup in describe block; using test framework&#x27;s fixture system</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Tags</h4>
+                            <div class="flex flex-wrap gap-2 mt-2">
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">testing</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">lifecycle-hooks</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">test-setup</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">beforeeach</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">test-isolation</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- CONCEPT-019 -->
+                <div class="bg-white rounded-lg shadow-md overflow-hidden border border-gray-200">
+                    <!-- Concept Header -->
+                    <div class="bg-gradient-to-r from-gray-50 to-gray-100 px-6 py-4 border-b border-gray-200">
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <div class="text-xs font-mono text-gray-500 mb-1">CONCEPT-019</div>
+                                <h3 class="text-xl font-bold text-gray-900"></h3>
+                                <div class="text-sm text-blue-600 font-medium mt-1">D3 Patterns</div>
+                            </div>
+                            <span class="bg-yellow-100 text-yellow-800 px-3 py-1 rounded-full text-xs font-semibold">Intermediate</span>
+                        </div>
+                    </div>
+
+                    <!-- Code Snippet with Syntax Highlighting -->
+                    <div class="px-6 py-4 bg-gray-900">
+                        <pre><code class="language-typescript">svg = d3.select(container).append(&quot;svg&quot;) as any;</code></pre>
+                    </div>
+
+                    <!-- Concept Details -->
+                    <div class="px-6 py-5 space-y-4">
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">What</h4>
+                            <p class="text-gray-600 leading-relaxed">D3 method chaining to select DOM element and append SVG child element</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Why</h4>
+                            <p class="text-gray-600 leading-relaxed">D3&#x27;s fluent API allows chaining operations; select() creates D3 selection of container; append() adds SVG element and returns selection of new element; creates SVG canvas for testing renderer; matches how SVG would be created in production</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">How</h4>
+                            <p class="text-gray-600 leading-relaxed">d3.select() takes DOM element or selector and returns D3 selection; append() creates new element and appends to selection; returns new selection of appended element; &#x27;as any&#x27; type assertion bypasses strict typing</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Context</h4>
+                            <p class="text-gray-600 leading-relaxed">Creates SVG element inside test container for renderer to draw arcs on, simulating production SVG structure</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Alternatives</h4>
+                            <p class="text-gray-600 leading-relaxed">document.createElementNS for SVG; innerHTML; using existing SVG; mocking D3 selection; using jsdom</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Tags</h4>
+                            <div class="flex flex-wrap gap-2 mt-2">
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">d3</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">dom-manipulation</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">method-chaining</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">svg</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">test-setup</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- CONCEPT-020 -->
+                <div class="bg-white rounded-lg shadow-md overflow-hidden border border-gray-200">
+                    <!-- Concept Header -->
+                    <div class="bg-gradient-to-r from-gray-50 to-gray-100 px-6 py-4 border-b border-gray-200">
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <div class="text-xs font-mono text-gray-500 mb-1">CONCEPT-020</div>
+                                <h3 class="text-xl font-bold text-gray-900"></h3>
+                                <div class="text-sm text-blue-600 font-medium mt-1">TypeScript/Object-Oriented Patterns</div>
+                            </div>
+                            <span class="bg-green-100 text-green-800 px-3 py-1 rounded-full text-xs font-semibold">Beginner</span>
+                        </div>
+                    </div>
+
+                    <!-- Code Snippet with Syntax Highlighting -->
+                    <div class="px-6 py-4 bg-gray-900">
+                        <pre><code class="language-typescript">renderer = new CouplingArcRenderer(svg);</code></pre>
+                    </div>
+
+                    <!-- Concept Details -->
+                    <div class="px-6 py-5 space-y-4">
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">What</h4>
+                            <p class="text-gray-600 leading-relaxed">Creates new instance of CouplingArcRenderer class using new keyword, passing SVG selection as constructor argument</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Why</h4>
+                            <p class="text-gray-600 leading-relaxed">Instantiates the class under test; new keyword invokes constructor; passing svg selection allows renderer to draw on test SVG; creates fresh instance for each test ensuring isolation</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">How</h4>
+                            <p class="text-gray-600 leading-relaxed">new keyword followed by class name and constructor arguments in parentheses; constructor receives svg parameter; returns new instance assigned to renderer variable</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Context</h4>
+                            <p class="text-gray-600 leading-relaxed">Creates renderer instance for testing, providing it with test SVG element to render arcs on</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Alternatives</h4>
+                            <p class="text-gray-600 leading-relaxed">Factory function; dependency injection; using mock/stub renderer; builder pattern</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Tags</h4>
+                            <div class="flex flex-wrap gap-2 mt-2">
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">typescript</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">class-instantiation</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">constructor</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">new-keyword</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">object-creation</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- CONCEPT-021 -->
+                <div class="bg-white rounded-lg shadow-md overflow-hidden border border-gray-200">
+                    <!-- Concept Header -->
+                    <div class="bg-gradient-to-r from-gray-50 to-gray-100 px-6 py-4 border-b border-gray-200">
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <div class="text-xs font-mono text-gray-500 mb-1">CONCEPT-021</div>
+                                <h3 class="text-xl font-bold text-gray-900"></h3>
+                                <div class="text-sm text-blue-600 font-medium mt-1">Testing Patterns</div>
+                            </div>
+                            <span class="bg-green-100 text-green-800 px-3 py-1 rounded-full text-xs font-semibold">Beginner</span>
+                        </div>
+                    </div>
+
+                    <!-- Code Snippet with Syntax Highlighting -->
+                    <div class="px-6 py-4 bg-gray-900">
+                        <pre><code class="language-typescript">afterEach(() =&gt; {
+    destroyMockContainer(container);
+  });</code></pre>
+                    </div>
+
+                    <!-- Concept Details -->
+                    <div class="px-6 py-5 space-y-4">
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">What</h4>
+                            <p class="text-gray-600 leading-relaxed">Lifecycle hook that runs after each test case, cleaning up test fixtures and resources</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Why</h4>
+                            <p class="text-gray-600 leading-relaxed">Prevents memory leaks by removing DOM elements; ensures clean state between tests; removes event listeners and references; prevents test pollution; good practice for DOM-heavy tests; keeps test environment clean</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">How</h4>
+                            <p class="text-gray-600 leading-relaxed">afterEach() function accepts callback that runs after each &#x27;it&#x27; block; callback calls cleanup function to remove container from DOM</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Context</h4>
+                            <p class="text-gray-600 leading-relaxed">Cleans up DOM container created in beforeEach, removing it from document to prevent memory leaks and test interference</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Alternatives</h4>
+                            <p class="text-gray-600 leading-relaxed">afterAll for suite-level cleanup; manual cleanup in each test; relying on test framework cleanup; no cleanup (risky)</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Tags</h4>
+                            <div class="flex flex-wrap gap-2 mt-2">
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">testing</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">lifecycle-hooks</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">test-cleanup</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">aftereach</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">memory-management</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- CONCEPT-022 -->
+                <div class="bg-white rounded-lg shadow-md overflow-hidden border border-gray-200">
+                    <!-- Concept Header -->
+                    <div class="bg-gradient-to-r from-gray-50 to-gray-100 px-6 py-4 border-b border-gray-200">
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <div class="text-xs font-mono text-gray-500 mb-1">CONCEPT-022</div>
+                                <h3 class="text-xl font-bold text-gray-900"></h3>
+                                <div class="text-sm text-blue-600 font-medium mt-1">Testing Patterns</div>
+                            </div>
+                            <span class="bg-green-100 text-green-800 px-3 py-1 rounded-full text-xs font-semibold">Beginner</span>
+                        </div>
+                    </div>
+
+                    <!-- Code Snippet with Syntax Highlighting -->
+                    <div class="px-6 py-4 bg-gray-900">
+                        <pre><code class="language-typescript">it(&quot;should initialize with a group element&quot;, () =&gt; { ... });</code></pre>
+                    </div>
+
+                    <!-- Concept Details -->
+                    <div class="px-6 py-5 space-y-4">
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">What</h4>
+                            <p class="text-gray-600 leading-relaxed">Declares individual test case using &#x27;it&#x27; function with descriptive string and test callback</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Why</h4>
+                            <p class="text-gray-600 leading-relaxed">Defines single test case with clear description; &#x27;should&#x27; convention makes test intent clear; callback contains test logic and assertions; provides test isolation; generates readable test output</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">How</h4>
+                            <p class="text-gray-600 leading-relaxed">it() function takes string description and callback function; description follows &#x27;should&#x27; convention; callback executes test logic; test framework runs callback and reports results</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Context</h4>
+                            <p class="text-gray-600 leading-relaxed">Tests that renderer initializes correctly by creating a group element for arcs</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Alternatives</h4>
+                            <p class="text-gray-600 leading-relaxed">test() function (alias); using &#x27;it.only&#x27; or &#x27;it.skip&#x27;; async test with async callback; parameterized tests</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Tags</h4>
+                            <div class="flex flex-wrap gap-2 mt-2">
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">testing</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">test-case</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">it-block</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">bdd-style</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">test-description</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- CONCEPT-023 -->
+                <div class="bg-white rounded-lg shadow-md overflow-hidden border border-gray-200">
+                    <!-- Concept Header -->
+                    <div class="bg-gradient-to-r from-gray-50 to-gray-100 px-6 py-4 border-b border-gray-200">
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <div class="text-xs font-mono text-gray-500 mb-1">CONCEPT-023</div>
+                                <h3 class="text-xl font-bold text-gray-900"></h3>
+                                <div class="text-sm text-blue-600 font-medium mt-1">Testing Patterns</div>
+                            </div>
+                            <span class="bg-green-100 text-green-800 px-3 py-1 rounded-full text-xs font-semibold">Beginner</span>
+                        </div>
+                    </div>
+
+                    <!-- Code Snippet with Syntax Highlighting -->
+                    <div class="px-6 py-4 bg-gray-900">
+                        <pre><code class="language-typescript">const group = container.querySelector(&quot;g.coupling-arcs&quot;);</code></pre>
+                    </div>
+
+                    <!-- Concept Details -->
+                    <div class="px-6 py-5 space-y-4">
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">What</h4>
+                            <p class="text-gray-600 leading-relaxed">Uses DOM querySelector method to find element matching CSS selector within test container</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Why</h4>
+                            <p class="text-gray-600 leading-relaxed">Verifies that renderer created expected DOM structure; querySelector allows CSS selector syntax; returns first matching element or null; standard DOM API for element selection; tests actual DOM output</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">How</h4>
+                            <p class="text-gray-600 leading-relaxed">querySelector() method on container element takes CSS selector string; returns matching element or null; CSS selector &#x27;g.coupling-arcs&#x27; finds &lt;g&gt; element with class &#x27;coupling-arcs&#x27;</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Context</h4>
+                            <p class="text-gray-600 leading-relaxed">Queries for group element that renderer should create for organizing arc paths</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Alternatives</h4>
+                            <p class="text-gray-600 leading-relaxed">querySelectorAll for multiple elements; getElementById; getElementsByClassName; using testing library queries; D3 selection</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Tags</h4>
+                            <div class="flex flex-wrap gap-2 mt-2">
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">testing</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">dom-query</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">queryselector</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">css-selector</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">dom-testing</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- CONCEPT-024 -->
+                <div class="bg-white rounded-lg shadow-md overflow-hidden border border-gray-200">
+                    <!-- Concept Header -->
+                    <div class="bg-gradient-to-r from-gray-50 to-gray-100 px-6 py-4 border-b border-gray-200">
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <div class="text-xs font-mono text-gray-500 mb-1">CONCEPT-024</div>
+                                <h3 class="text-xl font-bold text-gray-900"></h3>
+                                <div class="text-sm text-blue-600 font-medium mt-1">CSS/Selectors</div>
+                            </div>
+                            <span class="bg-green-100 text-green-800 px-3 py-1 rounded-full text-xs font-semibold">Beginner</span>
+                        </div>
+                    </div>
+
+                    <!-- Code Snippet with Syntax Highlighting -->
+                    <div class="px-6 py-4 bg-gray-900">
+                        <pre><code class="language-typescript">&quot;g.coupling-arcs&quot;</code></pre>
+                    </div>
+
+                    <!-- Concept Details -->
+                    <div class="px-6 py-5 space-y-4">
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">What</h4>
+                            <p class="text-gray-600 leading-relaxed">CSS selector combining element type (g) with class name (.coupling-arcs) to match specific SVG group element</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Why</h4>
+                            <p class="text-gray-600 leading-relaxed">Precise selector targets specific element type with specific class; &#x27;g&#x27; ensures it&#x27;s an SVG group element; &#x27;.coupling-arcs&#x27; ensures it has the right class; prevents false matches with other elements</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">How</h4>
+                            <p class="text-gray-600 leading-relaxed">Element name followed by dot and class name; matches elements of that type with that class; standard CSS selector syntax</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Context</h4>
+                            <p class="text-gray-600 leading-relaxed">Selects SVG group element with class &#x27;coupling-arcs&#x27; that renderer creates for organizing arc paths</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Alternatives</h4>
+                            <p class="text-gray-600 leading-relaxed">Class-only selector &#x27;.coupling-arcs&#x27;; ID selector; attribute selector; descendant selector; using data attributes</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Tags</h4>
+                            <div class="flex flex-wrap gap-2 mt-2">
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">css</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">selector</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">class-selector</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">element-selector</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">svg</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- CONCEPT-025 -->
+                <div class="bg-white rounded-lg shadow-md overflow-hidden border border-gray-200">
+                    <!-- Concept Header -->
+                    <div class="bg-gradient-to-r from-gray-50 to-gray-100 px-6 py-4 border-b border-gray-200">
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <div class="text-xs font-mono text-gray-500 mb-1">CONCEPT-025</div>
+                                <h3 class="text-xl font-bold text-gray-900"></h3>
+                                <div class="text-sm text-blue-600 font-medium mt-1">Testing Patterns</div>
+                            </div>
+                            <span class="bg-green-100 text-green-800 px-3 py-1 rounded-full text-xs font-semibold">Beginner</span>
+                        </div>
+                    </div>
+
+                    <!-- Code Snippet with Syntax Highlighting -->
+                    <div class="px-6 py-4 bg-gray-900">
+                        <pre><code class="language-typescript">expect(group).not.toBeNull();</code></pre>
+                    </div>
+
+                    <!-- Concept Details -->
+                    <div class="px-6 py-5 space-y-4">
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">What</h4>
+                            <p class="text-gray-600 leading-relaxed">Assertion that verifies element exists by checking it&#x27;s not null, using negated matcher</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Why</h4>
+                            <p class="text-gray-600 leading-relaxed">Verifies renderer created expected DOM element; not.toBeNull() checks element was found; clearer than checking truthiness; provides good error messages; standard pattern for existence checks</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">How</h4>
+                            <p class="text-gray-600 leading-relaxed">expect() wraps value to assert; .not negates the matcher; .toBeNull() checks for null value; assertion fails if group is null</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Context</h4>
+                            <p class="text-gray-600 leading-relaxed">Verifies that renderer initialization created the coupling-arcs group element in the DOM</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Alternatives</h4>
+                            <p class="text-gray-600 leading-relaxed">toBeTruthy(); toBeDefined(); checking length; using testing library assertions; custom matchers</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Tags</h4>
+                            <div class="flex flex-wrap gap-2 mt-2">
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">testing</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">assertion</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">expect</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">matcher</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">negation</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- CONCEPT-026 -->
+                <div class="bg-white rounded-lg shadow-md overflow-hidden border border-gray-200">
+                    <!-- Concept Header -->
+                    <div class="bg-gradient-to-r from-gray-50 to-gray-100 px-6 py-4 border-b border-gray-200">
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <div class="text-xs font-mono text-gray-500 mb-1">CONCEPT-026</div>
+                                <h3 class="text-xl font-bold text-gray-900"></h3>
+                                <div class="text-sm text-blue-600 font-medium mt-1">JavaScript/ES6 Syntax</div>
+                            </div>
+                            <span class="bg-green-100 text-green-800 px-3 py-1 rounded-full text-xs font-semibold">Beginner</span>
+                        </div>
+                    </div>
+
+                    <!-- Code Snippet with Syntax Highlighting -->
+                    <div class="px-6 py-4 bg-gray-900">
+                        <pre><code class="language-typescript">renderer.render(&quot;file1&quot;, mockLeaves, mockCouplingIndex, 0.5);</code></pre>
+                    </div>
+
+                    <!-- Concept Details -->
+                    <div class="px-6 py-5 space-y-4">
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">What</h4>
+                            <p class="text-gray-600 leading-relaxed">Calls render method on renderer instance with four arguments: file ID, leaves array, coupling index, and threshold</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Why</h4>
+                            <p class="text-gray-600 leading-relaxed">Tests renderer&#x27;s main functionality; passes all required parameters for rendering; threshold of 0.5 tests filtering behavior; uses mock data to control test conditions</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">How</h4>
+                            <p class="text-gray-600 leading-relaxed">Method called with dot notation on instance; arguments passed in order: string, array, object, number; method executes rendering logic with these parameters</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Context</h4>
+                            <p class="text-gray-600 leading-relaxed">Renders coupling arcs for file1 with 0.5 threshold, expecting only strong coupling (0.9) to be rendered</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Alternatives</h4>
+                            <p class="text-gray-600 leading-relaxed">Options object parameter; builder pattern; separate method calls; default parameters</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Tags</h4>
+                            <div class="flex flex-wrap gap-2 mt-2">
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">javascript</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">method-call</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">function-arguments</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">testing</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- CONCEPT-027 -->
+                <div class="bg-white rounded-lg shadow-md overflow-hidden border border-gray-200">
+                    <!-- Concept Header -->
+                    <div class="bg-gradient-to-r from-gray-50 to-gray-100 px-6 py-4 border-b border-gray-200">
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <div class="text-xs font-mono text-gray-500 mb-1">CONCEPT-027</div>
+                                <h3 class="text-xl font-bold text-gray-900"></h3>
+                                <div class="text-sm text-blue-600 font-medium mt-1">Testing Patterns</div>
+                            </div>
+                            <span class="bg-green-100 text-green-800 px-3 py-1 rounded-full text-xs font-semibold">Beginner</span>
+                        </div>
+                    </div>
+
+                    <!-- Code Snippet with Syntax Highlighting -->
+                    <div class="px-6 py-4 bg-gray-900">
+                        <pre><code class="language-typescript">const paths = container.querySelectorAll(&quot;path&quot;);</code></pre>
+                    </div>
+
+                    <!-- Concept Details -->
+                    <div class="px-6 py-5 space-y-4">
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">What</h4>
+                            <p class="text-gray-600 leading-relaxed">Uses querySelectorAll to find all path elements within container, returning NodeList</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Why</h4>
+                            <p class="text-gray-600 leading-relaxed">Tests that correct number of arcs were rendered; querySelectorAll returns all matches, not just first; NodeList has length property for counting; allows verification of multiple rendered elements</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">How</h4>
+                            <p class="text-gray-600 leading-relaxed">querySelectorAll() method returns NodeList of all matching elements; &#x27;path&#x27; selector matches all SVG path elements; NodeList is array-like with length and indexing</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Context</h4>
+                            <p class="text-gray-600 leading-relaxed">Queries for all path elements (arcs) rendered by the renderer to verify correct number were created</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Alternatives</h4>
+                            <p class="text-gray-600 leading-relaxed">querySelector with iteration; getElementsByTagName; D3 selectAll; testing library queries; counting children</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Tags</h4>
+                            <div class="flex flex-wrap gap-2 mt-2">
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">testing</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">dom-query</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">queryselectorall</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">nodelist</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">multiple-elements</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- CONCEPT-028 -->
+                <div class="bg-white rounded-lg shadow-md overflow-hidden border border-gray-200">
+                    <!-- Concept Header -->
+                    <div class="bg-gradient-to-r from-gray-50 to-gray-100 px-6 py-4 border-b border-gray-200">
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <div class="text-xs font-mono text-gray-500 mb-1">CONCEPT-028</div>
+                                <h3 class="text-xl font-bold text-gray-900"></h3>
+                                <div class="text-sm text-blue-600 font-medium mt-1">Code Organization</div>
+                            </div>
+                            <span class="bg-green-100 text-green-800 px-3 py-1 rounded-full text-xs font-semibold">Beginner</span>
+                        </div>
+                    </div>
+
+                    <!-- Code Snippet with Syntax Highlighting -->
+                    <div class="px-6 py-4 bg-gray-900">
+                        <pre><code class="language-typescript">// Should only draw arc to file2 (0.9), file3 (0.2) is below threshold</code></pre>
+                    </div>
+
+                    <!-- Concept Details -->
+                    <div class="px-6 py-5 space-y-4">
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">What</h4>
+                            <p class="text-gray-600 leading-relaxed">Explanatory comment describing expected test behavior and reasoning</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Why</h4>
+                            <p class="text-gray-600 leading-relaxed">Documents why test expects specific result; explains threshold filtering logic; helps maintainers understand test intent; clarifies which data should pass/fail threshold; makes test self-documenting</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">How</h4>
+                            <p class="text-gray-600 leading-relaxed">Single-line comment using // syntax placed before assertion; explains expected outcome and reasoning</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Context</h4>
+                            <p class="text-gray-600 leading-relaxed">Explains that with 0.5 threshold, only file2 edge (0.9 strength) should render, not file3 edge (0.2 strength)</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Alternatives</h4>
+                            <p class="text-gray-600 leading-relaxed">Test description string; separate documentation; no comment; assertion message; JSDoc comment</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Tags</h4>
+                            <div class="flex flex-wrap gap-2 mt-2">
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">comments</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">test-documentation</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">inline-comment</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">test-intent</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- CONCEPT-029 -->
+                <div class="bg-white rounded-lg shadow-md overflow-hidden border border-gray-200">
+                    <!-- Concept Header -->
+                    <div class="bg-gradient-to-r from-gray-50 to-gray-100 px-6 py-4 border-b border-gray-200">
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <div class="text-xs font-mono text-gray-500 mb-1">CONCEPT-029</div>
+                                <h3 class="text-xl font-bold text-gray-900"></h3>
+                                <div class="text-sm text-blue-600 font-medium mt-1">Testing Patterns</div>
+                            </div>
+                            <span class="bg-green-100 text-green-800 px-3 py-1 rounded-full text-xs font-semibold">Beginner</span>
+                        </div>
+                    </div>
+
+                    <!-- Code Snippet with Syntax Highlighting -->
+                    <div class="px-6 py-4 bg-gray-900">
+                        <pre><code class="language-typescript">expect(paths.length).toBe(1);</code></pre>
+                    </div>
+
+                    <!-- Concept Details -->
+                    <div class="px-6 py-5 space-y-4">
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">What</h4>
+                            <p class="text-gray-600 leading-relaxed">Asserts that NodeList length equals expected value, verifying correct number of elements</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Why</h4>
+                            <p class="text-gray-600 leading-relaxed">Verifies exact number of arcs rendered; length property works on NodeList; toBe() checks exact equality; simple way to verify rendering count; catches over-rendering or under-rendering</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">How</h4>
+                            <p class="text-gray-600 leading-relaxed">Access length property of NodeList; expect() wraps the value; toBe() matcher checks exact equality with expected value</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Context</h4>
+                            <p class="text-gray-600 leading-relaxed">Verifies that exactly one arc was rendered (file1 to file2), confirming threshold filtering worked correctly</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Alternatives</h4>
+                            <p class="text-gray-600 leading-relaxed">toHaveLength() matcher; checking array directly; counting manually; using custom matcher</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Tags</h4>
+                            <div class="flex flex-wrap gap-2 mt-2">
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">testing</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">assertion</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">length-check</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">exact-equality</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- CONCEPT-030 -->
+                <div class="bg-white rounded-lg shadow-md overflow-hidden border border-gray-200">
+                    <!-- Concept Header -->
+                    <div class="bg-gradient-to-r from-gray-50 to-gray-100 px-6 py-4 border-b border-gray-200">
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <div class="text-xs font-mono text-gray-500 mb-1">CONCEPT-030</div>
+                                <h3 class="text-xl font-bold text-gray-900"></h3>
+                                <div class="text-sm text-blue-600 font-medium mt-1">JavaScript/ES6 Syntax</div>
+                            </div>
+                            <span class="bg-green-100 text-green-800 px-3 py-1 rounded-full text-xs font-semibold">Beginner</span>
+                        </div>
+                    </div>
+
+                    <!-- Code Snippet with Syntax Highlighting -->
+                    <div class="px-6 py-4 bg-gray-900">
+                        <pre><code class="language-typescript">const path = paths[0];</code></pre>
+                    </div>
+
+                    <!-- Concept Details -->
+                    <div class="px-6 py-5 space-y-4">
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">What</h4>
+                            <p class="text-gray-600 leading-relaxed">Accesses first element of NodeList using bracket notation with zero-based index</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Why</h4>
+                            <p class="text-gray-600 leading-relaxed">Retrieves specific element for detailed inspection; zero-based indexing is JavaScript standard; NodeList supports array-like indexing; allows testing individual element properties</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">How</h4>
+                            <p class="text-gray-600 leading-relaxed">Square brackets with numeric index access element at that position; index 0 gets first element; NodeList implements indexed access like arrays</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Context</h4>
+                            <p class="text-gray-600 leading-relaxed">Gets first (and only) rendered path element to verify its stroke width property</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Alternatives</h4>
+                            <p class="text-gray-600 leading-relaxed">item() method; destructuring; converting to array; using for...of loop</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Tags</h4>
+                            <div class="flex flex-wrap gap-2 mt-2">
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">javascript</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">array-indexing</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">nodelist</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">element-access</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- CONCEPT-031 -->
+                <div class="bg-white rounded-lg shadow-md overflow-hidden border border-gray-200">
+                    <!-- Concept Header -->
+                    <div class="bg-gradient-to-r from-gray-50 to-gray-100 px-6 py-4 border-b border-gray-200">
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <div class="text-xs font-mono text-gray-500 mb-1">CONCEPT-031</div>
+                                <h3 class="text-xl font-bold text-gray-900"></h3>
+                                <div class="text-sm text-blue-600 font-medium mt-1">Testing Patterns</div>
+                            </div>
+                            <span class="bg-yellow-100 text-yellow-800 px-3 py-1 rounded-full text-xs font-semibold">Intermediate</span>
+                        </div>
+                    </div>
+
+                    <!-- Code Snippet with Syntax Highlighting -->
+                    <div class="px-6 py-4 bg-gray-900">
+                        <pre><code class="language-typescript">const strokeWidth = parseFloat(path.getAttribute(&quot;stroke-width&quot;) || &quot;0&quot;);</code></pre>
+                    </div>
+
+                    <!-- Concept Details -->
+                    <div class="px-6 py-5 space-y-4">
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">What</h4>
+                            <p class="text-gray-600 leading-relaxed">Retrieves stroke-width attribute value from SVG path element, with fallback to &quot;0&quot; if attribute doesn&#x27;t exist</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Why</h4>
+                            <p class="text-gray-600 leading-relaxed">Tests that renderer sets correct stroke width based on coupling strength; getAttribute() returns string or null; nullish coalescing provides safe default; parseFloat converts string to number for comparison</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">How</h4>
+                            <p class="text-gray-600 leading-relaxed">getAttribute() method returns attribute value as string or null; || operator provides fallback value; parseFloat() converts string to floating-point number</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Context</h4>
+                            <p class="text-gray-600 leading-relaxed">Extracts stroke-width attribute to verify renderer calculated correct width based on coupling strength formula</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Alternatives</h4>
+                            <p class="text-gray-600 leading-relaxed">Direct property access; using dataset; computed styles; testing library queries; getAttribute with null check</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Tags</h4>
+                            <div class="flex flex-wrap gap-2 mt-2">
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">testing</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">dom-inspection</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">getattribute</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">svg-attributes</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">type-conversion</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- CONCEPT-032 -->
+                <div class="bg-white rounded-lg shadow-md overflow-hidden border border-gray-200">
+                    <!-- Concept Header -->
+                    <div class="bg-gradient-to-r from-gray-50 to-gray-100 px-6 py-4 border-b border-gray-200">
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <div class="text-xs font-mono text-gray-500 mb-1">CONCEPT-032</div>
+                                <h3 class="text-xl font-bold text-gray-900"></h3>
+                                <div class="text-sm text-blue-600 font-medium mt-1">JavaScript/ES6 Syntax</div>
+                            </div>
+                            <span class="bg-yellow-100 text-yellow-800 px-3 py-1 rounded-full text-xs font-semibold">Intermediate</span>
+                        </div>
+                    </div>
+
+                    <!-- Code Snippet with Syntax Highlighting -->
+                    <div class="px-6 py-4 bg-gray-900">
+                        <pre><code class="language-typescript">path.getAttribute(&quot;stroke-width&quot;) || &quot;0&quot;</code></pre>
+                    </div>
+
+                    <!-- Concept Details -->
+                    <div class="px-6 py-5 space-y-4">
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">What</h4>
+                            <p class="text-gray-600 leading-relaxed">Uses logical OR operator to provide default value when getAttribute returns null</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Why</h4>
+                            <p class="text-gray-600 leading-relaxed">getAttribute returns null if attribute doesn&#x27;t exist; null is falsy so || provides fallback; prevents parseFloat(null) which returns NaN; ensures numeric conversion always has valid input; defensive programming</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">How</h4>
+                            <p class="text-gray-600 leading-relaxed">Logical OR evaluates left operand; if falsy (null, undefined, &quot;&quot;, 0, false), returns right operand; if truthy, returns left operand</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Context</h4>
+                            <p class="text-gray-600 leading-relaxed">Provides &quot;0&quot; default if stroke-width attribute is missing, ensuring parseFloat always gets a valid string</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Alternatives</h4>
+                            <p class="text-gray-600 leading-relaxed">Nullish coalescing operator (??); ternary operator; if statement; optional chaining with default</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Tags</h4>
+                            <div class="flex flex-wrap gap-2 mt-2">
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">javascript</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">logical-or</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">default-value</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">null-handling</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">defensive-programming</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- CONCEPT-033 -->
+                <div class="bg-white rounded-lg shadow-md overflow-hidden border border-gray-200">
+                    <!-- Concept Header -->
+                    <div class="bg-gradient-to-r from-gray-50 to-gray-100 px-6 py-4 border-b border-gray-200">
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <div class="text-xs font-mono text-gray-500 mb-1">CONCEPT-033</div>
+                                <h3 class="text-xl font-bold text-gray-900"></h3>
+                                <div class="text-sm text-blue-600 font-medium mt-1">JavaScript/ES6 Syntax</div>
+                            </div>
+                            <span class="bg-green-100 text-green-800 px-3 py-1 rounded-full text-xs font-semibold">Beginner</span>
+                        </div>
+                    </div>
+
+                    <!-- Code Snippet with Syntax Highlighting -->
+                    <div class="px-6 py-4 bg-gray-900">
+                        <pre><code class="language-typescript">parseFloat(path.getAttribute(&quot;stroke-width&quot;) || &quot;0&quot;)</code></pre>
+                    </div>
+
+                    <!-- Concept Details -->
+                    <div class="px-6 py-5 space-y-4">
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">What</h4>
+                            <p class="text-gray-600 leading-relaxed">Converts string attribute value to floating-point number for numeric comparison</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Why</h4>
+                            <p class="text-gray-600 leading-relaxed">getAttribute returns strings; numeric comparison requires numbers; parseFloat handles decimal values; allows using toBeCloseTo() matcher for floating-point comparison; necessary for testing calculated values</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">How</h4>
+                            <p class="text-gray-600 leading-relaxed">parseFloat() global function parses string and returns floating-point number; stops at first non-numeric character; returns NaN if string doesn&#x27;t start with number</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Context</h4>
+                            <p class="text-gray-600 leading-relaxed">Converts stroke-width string to number so it can be compared with expected calculated value</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Alternatives</h4>
+                            <p class="text-gray-600 leading-relaxed">Number() constructor; unary plus operator; parseInt for integers; using string comparison</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Tags</h4>
+                            <div class="flex flex-wrap gap-2 mt-2">
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">javascript</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">type-conversion</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">parsefloat</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">string-to-number</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">numeric-parsing</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- CONCEPT-034 -->
+                <div class="bg-white rounded-lg shadow-md overflow-hidden border border-gray-200">
+                    <!-- Concept Header -->
+                    <div class="bg-gradient-to-r from-gray-50 to-gray-100 px-6 py-4 border-b border-gray-200">
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <div class="text-xs font-mono text-gray-500 mb-1">CONCEPT-034</div>
+                                <h3 class="text-xl font-bold text-gray-900"></h3>
+                                <div class="text-sm text-blue-600 font-medium mt-1">Code Organization</div>
+                            </div>
+                            <span class="bg-green-100 text-green-800 px-3 py-1 rounded-full text-xs font-semibold">Beginner</span>
+                        </div>
+                    </div>
+
+                    <!-- Code Snippet with Syntax Highlighting -->
+                    <div class="px-6 py-4 bg-gray-900">
+                        <pre><code class="language-typescript">// Formula: 1 + strength * 3 -&gt; 1 + 0.9 * 3 = 3.7</code></pre>
+                    </div>
+
+                    <!-- Concept Details -->
+                    <div class="px-6 py-5 space-y-4">
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">What</h4>
+                            <p class="text-gray-600 leading-relaxed">Documents the formula used to calculate stroke width and shows example calculation</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Why</h4>
+                            <p class="text-gray-600 leading-relaxed">Explains how expected value was calculated; documents renderer&#x27;s formula; helps maintainers understand test logic; shows concrete example with test data; makes test verifiable</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">How</h4>
+                            <p class="text-gray-600 leading-relaxed">Single-line comment showing formula, then arrow showing calculation with actual values, then equals sign with result</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Context</h4>
+                            <p class="text-gray-600 leading-relaxed">Documents that stroke width is calculated as 1 + (coupling strength * 3), showing calculation for 0.9 strength yields 3.7</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Alternatives</h4>
+                            <p class="text-gray-600 leading-relaxed">Separate documentation; constant for formula; helper function; no comment; test description</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Tags</h4>
+                            <div class="flex flex-wrap gap-2 mt-2">
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">comments</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">documentation</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">formula</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">calculation</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">test-documentation</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- CONCEPT-035 -->
+                <div class="bg-white rounded-lg shadow-md overflow-hidden border border-gray-200">
+                    <!-- Concept Header -->
+                    <div class="bg-gradient-to-r from-gray-50 to-gray-100 px-6 py-4 border-b border-gray-200">
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <div class="text-xs font-mono text-gray-500 mb-1">CONCEPT-035</div>
+                                <h3 class="text-xl font-bold text-gray-900"></h3>
+                                <div class="text-sm text-blue-600 font-medium mt-1">Testing Patterns</div>
+                            </div>
+                            <span class="bg-yellow-100 text-yellow-800 px-3 py-1 rounded-full text-xs font-semibold">Intermediate</span>
+                        </div>
+                    </div>
+
+                    <!-- Code Snippet with Syntax Highlighting -->
+                    <div class="px-6 py-4 bg-gray-900">
+                        <pre><code class="language-typescript">expect(strokeWidth).toBeCloseTo(3.7);</code></pre>
+                    </div>
+
+                    <!-- Concept Details -->
+                    <div class="px-6 py-5 space-y-4">
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">What</h4>
+                            <p class="text-gray-600 leading-relaxed">Assertion matcher that checks if floating-point number is approximately equal to expected value, accounting for precision issues</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Why</h4>
+                            <p class="text-gray-600 leading-relaxed">Floating-point arithmetic has precision issues; exact equality (toBe) can fail due to rounding; toBeCloseTo() allows small differences; default precision is 2 decimal places; standard practice for float comparison</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">How</h4>
+                            <p class="text-gray-600 leading-relaxed">toBeCloseTo() matcher compares numbers with tolerance; default checks if difference is less than 0.005; can specify precision as second argument; handles floating-point precision issues</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Context</h4>
+                            <p class="text-gray-600 leading-relaxed">Verifies stroke width is approximately 3.7, allowing for floating-point precision differences in calculation</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Alternatives</h4>
+                            <p class="text-gray-600 leading-relaxed">toBe() with rounding; custom tolerance check; toBeGreaterThan/toBeLessThan range; exact integer comparison</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Tags</h4>
+                            <div class="flex flex-wrap gap-2 mt-2">
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">testing</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">assertion</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">floating-point</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">approximate-equality</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">precision</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- CONCEPT-036 -->
+                <div class="bg-white rounded-lg shadow-md overflow-hidden border border-gray-200">
+                    <!-- Concept Header -->
+                    <div class="bg-gradient-to-r from-gray-50 to-gray-100 px-6 py-4 border-b border-gray-200">
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <div class="text-xs font-mono text-gray-500 mb-1">CONCEPT-036</div>
+                                <h3 class="text-xl font-bold text-gray-900"></h3>
+                                <div class="text-sm text-blue-600 font-medium mt-1">Testing Patterns</div>
+                            </div>
+                            <span class="bg-yellow-100 text-yellow-800 px-3 py-1 rounded-full text-xs font-semibold">Intermediate</span>
+                        </div>
+                    </div>
+
+                    <!-- Code Snippet with Syntax Highlighting -->
+                    <div class="px-6 py-4 bg-gray-900">
+                        <pre><code class="language-typescript">it(&quot;should render multiple arcs if multiple partners qualify&quot;, () =&gt; {
+    renderer.render(&quot;file1&quot;, mockLeaves, mockCouplingIndex, 0.1);
+    const paths = container.querySelectorAll(&quot;path&quot;);
+    expect(paths.length).toBe(2);
+  });</code></pre>
+                    </div>
+
+                    <!-- Concept Details -->
+                    <div class="px-6 py-5 space-y-4">
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">What</h4>
+                            <p class="text-gray-600 leading-relaxed">Test case verifying that lowering threshold allows more arcs to render</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Why</h4>
+                            <p class="text-gray-600 leading-relaxed">Tests threshold filtering with different value; verifies both edges render with low threshold (0.1); ensures renderer correctly filters based on threshold parameter; tests boundary conditions</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">How</h4>
+                            <p class="text-gray-600 leading-relaxed">Calls render with 0.1 threshold; both edges (0.9 and 0.2) exceed threshold; queries for paths; asserts two paths were created</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Context</h4>
+                            <p class="text-gray-600 leading-relaxed">Tests that with 0.1 threshold, both file2 (0.9) and file3 (0.2) edges render, verifying threshold filtering logic</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Alternatives</h4>
+                            <p class="text-gray-600 leading-relaxed">Parameterized test; test.each with multiple thresholds; separate tests for each threshold; testing edge cases</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Tags</h4>
+                            <div class="flex flex-wrap gap-2 mt-2">
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">testing</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">test-case</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">threshold-testing</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">filtering</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">boundary-testing</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- CONCEPT-037 -->
+                <div class="bg-white rounded-lg shadow-md overflow-hidden border border-gray-200">
+                    <!-- Concept Header -->
+                    <div class="bg-gradient-to-r from-gray-50 to-gray-100 px-6 py-4 border-b border-gray-200">
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <div class="text-xs font-mono text-gray-500 mb-1">CONCEPT-037</div>
+                                <h3 class="text-xl font-bold text-gray-900"></h3>
+                                <div class="text-sm text-blue-600 font-medium mt-1">Testing Patterns</div>
+                            </div>
+                            <span class="bg-yellow-100 text-yellow-800 px-3 py-1 rounded-full text-xs font-semibold">Intermediate</span>
+                        </div>
+                    </div>
+
+                    <!-- Code Snippet with Syntax Highlighting -->
+                    <div class="px-6 py-4 bg-gray-900">
+                        <pre><code class="language-typescript">it(&quot;should clear arcs when clear() is called&quot;, () =&gt; {
+    renderer.render(&quot;file1&quot;, mockLeaves, mockCouplingIndex, 0.1);
+    expect(container.querySelectorAll(&quot;path&quot;).length).toBe(2);
+
+    renderer.clear();
+    expect(container.querySelectorAll(&quot;path&quot;).length).toBe(0);
+  });</code></pre>
+                    </div>
+
+                    <!-- Concept Details -->
+                    <div class="px-6 py-5 space-y-4">
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">What</h4>
+                            <p class="text-gray-600 leading-relaxed">Test case verifying cleanup method removes rendered elements</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Why</h4>
+                            <p class="text-gray-600 leading-relaxed">Tests that clear() method properly removes arcs; verifies cleanup functionality; ensures no leftover elements; tests state management; important for preventing memory leaks and visual artifacts</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">How</h4>
+                            <p class="text-gray-600 leading-relaxed">First renders arcs and verifies they exist; then calls clear() method; finally verifies all paths are removed</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Context</h4>
+                            <p class="text-gray-600 leading-relaxed">Tests renderer&#x27;s clear() method by rendering arcs, verifying they exist, clearing them, and verifying they&#x27;re gone</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Alternatives</h4>
+                            <p class="text-gray-600 leading-relaxed">Testing clear before render; testing multiple clear calls; testing clear with no elements; testing partial clear</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Tags</h4>
+                            <div class="flex flex-wrap gap-2 mt-2">
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">testing</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">test-case</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">cleanup-testing</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">state-management</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">before-after-pattern</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- CONCEPT-038 -->
+                <div class="bg-white rounded-lg shadow-md overflow-hidden border border-gray-200">
+                    <!-- Concept Header -->
+                    <div class="bg-gradient-to-r from-gray-50 to-gray-100 px-6 py-4 border-b border-gray-200">
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <div class="text-xs font-mono text-gray-500 mb-1">CONCEPT-038</div>
+                                <h3 class="text-xl font-bold text-gray-900"></h3>
+                                <div class="text-sm text-blue-600 font-medium mt-1">Testing Patterns</div>
+                            </div>
+                            <span class="bg-green-100 text-green-800 px-3 py-1 rounded-full text-xs font-semibold">Beginner</span>
+                        </div>
+                    </div>
+
+                    <!-- Code Snippet with Syntax Highlighting -->
+                    <div class="px-6 py-4 bg-gray-900">
+                        <pre><code class="language-typescript">expect(container.querySelectorAll(&quot;path&quot;).length).toBe(2);</code></pre>
+                    </div>
+
+                    <!-- Concept Details -->
+                    <div class="px-6 py-5 space-y-4">
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">What</h4>
+                            <p class="text-gray-600 leading-relaxed">Assertion that chains query, property access, and expectation in single expression</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Why</h4>
+                            <p class="text-gray-600 leading-relaxed">Concise syntax for simple checks; no need for intermediate variable; clear and readable for straightforward assertions; reduces test code verbosity</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">How</h4>
+                            <p class="text-gray-600 leading-relaxed">Chains querySelectorAll(), .length property access, and expect() in one statement; toBe() matcher checks exact value</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Context</h4>
+                            <p class="text-gray-600 leading-relaxed">Verifies two paths exist without storing NodeList in variable, used for quick verification before clear() call</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Alternatives</h4>
+                            <p class="text-gray-600 leading-relaxed">Storing in variable first; separate query and assertion; using custom matcher; helper function</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Tags</h4>
+                            <div class="flex flex-wrap gap-2 mt-2">
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">testing</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">assertion</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">inline-pattern</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">method-chaining</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">concise-syntax</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- CONCEPT-039 -->
+                <div class="bg-white rounded-lg shadow-md overflow-hidden border border-gray-200">
+                    <!-- Concept Header -->
+                    <div class="bg-gradient-to-r from-gray-50 to-gray-100 px-6 py-4 border-b border-gray-200">
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <div class="text-xs font-mono text-gray-500 mb-1">CONCEPT-039</div>
+                                <h3 class="text-xl font-bold text-gray-900"></h3>
+                                <div class="text-sm text-blue-600 font-medium mt-1">Testing Patterns</div>
+                            </div>
+                            <span class="bg-yellow-100 text-yellow-800 px-3 py-1 rounded-full text-xs font-semibold">Intermediate</span>
+                        </div>
+                    </div>
+
+                    <!-- Code Snippet with Syntax Highlighting -->
+                    <div class="px-6 py-4 bg-gray-900">
+                        <pre><code class="language-typescript">it(&quot;should handle missing source or target nodes gracefully&quot;, () =&gt; {
+    // file4 does not exist in leaves
+    renderer.render(&quot;file4&quot;, mockLeaves, mockCouplingIndex, 0.1);
+    expect(container.querySelectorAll(&quot;path&quot;).length).toBe(0);
+  });</code></pre>
+                    </div>
+
+                    <!-- Concept Details -->
+                    <div class="px-6 py-5 space-y-4">
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">What</h4>
+                            <p class="text-gray-600 leading-relaxed">Test case verifying graceful handling of invalid input (non-existent file)</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Why</h4>
+                            <p class="text-gray-600 leading-relaxed">Tests error handling and edge cases; verifies renderer doesn&#x27;t crash with invalid input; ensures no arcs rendered for non-existent files; tests defensive programming; important for robustness</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">How</h4>
+                            <p class="text-gray-600 leading-relaxed">Calls render with file ID that doesn&#x27;t exist in mockLeaves; verifies no paths are created; tests that renderer handles missing data gracefully</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Context</h4>
+                            <p class="text-gray-600 leading-relaxed">Tests that rendering for non-existent file4 produces no arcs, verifying renderer handles missing nodes without errors</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Alternatives</h4>
+                            <p class="text-gray-600 leading-relaxed">Testing with null; testing with undefined; testing with empty string; expecting error to be thrown; using try-catch</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Tags</h4>
+                            <div class="flex flex-wrap gap-2 mt-2">
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">testing</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">error-handling</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">edge-case</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">defensive-programming</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">graceful-degradation</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- CONCEPT-040 -->
+                <div class="bg-white rounded-lg shadow-md overflow-hidden border border-gray-200">
+                    <!-- Concept Header -->
+                    <div class="bg-gradient-to-r from-gray-50 to-gray-100 px-6 py-4 border-b border-gray-200">
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <div class="text-xs font-mono text-gray-500 mb-1">CONCEPT-040</div>
+                                <h3 class="text-xl font-bold text-gray-900"></h3>
+                                <div class="text-sm text-blue-600 font-medium mt-1">Code Organization</div>
+                            </div>
+                            <span class="bg-green-100 text-green-800 px-3 py-1 rounded-full text-xs font-semibold">Beginner</span>
+                        </div>
+                    </div>
+
+                    <!-- Code Snippet with Syntax Highlighting -->
+                    <div class="px-6 py-4 bg-gray-900">
+                        <pre><code class="language-typescript">// file4 does not exist in leaves</code></pre>
+                    </div>
+
+                    <!-- Concept Details -->
+                    <div class="px-6 py-5 space-y-4">
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">What</h4>
+                            <p class="text-gray-600 leading-relaxed">Comment explaining why test input is invalid and what makes it an edge case</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Why</h4>
+                            <p class="text-gray-600 leading-relaxed">Clarifies test intent; explains why file4 is used; documents that this is intentionally invalid input; helps maintainers understand edge case being tested</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">How</h4>
+                            <p class="text-gray-600 leading-relaxed">Single-line comment placed before render call; explains the key fact about test data</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Context</h4>
+                            <p class="text-gray-600 leading-relaxed">Documents that file4 is intentionally not in mockLeaves array, making this an error case test</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Alternatives</h4>
+                            <p class="text-gray-600 leading-relaxed">Test description; no comment; longer explanation; JSDoc comment</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Tags</h4>
+                            <div class="flex flex-wrap gap-2 mt-2">
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">comments</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">test-documentation</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">edge-case-documentation</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">test-intent</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Footer -->
+    <div class="bg-gray-800 text-gray-300 py-6 px-6 mt-12">
+        <div class="max-w-7xl mx-auto text-center text-sm">
+            Generated from Code Taxonomy Analysis • 40 concepts extracted
+        </div>
+    </div>
+
+    <!-- Initialize Syntax Highlighting -->
+    <script>
+        hljs.highlightAll();
+    </script>
+
+</body>
+</html>

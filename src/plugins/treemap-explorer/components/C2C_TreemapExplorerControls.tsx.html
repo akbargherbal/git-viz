@@ -1,0 +1,2570 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TreemapExplorerControls.tsx - Code Taxonomy</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Highlight.js for syntax highlighting -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/typescript.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/javascript.min.js"></script>
+</head>
+<body class="bg-gray-50 text-gray-900">
+    
+    <!-- Header -->
+    <div class="bg-gradient-to-r from-blue-600 to-blue-700 text-white py-8 px-6 shadow-lg">
+        <div class="max-w-7xl mx-auto">
+            <div class="text-sm text-blue-100 mb-2">src/plugins/treemap-explorer/components</div>
+            <h1 class="text-4xl font-bold mb-2">TreemapExplorerControls.tsx</h1>
+            <p class="text-blue-100">Render header controls for Treemap Explorer plugin, including lens mode selector and size metric toggle buttons</p>
+        </div>
+    </div>
+
+    <!-- Metadata & Stats Bar -->
+    <div class="bg-white shadow-sm border-b">
+        <div class="max-w-7xl mx-auto py-6 px-6">
+            <div class="grid grid-cols-2 md:grid-cols-5 gap-6">
+                <div>
+                    <div class="text-xs font-semibold text-gray-500 uppercase tracking-wide mb-1">Type</div>
+                    <div class="text-lg font-bold text-gray-900">Component</div>
+                </div>
+                <div>
+                    <div class="text-xs font-semibold text-gray-500 uppercase tracking-wide mb-1">Priority</div>
+                    <div class="text-lg font-bold text-gray-900">Application</div>
+                </div>
+                <div>
+                    <div class="text-xs font-semibold text-gray-500 uppercase tracking-wide mb-1">Total Concepts</div>
+                    <div class="text-lg font-bold text-blue-600">39</div>
+                </div>
+                <div>
+                    <div class="text-xs font-semibold text-gray-500 uppercase tracking-wide mb-1">Categories</div>
+                    <div class="text-lg font-bold text-blue-600">17</div>
+                </div>
+                <div>
+                    <div class="text-xs font-semibold text-gray-500 uppercase tracking-wide mb-1">Complexity</div>
+                    <div class="text-sm font-mono text-gray-700">
+                        <span class="text-green-600">23</span> / 
+                        <span class="text-yellow-600">16</span> / 
+                        <span class="text-red-600">0</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="max-w-7xl mx-auto py-8 px-6">
+        
+        <!-- Summary Section -->
+        <div class="mb-8">
+            <h2 class="text-2xl font-bold mb-4">📊 Summary</h2>
+            
+            <div class="grid md:grid-cols-2 gap-6 mb-6">
+                <!-- Category Counts -->
+                <div class="bg-white rounded-lg shadow p-6">
+                    <h3 class="text-lg font-semibold mb-4 text-gray-700">Concepts by Category</h3>
+                    <div class="space-y-3">
+
+                        <div class="flex justify-between items-center">
+                            <span class="text-sm text-gray-600">Code Organization</span>
+                            <span class="bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm font-semibold">3</span>
+                        </div>
+
+                        <div class="flex justify-between items-center">
+                            <span class="text-sm text-gray-600">Import/Module Management</span>
+                            <span class="bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm font-semibold">4</span>
+                        </div>
+
+                        <div class="flex justify-between items-center">
+                            <span class="text-sm text-gray-600">TypeScript/Type System</span>
+                            <span class="bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm font-semibold">3</span>
+                        </div>
+
+                        <div class="flex justify-between items-center">
+                            <span class="text-sm text-gray-600">React/Component Patterns</span>
+                            <span class="bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm font-semibold">2</span>
+                        </div>
+
+                        <div class="flex justify-between items-center">
+                            <span class="text-sm text-gray-600">JavaScript/ES6 Syntax</span>
+                            <span class="bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm font-semibold">5</span>
+                        </div>
+
+                        <div class="flex justify-between items-center">
+                            <span class="text-sm text-gray-600">React/JSX Syntax</span>
+                            <span class="bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm font-semibold">7</span>
+                        </div>
+
+                        <div class="flex justify-between items-center">
+                            <span class="text-sm text-gray-600">Styling/CSS Framework</span>
+                            <span class="bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm font-semibold">5</span>
+                        </div>
+
+                        <div class="flex justify-between items-center">
+                            <span class="text-sm text-gray-600">Testing/Accessibility</span>
+                            <span class="bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm font-semibold">3</span>
+                        </div>
+
+                        <div class="flex justify-between items-center">
+                            <span class="text-sm text-gray-600">React/Event Handling</span>
+                            <span class="bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm font-semibold">2</span>
+                        </div>
+
+                        <div class="flex justify-between items-center">
+                            <span class="text-sm text-gray-600">React/List Rendering</span>
+                            <span class="bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm font-semibold">2</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Complexity Breakdown -->
+                <div class="bg-white rounded-lg shadow p-6">
+                    <h3 class="text-lg font-semibold mb-4 text-gray-700">Complexity Distribution</h3>
+                    <div class="space-y-4">
+
+                        <div>
+                            <div class="flex justify-between mb-1">
+                                <span class="text-sm font-medium text-green-700">Beginner</span>
+                                <span class="text-sm font-semibold text-green-700">23 concepts</span>
+                            </div>
+                            <div class="w-full bg-gray-200 rounded-full h-2">
+                                <div class="bg-green-500 h-2 rounded-full" style="width: 58%"></div>
+                            </div>
+                        </div>
+
+                        <div>
+                            <div class="flex justify-between mb-1">
+                                <span class="text-sm font-medium text-yellow-700">Intermediate</span>
+                                <span class="text-sm font-semibold text-yellow-700">16 concepts</span>
+                            </div>
+                            <div class="w-full bg-gray-200 rounded-full h-2">
+                                <div class="bg-yellow-500 h-2 rounded-full" style="width: 41%"></div>
+                            </div>
+                        </div>
+
+                        <div>
+                            <div class="flex justify-between mb-1">
+                                <span class="text-sm font-medium text-red-700">Advanced</span>
+                                <span class="text-sm font-semibold text-red-700">0 concepts</span>
+                            </div>
+                            <div class="w-full bg-gray-200 rounded-full h-2">
+                                <div class="bg-red-500 h-2 rounded-full" style="width: 0%"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tag Cloud -->
+            <div class="bg-white rounded-lg shadow p-6">
+                <h3 class="text-lg font-semibold mb-4 text-gray-700">🏷️ Tags</h3>
+                <div class="flex flex-wrap gap-2">
+                    <span class="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-sm">any-type</span>
+                    <span class="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-sm">animations</span>
+                    <span class="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-sm">array-literal</span>
+                    <span class="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-sm">array-map</span>
+                    <span class="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-sm">arrow-function</span>
+                    <span class="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-sm">boolean-expression</span>
+                    <span class="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-sm">borders</span>
+                    <span class="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-sm">callback</span>
+                    <span class="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-sm">children</span>
+                    <span class="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-sm">code-explanation</span>
+                    <span class="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-sm">code-navigation</span>
+                    <span class="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-sm">code-smell</span>
+                    <span class="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-sm">colors</span>
+                    <span class="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-sm">comment</span>
+                    <span class="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-sm">comparison-operator</span>
+                    <span class="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-sm">component-composition</span>
+                    <span class="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-sm">component-definition</span>
+                    <span class="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-sm">component-documentation</span>
+                    <span class="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-sm">component-hierarchy</span>
+                    <span class="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-sm">component-rendering</span>
+                    <span class="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-sm">component-typing</span>
+                    <span class="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-sm">component-usage</span>
+                    <span class="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-sm">concise-syntax</span>
+                    <span class="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-sm">conditional-expression</span>
+                    <span class="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-sm">conditional-styling</span>
+                    <span class="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-sm">configuration-data</span>
+                    <span class="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-sm">const</span>
+                    <span class="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-sm">control-flow</span>
+                    <span class="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-sm">curly-braces</span>
+                    <span class="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-sm">dark-theme</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Concepts Section -->
+        <div>
+            <h2 class="text-2xl font-bold mb-4">💡 Concepts</h2>
+            
+            <div class="space-y-6">
+
+                <!-- CONCEPT-001 -->
+                <div class="bg-white rounded-lg shadow-md overflow-hidden border border-gray-200">
+                    <!-- Concept Header -->
+                    <div class="bg-gradient-to-r from-gray-50 to-gray-100 px-6 py-4 border-b border-gray-200">
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <div class="text-xs font-mono text-gray-500 mb-1">CONCEPT-001</div>
+                                <h3 class="text-xl font-bold text-gray-900"></h3>
+                                <div class="text-sm text-blue-600 font-medium mt-1">Code Organization</div>
+                            </div>
+                            <span class="bg-green-100 text-green-800 px-3 py-1 rounded-full text-xs font-semibold">Beginner</span>
+                        </div>
+                    </div>
+
+                    <!-- Code Snippet with Syntax Highlighting -->
+                    <div class="px-6 py-4 bg-gray-900">
+                        <pre><code class="language-typescript">// src/plugins/treemap-explorer/components/TreemapExplorerControls.tsx</code></pre>
+                    </div>
+
+                    <!-- Concept Details -->
+                    <div class="px-6 py-5 space-y-4">
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">What</h4>
+                            <p class="text-gray-600 leading-relaxed">A single-line comment at the top of the file indicating the file&#x27;s path within the project structure</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Why</h4>
+                            <p class="text-gray-600 leading-relaxed">Provides immediate context about file location when viewing code in isolation (e.g., in code reviews, documentation, or when files are copied). Helps developers quickly orient themselves, especially in large codebases with many similar filenames. Useful when code is shared outside the IDE context.</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">How</h4>
+                            <p class="text-gray-600 leading-relaxed">Uses JavaScript/TypeScript single-line comment syntax (//) to add a non-executable annotation. Placed as the first line of the file before any imports or code.</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Context</h4>
+                            <p class="text-gray-600 leading-relaxed">Used here to document that this component lives in the treemap-explorer plugin&#x27;s components directory, helping identify its role in the plugin architecture</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Alternatives</h4>
+                            <p class="text-gray-600 leading-relaxed">No path comment (rely on IDE/editor to show file path); multi-line comment block; JSDoc-style file header with additional metadata; package.json &quot;name&quot; field for modules</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Tags</h4>
+                            <div class="flex flex-wrap gap-2 mt-2">
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">comment</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">documentation</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">file-organization</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">code-navigation</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- CONCEPT-002 -->
+                <div class="bg-white rounded-lg shadow-md overflow-hidden border border-gray-200">
+                    <!-- Concept Header -->
+                    <div class="bg-gradient-to-r from-gray-50 to-gray-100 px-6 py-4 border-b border-gray-200">
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <div class="text-xs font-mono text-gray-500 mb-1">CONCEPT-002</div>
+                                <h3 class="text-xl font-bold text-gray-900"></h3>
+                                <div class="text-sm text-blue-600 font-medium mt-1">Import/Module Management</div>
+                            </div>
+                            <span class="bg-green-100 text-green-800 px-3 py-1 rounded-full text-xs font-semibold">Beginner</span>
+                        </div>
+                    </div>
+
+                    <!-- Code Snippet with Syntax Highlighting -->
+                    <div class="px-6 py-4 bg-gray-900">
+                        <pre><code class="language-typescript">import React from &quot;react&quot;;</code></pre>
+                    </div>
+
+                    <!-- Concept Details -->
+                    <div class="px-6 py-5 space-y-4">
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">What</h4>
+                            <p class="text-gray-600 leading-relaxed">Default import of the React library namespace, required for JSX transformation and React API access</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Why</h4>
+                            <p class="text-gray-600 leading-relaxed">Necessary for JSX syntax to work - JSX is transformed to React.createElement() calls. Even though modern React 17+ with new JSX transform doesn&#x27;t strictly require this import for JSX, it&#x27;s still needed if using React.FC type or other React APIs. Provides access to React namespace for types and utilities.</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">How</h4>
+                            <p class="text-gray-600 leading-relaxed">ES6 default import syntax brings in the main React object from the &#x27;react&#x27; npm package. The import is resolved by the module bundler (Vite/Webpack) and TypeScript compiler.</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Context</h4>
+                            <p class="text-gray-600 leading-relaxed">Imported here to use React.FC type annotation for the component definition. Required for TypeScript to understand the component&#x27;s type signature.</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Alternatives</h4>
+                            <p class="text-gray-600 leading-relaxed">Namespace import &#x27;import * as React from &quot;react&quot;&#x27;; omit if using new JSX transform and no React APIs; import specific APIs like &#x27;import { FC } from &quot;react&quot;&#x27;</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Tags</h4>
+                            <div class="flex flex-wrap gap-2 mt-2">
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">import</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">react</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">default-import</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">jsx-requirement</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">es6-modules</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- CONCEPT-003 -->
+                <div class="bg-white rounded-lg shadow-md overflow-hidden border border-gray-200">
+                    <!-- Concept Header -->
+                    <div class="bg-gradient-to-r from-gray-50 to-gray-100 px-6 py-4 border-b border-gray-200">
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <div class="text-xs font-mono text-gray-500 mb-1">CONCEPT-003</div>
+                                <h3 class="text-xl font-bold text-gray-900"></h3>
+                                <div class="text-sm text-blue-600 font-medium mt-1">TypeScript/Type System</div>
+                            </div>
+                            <span class="bg-yellow-100 text-yellow-800 px-3 py-1 rounded-full text-xs font-semibold">Intermediate</span>
+                        </div>
+                    </div>
+
+                    <!-- Code Snippet with Syntax Highlighting -->
+                    <div class="px-6 py-4 bg-gray-900">
+                        <pre><code class="language-typescript">import { PluginControlProps } from &quot;@/types/plugin&quot;;</code></pre>
+                    </div>
+
+                    <!-- Concept Details -->
+                    <div class="px-6 py-5 space-y-4">
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">What</h4>
+                            <p class="text-gray-600 leading-relaxed">Named import of a TypeScript type definition from a centralized types module using path alias</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Why</h4>
+                            <p class="text-gray-600 leading-relaxed">Imports shared type definitions for plugin control components, ensuring type consistency across all plugins. Using a centralized types module promotes reusability and maintains a single source of truth for plugin interfaces. Path alias (@/) makes imports cleaner and refactor-safe.</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">How</h4>
+                            <p class="text-gray-600 leading-relaxed">ES6 named import syntax with curly braces extracts specific export from module. The @/ path alias is resolved by TypeScript (tsconfig.json paths) and build tool (Vite resolve.alias) to the project&#x27;s src directory. TypeScript strips type imports during compilation.</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Context</h4>
+                            <p class="text-gray-600 leading-relaxed">Imports the generic PluginControlProps interface which will be specialized with TreemapExplorerState to type the component&#x27;s props. This ensures the component conforms to the plugin system&#x27;s control component contract.</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Alternatives</h4>
+                            <p class="text-gray-600 leading-relaxed">Relative import like &#x27;../../types/plugin&#x27;; inline type definition; import type syntax &#x27;import type { PluginControlProps }&#x27;; import entire module &#x27;import * as PluginTypes&#x27;</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Tags</h4>
+                            <div class="flex flex-wrap gap-2 mt-2">
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">import</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">typescript</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">named-import</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">path-alias</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">type-import</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">shared-types</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- CONCEPT-004 -->
+                <div class="bg-white rounded-lg shadow-md overflow-hidden border border-gray-200">
+                    <!-- Concept Header -->
+                    <div class="bg-gradient-to-r from-gray-50 to-gray-100 px-6 py-4 border-b border-gray-200">
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <div class="text-xs font-mono text-gray-500 mb-1">CONCEPT-004</div>
+                                <h3 class="text-xl font-bold text-gray-900"></h3>
+                                <div class="text-sm text-blue-600 font-medium mt-1">Import/Module Management</div>
+                            </div>
+                            <span class="bg-green-100 text-green-800 px-3 py-1 rounded-full text-xs font-semibold">Beginner</span>
+                        </div>
+                    </div>
+
+                    <!-- Code Snippet with Syntax Highlighting -->
+                    <div class="px-6 py-4 bg-gray-900">
+                        <pre><code class="language-typescript">import { LensModeSelector } from &quot;./LensModeSelector&quot;;</code></pre>
+                    </div>
+
+                    <!-- Concept Details -->
+                    <div class="px-6 py-5 space-y-4">
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">What</h4>
+                            <p class="text-gray-600 leading-relaxed">Named import of a component from a sibling file in the same directory using relative path</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Why</h4>
+                            <p class="text-gray-600 leading-relaxed">Imports a child component for composition. Using relative imports for local/sibling modules keeps related components together and makes the module boundary clear. The ./ prefix explicitly indicates same-directory location.</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">How</h4>
+                            <p class="text-gray-600 leading-relaxed">ES6 named import with relative path. The &#x27;./&#x27; prefix means &quot;current directory&quot;. Module resolution finds LensModeSelector.tsx (or .ts, .js) in the same directory. TypeScript and bundler resolve the extension automatically.</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Context</h4>
+                            <p class="text-gray-600 leading-relaxed">Imports the LensModeSelector component which will be rendered as a child component to handle lens mode selection UI. This demonstrates component composition pattern.</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Alternatives</h4>
+                            <p class="text-gray-600 leading-relaxed">Path alias import &#x27;@/plugins/treemap-explorer/components/LensModeSelector&#x27;; barrel export from index file; inline the component code; use dynamic import for code splitting</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Tags</h4>
+                            <div class="flex flex-wrap gap-2 mt-2">
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">import</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">relative-import</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">component-composition</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">named-import</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">sibling-module</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- CONCEPT-005 -->
+                <div class="bg-white rounded-lg shadow-md overflow-hidden border border-gray-200">
+                    <!-- Concept Header -->
+                    <div class="bg-gradient-to-r from-gray-50 to-gray-100 px-6 py-4 border-b border-gray-200">
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <div class="text-xs font-mono text-gray-500 mb-1">CONCEPT-005</div>
+                                <h3 class="text-xl font-bold text-gray-900"></h3>
+                                <div class="text-sm text-blue-600 font-medium mt-1">Import/Module Management</div>
+                            </div>
+                            <span class="bg-green-100 text-green-800 px-3 py-1 rounded-full text-xs font-semibold">Beginner</span>
+                        </div>
+                    </div>
+
+                    <!-- Code Snippet with Syntax Highlighting -->
+                    <div class="px-6 py-4 bg-gray-900">
+                        <pre><code class="language-typescript">import { TreemapExplorerState } from &quot;../types&quot;;</code></pre>
+                    </div>
+
+                    <!-- Concept Details -->
+                    <div class="px-6 py-5 space-y-4">
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">What</h4>
+                            <p class="text-gray-600 leading-relaxed">Named import of a type definition from a parent directory using relative path with parent directory traversal</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Why</h4>
+                            <p class="text-gray-600 leading-relaxed">Imports plugin-specific state type from the plugin&#x27;s types module. Using &#x27;../&#x27; navigates up one directory level to access the plugin&#x27;s shared types. This keeps types close to their plugin while separating them from components.</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">How</h4>
+                            <p class="text-gray-600 leading-relaxed">ES6 named import with relative path. The &#x27;../&#x27; prefix means &quot;parent directory&quot;. Module resolution looks for types.ts (or types/index.ts) in the parent directory. This is a common pattern for organizing plugin-specific types separately from components.</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Context</h4>
+                            <p class="text-gray-600 leading-relaxed">Imports TreemapExplorerState interface which defines the shape of this plugin&#x27;s state. Used to specialize the generic PluginControlProps type for this specific plugin.</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Alternatives</h4>
+                            <p class="text-gray-600 leading-relaxed">Path alias &#x27;@/plugins/treemap-explorer/types&#x27;; inline type definition; import from centralized types; use barrel export pattern</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Tags</h4>
+                            <div class="flex flex-wrap gap-2 mt-2">
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">import</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">relative-import</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">parent-directory</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">type-import</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">plugin-types</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- CONCEPT-006 -->
+                <div class="bg-white rounded-lg shadow-md overflow-hidden border border-gray-200">
+                    <!-- Concept Header -->
+                    <div class="bg-gradient-to-r from-gray-50 to-gray-100 px-6 py-4 border-b border-gray-200">
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <div class="text-xs font-mono text-gray-500 mb-1">CONCEPT-006</div>
+                                <h3 class="text-xl font-bold text-gray-900"></h3>
+                                <div class="text-sm text-blue-600 font-medium mt-1">Code Organization</div>
+                            </div>
+                            <span class="bg-green-100 text-green-800 px-3 py-1 rounded-full text-xs font-semibold">Beginner</span>
+                        </div>
+                    </div>
+
+                    <!-- Code Snippet with Syntax Highlighting -->
+                    <div class="px-6 py-4 bg-gray-900">
+                        <pre><code class="language-typescript">/**
+ * Header controls for Treemap Explorer
+ * Renders inline controls: Lens Mode buttons + Size Metric selector
+ * - Container exposes lens mode and size metric state
+ * - Size metric selector exposes active metric
+ * - Individual buttons expose active state
+ */</code></pre>
+                    </div>
+
+                    <!-- Concept Details -->
+                    <div class="px-6 py-5 space-y-4">
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">What</h4>
+                            <p class="text-gray-600 leading-relaxed">Multi-line JSDoc-style comment block documenting the component&#x27;s purpose, behavior, and testing attributes</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Why</h4>
+                            <p class="text-gray-600 leading-relaxed">Provides human-readable documentation about component functionality and testing strategy. The bullet points document data-testid attributes and their exposed state, which is crucial for understanding the component&#x27;s testing API. Helps developers understand both what the component does and how to test it.</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">How</h4>
+                            <p class="text-gray-600 leading-relaxed">Uses JSDoc syntax (/** ... */) which is recognized by TypeScript, IDEs, and documentation generators. The comment appears immediately before the component definition, associating it with the component. Bullet points organize information about testing attributes.</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Context</h4>
+                            <p class="text-gray-600 leading-relaxed">Documents that this component renders controls for the Treemap Explorer plugin, specifically lens mode and size metric selectors. The testing notes indicate this component follows a pattern of exposing state through data attributes for testing purposes.</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Alternatives</h4>
+                            <p class="text-gray-600 leading-relaxed">Single-line comments; inline comments within code; separate documentation file; TypeScript JSDoc tags (@param, @returns); no comments (self-documenting code)</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Tags</h4>
+                            <div class="flex flex-wrap gap-2 mt-2">
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">documentation</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">jsdoc</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">comment</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">testing-documentation</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">component-documentation</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- CONCEPT-007 -->
+                <div class="bg-white rounded-lg shadow-md overflow-hidden border border-gray-200">
+                    <!-- Concept Header -->
+                    <div class="bg-gradient-to-r from-gray-50 to-gray-100 px-6 py-4 border-b border-gray-200">
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <div class="text-xs font-mono text-gray-500 mb-1">CONCEPT-007</div>
+                                <h3 class="text-xl font-bold text-gray-900"></h3>
+                                <div class="text-sm text-blue-600 font-medium mt-1">React/Component Patterns</div>
+                            </div>
+                            <span class="bg-yellow-100 text-yellow-800 px-3 py-1 rounded-full text-xs font-semibold">Intermediate</span>
+                        </div>
+                    </div>
+
+                    <!-- Code Snippet with Syntax Highlighting -->
+                    <div class="px-6 py-4 bg-gray-900">
+                        <pre><code class="language-typescript">export const TreemapExplorerControls: React.FC&lt;
+  PluginControlProps&lt;TreemapExplorerState&gt;
+&gt; = ({ state, updateState }) =&gt; {</code></pre>
+                    </div>
+
+                    <!-- Concept Details -->
+                    <div class="px-6 py-5 space-y-4">
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">What</h4>
+                            <p class="text-gray-600 leading-relaxed">Component definition using named export, const declaration, arrow function syntax, and React.FC type annotation with generic type parameter</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Why</h4>
+                            <p class="text-gray-600 leading-relaxed">Named export allows importing with specific name (better for tree-shaking and explicit imports). Const prevents reassignment. Arrow function is modern React convention. React.FC provides type safety for component signature. Generic type parameter specializes the props interface for this plugin&#x27;s state type.</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">How</h4>
+                            <p class="text-gray-600 leading-relaxed">Combines multiple patterns: &#x27;export const&#x27; for named export, arrow function for component definition, React.FC&lt;T&gt; generic type for typing, and generic type parameter PluginControlProps&lt;TreemapExplorerState&gt; to specialize the props interface. The component receives typed props through destructuring.</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Context</h4>
+                            <p class="text-gray-600 leading-relaxed">Defines the main component for treemap explorer controls. The generic type parameter ensures type safety between the plugin&#x27;s state shape and the control component&#x27;s props. This is the entry point for the component&#x27;s logic.</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Alternatives</h4>
+                            <p class="text-gray-600 leading-relaxed">Default export; function declaration; function expression; class component; inline props type without React.FC; separate type definition then apply</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Tags</h4>
+                            <div class="flex flex-wrap gap-2 mt-2">
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">react</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">component-definition</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">named-export</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">arrow-function</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">typescript</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">react-fc</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">generics</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- CONCEPT-008 -->
+                <div class="bg-white rounded-lg shadow-md overflow-hidden border border-gray-200">
+                    <!-- Concept Header -->
+                    <div class="bg-gradient-to-r from-gray-50 to-gray-100 px-6 py-4 border-b border-gray-200">
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <div class="text-xs font-mono text-gray-500 mb-1">CONCEPT-008</div>
+                                <h3 class="text-xl font-bold text-gray-900"></h3>
+                                <div class="text-sm text-blue-600 font-medium mt-1">TypeScript/Type System</div>
+                            </div>
+                            <span class="bg-yellow-100 text-yellow-800 px-3 py-1 rounded-full text-xs font-semibold">Intermediate</span>
+                        </div>
+                    </div>
+
+                    <!-- Code Snippet with Syntax Highlighting -->
+                    <div class="px-6 py-4 bg-gray-900">
+                        <pre><code class="language-typescript">PluginControlProps&lt;TreemapExplorerState&gt;</code></pre>
+                    </div>
+
+                    <!-- Concept Details -->
+                    <div class="px-6 py-5 space-y-4">
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">What</h4>
+                            <p class="text-gray-600 leading-relaxed">Specialization of a generic type by providing a concrete type argument to fill the generic type parameter</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Why</h4>
+                            <p class="text-gray-600 leading-relaxed">Allows reusable generic interfaces to be specialized for specific use cases while maintaining type safety. Here, the generic PluginControlProps interface is specialized with TreemapExplorerState to create a type-safe contract for this specific plugin&#x27;s control component. This ensures state and updateState props match the plugin&#x27;s state shape.</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">How</h4>
+                            <p class="text-gray-600 leading-relaxed">TypeScript generic syntax uses angle brackets &lt;T&gt; to accept type parameters. When using a generic type, you provide concrete types in angle brackets. The generic type PluginControlProps&lt;TState&gt; becomes PluginControlProps&lt;TreemapExplorerState&gt;, replacing TState with the concrete type throughout the interface definition.</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Context</h4>
+                            <p class="text-gray-600 leading-relaxed">Specializes the generic plugin control props interface with this plugin&#x27;s specific state type. This ensures the state prop has type TreemapExplorerState and updateState accepts Partial&lt;TreemapExplorerState&gt;, providing full type safety for this component&#x27;s props.</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Alternatives</h4>
+                            <p class="text-gray-600 leading-relaxed">Inline type definition without generics; separate interface extending generic; type intersection; using &#x27;any&#x27; or &#x27;unknown&#x27; (loses type safety); manual type definition duplicating structure</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Tags</h4>
+                            <div class="flex flex-wrap gap-2 mt-2">
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">typescript</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">generics</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">type-specialization</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">type-safety</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">generic-constraints</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- CONCEPT-009 -->
+                <div class="bg-white rounded-lg shadow-md overflow-hidden border border-gray-200">
+                    <!-- Concept Header -->
+                    <div class="bg-gradient-to-r from-gray-50 to-gray-100 px-6 py-4 border-b border-gray-200">
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <div class="text-xs font-mono text-gray-500 mb-1">CONCEPT-009</div>
+                                <h3 class="text-xl font-bold text-gray-900"></h3>
+                                <div class="text-sm text-blue-600 font-medium mt-1">JavaScript/ES6 Syntax</div>
+                            </div>
+                            <span class="bg-green-100 text-green-800 px-3 py-1 rounded-full text-xs font-semibold">Beginner</span>
+                        </div>
+                    </div>
+
+                    <!-- Code Snippet with Syntax Highlighting -->
+                    <div class="px-6 py-4 bg-gray-900">
+                        <pre><code class="language-typescript">({ state, updateState })</code></pre>
+                    </div>
+
+                    <!-- Concept Details -->
+                    <div class="px-6 py-5 space-y-4">
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">What</h4>
+                            <p class="text-gray-600 leading-relaxed">Destructuring the props object directly in the function parameter list to extract specific properties</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Why</h4>
+                            <p class="text-gray-600 leading-relaxed">Provides direct access to props without &#x27;props.&#x27; prefix, making code cleaner and more readable. Immediately shows which props the component uses. Reduces repetitive code and makes dependencies explicit at the function signature level.</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">How</h4>
+                            <p class="text-gray-600 leading-relaxed">ES6 destructuring syntax extracts properties from the object passed as the function argument. The pattern { state, updateState } creates two constants from the props object&#x27;s properties. TypeScript infers types from the React.FC type annotation.</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Context</h4>
+                            <p class="text-gray-600 leading-relaxed">Extracts state and updateState from the PluginControlProps interface. These are the two props needed to read current state and update it when user interacts with controls.</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Alternatives</h4>
+                            <p class="text-gray-600 leading-relaxed">Accept props object and use dot notation &#x27;props.state&#x27;; destructure in component body &#x27;const { state, updateState } = props&#x27;; use individual parameters (not idiomatic for React)</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Tags</h4>
+                            <div class="flex flex-wrap gap-2 mt-2">
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">javascript</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">es6</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">destructuring</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">function-parameters</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">props-handling</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- CONCEPT-010 -->
+                <div class="bg-white rounded-lg shadow-md overflow-hidden border border-gray-200">
+                    <!-- Concept Header -->
+                    <div class="bg-gradient-to-r from-gray-50 to-gray-100 px-6 py-4 border-b border-gray-200">
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <div class="text-xs font-mono text-gray-500 mb-1">CONCEPT-010</div>
+                                <h3 class="text-xl font-bold text-gray-900"></h3>
+                                <div class="text-sm text-blue-600 font-medium mt-1">Code Organization</div>
+                            </div>
+                            <span class="bg-green-100 text-green-800 px-3 py-1 rounded-full text-xs font-semibold">Beginner</span>
+                        </div>
+                    </div>
+
+                    <!-- Code Snippet with Syntax Highlighting -->
+                    <div class="px-6 py-4 bg-gray-900">
+                        <pre><code class="language-typescript">// Ensure defaults are applied if state is partial/initializing</code></pre>
+                    </div>
+
+                    <!-- Concept Details -->
+                    <div class="px-6 py-5 space-y-4">
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">What</h4>
+                            <p class="text-gray-600 leading-relaxed">Single-line comment explaining the purpose of the following code block</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Why</h4>
+                            <p class="text-gray-600 leading-relaxed">Clarifies the intent behind defensive programming - handling cases where state might be incomplete during initialization. Helps future developers understand why default values are being applied rather than trusting state directly.</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">How</h4>
+                            <p class="text-gray-600 leading-relaxed">Single-line comment syntax (//) placed immediately before the code it explains. Provides context for the defensive null-coalescing pattern that follows.</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Context</h4>
+                            <p class="text-gray-600 leading-relaxed">Explains why the next two lines use the || operator to provide default values for lensMode and sizeMetric. Indicates awareness of potential initialization edge cases.</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Alternatives</h4>
+                            <p class="text-gray-600 leading-relaxed">JSDoc comment; no comment (self-documenting code); multi-line comment; inline comment on same line as code</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Tags</h4>
+                            <div class="flex flex-wrap gap-2 mt-2">
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">comment</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">documentation</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">code-explanation</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">defensive-programming</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- CONCEPT-011 -->
+                <div class="bg-white rounded-lg shadow-md overflow-hidden border border-gray-200">
+                    <!-- Concept Header -->
+                    <div class="bg-gradient-to-r from-gray-50 to-gray-100 px-6 py-4 border-b border-gray-200">
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <div class="text-xs font-mono text-gray-500 mb-1">CONCEPT-011</div>
+                                <h3 class="text-xl font-bold text-gray-900"></h3>
+                                <div class="text-sm text-blue-600 font-medium mt-1">JavaScript/Defensive Programming</div>
+                            </div>
+                            <span class="bg-green-100 text-green-800 px-3 py-1 rounded-full text-xs font-semibold">Beginner</span>
+                        </div>
+                    </div>
+
+                    <!-- Code Snippet with Syntax Highlighting -->
+                    <div class="px-6 py-4 bg-gray-900">
+                        <pre><code class="language-typescript">const lensMode = state.lensMode || &quot;debt&quot;;</code></pre>
+                    </div>
+
+                    <!-- Concept Details -->
+                    <div class="px-6 py-5 space-y-4">
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">What</h4>
+                            <p class="text-gray-600 leading-relaxed">Using the logical OR operator (||) to provide a default value when the left operand is falsy</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Why</h4>
+                            <p class="text-gray-600 leading-relaxed">Provides defensive programming against undefined or null values during component initialization. Ensures the component always has a valid value to work with, preventing runtime errors. Handles cases where state might be partially initialized or missing properties.</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">How</h4>
+                            <p class="text-gray-600 leading-relaxed">JavaScript&#x27;s || operator returns the first truthy value. If state.lensMode is undefined, null, empty string, 0, or false, it returns the right operand (&quot;debt&quot;). This is a common pattern for default values, though nullish coalescing (??) is more precise for null/undefined specifically.</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Context</h4>
+                            <p class="text-gray-600 leading-relaxed">Ensures lensMode always has a value even if state.lensMode is undefined during initialization. Sets &quot;debt&quot; as the default lens mode for the treemap explorer.</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Alternatives</h4>
+                            <p class="text-gray-600 leading-relaxed">Nullish coalescing operator &#x27;state.lensMode ?? &quot;debt&quot;&#x27; (more precise, only null/undefined); ternary operator &#x27;state.lensMode ? state.lensMode : &quot;debt&quot;&#x27;; default parameter in destructuring; optional chaining with default</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Tags</h4>
+                            <div class="flex flex-wrap gap-2 mt-2">
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">javascript</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">logical-or</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">default-values</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">defensive-programming</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">falsy-values</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- CONCEPT-012 -->
+                <div class="bg-white rounded-lg shadow-md overflow-hidden border border-gray-200">
+                    <!-- Concept Header -->
+                    <div class="bg-gradient-to-r from-gray-50 to-gray-100 px-6 py-4 border-b border-gray-200">
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <div class="text-xs font-mono text-gray-500 mb-1">CONCEPT-012</div>
+                                <h3 class="text-xl font-bold text-gray-900"></h3>
+                                <div class="text-sm text-blue-600 font-medium mt-1">JavaScript/TypeScript Syntax</div>
+                            </div>
+                            <span class="bg-green-100 text-green-800 px-3 py-1 rounded-full text-xs font-semibold">Beginner</span>
+                        </div>
+                    </div>
+
+                    <!-- Code Snippet with Syntax Highlighting -->
+                    <div class="px-6 py-4 bg-gray-900">
+                        <pre><code class="language-typescript">const lensMode = state.lensMode || &quot;debt&quot;;</code></pre>
+                    </div>
+
+                    <!-- Concept Details -->
+                    <div class="px-6 py-5 space-y-4">
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">What</h4>
+                            <p class="text-gray-600 leading-relaxed">Declaring a constant variable using const keyword with TypeScript inferring the type from the assigned value</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Why</h4>
+                            <p class="text-gray-600 leading-relaxed">Const prevents reassignment, making code more predictable and preventing bugs. TypeScript infers the type automatically from the expression, reducing verbosity while maintaining type safety. The inferred type will be the union of state.lensMode&#x27;s type and the string literal &quot;debt&quot;.</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">How</h4>
+                            <p class="text-gray-600 leading-relaxed">The const keyword creates a block-scoped constant. TypeScript&#x27;s type inference analyzes the right-hand side expression to determine the variable&#x27;s type. Since state.lensMode has a specific type and &quot;debt&quot; is a string literal, TypeScript infers the appropriate union or string type.</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Context</h4>
+                            <p class="text-gray-600 leading-relaxed">Creates a local constant for the lens mode value with default fallback. The variable is used throughout the component for rendering and data attributes. Type inference ensures type safety without explicit annotation.</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Alternatives</h4>
+                            <p class="text-gray-600 leading-relaxed">Explicit type annotation &#x27;const lensMode: string = ...&#x27;; let keyword (allows reassignment); var keyword (function-scoped, legacy); inline the expression without variable</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Tags</h4>
+                            <div class="flex flex-wrap gap-2 mt-2">
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">javascript</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">const</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">variable-declaration</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">typescript</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">type-inference</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- CONCEPT-013 -->
+                <div class="bg-white rounded-lg shadow-md overflow-hidden border border-gray-200">
+                    <!-- Concept Header -->
+                    <div class="bg-gradient-to-r from-gray-50 to-gray-100 px-6 py-4 border-b border-gray-200">
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <div class="text-xs font-mono text-gray-500 mb-1">CONCEPT-013</div>
+                                <h3 class="text-xl font-bold text-gray-900"></h3>
+                                <div class="text-sm text-blue-600 font-medium mt-1">JavaScript/Data Structures</div>
+                            </div>
+                            <span class="bg-green-100 text-green-800 px-3 py-1 rounded-full text-xs font-semibold">Beginner</span>
+                        </div>
+                    </div>
+
+                    <!-- Code Snippet with Syntax Highlighting -->
+                    <div class="px-6 py-4 bg-gray-900">
+                        <pre><code class="language-typescript">const sizeMetrics = [
+    { id: &quot;commits&quot;, label: &quot;Commits&quot; },
+    { id: &quot;authors&quot;, label: &quot;Authors&quot; },
+  ];</code></pre>
+                    </div>
+
+                    <!-- Concept Details -->
+                    <div class="px-6 py-5 space-y-4">
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">What</h4>
+                            <p class="text-gray-600 leading-relaxed">Array literal containing object literals, used to define configuration data for UI elements</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Why</h4>
+                            <p class="text-gray-600 leading-relaxed">Provides a data-driven approach to rendering UI elements. Makes it easy to add/remove/modify options without changing rendering logic. Each object represents a size metric option with id (for logic) and label (for display). This pattern separates data from presentation logic.</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">How</h4>
+                            <p class="text-gray-600 leading-relaxed">Array literal syntax [] contains multiple object literals {}. Each object has consistent structure with id and label properties. TypeScript infers the array type as an array of objects with these properties. This data structure can be mapped over to generate UI elements.</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Context</h4>
+                            <p class="text-gray-600 leading-relaxed">Defines the available size metric options for the treemap visualization. The id values (&quot;commits&quot;, &quot;authors&quot;) match the state.sizeMetric type, while labels provide user-friendly display text. This array will be mapped to render metric selection buttons.</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Alternatives</h4>
+                            <p class="text-gray-600 leading-relaxed">Enum for ids with separate labels object; Map data structure; separate arrays for ids and labels; hardcode buttons without data structure; import from external config file; use TypeScript const assertion &#x27;as const&#x27;</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Tags</h4>
+                            <div class="flex flex-wrap gap-2 mt-2">
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">javascript</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">array-literal</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">object-literal</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">configuration-data</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">data-driven-ui</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- CONCEPT-014 -->
+                <div class="bg-white rounded-lg shadow-md overflow-hidden border border-gray-200">
+                    <!-- Concept Header -->
+                    <div class="bg-gradient-to-r from-gray-50 to-gray-100 px-6 py-4 border-b border-gray-200">
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <div class="text-xs font-mono text-gray-500 mb-1">CONCEPT-014</div>
+                                <h3 class="text-xl font-bold text-gray-900"></h3>
+                                <div class="text-sm text-blue-600 font-medium mt-1">React/JSX Syntax</div>
+                            </div>
+                            <span class="bg-green-100 text-green-800 px-3 py-1 rounded-full text-xs font-semibold">Beginner</span>
+                        </div>
+                    </div>
+
+                    <!-- Code Snippet with Syntax Highlighting -->
+                    <div class="px-6 py-4 bg-gray-900">
+                        <pre><code class="language-typescript">return (
+    &lt;div
+      className=&quot;flex flex-wrap items-center gap-4&quot;
+      data-testid=&quot;treemap-controls&quot;
+      data-lens-mode={lensMode}
+      data-size-metric={sizeMetric}
+    &gt;</code></pre>
+                    </div>
+
+                    <!-- Concept Details -->
+                    <div class="px-6 py-5 space-y-4">
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">What</h4>
+                            <p class="text-gray-600 leading-relaxed">Return statement containing JSX expression wrapped in parentheses for multi-line formatting</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Why</h4>
+                            <p class="text-gray-600 leading-relaxed">Returns the component&#x27;s UI structure. Parentheses allow multi-line JSX for readability without automatic semicolon insertion issues. JSX provides declarative syntax for describing UI structure that gets transformed to React.createElement calls.</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">How</h4>
+                            <p class="text-gray-600 leading-relaxed">The return keyword followed by parentheses containing JSX. Parentheses are necessary for multi-line JSX to prevent JavaScript&#x27;s automatic semicolon insertion from breaking the code. The JSX is transformed by Babel/TypeScript into React.createElement calls.</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Context</h4>
+                            <p class="text-gray-600 leading-relaxed">Returns the component&#x27;s rendered output - a container div with controls for lens mode and size metric selection. The JSX describes the component&#x27;s visual structure and behavior.</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Alternatives</h4>
+                            <p class="text-gray-600 leading-relaxed">Implicit return with arrow function &#x27;const Component = () =&gt; &lt;div&gt;...&lt;/div&gt;&#x27;; return without parentheses for single-line JSX; assign JSX to variable then return; use React.createElement directly</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Tags</h4>
+                            <div class="flex flex-wrap gap-2 mt-2">
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">react</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">jsx</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">return-statement</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">component-rendering</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- CONCEPT-015 -->
+                <div class="bg-white rounded-lg shadow-md overflow-hidden border border-gray-200">
+                    <!-- Concept Header -->
+                    <div class="bg-gradient-to-r from-gray-50 to-gray-100 px-6 py-4 border-b border-gray-200">
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <div class="text-xs font-mono text-gray-500 mb-1">CONCEPT-015</div>
+                                <h3 class="text-xl font-bold text-gray-900"></h3>
+                                <div class="text-sm text-blue-600 font-medium mt-1">Styling/CSS Framework</div>
+                            </div>
+                            <span class="bg-green-100 text-green-800 px-3 py-1 rounded-full text-xs font-semibold">Beginner</span>
+                        </div>
+                    </div>
+
+                    <!-- Code Snippet with Syntax Highlighting -->
+                    <div class="px-6 py-4 bg-gray-900">
+                        <pre><code class="language-typescript">className=&quot;flex flex-wrap items-center gap-4&quot;</code></pre>
+                    </div>
+
+                    <!-- Concept Details -->
+                    <div class="px-6 py-5 space-y-4">
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">What</h4>
+                            <p class="text-gray-600 leading-relaxed">Using Tailwind CSS utility classes for styling via the className prop</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Why</h4>
+                            <p class="text-gray-600 leading-relaxed">Tailwind provides utility-first CSS approach - composing styles from single-purpose classes. Benefits: no CSS file needed, consistent design system, responsive utilities, smaller bundle size (with purging), faster development. The classes here create a flexible horizontal layout with wrapping and spacing.</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">How</h4>
+                            <p class="text-gray-600 leading-relaxed">Tailwind CSS classes are applied via className prop. Each class maps to specific CSS properties: &#x27;flex&#x27; (display: flex), &#x27;flex-wrap&#x27; (flex-wrap: wrap), &#x27;items-center&#x27; (align-items: center), &#x27;gap-4&#x27; (gap: 1rem). Tailwind&#x27;s build process generates only the CSS for classes actually used.</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Context</h4>
+                            <p class="text-gray-600 leading-relaxed">Creates a flexible container that arranges child controls horizontally, centers them vertically, allows wrapping on small screens, and adds consistent spacing between items. This is the main container for the control panel.</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Alternatives</h4>
+                            <p class="text-gray-600 leading-relaxed">CSS modules; styled-components; inline styles; traditional CSS classes; CSS-in-JS libraries; vanilla CSS file; other utility frameworks like Bootstrap</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Tags</h4>
+                            <div class="flex flex-wrap gap-2 mt-2">
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">styling</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">tailwind-css</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">utility-classes</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">flexbox</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">responsive-design</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- CONCEPT-016 -->
+                <div class="bg-white rounded-lg shadow-md overflow-hidden border border-gray-200">
+                    <!-- Concept Header -->
+                    <div class="bg-gradient-to-r from-gray-50 to-gray-100 px-6 py-4 border-b border-gray-200">
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <div class="text-xs font-mono text-gray-500 mb-1">CONCEPT-016</div>
+                                <h3 class="text-xl font-bold text-gray-900"></h3>
+                                <div class="text-sm text-blue-600 font-medium mt-1">Testing/Accessibility</div>
+                            </div>
+                            <span class="bg-green-100 text-green-800 px-3 py-1 rounded-full text-xs font-semibold">Beginner</span>
+                        </div>
+                    </div>
+
+                    <!-- Code Snippet with Syntax Highlighting -->
+                    <div class="px-6 py-4 bg-gray-900">
+                        <pre><code class="language-typescript">data-testid=&quot;treemap-controls&quot;</code></pre>
+                    </div>
+
+                    <!-- Concept Details -->
+                    <div class="px-6 py-5 space-y-4">
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">What</h4>
+                            <p class="text-gray-600 leading-relaxed">Custom data attribute specifically for identifying elements in automated tests</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Why</h4>
+                            <p class="text-gray-600 leading-relaxed">Provides stable selectors for testing that won&#x27;t break when styling or structure changes. Testing libraries like React Testing Library recommend data-testid for querying elements. Separates testing concerns from styling (className) and semantics (id). Makes tests more maintainable and less brittle.</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">How</h4>
+                            <p class="text-gray-600 leading-relaxed">HTML5 data-* attributes allow custom data to be stored on elements. The data-testid convention is recognized by testing libraries. Tests can query elements using getByTestId(&#x27;treemap-controls&#x27;) without coupling to implementation details like class names or DOM structure.</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Context</h4>
+                            <p class="text-gray-600 leading-relaxed">Identifies the main controls container for testing purposes. Tests can find this element reliably to verify the controls are rendered and interact with child elements.</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Alternatives</h4>
+                            <p class="text-gray-600 leading-relaxed">Query by role (getByRole); query by text content; query by className (brittle); query by id attribute; query by aria-label; custom test attributes with different naming</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Tags</h4>
+                            <div class="flex flex-wrap gap-2 mt-2">
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">testing</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">data-attribute</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">test-id</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">react-testing-library</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">test-selectors</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- CONCEPT-017 -->
+                <div class="bg-white rounded-lg shadow-md overflow-hidden border border-gray-200">
+                    <!-- Concept Header -->
+                    <div class="bg-gradient-to-r from-gray-50 to-gray-100 px-6 py-4 border-b border-gray-200">
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <div class="text-xs font-mono text-gray-500 mb-1">CONCEPT-017</div>
+                                <h3 class="text-xl font-bold text-gray-900"></h3>
+                                <div class="text-sm text-blue-600 font-medium mt-1">Testing/State Management</div>
+                            </div>
+                            <span class="bg-yellow-100 text-yellow-800 px-3 py-1 rounded-full text-xs font-semibold">Intermediate</span>
+                        </div>
+                    </div>
+
+                    <!-- Code Snippet with Syntax Highlighting -->
+                    <div class="px-6 py-4 bg-gray-900">
+                        <pre><code class="language-typescript">data-lens-mode={lensMode}
+      data-size-metric={sizeMetric}</code></pre>
+                    </div>
+
+                    <!-- Concept Details -->
+                    <div class="px-6 py-5 space-y-4">
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">What</h4>
+                            <p class="text-gray-600 leading-relaxed">Custom data attributes that expose component state to the DOM for testing and debugging purposes</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Why</h4>
+                            <p class="text-gray-600 leading-relaxed">Makes component state visible in the DOM for testing without needing to query child elements or text content. Allows tests to verify state changes by checking attribute values. Useful for debugging in browser DevTools. Provides a testing API that&#x27;s independent of visual presentation. Enables snapshot testing of state.</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">How</h4>
+                            <p class="text-gray-600 leading-relaxed">JSX attribute syntax with curly braces for JavaScript expressions. The data-* attributes accept string values, and JavaScript values are automatically converted to strings. Tests can access these via element.getAttribute() or testing library queries.</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Context</h4>
+                            <p class="text-gray-600 leading-relaxed">Exposes the current lens mode and size metric state on the container element. Tests can verify these attributes change when user interacts with controls, without needing to inspect child button states or text content.</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Alternatives</h4>
+                            <p class="text-gray-600 leading-relaxed">Query child elements to infer state; use aria-* attributes; expose state through className; use custom events; test internal state directly (not recommended); use data-testid with state suffix</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Tags</h4>
+                            <div class="flex flex-wrap gap-2 mt-2">
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">testing</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">data-attribute</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">state-exposure</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">testing-api</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">debugging</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- CONCEPT-018 -->
+                <div class="bg-white rounded-lg shadow-md overflow-hidden border border-gray-200">
+                    <!-- Concept Header -->
+                    <div class="bg-gradient-to-r from-gray-50 to-gray-100 px-6 py-4 border-b border-gray-200">
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <div class="text-xs font-mono text-gray-500 mb-1">CONCEPT-018</div>
+                                <h3 class="text-xl font-bold text-gray-900"></h3>
+                                <div class="text-sm text-blue-600 font-medium mt-1">React/JSX Syntax</div>
+                            </div>
+                            <span class="bg-green-100 text-green-800 px-3 py-1 rounded-full text-xs font-semibold">Beginner</span>
+                        </div>
+                    </div>
+
+                    <!-- Code Snippet with Syntax Highlighting -->
+                    <div class="px-6 py-4 bg-gray-900">
+                        <pre><code class="language-typescript">data-lens-mode={lensMode}</code></pre>
+                    </div>
+
+                    <!-- Concept Details -->
+                    <div class="px-6 py-5 space-y-4">
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">What</h4>
+                            <p class="text-gray-600 leading-relaxed">Using curly braces in JSX to embed JavaScript expressions as attribute values</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Why</h4>
+                            <p class="text-gray-600 leading-relaxed">Allows dynamic attribute values based on component state or props. Without curly braces, the value would be treated as a literal string. Curly braces tell JSX to evaluate the expression and use its result as the attribute value.</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">How</h4>
+                            <p class="text-gray-600 leading-relaxed">JSX syntax uses curly braces {} to switch from JSX mode to JavaScript expression mode. Any valid JavaScript expression can be placed inside. The expression is evaluated and its result (converted to string for attributes) is used as the attribute value.</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Context</h4>
+                            <p class="text-gray-600 leading-relaxed">Dynamically sets the data-lens-mode attribute to the current lensMode value. As lensMode changes, the attribute value updates automatically on re-render.</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Alternatives</h4>
+                            <p class="text-gray-600 leading-relaxed">Template literal with backticks for string interpolation; concatenation with +; computed property names; inline ternary for conditional values</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Tags</h4>
+                            <div class="flex flex-wrap gap-2 mt-2">
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">jsx</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">javascript-expression</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">dynamic-attributes</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">curly-braces</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- CONCEPT-019 -->
+                <div class="bg-white rounded-lg shadow-md overflow-hidden border border-gray-200">
+                    <!-- Concept Header -->
+                    <div class="bg-gradient-to-r from-gray-50 to-gray-100 px-6 py-4 border-b border-gray-200">
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <div class="text-xs font-mono text-gray-500 mb-1">CONCEPT-019</div>
+                                <h3 class="text-xl font-bold text-gray-900"></h3>
+                                <div class="text-sm text-blue-600 font-medium mt-1">React/JSX Syntax</div>
+                            </div>
+                            <span class="bg-green-100 text-green-800 px-3 py-1 rounded-full text-xs font-semibold">Beginner</span>
+                        </div>
+                    </div>
+
+                    <!-- Code Snippet with Syntax Highlighting -->
+                    <div class="px-6 py-4 bg-gray-900">
+                        <pre><code class="language-typescript">{/* Lens Mode Selector */}</code></pre>
+                    </div>
+
+                    <!-- Concept Details -->
+                    <div class="px-6 py-5 space-y-4">
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">What</h4>
+                            <p class="text-gray-600 leading-relaxed">Comment syntax within JSX using curly braces and multi-line comment notation</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Why</h4>
+                            <p class="text-gray-600 leading-relaxed">Provides documentation within JSX structure without affecting rendered output. Regular HTML comments (&lt;!-- --&gt;) don&#x27;t work in JSX. JSX comments help organize and document sections of the component&#x27;s render output.</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">How</h4>
+                            <p class="text-gray-600 leading-relaxed">JSX comments use curly braces to enter JavaScript mode, then multi-line comment syntax /* */. The combination {/* ... */} creates a comment that&#x27;s stripped out during JSX transformation and doesn&#x27;t appear in the DOM.</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Context</h4>
+                            <p class="text-gray-600 leading-relaxed">Labels the section of JSX that renders the lens mode selector component, helping developers understand the structure of the rendered output.</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Alternatives</h4>
+                            <p class="text-gray-600 leading-relaxed">Regular JavaScript comments outside JSX; no comments (self-documenting code); HTML comments (don&#x27;t work in JSX); separate documentation</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Tags</h4>
+                            <div class="flex flex-wrap gap-2 mt-2">
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">jsx</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">comment</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">documentation</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">jsx-syntax</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- CONCEPT-020 -->
+                <div class="bg-white rounded-lg shadow-md overflow-hidden border border-gray-200">
+                    <!-- Concept Header -->
+                    <div class="bg-gradient-to-r from-gray-50 to-gray-100 px-6 py-4 border-b border-gray-200">
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <div class="text-xs font-mono text-gray-500 mb-1">CONCEPT-020</div>
+                                <h3 class="text-xl font-bold text-gray-900"></h3>
+                                <div class="text-sm text-blue-600 font-medium mt-1">React/Component Patterns</div>
+                            </div>
+                            <span class="bg-green-100 text-green-800 px-3 py-1 rounded-full text-xs font-semibold">Beginner</span>
+                        </div>
+                    </div>
+
+                    <!-- Code Snippet with Syntax Highlighting -->
+                    <div class="px-6 py-4 bg-gray-900">
+                        <pre><code class="language-typescript">&lt;LensModeSelector
+        currentLens={lensMode}
+        onLensChange={(lens) =&gt; updateState({ lensMode: lens })}
+      /&gt;</code></pre>
+                    </div>
+
+                    <!-- Concept Details -->
+                    <div class="px-6 py-5 space-y-4">
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">What</h4>
+                            <p class="text-gray-600 leading-relaxed">Rendering a child component and passing data and callbacks via props</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Why</h4>
+                            <p class="text-gray-600 leading-relaxed">Enables component composition - breaking UI into smaller, reusable pieces. Parent component manages state and passes it down with callbacks for updates. This separation of concerns makes components more maintainable, testable, and reusable. Child component doesn&#x27;t need to know about parent&#x27;s state management.</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">How</h4>
+                            <p class="text-gray-600 leading-relaxed">JSX syntax for component usage looks like HTML tags. Props are passed as attributes. The child component receives these props and can call callbacks to communicate back to parent. This implements unidirectional data flow pattern.</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Context</h4>
+                            <p class="text-gray-600 leading-relaxed">Renders the LensModeSelector component, passing current lens mode and a callback to update it. The parent manages state while child handles UI for lens selection. This demonstrates lifting state up pattern.</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Alternatives</h4>
+                            <p class="text-gray-600 leading-relaxed">Inline the child component&#x27;s JSX; use render props; use children prop; use Context API for state sharing; use state management library; compound components pattern</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Tags</h4>
+                            <div class="flex flex-wrap gap-2 mt-2">
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">react</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">component-composition</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">props</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">unidirectional-data-flow</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">separation-of-concerns</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- CONCEPT-021 -->
+                <div class="bg-white rounded-lg shadow-md overflow-hidden border border-gray-200">
+                    <!-- Concept Header -->
+                    <div class="bg-gradient-to-r from-gray-50 to-gray-100 px-6 py-4 border-b border-gray-200">
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <div class="text-xs font-mono text-gray-500 mb-1">CONCEPT-021</div>
+                                <h3 class="text-xl font-bold text-gray-900"></h3>
+                                <div class="text-sm text-blue-600 font-medium mt-1">React/Event Handling</div>
+                            </div>
+                            <span class="bg-green-100 text-green-800 px-3 py-1 rounded-full text-xs font-semibold">Beginner</span>
+                        </div>
+                    </div>
+
+                    <!-- Code Snippet with Syntax Highlighting -->
+                    <div class="px-6 py-4 bg-gray-900">
+                        <pre><code class="language-typescript">onLensChange={(lens) =&gt; updateState({ lensMode: lens })}</code></pre>
+                    </div>
+
+                    <!-- Concept Details -->
+                    <div class="px-6 py-5 space-y-4">
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">What</h4>
+                            <p class="text-gray-600 leading-relaxed">Defining an arrow function inline as a prop value to handle callbacks from child components</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Why</h4>
+                            <p class="text-gray-600 leading-relaxed">Creates a callback that adapts the child component&#x27;s event signature to the parent&#x27;s state update function. The child calls onLensChange with a lens value, and this function transforms it into the shape needed by updateState. Inline definition keeps the logic close to where it&#x27;s used.</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">How</h4>
+                            <p class="text-gray-600 leading-relaxed">Arrow function syntax within JSX curly braces. The function receives the lens parameter from child component and calls updateState with an object containing the lensMode property. This is a common pattern for adapting callback signatures.</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Context</h4>
+                            <p class="text-gray-600 leading-relaxed">Adapts LensModeSelector&#x27;s onLensChange callback to update the parent&#x27;s state. When user selects a lens, child calls this function with the lens value, which updates the parent&#x27;s lensMode state.</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Alternatives</h4>
+                            <p class="text-gray-600 leading-relaxed">Define callback function outside JSX and reference it; use useCallback hook to memoize; pass updateState directly if signatures match; use bind to partially apply arguments</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Tags</h4>
+                            <div class="flex flex-wrap gap-2 mt-2">
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">react</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">arrow-function</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">callback</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">event-handling</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">inline-function</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">props</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- CONCEPT-022 -->
+                <div class="bg-white rounded-lg shadow-md overflow-hidden border border-gray-200">
+                    <!-- Concept Header -->
+                    <div class="bg-gradient-to-r from-gray-50 to-gray-100 px-6 py-4 border-b border-gray-200">
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <div class="text-xs font-mono text-gray-500 mb-1">CONCEPT-022</div>
+                                <h3 class="text-xl font-bold text-gray-900"></h3>
+                                <div class="text-sm text-blue-600 font-medium mt-1">React/State Management</div>
+                            </div>
+                            <span class="bg-green-100 text-green-800 px-3 py-1 rounded-full text-xs font-semibold">Beginner</span>
+                        </div>
+                    </div>
+
+                    <!-- Code Snippet with Syntax Highlighting -->
+                    <div class="px-6 py-4 bg-gray-900">
+                        <pre><code class="language-typescript">updateState({ lensMode: lens })</code></pre>
+                    </div>
+
+                    <!-- Concept Details -->
+                    <div class="px-6 py-5 space-y-4">
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">What</h4>
+                            <p class="text-gray-600 leading-relaxed">Passing an object literal with a single property to update only part of the component&#x27;s state</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Why</h4>
+                            <p class="text-gray-600 leading-relaxed">Enables partial state updates without affecting other state properties. The updateState function (likely typed as Partial&lt;TreemapExplorerState&gt;) merges this object with existing state. This pattern allows updating individual state properties independently.</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">How</h4>
+                            <p class="text-gray-600 leading-relaxed">Object literal syntax creates an object with lensMode property set to the lens parameter value. The updateState function receives this object and merges it with current state, updating only the specified property.</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Context</h4>
+                            <p class="text-gray-600 leading-relaxed">Updates only the lensMode property of the plugin&#x27;s state when user selects a different lens. Other state properties (like sizeMetric) remain unchanged.</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Alternatives</h4>
+                            <p class="text-gray-600 leading-relaxed">Update entire state object; use separate update functions for each property; use reducer pattern; use state management library; use multiple useState calls</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Tags</h4>
+                            <div class="flex flex-wrap gap-2 mt-2">
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">javascript</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">object-literal</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">state-management</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">partial-update</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">react</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- CONCEPT-023 -->
+                <div class="bg-white rounded-lg shadow-md overflow-hidden border border-gray-200">
+                    <!-- Concept Header -->
+                    <div class="bg-gradient-to-r from-gray-50 to-gray-100 px-6 py-4 border-b border-gray-200">
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <div class="text-xs font-mono text-gray-500 mb-1">CONCEPT-023</div>
+                                <h3 class="text-xl font-bold text-gray-900"></h3>
+                                <div class="text-sm text-blue-600 font-medium mt-1">React/JSX Syntax</div>
+                            </div>
+                            <span class="bg-green-100 text-green-800 px-3 py-1 rounded-full text-xs font-semibold">Beginner</span>
+                        </div>
+                    </div>
+
+                    <!-- Code Snippet with Syntax Highlighting -->
+                    <div class="px-6 py-4 bg-gray-900">
+                        <pre><code class="language-typescript">&lt;LensModeSelector
+        currentLens={lensMode}
+        onLensChange={(lens) =&gt; updateState({ lensMode: lens })}
+      /&gt;</code></pre>
+                    </div>
+
+                    <!-- Concept Details -->
+                    <div class="px-6 py-5 space-y-4">
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">What</h4>
+                            <p class="text-gray-600 leading-relaxed">JSX element that closes itself with /&gt; instead of having separate opening and closing tags</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Why</h4>
+                            <p class="text-gray-600 leading-relaxed">Used for elements that don&#x27;t have children. More concise than separate closing tag. Required for components that don&#x27;t accept children. Follows XML/XHTML convention for empty elements.</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">How</h4>
+                            <p class="text-gray-600 leading-relaxed">JSX syntax allows self-closing tags with /&gt; at the end. This is equivalent to &lt;LensModeSelector&gt;&lt;/LensModeSelector&gt; but more concise. The component receives props but doesn&#x27;t render children.</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Context</h4>
+                            <p class="text-gray-600 leading-relaxed">LensModeSelector component doesn&#x27;t need children, so it uses self-closing syntax. The component is fully configured through props.</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Alternatives</h4>
+                            <p class="text-gray-600 leading-relaxed">Separate closing tag &lt;LensModeSelector&gt;...&lt;/LensModeSelector&gt;; pass children if component supports them</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Tags</h4>
+                            <div class="flex flex-wrap gap-2 mt-2">
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">jsx</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">self-closing-tag</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">xml-syntax</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">component-usage</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- CONCEPT-024 -->
+                <div class="bg-white rounded-lg shadow-md overflow-hidden border border-gray-200">
+                    <!-- Concept Header -->
+                    <div class="bg-gradient-to-r from-gray-50 to-gray-100 px-6 py-4 border-b border-gray-200">
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <div class="text-xs font-mono text-gray-500 mb-1">CONCEPT-024</div>
+                                <h3 class="text-xl font-bold text-gray-900"></h3>
+                                <div class="text-sm text-blue-600 font-medium mt-1">React/JSX Syntax</div>
+                            </div>
+                            <span class="bg-green-100 text-green-800 px-3 py-1 rounded-full text-xs font-semibold">Beginner</span>
+                        </div>
+                    </div>
+
+                    <!-- Code Snippet with Syntax Highlighting -->
+                    <div class="px-6 py-4 bg-gray-900">
+                        <pre><code class="language-typescript">&lt;div
+        className=&quot;flex rounded-lg border border-zinc-800 bg-zinc-950 p-1&quot;
+        data-testid=&quot;size-metric-selector&quot;
+        data-active-metric={sizeMetric}
+      &gt;
+        {sizeMetrics.map((metric) =&gt; (
+          &lt;button&gt;...&lt;/button&gt;
+        ))}
+      &lt;/div&gt;</code></pre>
+                    </div>
+
+                    <!-- Concept Details -->
+                    <div class="px-6 py-5 space-y-4">
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">What</h4>
+                            <p class="text-gray-600 leading-relaxed">JSX elements nested within other JSX elements to create a hierarchical structure</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Why</h4>
+                            <p class="text-gray-600 leading-relaxed">Creates the DOM tree structure. Parent elements contain child elements, establishing visual hierarchy and layout relationships. This is fundamental to building UI - components are composed of nested elements.</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">How</h4>
+                            <p class="text-gray-600 leading-relaxed">JSX allows nesting elements just like HTML. Opening tag, children (elements or expressions), closing tag. The structure is transformed into nested React.createElement calls.</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Context</h4>
+                            <p class="text-gray-600 leading-relaxed">Creates a container div that holds the size metric selector buttons. The div provides styling and layout for its children, which are generated by mapping over the sizeMetrics array.</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Alternatives</h4>
+                            <p class="text-gray-600 leading-relaxed">Flat structure with CSS for layout; separate components for each level; use React Fragments for grouping without extra DOM nodes</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Tags</h4>
+                            <div class="flex flex-wrap gap-2 mt-2">
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">jsx</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">nesting</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">dom-structure</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">component-hierarchy</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- CONCEPT-025 -->
+                <div class="bg-white rounded-lg shadow-md overflow-hidden border border-gray-200">
+                    <!-- Concept Header -->
+                    <div class="bg-gradient-to-r from-gray-50 to-gray-100 px-6 py-4 border-b border-gray-200">
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <div class="text-xs font-mono text-gray-500 mb-1">CONCEPT-025</div>
+                                <h3 class="text-xl font-bold text-gray-900"></h3>
+                                <div class="text-sm text-blue-600 font-medium mt-1">Styling/CSS Framework</div>
+                            </div>
+                            <span class="bg-green-100 text-green-800 px-3 py-1 rounded-full text-xs font-semibold">Beginner</span>
+                        </div>
+                    </div>
+
+                    <!-- Code Snippet with Syntax Highlighting -->
+                    <div class="px-6 py-4 bg-gray-900">
+                        <pre><code class="language-typescript">className=&quot;flex rounded-lg border border-zinc-800 bg-zinc-950 p-1&quot;</code></pre>
+                    </div>
+
+                    <!-- Concept Details -->
+                    <div class="px-6 py-5 space-y-4">
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">What</h4>
+                            <p class="text-gray-600 leading-relaxed">Tailwind utility classes for colors, borders, border radius, and padding</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Why</h4>
+                            <p class="text-gray-600 leading-relaxed">Creates a styled container with dark theme colors, rounded corners, border, and padding. Tailwind&#x27;s design system provides consistent spacing and color scales. The zinc color palette provides neutral grays suitable for dark themes.</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">How</h4>
+                            <p class="text-gray-600 leading-relaxed">Multiple Tailwind classes compose to create the final style: &#x27;rounded-lg&#x27; (border-radius: 0.5rem), &#x27;border&#x27; (border-width: 1px), &#x27;border-zinc-800&#x27; (border-color: zinc-800 from palette), &#x27;bg-zinc-950&#x27; (background-color: zinc-950, very dark), &#x27;p-1&#x27; (padding: 0.25rem all sides).</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Context</h4>
+                            <p class="text-gray-600 leading-relaxed">Styles the size metric selector container with dark theme appearance, subtle border, rounded corners, and minimal padding. Creates a visually distinct button group.</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Alternatives</h4>
+                            <p class="text-gray-600 leading-relaxed">CSS modules with custom colors; styled-components; inline styles; CSS variables; traditional CSS classes; other color palettes (slate, gray, neutral)</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Tags</h4>
+                            <div class="flex flex-wrap gap-2 mt-2">
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">tailwind-css</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">styling</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">colors</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">spacing</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">borders</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">dark-theme</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- CONCEPT-026 -->
+                <div class="bg-white rounded-lg shadow-md overflow-hidden border border-gray-200">
+                    <!-- Concept Header -->
+                    <div class="bg-gradient-to-r from-gray-50 to-gray-100 px-6 py-4 border-b border-gray-200">
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <div class="text-xs font-mono text-gray-500 mb-1">CONCEPT-026</div>
+                                <h3 class="text-xl font-bold text-gray-900"></h3>
+                                <div class="text-sm text-blue-600 font-medium mt-1">React/List Rendering</div>
+                            </div>
+                            <span class="bg-green-100 text-green-800 px-3 py-1 rounded-full text-xs font-semibold">Beginner</span>
+                        </div>
+                    </div>
+
+                    <!-- Code Snippet with Syntax Highlighting -->
+                    <div class="px-6 py-4 bg-gray-900">
+                        <pre><code class="language-typescript">{sizeMetrics.map((metric) =&gt; (
+          &lt;button
+            key={metric.id}
+            ...
+          &gt;
+            {metric.label}
+          &lt;/button&gt;
+        ))}</code></pre>
+                    </div>
+
+                    <!-- Concept Details -->
+                    <div class="px-6 py-5 space-y-4">
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">What</h4>
+                            <p class="text-gray-600 leading-relaxed">Using Array.map() to transform an array of data into an array of JSX elements for rendering</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Why</h4>
+                            <p class="text-gray-600 leading-relaxed">Enables data-driven UI - render dynamic lists based on data rather than hardcoding elements. Makes it easy to add/remove items by changing data. Keeps rendering logic DRY (Don&#x27;t Repeat Yourself). This is the standard React pattern for rendering lists.</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">How</h4>
+                            <p class="text-gray-600 leading-relaxed">Array.map() iterates over sizeMetrics array, calling the arrow function for each item. The function returns JSX for each item. Map returns a new array of JSX elements, which React renders. The curly braces embed the JavaScript expression in JSX.</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Context</h4>
+                            <p class="text-gray-600 leading-relaxed">Renders a button for each size metric option. Each button displays the metric&#x27;s label and handles clicks to update state. This creates the size metric selector UI dynamically from the sizeMetrics data.</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Alternatives</h4>
+                            <p class="text-gray-600 leading-relaxed">For loop with push to array; Array.forEach with side effects; hardcode each button; use reduce; use recursion; separate component for each item</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Tags</h4>
+                            <div class="flex flex-wrap gap-2 mt-2">
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">react</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">array-map</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">list-rendering</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">data-driven-ui</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">iteration</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- CONCEPT-027 -->
+                <div class="bg-white rounded-lg shadow-md overflow-hidden border border-gray-200">
+                    <!-- Concept Header -->
+                    <div class="bg-gradient-to-r from-gray-50 to-gray-100 px-6 py-4 border-b border-gray-200">
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <div class="text-xs font-mono text-gray-500 mb-1">CONCEPT-027</div>
+                                <h3 class="text-xl font-bold text-gray-900"></h3>
+                                <div class="text-sm text-blue-600 font-medium mt-1">JavaScript/ES6 Syntax</div>
+                            </div>
+                            <span class="bg-green-100 text-green-800 px-3 py-1 rounded-full text-xs font-semibold">Beginner</span>
+                        </div>
+                    </div>
+
+                    <!-- Code Snippet with Syntax Highlighting -->
+                    <div class="px-6 py-4 bg-gray-900">
+                        <pre><code class="language-typescript">(metric) =&gt; (
+          &lt;button&gt;...&lt;/button&gt;
+        )</code></pre>
+                    </div>
+
+                    <!-- Concept Details -->
+                    <div class="px-6 py-5 space-y-4">
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">What</h4>
+                            <p class="text-gray-600 leading-relaxed">Arrow function with parentheses around the body to implicitly return the expression without &#x27;return&#x27; keyword</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Why</h4>
+                            <p class="text-gray-600 leading-relaxed">Provides concise syntax for functions that only return a value. Parentheses allow multi-line expressions while maintaining implicit return. Common in map/filter/reduce callbacks. Reduces boilerplate compared to explicit return with curly braces.</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">How</h4>
+                            <p class="text-gray-600 leading-relaxed">Arrow function syntax: parameters =&gt; expression. When the body is wrapped in parentheses instead of curly braces, the expression is implicitly returned. Parentheses allow multi-line formatting without needing explicit return statement.</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Context</h4>
+                            <p class="text-gray-600 leading-relaxed">Map callback returns JSX for each metric. Implicit return keeps the code concise while allowing multi-line JSX formatting for readability.</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Alternatives</h4>
+                            <p class="text-gray-600 leading-relaxed">Explicit return with curly braces &#x27;(metric) =&gt; { return &lt;button&gt;...&lt;/button&gt;; }&#x27;; single-line without parentheses; function expression; separate named function</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Tags</h4>
+                            <div class="flex flex-wrap gap-2 mt-2">
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">javascript</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">es6</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">arrow-function</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">implicit-return</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">concise-syntax</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- CONCEPT-028 -->
+                <div class="bg-white rounded-lg shadow-md overflow-hidden border border-gray-200">
+                    <!-- Concept Header -->
+                    <div class="bg-gradient-to-r from-gray-50 to-gray-100 px-6 py-4 border-b border-gray-200">
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <div class="text-xs font-mono text-gray-500 mb-1">CONCEPT-028</div>
+                                <h3 class="text-xl font-bold text-gray-900"></h3>
+                                <div class="text-sm text-blue-600 font-medium mt-1">React/List Rendering</div>
+                            </div>
+                            <span class="bg-yellow-100 text-yellow-800 px-3 py-1 rounded-full text-xs font-semibold">Intermediate</span>
+                        </div>
+                    </div>
+
+                    <!-- Code Snippet with Syntax Highlighting -->
+                    <div class="px-6 py-4 bg-gray-900">
+                        <pre><code class="language-typescript">key={metric.id}</code></pre>
+                    </div>
+
+                    <!-- Concept Details -->
+                    <div class="px-6 py-5 space-y-4">
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">What</h4>
+                            <p class="text-gray-600 leading-relaxed">Special React prop that provides a stable identity for elements in a list</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Why</h4>
+                            <p class="text-gray-600 leading-relaxed">Required for list rendering performance and correctness. Keys help React identify which items changed, were added, or removed. Without keys, React uses index which can cause bugs with reordering. Stable keys (like IDs) enable React to preserve component state and DOM nodes across re-renders. Prevents unnecessary re-renders and maintains component identity.</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">How</h4>
+                            <p class="text-gray-600 leading-relaxed">The key prop is a special React prop (not passed to component). React uses it internally to track elements. Should be unique among siblings and stable across re-renders. Using metric.id ensures each button has a unique, stable key.</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Context</h4>
+                            <p class="text-gray-600 leading-relaxed">Provides unique key for each metric button using the metric&#x27;s id property. This ensures React can efficiently update the list when metrics change and maintain correct button state.</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Alternatives</h4>
+                            <p class="text-gray-600 leading-relaxed">Array index as key (not recommended for dynamic lists); composite key from multiple properties; generated UUID (not stable); Math.random() (never use - not stable)</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Tags</h4>
+                            <div class="flex flex-wrap gap-2 mt-2">
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">react</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">key-prop</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">list-rendering</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">performance</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">reconciliation</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- CONCEPT-029 -->
+                <div class="bg-white rounded-lg shadow-md overflow-hidden border border-gray-200">
+                    <!-- Concept Header -->
+                    <div class="bg-gradient-to-r from-gray-50 to-gray-100 px-6 py-4 border-b border-gray-200">
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <div class="text-xs font-mono text-gray-500 mb-1">CONCEPT-029</div>
+                                <h3 class="text-xl font-bold text-gray-900"></h3>
+                                <div class="text-sm text-blue-600 font-medium mt-1">Testing/Accessibility</div>
+                            </div>
+                            <span class="bg-yellow-100 text-yellow-800 px-3 py-1 rounded-full text-xs font-semibold">Intermediate</span>
+                        </div>
+                    </div>
+
+                    <!-- Code Snippet with Syntax Highlighting -->
+                    <div class="px-6 py-4 bg-gray-900">
+                        <pre><code class="language-typescript">data-testid={`metric-${metric.id}`}
+            data-active={sizeMetric === metric.id}</code></pre>
+                    </div>
+
+                    <!-- Concept Details -->
+                    <div class="px-6 py-5 space-y-4">
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">What</h4>
+                            <p class="text-gray-600 leading-relaxed">Multiple custom data attributes on a single element for different testing purposes</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Why</h4>
+                            <p class="text-gray-600 leading-relaxed">data-testid provides unique identifier for finding the element in tests. data-active exposes the button&#x27;s active state for verification. Separating concerns: one attribute for selection, another for state assertion. Makes tests more readable and maintainable.</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">How</h4>
+                            <p class="text-gray-600 leading-relaxed">HTML5 allows multiple data-* attributes on a single element. Each serves a different purpose. Tests can query by testid and assert on active state. Both use JSX expression syntax with curly braces for dynamic values.</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Context</h4>
+                            <p class="text-gray-600 leading-relaxed">Each metric button gets a unique testid (metric-commits, metric-authors) for selection in tests, and an active attribute indicating whether it&#x27;s the currently selected metric.</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Alternatives</h4>
+                            <p class="text-gray-600 leading-relaxed">Single data attribute with JSON value; aria-pressed for active state; className for active state; separate elements for active/inactive states; query by text content</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Tags</h4>
+                            <div class="flex flex-wrap gap-2 mt-2">
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">testing</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">data-attribute</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">test-id</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">state-exposure</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">multiple-attributes</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- CONCEPT-030 -->
+                <div class="bg-white rounded-lg shadow-md overflow-hidden border border-gray-200">
+                    <!-- Concept Header -->
+                    <div class="bg-gradient-to-r from-gray-50 to-gray-100 px-6 py-4 border-b border-gray-200">
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <div class="text-xs font-mono text-gray-500 mb-1">CONCEPT-030</div>
+                                <h3 class="text-xl font-bold text-gray-900"></h3>
+                                <div class="text-sm text-blue-600 font-medium mt-1">JavaScript/ES6 Syntax</div>
+                            </div>
+                            <span class="bg-green-100 text-green-800 px-3 py-1 rounded-full text-xs font-semibold">Beginner</span>
+                        </div>
+                    </div>
+
+                    <!-- Code Snippet with Syntax Highlighting -->
+                    <div class="px-6 py-4 bg-gray-900">
+                        <pre><code class="language-typescript">data-testid={`metric-${metric.id}`}</code></pre>
+                    </div>
+
+                    <!-- Concept Details -->
+                    <div class="px-6 py-5 space-y-4">
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">What</h4>
+                            <p class="text-gray-600 leading-relaxed">Template literal using backticks and ${} syntax to create a string with embedded expressions</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Why</h4>
+                            <p class="text-gray-600 leading-relaxed">Creates dynamic test IDs that include the metric&#x27;s id. More readable than string concatenation. Allows embedding any JavaScript expression in strings. Results in unique test IDs like &quot;metric-commits&quot; and &quot;metric-authors&quot;.</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">How</h4>
+                            <p class="text-gray-600 leading-relaxed">Template literals use backticks (`) instead of quotes. ${expression} syntax embeds JavaScript expressions. The expression is evaluated and converted to string, then interpolated into the template. More readable than &#x27;metric-&#x27; + metric.id.</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Context</h4>
+                            <p class="text-gray-600 leading-relaxed">Generates unique test IDs for each metric button by combining &quot;metric-&quot; prefix with the metric&#x27;s id. Enables tests to target specific buttons like getByTestId(&#x27;metric-commits&#x27;).</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Alternatives</h4>
+                            <p class="text-gray-600 leading-relaxed">String concatenation &#x27;metric-&#x27; + metric.id; array join [&#x27;metric&#x27;, metric.id].join(&#x27;-&#x27;); separate testid for each button without dynamic generation</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Tags</h4>
+                            <div class="flex flex-wrap gap-2 mt-2">
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">javascript</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">es6</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">template-literal</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">string-interpolation</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">dynamic-values</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- CONCEPT-031 -->
+                <div class="bg-white rounded-lg shadow-md overflow-hidden border border-gray-200">
+                    <!-- Concept Header -->
+                    <div class="bg-gradient-to-r from-gray-50 to-gray-100 px-6 py-4 border-b border-gray-200">
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <div class="text-xs font-mono text-gray-500 mb-1">CONCEPT-031</div>
+                                <h3 class="text-xl font-bold text-gray-900"></h3>
+                                <div class="text-sm text-blue-600 font-medium mt-1">React/JSX Syntax</div>
+                            </div>
+                            <span class="bg-green-100 text-green-800 px-3 py-1 rounded-full text-xs font-semibold">Beginner</span>
+                        </div>
+                    </div>
+
+                    <!-- Code Snippet with Syntax Highlighting -->
+                    <div class="px-6 py-4 bg-gray-900">
+                        <pre><code class="language-typescript">data-active={sizeMetric === metric.id}</code></pre>
+                    </div>
+
+                    <!-- Concept Details -->
+                    <div class="px-6 py-5 space-y-4">
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">What</h4>
+                            <p class="text-gray-600 leading-relaxed">Using a boolean comparison expression as an attribute value in JSX</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Why</h4>
+                            <p class="text-gray-600 leading-relaxed">Dynamically sets attribute based on condition. The expression evaluates to true or false, which is converted to string &quot;true&quot; or &quot;false&quot; for the attribute. Allows tests and CSS to check active state. More explicit than conditional rendering or className toggling.</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">How</h4>
+                            <p class="text-gray-600 leading-relaxed">JSX curly braces contain a JavaScript expression. The === operator compares sizeMetric with metric.id. Result is boolean (true/false), which React converts to string for the attribute value. Tests can check element.getAttribute(&#x27;data-active&#x27;) === &#x27;true&#x27;.</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Context</h4>
+                            <p class="text-gray-600 leading-relaxed">Sets data-active=&quot;true&quot; for the currently selected metric button, &quot;false&quot; for others. This exposes the button&#x27;s active state to tests and potentially CSS selectors.</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Alternatives</h4>
+                            <p class="text-gray-600 leading-relaxed">Conditional className; aria-pressed attribute; aria-selected; conditional rendering; separate active/inactive components; use string values &#x27;active&#x27;/&#x27;inactive&#x27;</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Tags</h4>
+                            <div class="flex flex-wrap gap-2 mt-2">
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">jsx</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">boolean-expression</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">comparison-operator</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">dynamic-attributes</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">state-exposure</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- CONCEPT-032 -->
+                <div class="bg-white rounded-lg shadow-md overflow-hidden border border-gray-200">
+                    <!-- Concept Header -->
+                    <div class="bg-gradient-to-r from-gray-50 to-gray-100 px-6 py-4 border-b border-gray-200">
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <div class="text-xs font-mono text-gray-500 mb-1">CONCEPT-032</div>
+                                <h3 class="text-xl font-bold text-gray-900"></h3>
+                                <div class="text-sm text-blue-600 font-medium mt-1">React/Event Handling</div>
+                            </div>
+                            <span class="bg-green-100 text-green-800 px-3 py-1 rounded-full text-xs font-semibold">Beginner</span>
+                        </div>
+                    </div>
+
+                    <!-- Code Snippet with Syntax Highlighting -->
+                    <div class="px-6 py-4 bg-gray-900">
+                        <pre><code class="language-typescript">onClick={() =&gt; updateState({ sizeMetric: metric.id as any })}</code></pre>
+                    </div>
+
+                    <!-- Concept Details -->
+                    <div class="px-6 py-5 space-y-4">
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">What</h4>
+                            <p class="text-gray-600 leading-relaxed">Inline arrow function as onClick event handler that calls updateState when button is clicked</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Why</h4>
+                            <p class="text-gray-600 leading-relaxed">Handles button click events to update state. Inline arrow function allows passing arguments to updateState (the metric.id). Without the arrow function, updateState would be called immediately during render. The arrow function defers execution until click occurs.</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">How</h4>
+                            <p class="text-gray-600 leading-relaxed">onClick prop accepts a function. Arrow function syntax creates a new function on each render that captures metric.id from the current iteration. When clicked, React calls this function, which calls updateState with the metric&#x27;s id.</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Context</h4>
+                            <p class="text-gray-600 leading-relaxed">When user clicks a metric button, this handler updates the sizeMetric state to the clicked metric&#x27;s id. This changes which metric is used to size the treemap visualization.</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Alternatives</h4>
+                            <p class="text-gray-600 leading-relaxed">Define handler function outside JSX; use useCallback to memoize; use data attributes and single handler; pass updateState directly if signature matches; use event delegation</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Tags</h4>
+                            <div class="flex flex-wrap gap-2 mt-2">
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">react</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">event-handling</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">onclick</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">arrow-function</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">inline-handler</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- CONCEPT-033 -->
+                <div class="bg-white rounded-lg shadow-md overflow-hidden border border-gray-200">
+                    <!-- Concept Header -->
+                    <div class="bg-gradient-to-r from-gray-50 to-gray-100 px-6 py-4 border-b border-gray-200">
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <div class="text-xs font-mono text-gray-500 mb-1">CONCEPT-033</div>
+                                <h3 class="text-xl font-bold text-gray-900"></h3>
+                                <div class="text-sm text-blue-600 font-medium mt-1">TypeScript/Type System</div>
+                            </div>
+                            <span class="bg-yellow-100 text-yellow-800 px-3 py-1 rounded-full text-xs font-semibold">Intermediate</span>
+                        </div>
+                    </div>
+
+                    <!-- Code Snippet with Syntax Highlighting -->
+                    <div class="px-6 py-4 bg-gray-900">
+                        <pre><code class="language-typescript">metric.id as any</code></pre>
+                    </div>
+
+                    <!-- Concept Details -->
+                    <div class="px-6 py-5 space-y-4">
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">What</h4>
+                            <p class="text-gray-600 leading-relaxed">TypeScript type assertion that tells the compiler to treat a value as the &#x27;any&#x27; type, bypassing type checking</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Why</h4>
+                            <p class="text-gray-600 leading-relaxed">Used here to work around a type mismatch between metric.id (string literal type) and sizeMetric property type. While &#x27;as any&#x27; disables type safety, it&#x27;s sometimes used as a quick fix for complex type issues. This is generally considered a code smell and indicates the types might need refinement.</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">How</h4>
+                            <p class="text-gray-600 leading-relaxed">TypeScript &#x27;as&#x27; keyword performs type assertion. &#x27;as any&#x27; tells TypeScript to treat the value as type &#x27;any&#x27;, which is compatible with all types. This bypasses type checking for this specific value. The assertion doesn&#x27;t change runtime behavior, only compile-time type checking.</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Context</h4>
+                            <p class="text-gray-600 leading-relaxed">Asserts metric.id as any to satisfy TypeScript when passing to updateState. This suggests sizeMetric might have a more specific type than string, or there&#x27;s a type definition mismatch that should be properly resolved.</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Alternatives</h4>
+                            <p class="text-gray-600 leading-relaxed">Fix the underlying type definitions; use proper type assertion to specific type; use type guard; use union type; use generic constraints; refactor to avoid type mismatch</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Tags</h4>
+                            <div class="flex flex-wrap gap-2 mt-2">
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">typescript</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">type-assertion</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">any-type</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">type-safety-bypass</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">code-smell</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- CONCEPT-034 -->
+                <div class="bg-white rounded-lg shadow-md overflow-hidden border border-gray-200">
+                    <!-- Concept Header -->
+                    <div class="bg-gradient-to-r from-gray-50 to-gray-100 px-6 py-4 border-b border-gray-200">
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <div class="text-xs font-mono text-gray-500 mb-1">CONCEPT-034</div>
+                                <h3 class="text-xl font-bold text-gray-900"></h3>
+                                <div class="text-sm text-blue-600 font-medium mt-1">React/Styling Patterns</div>
+                            </div>
+                            <span class="bg-yellow-100 text-yellow-800 px-3 py-1 rounded-full text-xs font-semibold">Intermediate</span>
+                        </div>
+                    </div>
+
+                    <!-- Code Snippet with Syntax Highlighting -->
+                    <div class="px-6 py-4 bg-gray-900">
+                        <pre><code class="language-typescript">className={`rounded-md px-3 py-1 text-xs font-medium transition-all ${
+              sizeMetric === metric.id
+                ? &quot;bg-zinc-700 text-white&quot;
+                : &quot;text-zinc-400 hover:text-zinc-200&quot;
+            } `}</code></pre>
+                    </div>
+
+                    <!-- Concept Details -->
+                    <div class="px-6 py-5 space-y-4">
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">What</h4>
+                            <p class="text-gray-600 leading-relaxed">Using template literal with embedded ternary operator to conditionally apply CSS classes based on component state</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Why</h4>
+                            <p class="text-gray-600 leading-relaxed">Enables dynamic styling based on state - active button gets different styles than inactive buttons. Template literal allows combining static classes with conditional classes. Ternary operator provides clean syntax for two-state styling. This is a common pattern for toggle buttons and tabs.</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">How</h4>
+                            <p class="text-gray-600 leading-relaxed">Template literal with ${} contains a ternary expression. If sizeMetric === metric.id (button is active), applies active styles. Otherwise applies inactive styles. The entire template literal evaluates to a string of space-separated class names.</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Context</h4>
+                            <p class="text-gray-600 leading-relaxed">Applies base styles (rounded, padding, text size, font weight, transitions) to all buttons, then conditionally applies active styles (dark background, white text) or inactive styles (gray text with hover effect) based on whether this button&#x27;s metric is currently selected.</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Alternatives</h4>
+                            <p class="text-gray-600 leading-relaxed">Separate className variables; classnames/clsx library; CSS modules with composition; styled-components with props; multiple className props; data attributes with CSS selectors</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Tags</h4>
+                            <div class="flex flex-wrap gap-2 mt-2">
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">react</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">conditional-styling</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">template-literal</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">ternary-operator</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">dynamic-classname</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">tailwind-css</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- CONCEPT-035 -->
+                <div class="bg-white rounded-lg shadow-md overflow-hidden border border-gray-200">
+                    <!-- Concept Header -->
+                    <div class="bg-gradient-to-r from-gray-50 to-gray-100 px-6 py-4 border-b border-gray-200">
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <div class="text-xs font-mono text-gray-500 mb-1">CONCEPT-035</div>
+                                <h3 class="text-xl font-bold text-gray-900"></h3>
+                                <div class="text-sm text-blue-600 font-medium mt-1">JavaScript/Control Flow</div>
+                            </div>
+                            <span class="bg-green-100 text-green-800 px-3 py-1 rounded-full text-xs font-semibold">Beginner</span>
+                        </div>
+                    </div>
+
+                    <!-- Code Snippet with Syntax Highlighting -->
+                    <div class="px-6 py-4 bg-gray-900">
+                        <pre><code class="language-typescript">sizeMetric === metric.id
+                ? &quot;bg-zinc-700 text-white&quot;
+                : &quot;text-zinc-400 hover:text-zinc-200&quot;</code></pre>
+                    </div>
+
+                    <!-- Concept Details -->
+                    <div class="px-6 py-5 space-y-4">
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">What</h4>
+                            <p class="text-gray-600 leading-relaxed">Ternary conditional operator (condition ? valueIfTrue : valueIfFalse) for inline conditional expressions</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Why</h4>
+                            <p class="text-gray-600 leading-relaxed">Provides concise syntax for conditional values in expressions. More compact than if-else statement for simple conditions. Can be used in JSX and other expression contexts where statements aren&#x27;t allowed. Perfect for conditional styling, rendering, or prop values.</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">How</h4>
+                            <p class="text-gray-600 leading-relaxed">Syntax: condition ? expressionIfTrue : expressionIfFalse. Evaluates condition, returns first expression if truthy, second if falsy. This is an expression (returns a value) unlike if-else statement. Can be nested but becomes hard to read.</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Context</h4>
+                            <p class="text-gray-600 leading-relaxed">Returns different Tailwind class strings based on whether the button represents the currently selected metric. Active button gets dark background and white text, inactive gets gray text with hover effect.</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Alternatives</h4>
+                            <p class="text-gray-600 leading-relaxed">If-else statement with variable assignment; switch statement; object lookup; separate functions for active/inactive classes; logical AND/OR operators; early return pattern</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Tags</h4>
+                            <div class="flex flex-wrap gap-2 mt-2">
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">javascript</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">ternary-operator</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">conditional-expression</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">control-flow</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- CONCEPT-036 -->
+                <div class="bg-white rounded-lg shadow-md overflow-hidden border border-gray-200">
+                    <!-- Concept Header -->
+                    <div class="bg-gradient-to-r from-gray-50 to-gray-100 px-6 py-4 border-b border-gray-200">
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <div class="text-xs font-mono text-gray-500 mb-1">CONCEPT-036</div>
+                                <h3 class="text-xl font-bold text-gray-900"></h3>
+                                <div class="text-sm text-blue-600 font-medium mt-1">Styling/CSS Framework</div>
+                            </div>
+                            <span class="bg-green-100 text-green-800 px-3 py-1 rounded-full text-xs font-semibold">Beginner</span>
+                        </div>
+                    </div>
+
+                    <!-- Code Snippet with Syntax Highlighting -->
+                    <div class="px-6 py-4 bg-gray-900">
+                        <pre><code class="language-typescript">hover:text-zinc-200</code></pre>
+                    </div>
+
+                    <!-- Concept Details -->
+                    <div class="px-6 py-5 space-y-4">
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">What</h4>
+                            <p class="text-gray-600 leading-relaxed">Tailwind CSS utility class with hover: prefix that applies styles only when element is hovered</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Why</h4>
+                            <p class="text-gray-600 leading-relaxed">Provides interactive feedback to users. Hover states improve UX by indicating clickable elements. Tailwind&#x27;s hover: prefix makes it easy to add hover styles without writing CSS. The lighter text color on hover makes inactive buttons more prominent when user is about to click.</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">How</h4>
+                            <p class="text-gray-600 leading-relaxed">Tailwind&#x27;s hover: prefix generates CSS with :hover pseudo-class. &#x27;hover:text-zinc-200&#x27; becomes &#x27;.hover\:text-zinc-200:hover { color: zinc-200; }&#x27;. The utility only applies when element is hovered. Tailwind handles the CSS generation and specificity.</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Context</h4>
+                            <p class="text-gray-600 leading-relaxed">Inactive metric buttons change from zinc-400 (medium gray) to zinc-200 (lighter gray) on hover, providing visual feedback that the button is interactive.</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Alternatives</h4>
+                            <p class="text-gray-600 leading-relaxed">CSS :hover pseudo-class; JavaScript onMouseEnter/onMouseLeave; styled-components with &amp;:hover; CSS modules; focus-visible for keyboard navigation; active state</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Tags</h4>
+                            <div class="flex flex-wrap gap-2 mt-2">
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">tailwind-css</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">hover-state</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">pseudo-class</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">interactive-styling</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">user-feedback</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- CONCEPT-037 -->
+                <div class="bg-white rounded-lg shadow-md overflow-hidden border border-gray-200">
+                    <!-- Concept Header -->
+                    <div class="bg-gradient-to-r from-gray-50 to-gray-100 px-6 py-4 border-b border-gray-200">
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <div class="text-xs font-mono text-gray-500 mb-1">CONCEPT-037</div>
+                                <h3 class="text-xl font-bold text-gray-900"></h3>
+                                <div class="text-sm text-blue-600 font-medium mt-1">Styling/CSS Framework</div>
+                            </div>
+                            <span class="bg-green-100 text-green-800 px-3 py-1 rounded-full text-xs font-semibold">Beginner</span>
+                        </div>
+                    </div>
+
+                    <!-- Code Snippet with Syntax Highlighting -->
+                    <div class="px-6 py-4 bg-gray-900">
+                        <pre><code class="language-typescript">transition-all</code></pre>
+                    </div>
+
+                    <!-- Concept Details -->
+                    <div class="px-6 py-5 space-y-4">
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">What</h4>
+                            <p class="text-gray-600 leading-relaxed">Tailwind utility class that applies CSS transitions to all animatable properties</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Why</h4>
+                            <p class="text-gray-600 leading-relaxed">Creates smooth animations when styles change (like hover effects or active state changes). Improves perceived performance and polish. &#x27;transition-all&#x27; applies to all properties, making any style change animate smoothly. Enhances user experience with subtle motion.</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">How</h4>
+                            <p class="text-gray-600 leading-relaxed">Tailwind&#x27;s transition-all generates CSS: &#x27;transition-property: all; transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1); transition-duration: 150ms;&#x27;. This makes all property changes animate over 150ms with an ease-in-out timing function.</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Context</h4>
+                            <p class="text-gray-600 leading-relaxed">Makes the button&#x27;s style changes (background color, text color on active state change, text color on hover) animate smoothly rather than changing instantly. Creates a more polished, professional feel.</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Alternatives</h4>
+                            <p class="text-gray-600 leading-relaxed">Specific transition utilities (transition-colors, transition-opacity); custom transition with duration/timing; CSS transition property; JavaScript animations; no transitions (instant changes)</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Tags</h4>
+                            <div class="flex flex-wrap gap-2 mt-2">
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">tailwind-css</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">transitions</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">animations</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">user-experience</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">polish</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- CONCEPT-038 -->
+                <div class="bg-white rounded-lg shadow-md overflow-hidden border border-gray-200">
+                    <!-- Concept Header -->
+                    <div class="bg-gradient-to-r from-gray-50 to-gray-100 px-6 py-4 border-b border-gray-200">
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <div class="text-xs font-mono text-gray-500 mb-1">CONCEPT-038</div>
+                                <h3 class="text-xl font-bold text-gray-900"></h3>
+                                <div class="text-sm text-blue-600 font-medium mt-1">React/JSX Syntax</div>
+                            </div>
+                            <span class="bg-green-100 text-green-800 px-3 py-1 rounded-full text-xs font-semibold">Beginner</span>
+                        </div>
+                    </div>
+
+                    <!-- Code Snippet with Syntax Highlighting -->
+                    <div class="px-6 py-4 bg-gray-900">
+                        <pre><code class="language-typescript">&lt;button&gt;
+            {metric.label}
+          &lt;/button&gt;</code></pre>
+                    </div>
+
+                    <!-- Concept Details -->
+                    <div class="px-6 py-5 space-y-4">
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">What</h4>
+                            <p class="text-gray-600 leading-relaxed">Using curly braces to embed a JavaScript expression as the children of a JSX element</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Why</h4>
+                            <p class="text-gray-600 leading-relaxed">Allows dynamic content based on data. The button&#x27;s text comes from the metric&#x27;s label property, making the UI data-driven. Without curly braces, &#x27;metric.label&#x27; would be rendered as literal text.</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">How</h4>
+                            <p class="text-gray-600 leading-relaxed">JSX children can be text, elements, or expressions in curly braces. The expression is evaluated and its result is rendered as the element&#x27;s content. React converts the value to string for rendering.</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Context</h4>
+                            <p class="text-gray-600 leading-relaxed">Renders the metric&#x27;s label (&quot;Commits&quot; or &quot;Authors&quot;) as the button&#x27;s text content. Each button displays its corresponding metric name.</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Alternatives</h4>
+                            <p class="text-gray-600 leading-relaxed">String literal for static text; template literal; separate text component; aria-label for accessibility with icon; computed property</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Tags</h4>
+                            <div class="flex flex-wrap gap-2 mt-2">
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">jsx</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">children</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">javascript-expression</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">dynamic-content</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- CONCEPT-039 -->
+                <div class="bg-white rounded-lg shadow-md overflow-hidden border border-gray-200">
+                    <!-- Concept Header -->
+                    <div class="bg-gradient-to-r from-gray-50 to-gray-100 px-6 py-4 border-b border-gray-200">
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <div class="text-xs font-mono text-gray-500 mb-1">CONCEPT-039</div>
+                                <h3 class="text-xl font-bold text-gray-900"></h3>
+                                <div class="text-sm text-blue-600 font-medium mt-1">JavaScript/String Handling</div>
+                            </div>
+                            <span class="bg-green-100 text-green-800 px-3 py-1 rounded-full text-xs font-semibold">Beginner</span>
+                        </div>
+                    </div>
+
+                    <!-- Code Snippet with Syntax Highlighting -->
+                    <div class="px-6 py-4 bg-gray-900">
+                        <pre><code class="language-typescript">} `}</code></pre>
+                    </div>
+
+                    <!-- Concept Details -->
+                    <div class="px-6 py-5 space-y-4">
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">What</h4>
+                            <p class="text-gray-600 leading-relaxed">Intentional trailing space before the closing backtick in a template literal</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Why</h4>
+                            <p class="text-gray-600 leading-relaxed">Ensures proper spacing between the conditional classes and any additional classes that might be added. Without this space, classes would concatenate without separation. This is a defensive programming practice to prevent CSS class name bugs.</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">How</h4>
+                            <p class="text-gray-600 leading-relaxed">The space character before the closing backtick becomes part of the final string. When the template literal is evaluated, this space ensures the last class is separated from any subsequent content.</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Context</h4>
+                            <p class="text-gray-600 leading-relaxed">Adds a trailing space after the conditional classes in the className template literal. While not strictly necessary here (no classes follow), it&#x27;s a good practice for maintainability.</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Alternatives</h4>
+                            <p class="text-gray-600 leading-relaxed">No trailing space (risk of concatenation); use array join with space; use classnames/clsx library; trim and split/join; CSS modules</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Tags</h4>
+                            <div class="flex flex-wrap gap-2 mt-2">
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">javascript</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">template-literal</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">string-handling</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">defensive-programming</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">whitespace</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Footer -->
+    <div class="bg-gray-800 text-gray-300 py-6 px-6 mt-12">
+        <div class="max-w-7xl mx-auto text-center text-sm">
+            Generated from Code Taxonomy Analysis • 39 concepts extracted
+        </div>
+    </div>
+
+    <!-- Initialize Syntax Highlighting -->
+    <script>
+        hljs.highlightAll();
+    </script>
+
+</body>
+</html>

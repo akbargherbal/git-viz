@@ -1,0 +1,1882 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>helpers.ts - Code Taxonomy</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Highlight.js for syntax highlighting -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/typescript.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/javascript.min.js"></script>
+</head>
+<body class="bg-gray-50 text-gray-900">
+    
+    <!-- Header -->
+    <div class="bg-gradient-to-r from-blue-600 to-blue-700 text-white py-8 px-6 shadow-lg">
+        <div class="max-w-7xl mx-auto">
+            <div class="text-sm text-blue-100 mb-2">src/test-utils</div>
+            <h1 class="text-4xl font-bold mb-2">helpers.ts</h1>
+            <p class="text-blue-100">Provide reusable test utilities for time mocking, async operations, and test setup/teardown</p>
+        </div>
+    </div>
+
+    <!-- Metadata & Stats Bar -->
+    <div class="bg-white shadow-sm border-b">
+        <div class="max-w-7xl mx-auto py-6 px-6">
+            <div class="grid grid-cols-2 md:grid-cols-5 gap-6">
+                <div>
+                    <div class="text-xs font-semibold text-gray-500 uppercase tracking-wide mb-1">Type</div>
+                    <div class="text-lg font-bold text-gray-900">Test-utility</div>
+                </div>
+                <div>
+                    <div class="text-xs font-semibold text-gray-500 uppercase tracking-wide mb-1">Priority</div>
+                    <div class="text-lg font-bold text-gray-900">Application</div>
+                </div>
+                <div>
+                    <div class="text-xs font-semibold text-gray-500 uppercase tracking-wide mb-1">Total Concepts</div>
+                    <div class="text-lg font-bold text-blue-600">27</div>
+                </div>
+                <div>
+                    <div class="text-xs font-semibold text-gray-500 uppercase tracking-wide mb-1">Categories</div>
+                    <div class="text-lg font-bold text-blue-600">9</div>
+                </div>
+                <div>
+                    <div class="text-xs font-semibold text-gray-500 uppercase tracking-wide mb-1">Complexity</div>
+                    <div class="text-sm font-mono text-gray-700">
+                        <span class="text-green-600">7</span> / 
+                        <span class="text-yellow-600">20</span> / 
+                        <span class="text-red-600">0</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="max-w-7xl mx-auto py-8 px-6">
+        
+        <!-- Summary Section -->
+        <div class="mb-8">
+            <h2 class="text-2xl font-bold mb-4">📊 Summary</h2>
+            
+            <div class="grid md:grid-cols-2 gap-6 mb-6">
+                <!-- Category Counts -->
+                <div class="bg-white rounded-lg shadow p-6">
+                    <h3 class="text-lg font-semibold mb-4 text-gray-700">Concepts by Category</h3>
+                    <div class="space-y-3">
+
+                        <div class="flex justify-between items-center">
+                            <span class="text-sm text-gray-600">Code Organization</span>
+                            <span class="bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm font-semibold">4</span>
+                        </div>
+
+                        <div class="flex justify-between items-center">
+                            <span class="text-sm text-gray-600">Import/Module Management</span>
+                            <span class="bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm font-semibold">2</span>
+                        </div>
+
+                        <div class="flex justify-between items-center">
+                            <span class="text-sm text-gray-600">JavaScript/ES6 Syntax</span>
+                            <span class="bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm font-semibold">3</span>
+                        </div>
+
+                        <div class="flex justify-between items-center">
+                            <span class="text-sm text-gray-600">TypeScript/Type System</span>
+                            <span class="bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm font-semibold">4</span>
+                        </div>
+
+                        <div class="flex justify-between items-center">
+                            <span class="text-sm text-gray-600">Testing Patterns</span>
+                            <span class="bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm font-semibold">6</span>
+                        </div>
+
+                        <div class="flex justify-between items-center">
+                            <span class="text-sm text-gray-600">JavaScript/Async Patterns</span>
+                            <span class="bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm font-semibold">4</span>
+                        </div>
+
+                        <div class="flex justify-between items-center">
+                            <span class="text-sm text-gray-600">JavaScript/Functions</span>
+                            <span class="bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm font-semibold">2</span>
+                        </div>
+
+                        <div class="flex justify-between items-center">
+                            <span class="text-sm text-gray-600">Data Formats</span>
+                            <span class="bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm font-semibold">1</span>
+                        </div>
+
+                        <div class="flex justify-between items-center">
+                            <span class="text-sm text-gray-600">JavaScript/Date Handling</span>
+                            <span class="bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm font-semibold">1</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Complexity Breakdown -->
+                <div class="bg-white rounded-lg shadow p-6">
+                    <h3 class="text-lg font-semibold mb-4 text-gray-700">Complexity Distribution</h3>
+                    <div class="space-y-4">
+
+                        <div>
+                            <div class="flex justify-between mb-1">
+                                <span class="text-sm font-medium text-green-700">Beginner</span>
+                                <span class="text-sm font-semibold text-green-700">7 concepts</span>
+                            </div>
+                            <div class="w-full bg-gray-200 rounded-full h-2">
+                                <div class="bg-green-500 h-2 rounded-full" style="width: 25%"></div>
+                            </div>
+                        </div>
+
+                        <div>
+                            <div class="flex justify-between mb-1">
+                                <span class="text-sm font-medium text-yellow-700">Intermediate</span>
+                                <span class="text-sm font-semibold text-yellow-700">20 concepts</span>
+                            </div>
+                            <div class="w-full bg-gray-200 rounded-full h-2">
+                                <div class="bg-yellow-500 h-2 rounded-full" style="width: 74%"></div>
+                            </div>
+                        </div>
+
+                        <div>
+                            <div class="flex justify-between mb-1">
+                                <span class="text-sm font-medium text-red-700">Advanced</span>
+                                <span class="text-sm font-semibold text-red-700">0 concepts</span>
+                            </div>
+                            <div class="w-full bg-gray-200 rounded-full h-2">
+                                <div class="bg-red-500 h-2 rounded-full" style="width: 0%"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tag Cloud -->
+            <div class="bg-white rounded-lg shadow p-6">
+                <h3 class="text-lg font-semibold mb-4 text-gray-700">🏷️ Tags</h3>
+                <div class="flex flex-wrap gap-2">
+                    <span class="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-sm">api-design</span>
+                    <span class="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-sm">api-documentation</span>
+                    <span class="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-sm">async-await</span>
+                    <span class="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-sm">async-function</span>
+                    <span class="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-sm">async-patterns</span>
+                    <span class="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-sm">async-utilities</span>
+                    <span class="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-sm">asynchronous</span>
+                    <span class="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-sm">best-practices</span>
+                    <span class="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-sm">bundle-optimization</span>
+                    <span class="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-sm">callback-wrapping</span>
+                    <span class="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-sm">callbacks</span>
+                    <span class="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-sm">cleanup</span>
+                    <span class="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-sm">cleanup-pattern</span>
+                    <span class="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-sm">code-examples</span>
+                    <span class="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-sm">code-organization</span>
+                    <span class="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-sm">comments</span>
+                    <span class="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-sm">concise-syntax</span>
+                    <span class="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-sm">const</span>
+                    <span class="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-sm">constants</span>
+                    <span class="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-sm">data-format</span>
+                    <span class="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-sm">date</span>
+                    <span class="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-sm">date-constructor</span>
+                    <span class="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-sm">date-format</span>
+                    <span class="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-sm">date-handling</span>
+                    <span class="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-sm">date-mocking</span>
+                    <span class="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-sm">date-parsing</span>
+                    <span class="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-sm">default-parameters</span>
+                    <span class="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-sm">deferred-execution</span>
+                    <span class="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-sm">delay</span>
+                    <span class="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-sm">deterministic-testing</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Concepts Section -->
+        <div>
+            <h2 class="text-2xl font-bold mb-4">💡 Concepts</h2>
+            
+            <div class="space-y-6">
+
+                <!-- CONCEPT-001 -->
+                <div class="bg-white rounded-lg shadow-md overflow-hidden border border-gray-200">
+                    <!-- Concept Header -->
+                    <div class="bg-gradient-to-r from-gray-50 to-gray-100 px-6 py-4 border-b border-gray-200">
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <div class="text-xs font-mono text-gray-500 mb-1">CONCEPT-001</div>
+                                <h3 class="text-xl font-bold text-gray-900"></h3>
+                                <div class="text-sm text-blue-600 font-medium mt-1">Code Organization</div>
+                            </div>
+                            <span class="bg-green-100 text-green-800 px-3 py-1 rounded-full text-xs font-semibold">Beginner</span>
+                        </div>
+                    </div>
+
+                    <!-- Code Snippet with Syntax Highlighting -->
+                    <div class="px-6 py-4 bg-gray-900">
+                        <pre><code class="language-typescript">/**
+ * Test Helpers and Utilities
+ *
+ * Common test setup functions and utilities
+ */</code></pre>
+                    </div>
+
+                    <!-- Concept Details -->
+                    <div class="px-6 py-5 space-y-4">
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">What</h4>
+                            <p class="text-gray-600 leading-relaxed">Multi-line comment block using JSDoc syntax to document the file&#x27;s purpose at the top level</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Why</h4>
+                            <p class="text-gray-600 leading-relaxed">Provides immediate context about the file&#x27;s purpose for developers; improves code discoverability; serves as documentation that can be parsed by documentation generators; helps IDE tooltips show file purpose; establishes clear intent before diving into implementation</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">How</h4>
+                            <p class="text-gray-600 leading-relaxed">Uses /** */ syntax which is recognized by JSDoc parsers and TypeScript; placed at the very top of the file before any imports; contains a title line followed by a blank line and description</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Context</h4>
+                            <p class="text-gray-600 leading-relaxed">Documents that this file contains test utilities and helpers, setting expectations for what developers will find inside</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Alternatives</h4>
+                            <p class="text-gray-600 leading-relaxed">Single-line comments; no documentation; README file; inline comments only; TypeScript namespace documentation; module-level exports with individual JSDoc</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Tags</h4>
+                            <div class="flex flex-wrap gap-2 mt-2">
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">documentation</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">jsdoc</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">file-header</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">code-organization</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">developer-experience</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- CONCEPT-002 -->
+                <div class="bg-white rounded-lg shadow-md overflow-hidden border border-gray-200">
+                    <!-- Concept Header -->
+                    <div class="bg-gradient-to-r from-gray-50 to-gray-100 px-6 py-4 border-b border-gray-200">
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <div class="text-xs font-mono text-gray-500 mb-1">CONCEPT-002</div>
+                                <h3 class="text-xl font-bold text-gray-900"></h3>
+                                <div class="text-sm text-blue-600 font-medium mt-1">Import/Module Management</div>
+                            </div>
+                            <span class="bg-green-100 text-green-800 px-3 py-1 rounded-full text-xs font-semibold">Beginner</span>
+                        </div>
+                    </div>
+
+                    <!-- Code Snippet with Syntax Highlighting -->
+                    <div class="px-6 py-4 bg-gray-900">
+                        <pre><code class="language-typescript">import { vi } from &quot;vitest&quot;;</code></pre>
+                    </div>
+
+                    <!-- Concept Details -->
+                    <div class="px-6 py-5 space-y-4">
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">What</h4>
+                            <p class="text-gray-600 leading-relaxed">Named import of the &#x27;vi&#x27; utility object from the Vitest testing framework</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Why</h4>
+                            <p class="text-gray-600 leading-relaxed">Vitest&#x27;s &#x27;vi&#x27; object provides mocking, spying, and timer manipulation utilities essential for testing; named import makes it clear which specific utilities are being used; &#x27;vi&#x27; is Vitest&#x27;s equivalent to Jest&#x27;s &#x27;jest&#x27; global object</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">How</h4>
+                            <p class="text-gray-600 leading-relaxed">ES6 named import syntax extracts the &#x27;vi&#x27; export from the vitest package; &#x27;vi&#x27; contains methods like useFakeTimers, setSystemTime, useRealTimers for test control</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Context</h4>
+                            <p class="text-gray-600 leading-relaxed">Importing Vitest&#x27;s utility object to enable fake timer functionality for time-based test helpers in this file</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Alternatives</h4>
+                            <p class="text-gray-600 leading-relaxed">Import entire vitest module &#x27;import * as vitest&#x27;; use Jest instead with &#x27;jest&#x27; global; import specific functions &#x27;import { useFakeTimers }&#x27;; use native setTimeout/setInterval without mocking</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Tags</h4>
+                            <div class="flex flex-wrap gap-2 mt-2">
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">import</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">vitest</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">testing-framework</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">test-utilities</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">named-import</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- CONCEPT-003 -->
+                <div class="bg-white rounded-lg shadow-md overflow-hidden border border-gray-200">
+                    <!-- Concept Header -->
+                    <div class="bg-gradient-to-r from-gray-50 to-gray-100 px-6 py-4 border-b border-gray-200">
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <div class="text-xs font-mono text-gray-500 mb-1">CONCEPT-003</div>
+                                <h3 class="text-xl font-bold text-gray-900"></h3>
+                                <div class="text-sm text-blue-600 font-medium mt-1">Code Organization</div>
+                            </div>
+                            <span class="bg-green-100 text-green-800 px-3 py-1 rounded-full text-xs font-semibold">Beginner</span>
+                        </div>
+                    </div>
+
+                    <!-- Code Snippet with Syntax Highlighting -->
+                    <div class="px-6 py-4 bg-gray-900">
+                        <pre><code class="language-typescript">// ============================================================================
+// TIME TESTING HELPERS
+// ============================================================================</code></pre>
+                    </div>
+
+                    <!-- Concept Details -->
+                    <div class="px-6 py-5 space-y-4">
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">What</h4>
+                            <p class="text-gray-600 leading-relaxed">Visual separator using repeated characters and descriptive text to divide code into logical sections</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Why</h4>
+                            <p class="text-gray-600 leading-relaxed">Improves code readability by creating clear visual boundaries between different functional areas; helps developers quickly scan and navigate large files; groups related functions together; makes file structure immediately apparent; reduces cognitive load when reading code</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">How</h4>
+                            <p class="text-gray-600 leading-relaxed">Uses single-line comments with repeated equals signs to create a visual border, with section title in the middle line; typically spans full line width for maximum visibility</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Context</h4>
+                            <p class="text-gray-600 leading-relaxed">Separates time-related test helpers from other utility functions, used twice in file to mark major sections (TIME TESTING HELPERS and ASSERTION HELPERS)</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Alternatives</h4>
+                            <p class="text-gray-600 leading-relaxed">No visual separators; use blank lines only; use different comment styles like /* */; organize into separate files; use TypeScript namespaces; use classes to group related functions; use object literals to group functions</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Tags</h4>
+                            <div class="flex flex-wrap gap-2 mt-2">
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">code-organization</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">comments</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">readability</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">visual-separator</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">file-structure</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- CONCEPT-004 -->
+                <div class="bg-white rounded-lg shadow-md overflow-hidden border border-gray-200">
+                    <!-- Concept Header -->
+                    <div class="bg-gradient-to-r from-gray-50 to-gray-100 px-6 py-4 border-b border-gray-200">
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <div class="text-xs font-mono text-gray-500 mb-1">CONCEPT-004</div>
+                                <h3 class="text-xl font-bold text-gray-900"></h3>
+                                <div class="text-sm text-blue-600 font-medium mt-1">Code Organization</div>
+                            </div>
+                            <span class="bg-green-100 text-green-800 px-3 py-1 rounded-full text-xs font-semibold">Beginner</span>
+                        </div>
+                    </div>
+
+                    <!-- Code Snippet with Syntax Highlighting -->
+                    <div class="px-6 py-4 bg-gray-900">
+                        <pre><code class="language-typescript">/**
+ * Standard test date used across tests for consistency
+ * Set to 2026-01-17 for consistent &quot;days ago&quot; calculations
+ */
+export const TEST_DATE = &quot;2026-01-17&quot;;</code></pre>
+                    </div>
+
+                    <!-- Concept Details -->
+                    <div class="px-6 py-5 space-y-4">
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">What</h4>
+                            <p class="text-gray-600 leading-relaxed">Constant value exported from module with JSDoc documentation explaining its purpose and specific value</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Why</h4>
+                            <p class="text-gray-600 leading-relaxed">Provides a single source of truth for test dates across the entire test suite; ensures consistency in date-based assertions; makes tests predictable and reproducible; allows easy updates if test date needs to change; documents why this specific date was chosen</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">How</h4>
+                            <p class="text-gray-600 leading-relaxed">Uses &#x27;export const&#x27; to create an immutable, exportable constant; JSDoc comment above explains the purpose and rationale; string literal contains ISO date format</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Context</h4>
+                            <p class="text-gray-600 leading-relaxed">Defines a standard test date (2026-01-17) used throughout the test suite for consistent time-based calculations and assertions</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Alternatives</h4>
+                            <p class="text-gray-600 leading-relaxed">Hard-code dates in each test; use Date.now() without mocking; create date in each test file; use environment variable; use configuration file; use function that returns date; use enum for multiple test dates</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Tags</h4>
+                            <div class="flex flex-wrap gap-2 mt-2">
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">constants</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">export</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">test-utilities</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">jsdoc</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">date-handling</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">test-consistency</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- CONCEPT-005 -->
+                <div class="bg-white rounded-lg shadow-md overflow-hidden border border-gray-200">
+                    <!-- Concept Header -->
+                    <div class="bg-gradient-to-r from-gray-50 to-gray-100 px-6 py-4 border-b border-gray-200">
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <div class="text-xs font-mono text-gray-500 mb-1">CONCEPT-005</div>
+                                <h3 class="text-xl font-bold text-gray-900"></h3>
+                                <div class="text-sm text-blue-600 font-medium mt-1">JavaScript/ES6 Syntax</div>
+                            </div>
+                            <span class="bg-green-100 text-green-800 px-3 py-1 rounded-full text-xs font-semibold">Beginner</span>
+                        </div>
+                    </div>
+
+                    <!-- Code Snippet with Syntax Highlighting -->
+                    <div class="px-6 py-4 bg-gray-900">
+                        <pre><code class="language-typescript">export const TEST_DATE = &quot;2026-01-17&quot;;</code></pre>
+                    </div>
+
+                    <!-- Concept Details -->
+                    <div class="px-6 py-5 space-y-4">
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">What</h4>
+                            <p class="text-gray-600 leading-relaxed">Variable declaration using &#x27;const&#x27; keyword which prevents reassignment of the binding</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Why</h4>
+                            <p class="text-gray-600 leading-relaxed">Prevents accidental modification of the test date constant; signals to developers that this value should not change; provides compile-time protection against reassignment; follows best practice of using const for values that shouldn&#x27;t be reassigned; makes code intent clearer</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">How</h4>
+                            <p class="text-gray-600 leading-relaxed">The &#x27;const&#x27; keyword creates a binding that cannot be reassigned (though object/array contents can still be mutated); attempting to reassign throws a TypeError in strict mode</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Context</h4>
+                            <p class="text-gray-600 leading-relaxed">Used for TEST_DATE to ensure the standard test date cannot be accidentally changed during test execution</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Alternatives</h4>
+                            <p class="text-gray-600 leading-relaxed">Use &#x27;let&#x27; (allows reassignment); use &#x27;var&#x27; (function-scoped, allows reassignment); use Object.freeze() for deep immutability; use readonly in TypeScript; use getter function</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Tags</h4>
+                            <div class="flex flex-wrap gap-2 mt-2">
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">javascript</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">es6</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">const</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">immutability</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">variable-declaration</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">best-practices</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- CONCEPT-006 -->
+                <div class="bg-white rounded-lg shadow-md overflow-hidden border border-gray-200">
+                    <!-- Concept Header -->
+                    <div class="bg-gradient-to-r from-gray-50 to-gray-100 px-6 py-4 border-b border-gray-200">
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <div class="text-xs font-mono text-gray-500 mb-1">CONCEPT-006</div>
+                                <h3 class="text-xl font-bold text-gray-900"></h3>
+                                <div class="text-sm text-blue-600 font-medium mt-1">Data Formats</div>
+                            </div>
+                            <span class="bg-green-100 text-green-800 px-3 py-1 rounded-full text-xs font-semibold">Beginner</span>
+                        </div>
+                    </div>
+
+                    <!-- Code Snippet with Syntax Highlighting -->
+                    <div class="px-6 py-4 bg-gray-900">
+                        <pre><code class="language-typescript">&quot;2026-01-17&quot;</code></pre>
+                    </div>
+
+                    <!-- Concept Details -->
+                    <div class="px-6 py-5 space-y-4">
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">What</h4>
+                            <p class="text-gray-600 leading-relaxed">Date string in ISO 8601 format (YYYY-MM-DD) representing January 17, 2026</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Why</h4>
+                            <p class="text-gray-600 leading-relaxed">ISO 8601 is an international standard for date representation; unambiguous across locales (no MM/DD vs DD/MM confusion); easily parsed by JavaScript Date constructor; sortable as strings; widely supported by APIs and databases; human-readable</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">How</h4>
+                            <p class="text-gray-600 leading-relaxed">Format follows YYYY-MM-DD pattern with zero-padding; can be parsed by &#x27;new Date()&#x27; constructor; represents date in UTC when no time component is specified</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Context</h4>
+                            <p class="text-gray-600 leading-relaxed">Used as the standard test date for consistent time-based test assertions, chosen to be in the future to avoid conflicts with real dates</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Alternatives</h4>
+                            <p class="text-gray-600 leading-relaxed">Unix timestamp (milliseconds); Date object; locale-specific format like &quot;01/17/2026&quot;; ISO 8601 with time &quot;2026-01-17T00:00:00Z&quot;; relative date like &quot;2 days ago&quot;; custom format</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Tags</h4>
+                            <div class="flex flex-wrap gap-2 mt-2">
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">date-format</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">iso-8601</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">data-format</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">standards</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">string-literal</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- CONCEPT-007 -->
+                <div class="bg-white rounded-lg shadow-md overflow-hidden border border-gray-200">
+                    <!-- Concept Header -->
+                    <div class="bg-gradient-to-r from-gray-50 to-gray-100 px-6 py-4 border-b border-gray-200">
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <div class="text-xs font-mono text-gray-500 mb-1">CONCEPT-007</div>
+                                <h3 class="text-xl font-bold text-gray-900"></h3>
+                                <div class="text-sm text-blue-600 font-medium mt-1">Code Organization</div>
+                            </div>
+                            <span class="bg-yellow-100 text-yellow-800 px-3 py-1 rounded-full text-xs font-semibold">Intermediate</span>
+                        </div>
+                    </div>
+
+                    <!-- Code Snippet with Syntax Highlighting -->
+                    <div class="px-6 py-4 bg-gray-900">
+                        <pre><code class="language-typescript">/**
+ * Setup fake timers with a consistent test date
+ * Call this in beforeEach to ensure date-based assertions are predictable
+ *
+ * @example
+ * beforeEach(() =&gt; {
+ *   setupFakeTimers();
+ * });
+ *
+ * afterEach(() =&gt; {
+ *   cleanupFakeTimers();
+ * });
+ */
+export function setupFakeTimers(date: string = TEST_DATE): void {
+  vi.useFakeTimers();
+  vi.setSystemTime(new Date(date));
+}</code></pre>
+                    </div>
+
+                    <!-- Concept Details -->
+                    <div class="px-6 py-5 space-y-4">
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">What</h4>
+                            <p class="text-gray-600 leading-relaxed">Function with comprehensive JSDoc documentation including description, usage context, and code example showing proper setup/teardown pattern</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Why</h4>
+                            <p class="text-gray-600 leading-relaxed">Provides complete documentation for proper usage; @example tag shows real-world usage pattern; helps developers understand when and how to call the function; demonstrates the pairing with cleanup function; reduces need to read implementation to understand usage; improves IDE autocomplete and tooltips</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">How</h4>
+                            <p class="text-gray-600 leading-relaxed">JSDoc block uses @example tag to include code snippet; example shows typical test lifecycle hooks (beforeEach/afterEach); documentation appears before function declaration; IDE parsers can extract and display this in tooltips</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Context</h4>
+                            <p class="text-gray-600 leading-relaxed">Documents the setupFakeTimers function with clear usage instructions and example showing it should be called in beforeEach with corresponding cleanup in afterEach</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Alternatives</h4>
+                            <p class="text-gray-600 leading-relaxed">Inline comments only; README documentation; separate documentation file; TypeScript type annotations only; no documentation; unit tests as documentation; code comments within function body</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Tags</h4>
+                            <div class="flex flex-wrap gap-2 mt-2">
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">documentation</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">jsdoc</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">code-examples</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">test-utilities</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">developer-experience</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">api-documentation</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- CONCEPT-008 -->
+                <div class="bg-white rounded-lg shadow-md overflow-hidden border border-gray-200">
+                    <!-- Concept Header -->
+                    <div class="bg-gradient-to-r from-gray-50 to-gray-100 px-6 py-4 border-b border-gray-200">
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <div class="text-xs font-mono text-gray-500 mb-1">CONCEPT-008</div>
+                                <h3 class="text-xl font-bold text-gray-900"></h3>
+                                <div class="text-sm text-blue-600 font-medium mt-1">JavaScript/ES6 Syntax</div>
+                            </div>
+                            <span class="bg-green-100 text-green-800 px-3 py-1 rounded-full text-xs font-semibold">Beginner</span>
+                        </div>
+                    </div>
+
+                    <!-- Code Snippet with Syntax Highlighting -->
+                    <div class="px-6 py-4 bg-gray-900">
+                        <pre><code class="language-typescript">export function setupFakeTimers(date: string = TEST_DATE): void {
+  vi.useFakeTimers();
+  vi.setSystemTime(new Date(date));
+}</code></pre>
+                    </div>
+
+                    <!-- Concept Details -->
+                    <div class="px-6 py-5 space-y-4">
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">What</h4>
+                            <p class="text-gray-600 leading-relaxed">Function declared using function keyword with export modifier, making it available for import in other modules</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Why</h4>
+                            <p class="text-gray-600 leading-relaxed">Function declarations are hoisted, allowing them to be called before declaration in same file; &#x27;export&#x27; keyword makes function available to other modules; named function declarations are easier to debug (show up in stack traces); more traditional and familiar syntax for utility functions</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">How</h4>
+                            <p class="text-gray-600 leading-relaxed">The &#x27;export&#x27; keyword precedes &#x27;function&#x27; keyword; function name follows; parameters and return type are specified; function body is enclosed in curly braces</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Context</h4>
+                            <p class="text-gray-600 leading-relaxed">Used for all utility functions in this file (setupFakeTimers, cleanupFakeTimers, setupTimeTest, waitForNextTick, delay) to export them for use in test files</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Alternatives</h4>
+                            <p class="text-gray-600 leading-relaxed">Arrow function with const &#x27;export const setupFakeTimers = () =&gt; {}&#x27;; default export; export statement at end of file; export object with methods; class with static methods</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Tags</h4>
+                            <div class="flex flex-wrap gap-2 mt-2">
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">javascript</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">function-declaration</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">export</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">module-system</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">es6-modules</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- CONCEPT-009 -->
+                <div class="bg-white rounded-lg shadow-md overflow-hidden border border-gray-200">
+                    <!-- Concept Header -->
+                    <div class="bg-gradient-to-r from-gray-50 to-gray-100 px-6 py-4 border-b border-gray-200">
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <div class="text-xs font-mono text-gray-500 mb-1">CONCEPT-009</div>
+                                <h3 class="text-xl font-bold text-gray-900"></h3>
+                                <div class="text-sm text-blue-600 font-medium mt-1">JavaScript/ES6 Syntax</div>
+                            </div>
+                            <span class="bg-green-100 text-green-800 px-3 py-1 rounded-full text-xs font-semibold">Beginner</span>
+                        </div>
+                    </div>
+
+                    <!-- Code Snippet with Syntax Highlighting -->
+                    <div class="px-6 py-4 bg-gray-900">
+                        <pre><code class="language-typescript">date: string = TEST_DATE</code></pre>
+                    </div>
+
+                    <!-- Concept Details -->
+                    <div class="px-6 py-5 space-y-4">
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">What</h4>
+                            <p class="text-gray-600 leading-relaxed">Function parameter with default value that is used when argument is not provided or is undefined</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Why</h4>
+                            <p class="text-gray-600 leading-relaxed">Provides sensible default behavior without requiring callers to always pass the parameter; reduces boilerplate in common cases; makes function more flexible; documents the typical/recommended value; allows optional parameters without overloading</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">How</h4>
+                            <p class="text-gray-600 leading-relaxed">ES6 syntax uses equals sign after parameter to specify default value; default is evaluated at call time; if argument is undefined or not provided, default is used; if argument is null, null is used (not the default)</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Context</h4>
+                            <p class="text-gray-600 leading-relaxed">Used in setupFakeTimers and setupTimeTest to default to TEST_DATE constant, allowing callers to use standard test date without explicitly passing it, while still allowing custom dates when needed</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Alternatives</h4>
+                            <p class="text-gray-600 leading-relaxed">Check for undefined in function body &#x27;date = date || TEST_DATE&#x27;; use function overloading (TypeScript); use separate functions for default and custom cases; require parameter always; use options object with defaults</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Tags</h4>
+                            <div class="flex flex-wrap gap-2 mt-2">
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">javascript</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">es6</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">default-parameters</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">function-parameters</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">api-design</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- CONCEPT-010 -->
+                <div class="bg-white rounded-lg shadow-md overflow-hidden border border-gray-200">
+                    <!-- Concept Header -->
+                    <div class="bg-gradient-to-r from-gray-50 to-gray-100 px-6 py-4 border-b border-gray-200">
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <div class="text-xs font-mono text-gray-500 mb-1">CONCEPT-010</div>
+                                <h3 class="text-xl font-bold text-gray-900"></h3>
+                                <div class="text-sm text-blue-600 font-medium mt-1">TypeScript/Type System</div>
+                            </div>
+                            <span class="bg-green-100 text-green-800 px-3 py-1 rounded-full text-xs font-semibold">Beginner</span>
+                        </div>
+                    </div>
+
+                    <!-- Code Snippet with Syntax Highlighting -->
+                    <div class="px-6 py-4 bg-gray-900">
+                        <pre><code class="language-typescript">: void</code></pre>
+                    </div>
+
+                    <!-- Concept Details -->
+                    <div class="px-6 py-5 space-y-4">
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">What</h4>
+                            <p class="text-gray-600 leading-relaxed">TypeScript type annotation indicating function does not return a value (or returns undefined)</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Why</h4>
+                            <p class="text-gray-600 leading-relaxed">Explicitly documents that function is called for side effects, not return value; prevents accidental use of return value; makes function contract clear; helps catch errors where return value is mistakenly expected; TypeScript enforces that function doesn&#x27;t return meaningful value</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">How</h4>
+                            <p class="text-gray-600 leading-relaxed">&#x27;: void&#x27; annotation after parameter list and before function body; TypeScript allows returning undefined or having no return statement; attempting to use return value of void function in typed context causes error</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Context</h4>
+                            <p class="text-gray-600 leading-relaxed">Used on setupFakeTimers and cleanupFakeTimers to indicate they perform actions (setting up/cleaning up timers) but don&#x27;t return values; used on waitForNextTick and delay which return Promises but the Promise itself is the return value</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Alternatives</h4>
+                            <p class="text-gray-600 leading-relaxed">No return type annotation (inferred as void); return undefined explicitly; return type of &#x27;undefined&#x27;; use Promise&lt;void&gt; for async functions; return boolean for success/failure</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Tags</h4>
+                            <div class="flex flex-wrap gap-2 mt-2">
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">typescript</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">type-annotation</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">return-type</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">void</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">side-effects</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- CONCEPT-011 -->
+                <div class="bg-white rounded-lg shadow-md overflow-hidden border border-gray-200">
+                    <!-- Concept Header -->
+                    <div class="bg-gradient-to-r from-gray-50 to-gray-100 px-6 py-4 border-b border-gray-200">
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <div class="text-xs font-mono text-gray-500 mb-1">CONCEPT-011</div>
+                                <h3 class="text-xl font-bold text-gray-900"></h3>
+                                <div class="text-sm text-blue-600 font-medium mt-1">Testing Patterns</div>
+                            </div>
+                            <span class="bg-yellow-100 text-yellow-800 px-3 py-1 rounded-full text-xs font-semibold">Intermediate</span>
+                        </div>
+                    </div>
+
+                    <!-- Code Snippet with Syntax Highlighting -->
+                    <div class="px-6 py-4 bg-gray-900">
+                        <pre><code class="language-typescript">vi.useFakeTimers();</code></pre>
+                    </div>
+
+                    <!-- Concept Details -->
+                    <div class="px-6 py-5 space-y-4">
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">What</h4>
+                            <p class="text-gray-600 leading-relaxed">Vitest method that replaces native timer functions (setTimeout, setInterval, Date) with controllable mock implementations</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Why</h4>
+                            <p class="text-gray-600 leading-relaxed">Allows tests to control time progression without actually waiting; makes time-dependent tests fast and deterministic; enables testing of timeouts, intervals, and date-based logic; prevents flaky tests caused by real time passage; allows advancing time instantly</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">How</h4>
+                            <p class="text-gray-600 leading-relaxed">Vitest intercepts calls to global timer functions and Date constructor; stores scheduled callbacks; provides methods to advance time (vi.advanceTimersByTime) or run all timers (vi.runAllTimers); must be cleaned up with vi.useRealTimers()</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Context</h4>
+                            <p class="text-gray-600 leading-relaxed">Called in setupFakeTimers to enable time mocking for tests, allowing predictable date-based assertions and fast execution of time-dependent code</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Alternatives</h4>
+                            <p class="text-gray-600 leading-relaxed">Jest&#x27;s jest.useFakeTimers(); Sinon&#x27;s fake timers; manual mocking of Date and setTimeout; actually waiting with real timers (slow and flaky); using libraries like MockDate; dependency injection of time functions</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Tags</h4>
+                            <div class="flex flex-wrap gap-2 mt-2">
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">vitest</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">testing</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">fake-timers</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">time-mocking</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">test-utilities</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">deterministic-testing</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- CONCEPT-012 -->
+                <div class="bg-white rounded-lg shadow-md overflow-hidden border border-gray-200">
+                    <!-- Concept Header -->
+                    <div class="bg-gradient-to-r from-gray-50 to-gray-100 px-6 py-4 border-b border-gray-200">
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <div class="text-xs font-mono text-gray-500 mb-1">CONCEPT-012</div>
+                                <h3 class="text-xl font-bold text-gray-900"></h3>
+                                <div class="text-sm text-blue-600 font-medium mt-1">Testing Patterns</div>
+                            </div>
+                            <span class="bg-yellow-100 text-yellow-800 px-3 py-1 rounded-full text-xs font-semibold">Intermediate</span>
+                        </div>
+                    </div>
+
+                    <!-- Code Snippet with Syntax Highlighting -->
+                    <div class="px-6 py-4 bg-gray-900">
+                        <pre><code class="language-typescript">vi.setSystemTime(new Date(date));</code></pre>
+                    </div>
+
+                    <!-- Concept Details -->
+                    <div class="px-6 py-5 space-y-4">
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">What</h4>
+                            <p class="text-gray-600 leading-relaxed">Vitest method that sets the current system time to a specific date when fake timers are active</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Why</h4>
+                            <p class="text-gray-600 leading-relaxed">Allows tests to run as if they&#x27;re executing at a specific point in time; makes date-based calculations predictable; enables testing of &quot;days ago&quot; logic, expiration checks, and time-sensitive features; ensures consistent test results regardless of when tests actually run</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">How</h4>
+                            <p class="text-gray-600 leading-relaxed">Must be called after vi.useFakeTimers(); accepts Date object; all Date.now(), new Date(), and date-related operations will use this mocked time; time can be advanced with vi.advanceTimersByTime()</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Context</h4>
+                            <p class="text-gray-600 leading-relaxed">Sets the system time to the provided date (defaulting to TEST_DATE) so all date operations in tests use this consistent time, enabling predictable assertions about relative dates</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Alternatives</h4>
+                            <p class="text-gray-600 leading-relaxed">MockDate library; manual Date constructor mocking; Sinon fake timers; dependency injection of date provider; using fixed timestamps; Jest&#x27;s setSystemTime; not mocking time (unreliable tests)</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Tags</h4>
+                            <div class="flex flex-wrap gap-2 mt-2">
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">vitest</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">testing</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">time-mocking</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">date-mocking</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">system-time</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">test-utilities</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- CONCEPT-013 -->
+                <div class="bg-white rounded-lg shadow-md overflow-hidden border border-gray-200">
+                    <!-- Concept Header -->
+                    <div class="bg-gradient-to-r from-gray-50 to-gray-100 px-6 py-4 border-b border-gray-200">
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <div class="text-xs font-mono text-gray-500 mb-1">CONCEPT-013</div>
+                                <h3 class="text-xl font-bold text-gray-900"></h3>
+                                <div class="text-sm text-blue-600 font-medium mt-1">JavaScript/Date Handling</div>
+                            </div>
+                            <span class="bg-green-100 text-green-800 px-3 py-1 rounded-full text-xs font-semibold">Beginner</span>
+                        </div>
+                    </div>
+
+                    <!-- Code Snippet with Syntax Highlighting -->
+                    <div class="px-6 py-4 bg-gray-900">
+                        <pre><code class="language-typescript">new Date(date)</code></pre>
+                    </div>
+
+                    <!-- Concept Details -->
+                    <div class="px-6 py-5 space-y-4">
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">What</h4>
+                            <p class="text-gray-600 leading-relaxed">JavaScript Date constructor called with string argument to create Date object from date string</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Why</h4>
+                            <p class="text-gray-600 leading-relaxed">Converts string representation of date into Date object that can be used with date APIs; Date object provides methods for date manipulation and formatting; required by vi.setSystemTime which expects Date object; allows parsing of various date formats</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">How</h4>
+                            <p class="text-gray-600 leading-relaxed">Date constructor parses string using JavaScript&#x27;s date parsing algorithm; ISO 8601 format strings are parsed reliably; creates Date object representing that moment in time; can throw Invalid Date if string is unparseable</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Context</h4>
+                            <p class="text-gray-600 leading-relaxed">Converts the date string parameter (ISO format like &quot;2026-01-17&quot;) into Date object required by vi.setSystemTime for mocking system time</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Alternatives</h4>
+                            <p class="text-gray-600 leading-relaxed">Date.parse() returns timestamp; manual parsing with string manipulation; moment.js or date-fns libraries; pass Date object directly instead of string; use timestamp number; use separate year/month/day parameters</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Tags</h4>
+                            <div class="flex flex-wrap gap-2 mt-2">
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">javascript</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">date</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">date-constructor</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">type-conversion</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">date-parsing</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- CONCEPT-014 -->
+                <div class="bg-white rounded-lg shadow-md overflow-hidden border border-gray-200">
+                    <!-- Concept Header -->
+                    <div class="bg-gradient-to-r from-gray-50 to-gray-100 px-6 py-4 border-b border-gray-200">
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <div class="text-xs font-mono text-gray-500 mb-1">CONCEPT-014</div>
+                                <h3 class="text-xl font-bold text-gray-900"></h3>
+                                <div class="text-sm text-blue-600 font-medium mt-1">Testing Patterns</div>
+                            </div>
+                            <span class="bg-yellow-100 text-yellow-800 px-3 py-1 rounded-full text-xs font-semibold">Intermediate</span>
+                        </div>
+                    </div>
+
+                    <!-- Code Snippet with Syntax Highlighting -->
+                    <div class="px-6 py-4 bg-gray-900">
+                        <pre><code class="language-typescript">/**
+ * Cleanup fake timers
+ * Call this in afterEach to restore real timers
+ */
+export function cleanupFakeTimers(): void {
+  vi.useRealTimers();
+}</code></pre>
+                    </div>
+
+                    <!-- Concept Details -->
+                    <div class="px-6 py-5 space-y-4">
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">What</h4>
+                            <p class="text-gray-600 leading-relaxed">Dedicated function that reverses the effects of a setup function, restoring original state</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Why</h4>
+                            <p class="text-gray-600 leading-relaxed">Prevents test pollution where one test&#x27;s mocked state affects subsequent tests; ensures test isolation; follows testing best practice of cleaning up after each test; makes cleanup explicit and reusable; pairs with setup function for clear lifecycle management</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">How</h4>
+                            <p class="text-gray-600 leading-relaxed">Function calls Vitest&#x27;s useRealTimers() to restore native timer implementations; typically called in afterEach hook; undoes the effects of useFakeTimers()</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Context</h4>
+                            <p class="text-gray-600 leading-relaxed">Provides cleanup counterpart to setupFakeTimers, restoring real timer implementations after tests complete to prevent fake timers from affecting other tests</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Alternatives</h4>
+                            <p class="text-gray-600 leading-relaxed">Inline cleanup in afterEach; automatic cleanup with test framework hooks; try-finally blocks; cleanup in same function as setup; no cleanup (causes test pollution); using test framework&#x27;s auto-cleanup features</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Tags</h4>
+                            <div class="flex flex-wrap gap-2 mt-2">
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">testing</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">cleanup-pattern</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">test-isolation</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">test-lifecycle</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">best-practices</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- CONCEPT-015 -->
+                <div class="bg-white rounded-lg shadow-md overflow-hidden border border-gray-200">
+                    <!-- Concept Header -->
+                    <div class="bg-gradient-to-r from-gray-50 to-gray-100 px-6 py-4 border-b border-gray-200">
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <div class="text-xs font-mono text-gray-500 mb-1">CONCEPT-015</div>
+                                <h3 class="text-xl font-bold text-gray-900"></h3>
+                                <div class="text-sm text-blue-600 font-medium mt-1">Testing Patterns</div>
+                            </div>
+                            <span class="bg-yellow-100 text-yellow-800 px-3 py-1 rounded-full text-xs font-semibold">Intermediate</span>
+                        </div>
+                    </div>
+
+                    <!-- Code Snippet with Syntax Highlighting -->
+                    <div class="px-6 py-4 bg-gray-900">
+                        <pre><code class="language-typescript">vi.useRealTimers();</code></pre>
+                    </div>
+
+                    <!-- Concept Details -->
+                    <div class="px-6 py-5 space-y-4">
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">What</h4>
+                            <p class="text-gray-600 leading-relaxed">Vitest method that restores native timer implementations after fake timers were enabled</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Why</h4>
+                            <p class="text-gray-600 leading-relaxed">Essential for test cleanup to prevent fake timers from affecting subsequent tests; restores normal behavior of setTimeout, setInterval, Date, etc.; prevents test pollution and ensures test isolation; allows tests to run with real time when needed</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">How</h4>
+                            <p class="text-gray-600 leading-relaxed">Reverses the effects of vi.useFakeTimers(); restores original global timer functions; clears any pending fake timers; should be called in afterEach or cleanup function</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Context</h4>
+                            <p class="text-gray-600 leading-relaxed">Called in cleanupFakeTimers to restore real timer implementations after tests complete, ensuring subsequent tests aren&#x27;t affected by fake timers</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Alternatives</h4>
+                            <p class="text-gray-600 leading-relaxed">Jest&#x27;s jest.useRealTimers(); Sinon&#x27;s clock.restore(); manual restoration of original functions; not cleaning up (causes test pollution); using test framework&#x27;s automatic cleanup</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Tags</h4>
+                            <div class="flex flex-wrap gap-2 mt-2">
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">vitest</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">testing</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">cleanup</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">timer-restoration</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">test-isolation</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- CONCEPT-016 -->
+                <div class="bg-white rounded-lg shadow-md overflow-hidden border border-gray-200">
+                    <!-- Concept Header -->
+                    <div class="bg-gradient-to-r from-gray-50 to-gray-100 px-6 py-4 border-b border-gray-200">
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <div class="text-xs font-mono text-gray-500 mb-1">CONCEPT-016</div>
+                                <h3 class="text-xl font-bold text-gray-900"></h3>
+                                <div class="text-sm text-blue-600 font-medium mt-1">Testing Patterns</div>
+                            </div>
+                            <span class="bg-yellow-100 text-yellow-800 px-3 py-1 rounded-full text-xs font-semibold">Intermediate</span>
+                        </div>
+                    </div>
+
+                    <!-- Code Snippet with Syntax Highlighting -->
+                    <div class="px-6 py-4 bg-gray-900">
+                        <pre><code class="language-typescript">/**
+ * All-in-one time test setup
+ * Returns cleanup function for easy teardown
+ *
+ * @example
+ * const cleanup = setupTimeTest();
+ * // ... your tests
+ * cleanup();
+ */
+export function setupTimeTest(date: string = TEST_DATE): () =&gt; void {
+  setupFakeTimers(date);
+  return cleanupFakeTimers;
+}</code></pre>
+                    </div>
+
+                    <!-- Concept Details -->
+                    <div class="px-6 py-5 space-y-4">
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">What</h4>
+                            <p class="text-gray-600 leading-relaxed">Function that performs setup and returns a cleanup function, enabling convenient setup/teardown in a single call</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Why</h4>
+                            <p class="text-gray-600 leading-relaxed">Simplifies test setup by combining setup and cleanup in one call; ensures cleanup function is always available; reduces boilerplate in tests; makes it harder to forget cleanup; provides ergonomic API similar to React hooks; enables inline usage without separate variables</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">How</h4>
+                            <p class="text-gray-600 leading-relaxed">Function performs setup operations, then returns a function reference (not calling it) that performs cleanup; caller stores returned function and calls it later; leverages closure to maintain setup state if needed</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Context</h4>
+                            <p class="text-gray-600 leading-relaxed">Provides convenient all-in-one time test setup where calling setupTimeTest() both sets up fake timers and returns the cleanup function for later invocation</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Alternatives</h4>
+                            <p class="text-gray-600 leading-relaxed">Separate setup and cleanup functions; return object with cleanup method; use class with setup/teardown methods; automatic cleanup with test framework; try-finally blocks; beforeEach/afterEach hooks; React-style useEffect pattern</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Tags</h4>
+                            <div class="flex flex-wrap gap-2 mt-2">
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">testing</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">setup-teardown</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">cleanup-pattern</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">api-design</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">ergonomics</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">function-composition</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- CONCEPT-017 -->
+                <div class="bg-white rounded-lg shadow-md overflow-hidden border border-gray-200">
+                    <!-- Concept Header -->
+                    <div class="bg-gradient-to-r from-gray-50 to-gray-100 px-6 py-4 border-b border-gray-200">
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <div class="text-xs font-mono text-gray-500 mb-1">CONCEPT-017</div>
+                                <h3 class="text-xl font-bold text-gray-900"></h3>
+                                <div class="text-sm text-blue-600 font-medium mt-1">TypeScript/Type System</div>
+                            </div>
+                            <span class="bg-yellow-100 text-yellow-800 px-3 py-1 rounded-full text-xs font-semibold">Intermediate</span>
+                        </div>
+                    </div>
+
+                    <!-- Code Snippet with Syntax Highlighting -->
+                    <div class="px-6 py-4 bg-gray-900">
+                        <pre><code class="language-typescript">: () =&gt; void</code></pre>
+                    </div>
+
+                    <!-- Concept Details -->
+                    <div class="px-6 py-5 space-y-4">
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">What</h4>
+                            <p class="text-gray-600 leading-relaxed">TypeScript type annotation indicating function returns another function that takes no parameters and returns void</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Why</h4>
+                            <p class="text-gray-600 leading-relaxed">Explicitly documents that function returns a callable cleanup function; enables type checking of returned function; makes API contract clear; helps IDE provide autocomplete for returned function; prevents returning wrong type of function</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">How</h4>
+                            <p class="text-gray-600 leading-relaxed">Arrow function type syntax &#x27;() =&gt; void&#x27; describes function signature; parentheses contain parameter types (empty here); arrow points to return type; this entire signature is the return type of the outer function</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Context</h4>
+                            <p class="text-gray-600 leading-relaxed">setupTimeTest returns a cleanup function (cleanupFakeTimers) that takes no arguments and returns void, type annotation makes this contract explicit</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Alternatives</h4>
+                            <p class="text-gray-600 leading-relaxed">Type alias &#x27;type CleanupFn = () =&gt; void&#x27;; interface with call signature; Function type (too loose); void return type (wrong); return object with cleanup method; use generic type parameter</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Tags</h4>
+                            <div class="flex flex-wrap gap-2 mt-2">
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">typescript</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">type-annotation</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">function-type</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">return-type</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">higher-order-function</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- CONCEPT-018 -->
+                <div class="bg-white rounded-lg shadow-md overflow-hidden border border-gray-200">
+                    <!-- Concept Header -->
+                    <div class="bg-gradient-to-r from-gray-50 to-gray-100 px-6 py-4 border-b border-gray-200">
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <div class="text-xs font-mono text-gray-500 mb-1">CONCEPT-018</div>
+                                <h3 class="text-xl font-bold text-gray-900"></h3>
+                                <div class="text-sm text-blue-600 font-medium mt-1">JavaScript/Functions</div>
+                            </div>
+                            <span class="bg-yellow-100 text-yellow-800 px-3 py-1 rounded-full text-xs font-semibold">Intermediate</span>
+                        </div>
+                    </div>
+
+                    <!-- Code Snippet with Syntax Highlighting -->
+                    <div class="px-6 py-4 bg-gray-900">
+                        <pre><code class="language-typescript">return cleanupFakeTimers;</code></pre>
+                    </div>
+
+                    <!-- Concept Details -->
+                    <div class="px-6 py-5 space-y-4">
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">What</h4>
+                            <p class="text-gray-600 leading-relaxed">Returning a reference to a function without calling it (no parentheses), allowing caller to invoke it later</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Why</h4>
+                            <p class="text-gray-600 leading-relaxed">Enables deferred execution - cleanup happens when caller decides; allows function to be passed around as value; supports callback patterns; enables higher-order function patterns; gives caller control over when cleanup occurs</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">How</h4>
+                            <p class="text-gray-600 leading-relaxed">Function name without parentheses returns the function itself as a value; with parentheses would execute function immediately and return its result; returned function can be stored in variable and called later</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Context</h4>
+                            <p class="text-gray-600 leading-relaxed">Returns cleanupFakeTimers function reference so caller can invoke cleanup at appropriate time, rather than cleaning up immediately</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Alternatives</h4>
+                            <p class="text-gray-600 leading-relaxed">Return result of calling function &#x27;return cleanupFakeTimers()&#x27;; return arrow function wrapper &#x27;return () =&gt; cleanupFakeTimers()&#x27;; return object with cleanup method; use callback parameter; automatic cleanup</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Tags</h4>
+                            <div class="flex flex-wrap gap-2 mt-2">
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">javascript</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">functions</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">function-reference</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">higher-order-function</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">deferred-execution</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- CONCEPT-019 -->
+                <div class="bg-white rounded-lg shadow-md overflow-hidden border border-gray-200">
+                    <!-- Concept Header -->
+                    <div class="bg-gradient-to-r from-gray-50 to-gray-100 px-6 py-4 border-b border-gray-200">
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <div class="text-xs font-mono text-gray-500 mb-1">CONCEPT-019</div>
+                                <h3 class="text-xl font-bold text-gray-900"></h3>
+                                <div class="text-sm text-blue-600 font-medium mt-1">JavaScript/Async Patterns</div>
+                            </div>
+                            <span class="bg-yellow-100 text-yellow-800 px-3 py-1 rounded-full text-xs font-semibold">Intermediate</span>
+                        </div>
+                    </div>
+
+                    <!-- Code Snippet with Syntax Highlighting -->
+                    <div class="px-6 py-4 bg-gray-900">
+                        <pre><code class="language-typescript">export async function waitForNextTick(): Promise&lt;void&gt; {
+  return new Promise((resolve) =&gt; setTimeout(resolve, 0));
+}</code></pre>
+                    </div>
+
+                    <!-- Concept Details -->
+                    <div class="px-6 py-5 space-y-4">
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">What</h4>
+                            <p class="text-gray-600 leading-relaxed">Function declared with &#x27;async&#x27; keyword that automatically returns a Promise and allows use of &#x27;await&#x27; inside</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Why</h4>
+                            <p class="text-gray-600 leading-relaxed">Makes asynchronous code easier to write and read; automatically wraps return value in Promise; enables await syntax inside function; provides better error handling with try-catch; makes async operations look synchronous; required for using await</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">How</h4>
+                            <p class="text-gray-600 leading-relaxed">&#x27;async&#x27; keyword before &#x27;function&#x27; makes function async; return value is automatically wrapped in Promise.resolve(); thrown errors are automatically wrapped in Promise.reject(); can use await inside function body</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Context</h4>
+                            <p class="text-gray-600 leading-relaxed">Used for waitForNextTick and delay functions which perform asynchronous operations (waiting for setTimeout) and need to return Promises</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Alternatives</h4>
+                            <p class="text-gray-600 leading-relaxed">Return Promise explicitly without async; use callbacks; use Promise chains with .then(); use generators with co library; use async/await with arrow functions; use util.promisify</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Tags</h4>
+                            <div class="flex flex-wrap gap-2 mt-2">
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">javascript</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">async-await</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">async-function</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">promises</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">asynchronous</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">es2017</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- CONCEPT-020 -->
+                <div class="bg-white rounded-lg shadow-md overflow-hidden border border-gray-200">
+                    <!-- Concept Header -->
+                    <div class="bg-gradient-to-r from-gray-50 to-gray-100 px-6 py-4 border-b border-gray-200">
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <div class="text-xs font-mono text-gray-500 mb-1">CONCEPT-020</div>
+                                <h3 class="text-xl font-bold text-gray-900"></h3>
+                                <div class="text-sm text-blue-600 font-medium mt-1">TypeScript/Type System</div>
+                            </div>
+                            <span class="bg-yellow-100 text-yellow-800 px-3 py-1 rounded-full text-xs font-semibold">Intermediate</span>
+                        </div>
+                    </div>
+
+                    <!-- Code Snippet with Syntax Highlighting -->
+                    <div class="px-6 py-4 bg-gray-900">
+                        <pre><code class="language-typescript">: Promise&lt;void&gt;</code></pre>
+                    </div>
+
+                    <!-- Concept Details -->
+                    <div class="px-6 py-5 space-y-4">
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">What</h4>
+                            <p class="text-gray-600 leading-relaxed">TypeScript type annotation indicating function returns a Promise that resolves with no value (void)</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Why</h4>
+                            <p class="text-gray-600 leading-relaxed">Documents that function is asynchronous and must be awaited; indicates Promise resolves without meaningful value (used for side effects or timing); enables type checking of async operations; makes async nature explicit in function signature; helps catch missing await</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">How</h4>
+                            <p class="text-gray-600 leading-relaxed">Promise is generic type taking type parameter for resolved value; void indicates no meaningful value; async functions automatically return Promise; TypeScript infers this but explicit annotation is clearer</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Context</h4>
+                            <p class="text-gray-600 leading-relaxed">Used on waitForNextTick and delay to indicate they return Promises that resolve without values, used purely for timing/waiting purposes</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Alternatives</h4>
+                            <p class="text-gray-600 leading-relaxed">No return type (inferred); Promise&lt;undefined&gt;; Promise&lt;any&gt;; void (wrong for async); return specific value type; use callback instead of Promise</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Tags</h4>
+                            <div class="flex flex-wrap gap-2 mt-2">
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">typescript</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">type-annotation</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">promise</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">async-await</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">return-type</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">generics</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- CONCEPT-021 -->
+                <div class="bg-white rounded-lg shadow-md overflow-hidden border border-gray-200">
+                    <!-- Concept Header -->
+                    <div class="bg-gradient-to-r from-gray-50 to-gray-100 px-6 py-4 border-b border-gray-200">
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <div class="text-xs font-mono text-gray-500 mb-1">CONCEPT-021</div>
+                                <h3 class="text-xl font-bold text-gray-900"></h3>
+                                <div class="text-sm text-blue-600 font-medium mt-1">JavaScript/Async Patterns</div>
+                            </div>
+                            <span class="bg-yellow-100 text-yellow-800 px-3 py-1 rounded-full text-xs font-semibold">Intermediate</span>
+                        </div>
+                    </div>
+
+                    <!-- Code Snippet with Syntax Highlighting -->
+                    <div class="px-6 py-4 bg-gray-900">
+                        <pre><code class="language-typescript">return new Promise((resolve) =&gt; setTimeout(resolve, 0));</code></pre>
+                    </div>
+
+                    <!-- Concept Details -->
+                    <div class="px-6 py-5 space-y-4">
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">What</h4>
+                            <p class="text-gray-600 leading-relaxed">Creating a new Promise using the Promise constructor with executor function that receives resolve and reject callbacks</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Why</h4>
+                            <p class="text-gray-600 leading-relaxed">Wraps callback-based async operations (like setTimeout) in Promise interface; enables use of async/await syntax; provides standard way to create Promises from non-Promise async code; allows integration of legacy callback APIs with modern Promise-based code</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">How</h4>
+                            <p class="text-gray-600 leading-relaxed">Promise constructor takes executor function with (resolve, reject) parameters; calling resolve() fulfills the Promise; calling reject() rejects it; executor runs immediately when Promise is created</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Context</h4>
+                            <p class="text-gray-600 leading-relaxed">Used in waitForNextTick and delay to wrap setTimeout (callback-based) in Promise so it can be awaited in async functions</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Alternatives</h4>
+                            <p class="text-gray-600 leading-relaxed">Promise.resolve() for immediate resolution; util.promisify for Node.js callbacks; async/await with existing Promises; third-party promisification libraries; manual Promise subclass; callback-based approach</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Tags</h4>
+                            <div class="flex flex-wrap gap-2 mt-2">
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">javascript</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">promises</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">promise-constructor</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">async-patterns</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">callback-wrapping</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- CONCEPT-022 -->
+                <div class="bg-white rounded-lg shadow-md overflow-hidden border border-gray-200">
+                    <!-- Concept Header -->
+                    <div class="bg-gradient-to-r from-gray-50 to-gray-100 px-6 py-4 border-b border-gray-200">
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <div class="text-xs font-mono text-gray-500 mb-1">CONCEPT-022</div>
+                                <h3 class="text-xl font-bold text-gray-900"></h3>
+                                <div class="text-sm text-blue-600 font-medium mt-1">JavaScript/Async Patterns</div>
+                            </div>
+                            <span class="bg-yellow-100 text-yellow-800 px-3 py-1 rounded-full text-xs font-semibold">Intermediate</span>
+                        </div>
+                    </div>
+
+                    <!-- Code Snippet with Syntax Highlighting -->
+                    <div class="px-6 py-4 bg-gray-900">
+                        <pre><code class="language-typescript">setTimeout(resolve, 0)</code></pre>
+                    </div>
+
+                    <!-- Concept Details -->
+                    <div class="px-6 py-5 space-y-4">
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">What</h4>
+                            <p class="text-gray-600 leading-relaxed">Scheduling callback to run after current call stack clears, using setTimeout with 0 millisecond delay</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Why</h4>
+                            <p class="text-gray-600 leading-relaxed">Defers execution to next tick of event loop; allows pending microtasks and UI updates to complete; useful for waiting for state updates in tests; breaks up long-running operations; enables testing of async state changes; gives React time to flush updates</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">How</h4>
+                            <p class="text-gray-600 leading-relaxed">setTimeout with 0ms doesn&#x27;t execute immediately; callback is added to task queue; executes after current call stack empties and microtasks complete; actual delay may be slightly longer due to browser minimums (4ms in some browsers)</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Context</h4>
+                            <p class="text-gray-600 leading-relaxed">Used in waitForNextTick to defer execution to next event loop tick, allowing async state updates to complete before assertions in tests</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Alternatives</h4>
+                            <p class="text-gray-600 leading-relaxed">setImmediate (Node.js only); queueMicrotask for microtask queue; Promise.resolve().then() for microtask; requestAnimationFrame for browser; process.nextTick (Node.js); await new Promise(r =&gt; r())</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Tags</h4>
+                            <div class="flex flex-wrap gap-2 mt-2">
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">javascript</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">settimeout</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">event-loop</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">async-patterns</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">next-tick</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">testing</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- CONCEPT-023 -->
+                <div class="bg-white rounded-lg shadow-md overflow-hidden border border-gray-200">
+                    <!-- Concept Header -->
+                    <div class="bg-gradient-to-r from-gray-50 to-gray-100 px-6 py-4 border-b border-gray-200">
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <div class="text-xs font-mono text-gray-500 mb-1">CONCEPT-023</div>
+                                <h3 class="text-xl font-bold text-gray-900"></h3>
+                                <div class="text-sm text-blue-600 font-medium mt-1">JavaScript/Functions</div>
+                            </div>
+                            <span class="bg-yellow-100 text-yellow-800 px-3 py-1 rounded-full text-xs font-semibold">Intermediate</span>
+                        </div>
+                    </div>
+
+                    <!-- Code Snippet with Syntax Highlighting -->
+                    <div class="px-6 py-4 bg-gray-900">
+                        <pre><code class="language-typescript">setTimeout(resolve, 0)</code></pre>
+                    </div>
+
+                    <!-- Concept Details -->
+                    <div class="px-6 py-5 space-y-4">
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">What</h4>
+                            <p class="text-gray-600 leading-relaxed">Passing the resolve function directly as callback to setTimeout without wrapping in arrow function</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Why</h4>
+                            <p class="text-gray-600 leading-relaxed">More concise than arrow function wrapper; resolve doesn&#x27;t need parameters from setTimeout; avoids unnecessary function allocation; cleaner syntax when callback signature matches exactly; common pattern in Promise-based code</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">How</h4>
+                            <p class="text-gray-600 leading-relaxed">setTimeout accepts function reference as first argument; will call that function when timer expires; resolve is already a function so can be passed directly; equivalent to &#x27;() =&gt; resolve()&#x27; but more concise</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Context</h4>
+                            <p class="text-gray-600 leading-relaxed">Passes Promise&#x27;s resolve function directly to setTimeout, which will call it after delay, fulfilling the Promise</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Alternatives</h4>
+                            <p class="text-gray-600 leading-relaxed">Arrow function wrapper &#x27;setTimeout(() =&gt; resolve(), 0)&#x27;; named function; inline function expression; bind method; partial application</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Tags</h4>
+                            <div class="flex flex-wrap gap-2 mt-2">
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">javascript</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">functions</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">callbacks</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">function-reference</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">concise-syntax</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- CONCEPT-024 -->
+                <div class="bg-white rounded-lg shadow-md overflow-hidden border border-gray-200">
+                    <!-- Concept Header -->
+                    <div class="bg-gradient-to-r from-gray-50 to-gray-100 px-6 py-4 border-b border-gray-200">
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <div class="text-xs font-mono text-gray-500 mb-1">CONCEPT-024</div>
+                                <h3 class="text-xl font-bold text-gray-900"></h3>
+                                <div class="text-sm text-blue-600 font-medium mt-1">Testing Patterns</div>
+                            </div>
+                            <span class="bg-yellow-100 text-yellow-800 px-3 py-1 rounded-full text-xs font-semibold">Intermediate</span>
+                        </div>
+                    </div>
+
+                    <!-- Code Snippet with Syntax Highlighting -->
+                    <div class="px-6 py-4 bg-gray-900">
+                        <pre><code class="language-typescript">/**
+ * Delay for testing animations or debounced functions
+ */
+export async function delay(ms: number): Promise&lt;void&gt; {
+  return new Promise((resolve) =&gt; setTimeout(resolve, ms));
+}</code></pre>
+                    </div>
+
+                    <!-- Concept Details -->
+                    <div class="px-6 py-5 space-y-4">
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">What</h4>
+                            <p class="text-gray-600 leading-relaxed">Utility function that creates a Promise-based delay for a specified number of milliseconds</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Why</h4>
+                            <p class="text-gray-600 leading-relaxed">Provides clean way to wait in async tests; useful for testing animations, debouncing, throttling; more readable than raw setTimeout in Promise; reusable across test suite; works with async/await syntax; can be used with fake timers</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">How</h4>
+                            <p class="text-gray-600 leading-relaxed">Wraps setTimeout in Promise; accepts milliseconds parameter; resolves Promise after specified delay; can be awaited in async functions; works with both real and fake timers</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Context</h4>
+                            <p class="text-gray-600 leading-relaxed">Provides reusable delay utility for tests that need to wait for animations, debounced functions, or other time-based operations</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Alternatives</h4>
+                            <p class="text-gray-600 leading-relaxed">Inline setTimeout with Promise; third-party delay libraries; sleep function; busy-wait loop (bad practice); vi.advanceTimersByTime with fake timers; requestAnimationFrame for animations</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Tags</h4>
+                            <div class="flex flex-wrap gap-2 mt-2">
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">testing</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">async-utilities</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">delay</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">promises</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">test-helpers</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">timing</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- CONCEPT-025 -->
+                <div class="bg-white rounded-lg shadow-md overflow-hidden border border-gray-200">
+                    <!-- Concept Header -->
+                    <div class="bg-gradient-to-r from-gray-50 to-gray-100 px-6 py-4 border-b border-gray-200">
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <div class="text-xs font-mono text-gray-500 mb-1">CONCEPT-025</div>
+                                <h3 class="text-xl font-bold text-gray-900"></h3>
+                                <div class="text-sm text-blue-600 font-medium mt-1">TypeScript/Type System</div>
+                            </div>
+                            <span class="bg-green-100 text-green-800 px-3 py-1 rounded-full text-xs font-semibold">Beginner</span>
+                        </div>
+                    </div>
+
+                    <!-- Code Snippet with Syntax Highlighting -->
+                    <div class="px-6 py-4 bg-gray-900">
+                        <pre><code class="language-typescript">ms: number</code></pre>
+                    </div>
+
+                    <!-- Concept Details -->
+                    <div class="px-6 py-5 space-y-4">
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">What</h4>
+                            <p class="text-gray-600 leading-relaxed">TypeScript type annotation specifying parameter must be a number type</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Why</h4>
+                            <p class="text-gray-600 leading-relaxed">Provides type safety for milliseconds parameter; prevents passing strings or other types; enables IDE autocomplete and validation; catches type errors at compile time; documents expected parameter type; prevents common mistakes like passing seconds instead of milliseconds</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">How</h4>
+                            <p class="text-gray-600 leading-relaxed">Colon followed by &#x27;number&#x27; type after parameter name; TypeScript enforces this at compile time; number type includes integers, floats, Infinity, NaN; no runtime type checking (TypeScript is compile-time only)</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Context</h4>
+                            <p class="text-gray-600 leading-relaxed">Types the ms parameter in delay function to ensure callers pass numeric millisecond values</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Alternatives</h4>
+                            <p class="text-gray-600 leading-relaxed">No type annotation (implicit any); branded type for milliseconds; literal type for specific values; union type for allowed values; custom type alias; use seconds with conversion</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Tags</h4>
+                            <div class="flex flex-wrap gap-2 mt-2">
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">typescript</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">type-annotation</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">parameter-type</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">number-type</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">type-safety</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- CONCEPT-026 -->
+                <div class="bg-white rounded-lg shadow-md overflow-hidden border border-gray-200">
+                    <!-- Concept Header -->
+                    <div class="bg-gradient-to-r from-gray-50 to-gray-100 px-6 py-4 border-b border-gray-200">
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <div class="text-xs font-mono text-gray-500 mb-1">CONCEPT-026</div>
+                                <h3 class="text-xl font-bold text-gray-900"></h3>
+                                <div class="text-sm text-blue-600 font-medium mt-1">Code Organization</div>
+                            </div>
+                            <span class="bg-yellow-100 text-yellow-800 px-3 py-1 rounded-full text-xs font-semibold">Intermediate</span>
+                        </div>
+                    </div>
+
+                    <!-- Code Snippet with Syntax Highlighting -->
+                    <div class="px-6 py-4 bg-gray-900">
+                        <pre><code class="language-typescript">// File structure with sections:
+// - TIME TESTING HELPERS (setupFakeTimers, cleanupFakeTimers, setupTimeTest)
+// - ASSERTION HELPERS (waitForNextTick, delay)</code></pre>
+                    </div>
+
+                    <!-- Concept Details -->
+                    <div class="px-6 py-5 space-y-4">
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">What</h4>
+                            <p class="text-gray-600 leading-relaxed">Organizing related test utilities into logical sections within a single module, separated by visual dividers</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Why</h4>
+                            <p class="text-gray-600 leading-relaxed">Improves maintainability by grouping related functions; makes file easier to navigate; provides clear structure for growing test utilities; helps developers find relevant helpers quickly; documents the categories of utilities available</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">How</h4>
+                            <p class="text-gray-600 leading-relaxed">Uses comment dividers to separate sections; groups functions by purpose (time testing vs assertions); exports all functions for use in tests; keeps related utilities together</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Context</h4>
+                            <p class="text-gray-600 leading-relaxed">File organizes test utilities into two main sections: time testing helpers for mocking dates/timers, and assertion helpers for async operations</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Alternatives</h4>
+                            <p class="text-gray-600 leading-relaxed">Separate files for each category; single file with no sections; organize by function type (setup/cleanup/utilities); use classes or namespaces; barrel exports from multiple files; organize by test type</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Tags</h4>
+                            <div class="flex flex-wrap gap-2 mt-2">
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">code-organization</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">file-structure</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">test-utilities</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">module-organization</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">maintainability</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- CONCEPT-027 -->
+                <div class="bg-white rounded-lg shadow-md overflow-hidden border border-gray-200">
+                    <!-- Concept Header -->
+                    <div class="bg-gradient-to-r from-gray-50 to-gray-100 px-6 py-4 border-b border-gray-200">
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <div class="text-xs font-mono text-gray-500 mb-1">CONCEPT-027</div>
+                                <h3 class="text-xl font-bold text-gray-900"></h3>
+                                <div class="text-sm text-blue-600 font-medium mt-1">Import/Module Management</div>
+                            </div>
+                            <span class="bg-yellow-100 text-yellow-800 px-3 py-1 rounded-full text-xs font-semibold">Intermediate</span>
+                        </div>
+                    </div>
+
+                    <!-- Code Snippet with Syntax Highlighting -->
+                    <div class="px-6 py-4 bg-gray-900">
+                        <pre><code class="language-typescript">export const TEST_DATE = ...
+export function setupFakeTimers() ...
+export function cleanupFakeTimers() ...
+export function setupTimeTest() ...
+export async function waitForNextTick() ...
+export async function delay() ...</code></pre>
+                    </div>
+
+                    <!-- Concept Details -->
+                    <div class="px-6 py-5 space-y-4">
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">What</h4>
+                            <p class="text-gray-600 leading-relaxed">Using named exports for all module exports rather than default export, allowing selective imports</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Why</h4>
+                            <p class="text-gray-600 leading-relaxed">Enables tree-shaking - unused exports can be eliminated from bundle; allows importing only needed utilities; provides better IDE autocomplete; makes imports more explicit; prevents naming conflicts; easier to refactor; better for utility modules</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">How</h4>
+                            <p class="text-gray-600 leading-relaxed">Each export uses &#x27;export&#x27; keyword before declaration; importers use named import syntax &#x27;{ setupFakeTimers }&#x27;; bundlers can analyze which exports are used and eliminate unused ones</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Context</h4>
+                            <p class="text-gray-600 leading-relaxed">All utilities in this file use named exports, allowing test files to import only the specific helpers they need</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Alternatives</h4>
+                            <p class="text-gray-600 leading-relaxed">Default export of object with all utilities; default export with re-exports; export statement at end of file; namespace export; class with static methods; mix of default and named exports</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Tags</h4>
+                            <div class="flex flex-wrap gap-2 mt-2">
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">export</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">named-exports</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">tree-shaking</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">module-system</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">bundle-optimization</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">es6-modules</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Footer -->
+    <div class="bg-gray-800 text-gray-300 py-6 px-6 mt-12">
+        <div class="max-w-7xl mx-auto text-center text-sm">
+            Generated from Code Taxonomy Analysis • 27 concepts extracted
+        </div>
+    </div>
+
+    <!-- Initialize Syntax Highlighting -->
+    <script>
+        hljs.highlightAll();
+    </script>
+
+</body>
+</html>

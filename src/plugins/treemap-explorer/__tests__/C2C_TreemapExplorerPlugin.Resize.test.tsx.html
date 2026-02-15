@@ -1,0 +1,2056 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TreemapExplorerPlugin.Resize.test.tsx - Code Taxonomy</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Highlight.js for syntax highlighting -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/typescript.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/javascript.min.js"></script>
+</head>
+<body class="bg-gray-50 text-gray-900">
+    
+    <!-- Header -->
+    <div class="bg-gradient-to-r from-blue-600 to-blue-700 text-white py-8 px-6 shadow-lg">
+        <div class="max-w-7xl mx-auto">
+            <div class="text-sm text-blue-100 mb-2">src/plugins/treemap-explorer/__tests__</div>
+            <h1 class="text-4xl font-bold mb-2">TreemapExplorerPlugin.Resize.test.tsx</h1>
+            <p class="text-blue-100">Test suite for TreemapExplorerPlugin&#x27;s resize behavior, specifically testing ResizeObserver integration for responsive container handling</p>
+        </div>
+    </div>
+
+    <!-- Metadata & Stats Bar -->
+    <div class="bg-white shadow-sm border-b">
+        <div class="max-w-7xl mx-auto py-6 px-6">
+            <div class="grid grid-cols-2 md:grid-cols-5 gap-6">
+                <div>
+                    <div class="text-xs font-semibold text-gray-500 uppercase tracking-wide mb-1">Type</div>
+                    <div class="text-lg font-bold text-gray-900">Test</div>
+                </div>
+                <div>
+                    <div class="text-xs font-semibold text-gray-500 uppercase tracking-wide mb-1">Priority</div>
+                    <div class="text-lg font-bold text-gray-900">Application</div>
+                </div>
+                <div>
+                    <div class="text-xs font-semibold text-gray-500 uppercase tracking-wide mb-1">Total Concepts</div>
+                    <div class="text-lg font-bold text-blue-600">30</div>
+                </div>
+                <div>
+                    <div class="text-xs font-semibold text-gray-500 uppercase tracking-wide mb-1">Categories</div>
+                    <div class="text-lg font-bold text-blue-600">15</div>
+                </div>
+                <div>
+                    <div class="text-xs font-semibold text-gray-500 uppercase tracking-wide mb-1">Complexity</div>
+                    <div class="text-sm font-mono text-gray-700">
+                        <span class="text-green-600">15</span> / 
+                        <span class="text-yellow-600">15</span> / 
+                        <span class="text-red-600">0</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="max-w-7xl mx-auto py-8 px-6">
+        
+        <!-- Summary Section -->
+        <div class="mb-8">
+            <h2 class="text-2xl font-bold mb-4">📊 Summary</h2>
+            
+            <div class="grid md:grid-cols-2 gap-6 mb-6">
+                <!-- Category Counts -->
+                <div class="bg-white rounded-lg shadow p-6">
+                    <h3 class="text-lg font-semibold mb-4 text-gray-700">Concepts by Category</h3>
+                    <div class="space-y-3">
+
+                        <div class="flex justify-between items-center">
+                            <span class="text-sm text-gray-600">Testing/Test Framework</span>
+                            <span class="bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm font-semibold">1</span>
+                        </div>
+
+                        <div class="flex justify-between items-center">
+                            <span class="text-sm text-gray-600">Import/Module Management</span>
+                            <span class="bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm font-semibold">2</span>
+                        </div>
+
+                        <div class="flex justify-between items-center">
+                            <span class="text-sm text-gray-600">TypeScript/Type System</span>
+                            <span class="bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm font-semibold">3</span>
+                        </div>
+
+                        <div class="flex justify-between items-center">
+                            <span class="text-sm text-gray-600">Testing/Mocking</span>
+                            <span class="bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm font-semibold">4</span>
+                        </div>
+
+                        <div class="flex justify-between items-center">
+                            <span class="text-sm text-gray-600">JavaScript/ES6+ Syntax</span>
+                            <span class="bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm font-semibold">2</span>
+                        </div>
+
+                        <div class="flex justify-between items-center">
+                            <span class="text-sm text-gray-600">Testing/Environment Setup</span>
+                            <span class="bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm font-semibold">1</span>
+                        </div>
+
+                        <div class="flex justify-between items-center">
+                            <span class="text-sm text-gray-600">Testing/Test Organization</span>
+                            <span class="bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm font-semibold">3</span>
+                        </div>
+
+                        <div class="flex justify-between items-center">
+                            <span class="text-sm text-gray-600">Testing/Test Lifecycle</span>
+                            <span class="bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm font-semibold">2</span>
+                        </div>
+
+                        <div class="flex justify-between items-center">
+                            <span class="text-sm text-gray-600">Testing/Test Setup</span>
+                            <span class="bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm font-semibold">3</span>
+                        </div>
+
+                        <div class="flex justify-between items-center">
+                            <span class="text-sm text-gray-600">Testing/DOM Mocking</span>
+                            <span class="bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm font-semibold">3</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Complexity Breakdown -->
+                <div class="bg-white rounded-lg shadow p-6">
+                    <h3 class="text-lg font-semibold mb-4 text-gray-700">Complexity Distribution</h3>
+                    <div class="space-y-4">
+
+                        <div>
+                            <div class="flex justify-between mb-1">
+                                <span class="text-sm font-medium text-green-700">Beginner</span>
+                                <span class="text-sm font-semibold text-green-700">15 concepts</span>
+                            </div>
+                            <div class="w-full bg-gray-200 rounded-full h-2">
+                                <div class="bg-green-500 h-2 rounded-full" style="width: 50%"></div>
+                            </div>
+                        </div>
+
+                        <div>
+                            <div class="flex justify-between mb-1">
+                                <span class="text-sm font-medium text-yellow-700">Intermediate</span>
+                                <span class="text-sm font-semibold text-yellow-700">15 concepts</span>
+                            </div>
+                            <div class="w-full bg-gray-200 rounded-full h-2">
+                                <div class="bg-yellow-500 h-2 rounded-full" style="width: 50%"></div>
+                            </div>
+                        </div>
+
+                        <div>
+                            <div class="flex justify-between mb-1">
+                                <span class="text-sm font-medium text-red-700">Advanced</span>
+                                <span class="text-sm font-semibold text-red-700">0 concepts</span>
+                            </div>
+                            <div class="w-full bg-gray-200 rounded-full h-2">
+                                <div class="bg-red-500 h-2 rounded-full" style="width: 0%"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tag Cloud -->
+            <div class="bg-white rounded-lg shadow p-6">
+                <h3 class="text-lg font-semibold mb-4 text-gray-700">🏷️ Tags</h3>
+                <div class="flex flex-wrap gap-2">
+                    <span class="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-sm">after-each</span>
+                    <span class="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-sm">any-type</span>
+                    <span class="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-sm">argument-verification</span>
+                    <span class="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-sm">arrow-function</span>
+                    <span class="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-sm">assertions</span>
+                    <span class="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-sm">bdd-style</span>
+                    <span class="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-sm">before-each</span>
+                    <span class="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-sm">bounding-rect</span>
+                    <span class="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-sm">browser-api-mock</span>
+                    <span class="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-sm">browser-api-polyfill</span>
+                    <span class="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-sm">class-fields</span>
+                    <span class="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-sm">class-instantiation</span>
+                    <span class="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-sm">class-mock</span>
+                    <span class="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-sm">cleanup-testing</span>
+                    <span class="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-sm">concise-syntax</span>
+                    <span class="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-sm">describe-block</span>
+                    <span class="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-sm">developer-experience</span>
+                    <span class="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-sm">development-methodology</span>
+                    <span class="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-sm">dimension-mocking</span>
+                    <span class="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-sm">dimensions</span>
+                    <span class="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-sm">dom-api</span>
+                    <span class="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-sm">dom-mocking</span>
+                    <span class="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-sm">dom-rect</span>
+                    <span class="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-sm">dom-testing</span>
+                    <span class="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-sm">element-creation</span>
+                    <span class="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-sm">environment-setup</span>
+                    <span class="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-sm">es2022</span>
+                    <span class="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-sm">es6</span>
+                    <span class="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-sm">fresh-instance</span>
+                    <span class="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-sm">global-mocking</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Concepts Section -->
+        <div>
+            <h2 class="text-2xl font-bold mb-4">💡 Concepts</h2>
+            
+            <div class="space-y-6">
+
+                <!-- CONCEPT-001 -->
+                <div class="bg-white rounded-lg shadow-md overflow-hidden border border-gray-200">
+                    <!-- Concept Header -->
+                    <div class="bg-gradient-to-r from-gray-50 to-gray-100 px-6 py-4 border-b border-gray-200">
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <div class="text-xs font-mono text-gray-500 mb-1">CONCEPT-001</div>
+                                <h3 class="text-xl font-bold text-gray-900"></h3>
+                                <div class="text-sm text-blue-600 font-medium mt-1">Testing/Test Framework</div>
+                            </div>
+                            <span class="bg-green-100 text-green-800 px-3 py-1 rounded-full text-xs font-semibold">Beginner</span>
+                        </div>
+                    </div>
+
+                    <!-- Code Snippet with Syntax Highlighting -->
+                    <div class="px-6 py-4 bg-gray-900">
+                        <pre><code class="language-typescript">import { describe, it, expect, vi, beforeEach, afterEach } from &quot;vitest&quot;;</code></pre>
+                    </div>
+
+                    <!-- Concept Details -->
+                    <div class="px-6 py-5 space-y-4">
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">What</h4>
+                            <p class="text-gray-600 leading-relaxed">Named imports of Vitest testing utilities including test organization functions (describe, it), assertion library (expect), mocking utilities (vi), and lifecycle hooks (beforeEach, afterEach)</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Why</h4>
+                            <p class="text-gray-600 leading-relaxed">Vitest is a fast, Vite-native unit test framework that provides Jest-compatible API. These imports provide the complete testing toolkit: describe/it for test structure, expect for assertions, vi for mocking (equivalent to Jest&#x27;s jest object), and lifecycle hooks for test setup/teardown. Using named imports keeps the API explicit and enables tree-shaking.</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">How</h4>
+                            <p class="text-gray-600 leading-relaxed">Vitest exports these functions as named exports from its main module. The &#x27;vi&#x27; object provides mocking capabilities (vi.fn(), vi.mock(), etc.). beforeEach/afterEach run before/after each test in the describe block to ensure test isolation.</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Context</h4>
+                            <p class="text-gray-600 leading-relaxed">Setting up a test file that needs to mock browser APIs (ResizeObserver), organize tests into suites (describe), write individual test cases (it), make assertions (expect), and manage test lifecycle (beforeEach/afterEach for setup and cleanup)</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Alternatives</h4>
+                            <p class="text-gray-600 leading-relaxed">Jest (import from &#x27;@jest/globals&#x27;); Mocha + Chai (separate test runner and assertion library); native Node.js test runner; inline test definitions without framework; using default imports if framework supports it</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Tags</h4>
+                            <div class="flex flex-wrap gap-2 mt-2">
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">vitest</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">testing</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">test-framework</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">named-import</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">unit-testing</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">test-utilities</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- CONCEPT-002 -->
+                <div class="bg-white rounded-lg shadow-md overflow-hidden border border-gray-200">
+                    <!-- Concept Header -->
+                    <div class="bg-gradient-to-r from-gray-50 to-gray-100 px-6 py-4 border-b border-gray-200">
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <div class="text-xs font-mono text-gray-500 mb-1">CONCEPT-002</div>
+                                <h3 class="text-xl font-bold text-gray-900"></h3>
+                                <div class="text-sm text-blue-600 font-medium mt-1">Import/Module Management</div>
+                            </div>
+                            <span class="bg-green-100 text-green-800 px-3 py-1 rounded-full text-xs font-semibold">Beginner</span>
+                        </div>
+                    </div>
+
+                    <!-- Code Snippet with Syntax Highlighting -->
+                    <div class="px-6 py-4 bg-gray-900">
+                        <pre><code class="language-typescript">import { TreemapExplorerPlugin } from &quot;../TreemapExplorerPlugin&quot;;</code></pre>
+                    </div>
+
+                    <!-- Concept Details -->
+                    <div class="px-6 py-5 space-y-4">
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">What</h4>
+                            <p class="text-gray-600 leading-relaxed">Named import using relative path to access the plugin class being tested, navigating up one directory level from __tests__ folder</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Why</h4>
+                            <p class="text-gray-600 leading-relaxed">Test files are typically organized in __tests__ folders alongside or within the modules they test. Relative imports maintain the relationship between test and source files, making it clear what&#x27;s being tested. The &#x27;../&#x27; navigates from __tests__ back to the parent directory where the actual implementation lives.</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">How</h4>
+                            <p class="text-gray-600 leading-relaxed">The &#x27;../&#x27; prefix means &quot;go up one directory level&quot;, then access TreemapExplorerPlugin.ts(x) file in that parent directory. The module exports TreemapExplorerPlugin as a named export, which is imported here.</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Context</h4>
+                            <p class="text-gray-600 leading-relaxed">Importing the main class under test (TreemapExplorerPlugin) from its implementation file located one directory level up from this test file. This is the primary subject of the test suite.</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Alternatives</h4>
+                            <p class="text-gray-600 leading-relaxed">Path alias import like &#x27;@/plugins/treemap-explorer/TreemapExplorerPlugin&#x27;; absolute path from project root; default import if exported as default; importing entire module as namespace</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Tags</h4>
+                            <div class="flex flex-wrap gap-2 mt-2">
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">import</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">relative-path</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">test-organization</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">module-under-test</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">named-import</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- CONCEPT-003 -->
+                <div class="bg-white rounded-lg shadow-md overflow-hidden border border-gray-200">
+                    <!-- Concept Header -->
+                    <div class="bg-gradient-to-r from-gray-50 to-gray-100 px-6 py-4 border-b border-gray-200">
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <div class="text-xs font-mono text-gray-500 mb-1">CONCEPT-003</div>
+                                <h3 class="text-xl font-bold text-gray-900"></h3>
+                                <div class="text-sm text-blue-600 font-medium mt-1">TypeScript/Type System</div>
+                            </div>
+                            <span class="bg-green-100 text-green-800 px-3 py-1 rounded-full text-xs font-semibold">Beginner</span>
+                        </div>
+                    </div>
+
+                    <!-- Code Snippet with Syntax Highlighting -->
+                    <div class="px-6 py-4 bg-gray-900">
+                        <pre><code class="language-typescript">import { TreemapExplorerState } from &quot;../types&quot;;</code></pre>
+                    </div>
+
+                    <!-- Concept Details -->
+                    <div class="px-6 py-5 space-y-4">
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">What</h4>
+                            <p class="text-gray-600 leading-relaxed">Named import of TypeScript type/interface from a types module, used for type annotations in test setup</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Why</h4>
+                            <p class="text-gray-600 leading-relaxed">Separating types into dedicated files (types.ts) promotes reusability and clear contracts. Importing types allows tests to properly type their variables and ensure type safety during test setup. This import could be marked as &#x27;import type&#x27; for clarity that it&#x27;s compile-time only.</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">How</h4>
+                            <p class="text-gray-600 leading-relaxed">The types module exports TreemapExplorerState as a named export (likely an interface or type alias). This type is used to annotate the state variable in the test, ensuring the test setup matches the expected state structure.</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Context</h4>
+                            <p class="text-gray-600 leading-relaxed">Importing the state type definition to properly type the &#x27;state&#x27; variable used in test setup. This ensures the test creates state objects that match the plugin&#x27;s expected structure.</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Alternatives</h4>
+                            <p class="text-gray-600 leading-relaxed">Import type syntax &#x27;import type { TreemapExplorerState }&#x27; to make it explicit this is type-only; inline type definition in test file; using &#x27;any&#x27; type (loses type safety); importing from main plugin file instead of separate types file</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Tags</h4>
+                            <div class="flex flex-wrap gap-2 mt-2">
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">import</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">typescript</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">type-import</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">test-types</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">type-safety</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">relative-path</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- CONCEPT-004 -->
+                <div class="bg-white rounded-lg shadow-md overflow-hidden border border-gray-200">
+                    <!-- Concept Header -->
+                    <div class="bg-gradient-to-r from-gray-50 to-gray-100 px-6 py-4 border-b border-gray-200">
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <div class="text-xs font-mono text-gray-500 mb-1">CONCEPT-004</div>
+                                <h3 class="text-xl font-bold text-gray-900"></h3>
+                                <div class="text-sm text-blue-600 font-medium mt-1">Testing/Mocking</div>
+                            </div>
+                            <span class="bg-yellow-100 text-yellow-800 px-3 py-1 rounded-full text-xs font-semibold">Intermediate</span>
+                        </div>
+                    </div>
+
+                    <!-- Code Snippet with Syntax Highlighting -->
+                    <div class="px-6 py-4 bg-gray-900">
+                        <pre><code class="language-typescript">const resizeObserverMock = vi.fn();
+const observeMock = vi.fn();
+const unobserveMock = vi.fn();
+const disconnectMock = vi.fn();</code></pre>
+                    </div>
+
+                    <!-- Concept Details -->
+                    <div class="px-6 py-5 space-y-4">
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">What</h4>
+                            <p class="text-gray-600 leading-relaxed">Creating mock functions using Vitest&#x27;s vi.fn() utility to track calls and control behavior of ResizeObserver methods</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Why</h4>
+                            <p class="text-gray-600 leading-relaxed">Mock functions allow tests to: (1) verify methods were called with correct arguments, (2) control return values, (3) track call count and order, (4) avoid executing real implementations that may have side effects or dependencies. Essential for testing code that interacts with browser APIs like ResizeObserver.</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">How</h4>
+                            <p class="text-gray-600 leading-relaxed">vi.fn() creates a spy function that records all calls, arguments, and return values. These mocks can be passed to expect() for assertions like toHaveBeenCalled(), toHaveBeenCalledWith(). The .mockClear() method resets call history between tests.</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Context</h4>
+                            <p class="text-gray-600 leading-relaxed">Creating four mock functions to replace ResizeObserver&#x27;s constructor callback and its three methods (observe, unobserve, disconnect). These will be used to verify the plugin correctly integrates with ResizeObserver lifecycle.</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Alternatives</h4>
+                            <p class="text-gray-600 leading-relaxed">Jest&#x27;s jest.fn(); manual spy implementation with arrays tracking calls; Sinon.js spies/stubs; using real ResizeObserver (not recommended for unit tests); vi.spyOn() for existing methods</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Tags</h4>
+                            <div class="flex flex-wrap gap-2 mt-2">
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">vitest</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">mocking</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">test-doubles</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">spy-functions</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">unit-testing</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">test-isolation</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- CONCEPT-005 -->
+                <div class="bg-white rounded-lg shadow-md overflow-hidden border border-gray-200">
+                    <!-- Concept Header -->
+                    <div class="bg-gradient-to-r from-gray-50 to-gray-100 px-6 py-4 border-b border-gray-200">
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <div class="text-xs font-mono text-gray-500 mb-1">CONCEPT-005</div>
+                                <h3 class="text-xl font-bold text-gray-900"></h3>
+                                <div class="text-sm text-blue-600 font-medium mt-1">Testing/Mocking</div>
+                            </div>
+                            <span class="bg-yellow-100 text-yellow-800 px-3 py-1 rounded-full text-xs font-semibold">Intermediate</span>
+                        </div>
+                    </div>
+
+                    <!-- Code Snippet with Syntax Highlighting -->
+                    <div class="px-6 py-4 bg-gray-900">
+                        <pre><code class="language-typescript">class ResizeObserver {
+  constructor(callback: any) {
+    resizeObserverMock(callback);
+  }
+  observe = observeMock;
+  unobserve = unobserveMock;
+  disconnect = disconnectMock;
+}</code></pre>
+                    </div>
+
+                    <!-- Concept Details -->
+                    <div class="px-6 py-5 space-y-4">
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">What</h4>
+                            <p class="text-gray-600 leading-relaxed">Creating a mock class that mimics the ResizeObserver API structure, with constructor and methods replaced by mock functions</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Why</h4>
+                            <p class="text-gray-600 leading-relaxed">Browser APIs like ResizeObserver aren&#x27;t available in Node.js test environments. Creating a mock class allows: (1) tests to run in Node.js, (2) verification of how code interacts with the API, (3) control over API behavior, (4) avoiding real DOM observation overhead. The mock captures constructor calls and method invocations for assertion.</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">How</h4>
+                            <p class="text-gray-600 leading-relaxed">Defines a class with same interface as real ResizeObserver. Constructor calls the resizeObserverMock to track instantiation. Methods are assigned to mock functions using class field syntax (observe = observeMock), making them trackable. The &#x27;any&#x27; type on callback parameter bypasses strict typing for test simplicity.</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Context</h4>
+                            <p class="text-gray-600 leading-relaxed">Mocking the browser&#x27;s ResizeObserver API to test plugin&#x27;s resize handling without requiring a real browser environment. The mock allows verification that the plugin correctly creates, observes, and cleans up the ResizeObserver.</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Alternatives</h4>
+                            <p class="text-gray-600 leading-relaxed">Using vi.mock() to auto-mock the module; JSDOM with real ResizeObserver polyfill; manual mock with prototype methods; using a testing library that provides ResizeObserver mock; Playwright/Puppeteer for real browser testing</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Tags</h4>
+                            <div class="flex flex-wrap gap-2 mt-2">
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">mocking</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">test-doubles</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">browser-api-mock</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">class-mock</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">resize-observer</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">test-environment</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- CONCEPT-006 -->
+                <div class="bg-white rounded-lg shadow-md overflow-hidden border border-gray-200">
+                    <!-- Concept Header -->
+                    <div class="bg-gradient-to-r from-gray-50 to-gray-100 px-6 py-4 border-b border-gray-200">
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <div class="text-xs font-mono text-gray-500 mb-1">CONCEPT-006</div>
+                                <h3 class="text-xl font-bold text-gray-900"></h3>
+                                <div class="text-sm text-blue-600 font-medium mt-1">TypeScript/Type System</div>
+                            </div>
+                            <span class="bg-green-100 text-green-800 px-3 py-1 rounded-full text-xs font-semibold">Beginner</span>
+                        </div>
+                    </div>
+
+                    <!-- Code Snippet with Syntax Highlighting -->
+                    <div class="px-6 py-4 bg-gray-900">
+                        <pre><code class="language-typescript">callback: any</code></pre>
+                    </div>
+
+                    <!-- Concept Details -->
+                    <div class="px-6 py-5 space-y-4">
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">What</h4>
+                            <p class="text-gray-600 leading-relaxed">Using TypeScript&#x27;s &#x27;any&#x27; type to bypass type checking for the callback parameter in the mock constructor</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Why</h4>
+                            <p class="text-gray-600 leading-relaxed">In test code, strict typing of mocks can be overly restrictive and add complexity without benefit. Using &#x27;any&#x27; for the callback parameter allows the mock to accept any function without needing to match ResizeObserver&#x27;s exact callback signature. This is acceptable in tests where the focus is behavior verification, not type correctness of the mock itself.</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">How</h4>
+                            <p class="text-gray-600 leading-relaxed">The &#x27;any&#x27; type is TypeScript&#x27;s escape hatch that disables type checking for that value. The compiler allows any operation on &#x27;any&#x27; typed values without errors. Here it allows the constructor to accept any callback function.</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Context</h4>
+                            <p class="text-gray-600 leading-relaxed">Simplifying the mock implementation by not requiring exact type matching for the ResizeObserver callback. The test doesn&#x27;t need to verify callback signature correctness, only that the observer is created and used properly.</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Alternatives</h4>
+                            <p class="text-gray-600 leading-relaxed">Proper ResizeObserverCallback type; unknown type with type assertion; generic type parameter; importing actual callback type from lib.dom.d.ts; using Function type</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Tags</h4>
+                            <div class="flex flex-wrap gap-2 mt-2">
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">typescript</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">any-type</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">type-escape-hatch</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">test-pragmatism</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">type-flexibility</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- CONCEPT-007 -->
+                <div class="bg-white rounded-lg shadow-md overflow-hidden border border-gray-200">
+                    <!-- Concept Header -->
+                    <div class="bg-gradient-to-r from-gray-50 to-gray-100 px-6 py-4 border-b border-gray-200">
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <div class="text-xs font-mono text-gray-500 mb-1">CONCEPT-007</div>
+                                <h3 class="text-xl font-bold text-gray-900"></h3>
+                                <div class="text-sm text-blue-600 font-medium mt-1">JavaScript/ES6+ Syntax</div>
+                            </div>
+                            <span class="bg-yellow-100 text-yellow-800 px-3 py-1 rounded-full text-xs font-semibold">Intermediate</span>
+                        </div>
+                    </div>
+
+                    <!-- Code Snippet with Syntax Highlighting -->
+                    <div class="px-6 py-4 bg-gray-900">
+                        <pre><code class="language-typescript">observe = observeMock;
+unobserve = unobserveMock;
+disconnect = disconnectMock;</code></pre>
+                    </div>
+
+                    <!-- Concept Details -->
+                    <div class="px-6 py-5 space-y-4">
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">What</h4>
+                            <p class="text-gray-600 leading-relaxed">Using class field syntax to assign mock functions as instance methods, creating properties on each instance rather than on the prototype</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Why</h4>
+                            <p class="text-gray-600 leading-relaxed">Class field syntax (ES2022) creates instance properties rather than prototype methods. This is useful for mocks because: (1) each instance gets its own method reference, (2) methods can be easily replaced per-instance, (3) arrow functions can be used to preserve &#x27;this&#x27; binding. For mocks, this makes it easy to assign pre-created mock functions.</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">How</h4>
+                            <p class="text-gray-600 leading-relaxed">The &#x27;=&#x27; syntax in a class body creates a property on each instance during construction. Unlike traditional method syntax (methodName() {}), this creates an own property, not a prototype method. The mock functions are assigned directly as property values.</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Context</h4>
+                            <p class="text-gray-600 leading-relaxed">Assigning the pre-created mock functions (observeMock, unobserveMock, disconnectMock) as instance methods of the mock ResizeObserver class. This allows the test to track calls to these methods.</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Alternatives</h4>
+                            <p class="text-gray-600 leading-relaxed">Prototype methods: &#x27;observe() { observeMock(); }&#x27;; constructor assignment: &#x27;this.observe = observeMock&#x27;; Object.defineProperty in constructor; using a factory function instead of class</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Tags</h4>
+                            <div class="flex flex-wrap gap-2 mt-2">
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">javascript</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">class-fields</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">es2022</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">instance-properties</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">class-syntax</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">mock-methods</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- CONCEPT-008 -->
+                <div class="bg-white rounded-lg shadow-md overflow-hidden border border-gray-200">
+                    <!-- Concept Header -->
+                    <div class="bg-gradient-to-r from-gray-50 to-gray-100 px-6 py-4 border-b border-gray-200">
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <div class="text-xs font-mono text-gray-500 mb-1">CONCEPT-008</div>
+                                <h3 class="text-xl font-bold text-gray-900"></h3>
+                                <div class="text-sm text-blue-600 font-medium mt-1">Testing/Environment Setup</div>
+                            </div>
+                            <span class="bg-yellow-100 text-yellow-800 px-3 py-1 rounded-full text-xs font-semibold">Intermediate</span>
+                        </div>
+                    </div>
+
+                    <!-- Code Snippet with Syntax Highlighting -->
+                    <div class="px-6 py-4 bg-gray-900">
+                        <pre><code class="language-typescript">global.ResizeObserver = ResizeObserver as any;</code></pre>
+                    </div>
+
+                    <!-- Concept Details -->
+                    <div class="px-6 py-5 space-y-4">
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">What</h4>
+                            <p class="text-gray-600 leading-relaxed">Assigning the mock ResizeObserver class to the global object to replace or provide the browser API in the Node.js test environment</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Why</h4>
+                            <p class="text-gray-600 leading-relaxed">Node.js test environments don&#x27;t have browser APIs like ResizeObserver. By assigning to &#x27;global&#x27;, the mock becomes available globally, just like it would be in a browser (where it&#x27;s on &#x27;window&#x27;). This allows code under test to reference ResizeObserver without imports, matching browser behavior. The &#x27;as any&#x27; bypasses TypeScript&#x27;s type checking for the global object.</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">How</h4>
+                            <p class="text-gray-600 leading-relaxed">The &#x27;global&#x27; object in Node.js is equivalent to &#x27;window&#x27; in browsers - it&#x27;s the global scope. Assigning to global.ResizeObserver makes ResizeObserver available everywhere without imports. The &#x27;as any&#x27; type assertion tells TypeScript to ignore type mismatches when assigning to global.</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Context</h4>
+                            <p class="text-gray-600 leading-relaxed">Making the mock ResizeObserver available globally so the plugin code can instantiate it with &#x27;new ResizeObserver()&#x27; just like it would in a browser, without needing to import or inject it.</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Alternatives</h4>
+                            <p class="text-gray-600 leading-relaxed">Using JSDOM which provides browser globals; vi.stubGlobal() for Vitest-specific global mocking; dependency injection to pass ResizeObserver to plugin; using window object if JSDOM is configured; module-level mocking with vi.mock()</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Tags</h4>
+                            <div class="flex flex-wrap gap-2 mt-2">
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">testing</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">global-mocking</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">environment-setup</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">browser-api-polyfill</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">nodejs-testing</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">type-assertion</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- CONCEPT-009 -->
+                <div class="bg-white rounded-lg shadow-md overflow-hidden border border-gray-200">
+                    <!-- Concept Header -->
+                    <div class="bg-gradient-to-r from-gray-50 to-gray-100 px-6 py-4 border-b border-gray-200">
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <div class="text-xs font-mono text-gray-500 mb-1">CONCEPT-009</div>
+                                <h3 class="text-xl font-bold text-gray-900"></h3>
+                                <div class="text-sm text-blue-600 font-medium mt-1">TypeScript/Type System</div>
+                            </div>
+                            <span class="bg-green-100 text-green-800 px-3 py-1 rounded-full text-xs font-semibold">Beginner</span>
+                        </div>
+                    </div>
+
+                    <!-- Code Snippet with Syntax Highlighting -->
+                    <div class="px-6 py-4 bg-gray-900">
+                        <pre><code class="language-typescript">as any</code></pre>
+                    </div>
+
+                    <!-- Concept Details -->
+                    <div class="px-6 py-5 space-y-4">
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">What</h4>
+                            <p class="text-gray-600 leading-relaxed">TypeScript type assertion that tells the compiler to treat a value as the &#x27;any&#x27; type, bypassing type checking</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Why</h4>
+                            <p class="text-gray-600 leading-relaxed">The global object has a specific type definition that doesn&#x27;t include ResizeObserver (since it&#x27;s a browser API). Using &#x27;as any&#x27; bypasses TypeScript&#x27;s type checking, allowing assignment of the mock class to global without type errors. This is pragmatic in test code where strict typing of test infrastructure is less critical than in production code.</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">How</h4>
+                            <p class="text-gray-600 leading-relaxed">The &#x27;as&#x27; keyword is TypeScript&#x27;s type assertion syntax. &#x27;as any&#x27; tells the compiler &quot;trust me, treat this as any type&quot;, which disables all type checking for that expression. This allows operations that would otherwise be type errors.</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Context</h4>
+                            <p class="text-gray-600 leading-relaxed">Bypassing TypeScript&#x27;s type checking when assigning the mock ResizeObserver to the global object, since global&#x27;s type definition doesn&#x27;t include ResizeObserver in Node.js environments.</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Alternatives</h4>
+                            <p class="text-gray-600 leading-relaxed">Declaring global type augmentation with &#x27;declare global { interface Global { ResizeObserver: any; } }&#x27;; using @ts-ignore comment; using unknown then narrowing; proper type definition for the mock; using window instead of global with JSDOM</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Tags</h4>
+                            <div class="flex flex-wrap gap-2 mt-2">
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">typescript</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">type-assertion</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">any-type</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">type-escape-hatch</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">test-pragmatism</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- CONCEPT-010 -->
+                <div class="bg-white rounded-lg shadow-md overflow-hidden border border-gray-200">
+                    <!-- Concept Header -->
+                    <div class="bg-gradient-to-r from-gray-50 to-gray-100 px-6 py-4 border-b border-gray-200">
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <div class="text-xs font-mono text-gray-500 mb-1">CONCEPT-010</div>
+                                <h3 class="text-xl font-bold text-gray-900"></h3>
+                                <div class="text-sm text-blue-600 font-medium mt-1">Testing/Test Organization</div>
+                            </div>
+                            <span class="bg-green-100 text-green-800 px-3 py-1 rounded-full text-xs font-semibold">Beginner</span>
+                        </div>
+                    </div>
+
+                    <!-- Code Snippet with Syntax Highlighting -->
+                    <div class="px-6 py-4 bg-gray-900">
+                        <pre><code class="language-typescript">describe(&quot;TreemapExplorerPlugin - Resize Behavior&quot;, () =&gt; { ... });</code></pre>
+                    </div>
+
+                    <!-- Concept Details -->
+                    <div class="px-6 py-5 space-y-4">
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">What</h4>
+                            <p class="text-gray-600 leading-relaxed">Vitest/Jest describe function that groups related tests into a named test suite</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Why</h4>
+                            <p class="text-gray-600 leading-relaxed">Describe blocks organize tests hierarchically, making test output more readable and maintainable. They: (1) group related tests together, (2) provide context in test reports, (3) allow shared setup/teardown via beforeEach/afterEach, (4) enable running specific test suites, (5) create logical test structure. The descriptive name clearly indicates this suite tests resize behavior specifically.</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">How</h4>
+                            <p class="text-gray-600 leading-relaxed">describe() takes two arguments: a string description and a callback function containing the tests. All tests (it blocks) and lifecycle hooks (beforeEach/afterEach) within the callback are part of this suite. The callback executes immediately to register the tests.</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Context</h4>
+                            <p class="text-gray-600 leading-relaxed">Creating a test suite specifically for testing the TreemapExplorerPlugin&#x27;s resize behavior, particularly its integration with ResizeObserver. This isolates resize tests from other plugin functionality tests.</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Alternatives</h4>
+                            <p class="text-gray-600 leading-relaxed">Flat test structure without describe; nested describe blocks for sub-categories; using test.describe in some frameworks; suite() in Mocha; organizing by file instead of describe blocks</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Tags</h4>
+                            <div class="flex flex-wrap gap-2 mt-2">
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">vitest</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">testing</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">test-organization</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">test-suite</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">describe-block</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">test-structure</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- CONCEPT-011 -->
+                <div class="bg-white rounded-lg shadow-md overflow-hidden border border-gray-200">
+                    <!-- Concept Header -->
+                    <div class="bg-gradient-to-r from-gray-50 to-gray-100 px-6 py-4 border-b border-gray-200">
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <div class="text-xs font-mono text-gray-500 mb-1">CONCEPT-011</div>
+                                <h3 class="text-xl font-bold text-gray-900"></h3>
+                                <div class="text-sm text-blue-600 font-medium mt-1">Testing/Test Organization</div>
+                            </div>
+                            <span class="bg-green-100 text-green-800 px-3 py-1 rounded-full text-xs font-semibold">Beginner</span>
+                        </div>
+                    </div>
+
+                    <!-- Code Snippet with Syntax Highlighting -->
+                    <div class="px-6 py-4 bg-gray-900">
+                        <pre><code class="language-typescript">let plugin: TreemapExplorerPlugin;
+let container: HTMLElement;
+let state: TreemapExplorerState;</code></pre>
+                    </div>
+
+                    <!-- Concept Details -->
+                    <div class="px-6 py-5 space-y-4">
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">What</h4>
+                            <p class="text-gray-600 leading-relaxed">Variables declared at test suite scope (inside describe block) that are shared across all tests in the suite, typically initialized in beforeEach</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Why</h4>
+                            <p class="text-gray-600 leading-relaxed">Declaring variables at suite scope allows: (1) sharing common test fixtures across tests, (2) type annotations visible to all tests, (3) initialization in beforeEach with access in all tests, (4) clear declaration of test dependencies. Using &#x27;let&#x27; allows reassignment in beforeEach for fresh instances per test.</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">How</h4>
+                            <p class="text-gray-600 leading-relaxed">Variables declared with &#x27;let&#x27; in the describe callback&#x27;s scope are accessible to all nested functions (beforeEach, afterEach, it blocks). They&#x27;re typically initialized in beforeEach to ensure each test gets fresh instances, preventing test pollution.</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Context</h4>
+                            <p class="text-gray-600 leading-relaxed">Declaring three shared test fixtures: the plugin instance being tested, a DOM container element, and the plugin&#x27;s state object. These will be initialized fresh for each test in beforeEach to ensure test isolation.</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Alternatives</h4>
+                            <p class="text-gray-600 leading-relaxed">Declaring in each test (repetitive); using const with object mutation; factory functions to create fixtures; test context objects; global test fixtures (not recommended); using beforeAll for shared instances (breaks isolation)</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Tags</h4>
+                            <div class="flex flex-wrap gap-2 mt-2">
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">testing</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">test-fixtures</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">test-organization</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">variable-scope</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">test-isolation</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">shared-state</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- CONCEPT-012 -->
+                <div class="bg-white rounded-lg shadow-md overflow-hidden border border-gray-200">
+                    <!-- Concept Header -->
+                    <div class="bg-gradient-to-r from-gray-50 to-gray-100 px-6 py-4 border-b border-gray-200">
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <div class="text-xs font-mono text-gray-500 mb-1">CONCEPT-012</div>
+                                <h3 class="text-xl font-bold text-gray-900"></h3>
+                                <div class="text-sm text-blue-600 font-medium mt-1">TypeScript/Type System</div>
+                            </div>
+                            <span class="bg-green-100 text-green-800 px-3 py-1 rounded-full text-xs font-semibold">Beginner</span>
+                        </div>
+                    </div>
+
+                    <!-- Code Snippet with Syntax Highlighting -->
+                    <div class="px-6 py-4 bg-gray-900">
+                        <pre><code class="language-typescript">plugin: TreemapExplorerPlugin;
+container: HTMLElement;
+state: TreemapExplorerState;</code></pre>
+                    </div>
+
+                    <!-- Concept Details -->
+                    <div class="px-6 py-5 space-y-4">
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">What</h4>
+                            <p class="text-gray-600 leading-relaxed">Explicit type annotations on test fixture variables to ensure type safety throughout the test suite</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Why</h4>
+                            <p class="text-gray-600 leading-relaxed">Type annotations in tests provide: (1) IDE autocomplete for test code, (2) compile-time error detection in tests, (3) documentation of expected types, (4) prevention of type-related test bugs. Even though these are test files, type safety helps catch errors and improves developer experience.</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">How</h4>
+                            <p class="text-gray-600 leading-relaxed">The colon syntax (: Type) after variable name specifies the type. TypeScript enforces that all assignments to these variables match the declared type. The types come from the plugin module (TreemapExplorerPlugin, TreemapExplorerState) and built-in DOM types (HTMLElement).</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Context</h4>
+                            <p class="text-gray-600 leading-relaxed">Typing the test fixtures to ensure type safety: plugin is the class under test, container is a DOM element, state matches the plugin&#x27;s state interface. This catches type errors during test development.</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Alternatives</h4>
+                            <p class="text-gray-600 leading-relaxed">Type inference (let plugin = new TreemapExplorerPlugin()); using &#x27;any&#x27; type (loses safety); no types in JavaScript; using JSDoc comments for type hints; typeof operator for deriving types</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Tags</h4>
+                            <div class="flex flex-wrap gap-2 mt-2">
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">typescript</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">type-annotations</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">type-safety</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">test-types</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">developer-experience</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- CONCEPT-013 -->
+                <div class="bg-white rounded-lg shadow-md overflow-hidden border border-gray-200">
+                    <!-- Concept Header -->
+                    <div class="bg-gradient-to-r from-gray-50 to-gray-100 px-6 py-4 border-b border-gray-200">
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <div class="text-xs font-mono text-gray-500 mb-1">CONCEPT-013</div>
+                                <h3 class="text-xl font-bold text-gray-900"></h3>
+                                <div class="text-sm text-blue-600 font-medium mt-1">Testing/Test Lifecycle</div>
+                            </div>
+                            <span class="bg-green-100 text-green-800 px-3 py-1 rounded-full text-xs font-semibold">Beginner</span>
+                        </div>
+                    </div>
+
+                    <!-- Code Snippet with Syntax Highlighting -->
+                    <div class="px-6 py-4 bg-gray-900">
+                        <pre><code class="language-typescript">beforeEach(() =&gt; { ... });</code></pre>
+                    </div>
+
+                    <!-- Concept Details -->
+                    <div class="px-6 py-5 space-y-4">
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">What</h4>
+                            <p class="text-gray-600 leading-relaxed">Vitest/Jest lifecycle hook that runs before each test in the describe block, used for test setup and initialization</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Why</h4>
+                            <p class="text-gray-600 leading-relaxed">beforeEach ensures: (1) each test starts with fresh, clean state, (2) test isolation - tests don&#x27;t affect each other, (3) DRY principle - setup code written once, (4) consistent test environment. Running before EACH test (not just once) prevents test pollution where one test&#x27;s changes affect another.</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">How</h4>
+                            <p class="text-gray-600 leading-relaxed">beforeEach() takes a callback function that executes before each &#x27;it&#x27; block in the same describe scope. The callback can be async if setup requires async operations. Variables in the describe scope can be reassigned to fresh values.</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Context</h4>
+                            <p class="text-gray-600 leading-relaxed">Setting up fresh instances of plugin, container, and state before each test, and resetting all mock functions to clear their call history. This ensures each test runs in isolation with clean mocks.</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Alternatives</h4>
+                            <p class="text-gray-600 leading-relaxed">beforeAll (runs once, not per test); setup in each test (repetitive); factory functions called in tests; test.beforeEach in some frameworks; constructor/setup methods in class-based test frameworks</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Tags</h4>
+                            <div class="flex flex-wrap gap-2 mt-2">
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">vitest</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">testing</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">lifecycle-hooks</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">test-setup</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">test-isolation</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">before-each</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- CONCEPT-014 -->
+                <div class="bg-white rounded-lg shadow-md overflow-hidden border border-gray-200">
+                    <!-- Concept Header -->
+                    <div class="bg-gradient-to-r from-gray-50 to-gray-100 px-6 py-4 border-b border-gray-200">
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <div class="text-xs font-mono text-gray-500 mb-1">CONCEPT-014</div>
+                                <h3 class="text-xl font-bold text-gray-900"></h3>
+                                <div class="text-sm text-blue-600 font-medium mt-1">Testing/Test Setup</div>
+                            </div>
+                            <span class="bg-green-100 text-green-800 px-3 py-1 rounded-full text-xs font-semibold">Beginner</span>
+                        </div>
+                    </div>
+
+                    <!-- Code Snippet with Syntax Highlighting -->
+                    <div class="px-6 py-4 bg-gray-900">
+                        <pre><code class="language-typescript">plugin = new TreemapExplorerPlugin();</code></pre>
+                    </div>
+
+                    <!-- Concept Details -->
+                    <div class="px-6 py-5 space-y-4">
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">What</h4>
+                            <p class="text-gray-600 leading-relaxed">Creating a fresh instance of the plugin class under test using the new operator</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Why</h4>
+                            <p class="text-gray-600 leading-relaxed">Creating a new instance in beforeEach ensures: (1) each test gets a clean plugin with no state from previous tests, (2) tests are isolated and independent, (3) tests can modify plugin state without affecting other tests. This is fundamental to reliable unit testing.</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">How</h4>
+                            <p class="text-gray-600 leading-relaxed">The &#x27;new&#x27; operator creates a new instance of the TreemapExplorerPlugin class, calling its constructor. The instance is assigned to the suite-scoped &#x27;plugin&#x27; variable, making it accessible to all tests.</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Context</h4>
+                            <p class="text-gray-600 leading-relaxed">Instantiating the plugin under test fresh for each test case. This ensures each test starts with a clean plugin instance with no residual state from previous tests.</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Alternatives</h4>
+                            <p class="text-gray-600 leading-relaxed">Reusing single instance (breaks isolation); factory function to create plugin; using beforeAll (shares instance); resetting plugin state instead of recreating; dependency injection with test doubles</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Tags</h4>
+                            <div class="flex flex-wrap gap-2 mt-2">
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">testing</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">test-setup</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">class-instantiation</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">test-isolation</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">fresh-instance</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- CONCEPT-015 -->
+                <div class="bg-white rounded-lg shadow-md overflow-hidden border border-gray-200">
+                    <!-- Concept Header -->
+                    <div class="bg-gradient-to-r from-gray-50 to-gray-100 px-6 py-4 border-b border-gray-200">
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <div class="text-xs font-mono text-gray-500 mb-1">CONCEPT-015</div>
+                                <h3 class="text-xl font-bold text-gray-900"></h3>
+                                <div class="text-sm text-blue-600 font-medium mt-1">Testing/DOM Mocking</div>
+                            </div>
+                            <span class="bg-green-100 text-green-800 px-3 py-1 rounded-full text-xs font-semibold">Beginner</span>
+                        </div>
+                    </div>
+
+                    <!-- Code Snippet with Syntax Highlighting -->
+                    <div class="px-6 py-4 bg-gray-900">
+                        <pre><code class="language-typescript">container = document.createElement(&quot;div&quot;);</code></pre>
+                    </div>
+
+                    <!-- Concept Details -->
+                    <div class="px-6 py-5 space-y-4">
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">What</h4>
+                            <p class="text-gray-600 leading-relaxed">Creating a real DOM element using document.createElement for use as a test fixture</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Why</h4>
+                            <p class="text-gray-600 leading-relaxed">Creating actual DOM elements (rather than mocks) allows: (1) testing real DOM interactions, (2) using real browser APIs, (3) more realistic tests, (4) testing DOM manipulation code. The element doesn&#x27;t need to be attached to the document for most tests, making this lightweight.</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">How</h4>
+                            <p class="text-gray-600 leading-relaxed">document.createElement() is a standard DOM API that creates a new element of the specified type. In test environments with JSDOM or happy-dom, this creates a real (simulated) DOM element. The element exists in memory but isn&#x27;t attached to the document.</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Context</h4>
+                            <p class="text-gray-600 leading-relaxed">Creating a div element to serve as the container for the plugin. The plugin&#x27;s init method expects a container element, so this provides a realistic test fixture.</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Alternatives</h4>
+                            <p class="text-gray-600 leading-relaxed">Mock object with required properties; using testing-library to render components; creating element once in beforeAll; using actual HTML fixture files; innerHTML to create complex structures</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Tags</h4>
+                            <div class="flex flex-wrap gap-2 mt-2">
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">testing</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">dom-testing</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">test-fixtures</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">dom-api</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">element-creation</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- CONCEPT-016 -->
+                <div class="bg-white rounded-lg shadow-md overflow-hidden border border-gray-200">
+                    <!-- Concept Header -->
+                    <div class="bg-gradient-to-r from-gray-50 to-gray-100 px-6 py-4 border-b border-gray-200">
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <div class="text-xs font-mono text-gray-500 mb-1">CONCEPT-016</div>
+                                <h3 class="text-xl font-bold text-gray-900"></h3>
+                                <div class="text-sm text-blue-600 font-medium mt-1">Testing/DOM Mocking</div>
+                            </div>
+                            <span class="bg-yellow-100 text-yellow-800 px-3 py-1 rounded-full text-xs font-semibold">Intermediate</span>
+                        </div>
+                    </div>
+
+                    <!-- Code Snippet with Syntax Highlighting -->
+                    <div class="px-6 py-4 bg-gray-900">
+                        <pre><code class="language-typescript">Object.defineProperty(container, &quot;getBoundingClientRect&quot;, {
+  value: () =&gt; ({
+    width: 800,
+    height: 600,
+    top: 0,
+    left: 0,
+    bottom: 600,
+    right: 800,
+  }),
+});</code></pre>
+                    </div>
+
+                    <!-- Concept Details -->
+                    <div class="px-6 py-5 space-y-4">
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">What</h4>
+                            <p class="text-gray-600 leading-relaxed">Using Object.defineProperty to add or override a method on a DOM element with a custom implementation that returns mock dimensions</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Why</h4>
+                            <p class="text-gray-600 leading-relaxed">getBoundingClientRect() is a DOM method that returns element dimensions and position. In test environments, this often returns zeros or undefined values. Mocking it allows: (1) controlling element dimensions for tests, (2) testing size-dependent logic, (3) avoiding layout calculations, (4) making tests deterministic. Object.defineProperty is needed because getBoundingClientRect is typically non-writable.</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">How</h4>
+                            <p class="text-gray-600 leading-relaxed">Object.defineProperty() adds or modifies a property on an object with specific descriptors. The &#x27;value&#x27; descriptor sets the property&#x27;s value to a function that returns a DOMRect-like object with specified dimensions. This overrides the default getBoundingClientRect implementation.</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Context</h4>
+                            <p class="text-gray-600 leading-relaxed">Mocking the container&#x27;s getBoundingClientRect method to return fixed dimensions (800x600) for testing. This allows the plugin to read consistent, predictable dimensions during tests, enabling testing of size-dependent behavior.</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Alternatives</h4>
+                            <p class="text-gray-600 leading-relaxed">Using vi.spyOn(container, &#x27;getBoundingClientRect&#x27;).mockReturnValue(); creating a mock element object with getBoundingClientRect; using testing-library&#x27;s resize utilities; setting actual element size with CSS; using JSDOM&#x27;s layout engine</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Tags</h4>
+                            <div class="flex flex-wrap gap-2 mt-2">
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">testing</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">dom-mocking</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">object-define-property</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">method-override</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">bounding-rect</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">dimension-mocking</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- CONCEPT-017 -->
+                <div class="bg-white rounded-lg shadow-md overflow-hidden border border-gray-200">
+                    <!-- Concept Header -->
+                    <div class="bg-gradient-to-r from-gray-50 to-gray-100 px-6 py-4 border-b border-gray-200">
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <div class="text-xs font-mono text-gray-500 mb-1">CONCEPT-017</div>
+                                <h3 class="text-xl font-bold text-gray-900"></h3>
+                                <div class="text-sm text-blue-600 font-medium mt-1">JavaScript/ES6+ Syntax</div>
+                            </div>
+                            <span class="bg-green-100 text-green-800 px-3 py-1 rounded-full text-xs font-semibold">Beginner</span>
+                        </div>
+                    </div>
+
+                    <!-- Code Snippet with Syntax Highlighting -->
+                    <div class="px-6 py-4 bg-gray-900">
+                        <pre><code class="language-typescript">value: () =&gt; ({ ... })</code></pre>
+                    </div>
+
+                    <!-- Concept Details -->
+                    <div class="px-6 py-5 space-y-4">
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">What</h4>
+                            <p class="text-gray-600 leading-relaxed">Using an arrow function as the value in an object property descriptor, with implicit return of an object literal</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Why</h4>
+                            <p class="text-gray-600 leading-relaxed">Arrow functions provide concise syntax for simple functions. The implicit return (no braces, or parentheses around object literal) makes the code more readable. Using arrow function ensures consistent &#x27;this&#x27; binding (though not relevant here since no &#x27;this&#x27; is used).</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">How</h4>
+                            <p class="text-gray-600 leading-relaxed">Arrow function syntax &#x27;() =&gt; expression&#x27; implicitly returns the expression. When returning an object literal, it must be wrapped in parentheses &#x27;() =&gt; ({ ... })&#x27; to distinguish from function body braces. This creates a function that returns the object when called.</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Context</h4>
+                            <p class="text-gray-600 leading-relaxed">Defining a mock function for getBoundingClientRect that returns a DOMRect-like object. The arrow function with implicit return keeps the mock definition concise and readable.</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Alternatives</h4>
+                            <p class="text-gray-600 leading-relaxed">Regular function: &#x27;value: function() { return { ... }; }&#x27;; arrow function with explicit return: &#x27;() =&gt; { return { ... }; }&#x27;; storing object in variable and returning it</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Tags</h4>
+                            <div class="flex flex-wrap gap-2 mt-2">
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">javascript</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">arrow-function</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">implicit-return</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">object-literal</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">es6</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">concise-syntax</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- CONCEPT-018 -->
+                <div class="bg-white rounded-lg shadow-md overflow-hidden border border-gray-200">
+                    <!-- Concept Header -->
+                    <div class="bg-gradient-to-r from-gray-50 to-gray-100 px-6 py-4 border-b border-gray-200">
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <div class="text-xs font-mono text-gray-500 mb-1">CONCEPT-018</div>
+                                <h3 class="text-xl font-bold text-gray-900"></h3>
+                                <div class="text-sm text-blue-600 font-medium mt-1">Testing/DOM Mocking</div>
+                            </div>
+                            <span class="bg-green-100 text-green-800 px-3 py-1 rounded-full text-xs font-semibold">Beginner</span>
+                        </div>
+                    </div>
+
+                    <!-- Code Snippet with Syntax Highlighting -->
+                    <div class="px-6 py-4 bg-gray-900">
+                        <pre><code class="language-typescript">{
+  width: 800,
+  height: 600,
+  top: 0,
+  left: 0,
+  bottom: 600,
+  right: 800,
+}</code></pre>
+                    </div>
+
+                    <!-- Concept Details -->
+                    <div class="px-6 py-5 space-y-4">
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">What</h4>
+                            <p class="text-gray-600 leading-relaxed">Object literal that mimics the structure of a DOMRect object returned by getBoundingClientRect, with dimension and position properties</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Why</h4>
+                            <p class="text-gray-600 leading-relaxed">getBoundingClientRect returns a DOMRect object with specific properties (width, height, top, left, bottom, right, x, y). Creating an object with these properties allows code under test to read dimensions as if from a real element. This mock provides deterministic values for testing size-dependent logic.</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">How</h4>
+                            <p class="text-gray-600 leading-relaxed">Object literal syntax creates an object with specified properties and values. The properties match DOMRect&#x27;s interface (though simplified - missing x, y properties). The values represent an 800x600 element positioned at origin (0,0).</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Context</h4>
+                            <p class="text-gray-600 leading-relaxed">Providing mock dimensions for the container element. The 800x600 size gives the plugin predictable dimensions to work with during tests. The position values (top: 0, left: 0) place it at the origin.</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Alternatives</h4>
+                            <p class="text-gray-600 leading-relaxed">Creating actual DOMRect instance; using DOMRect constructor if available; including all DOMRect properties (x, y); using different dimensions per test; creating a reusable mock factory</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Tags</h4>
+                            <div class="flex flex-wrap gap-2 mt-2">
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">testing</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">dom-mocking</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">object-literal</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">dom-rect</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">mock-data</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">dimensions</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- CONCEPT-019 -->
+                <div class="bg-white rounded-lg shadow-md overflow-hidden border border-gray-200">
+                    <!-- Concept Header -->
+                    <div class="bg-gradient-to-r from-gray-50 to-gray-100 px-6 py-4 border-b border-gray-200">
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <div class="text-xs font-mono text-gray-500 mb-1">CONCEPT-019</div>
+                                <h3 class="text-xl font-bold text-gray-900"></h3>
+                                <div class="text-sm text-blue-600 font-medium mt-1">Testing/Test Setup</div>
+                            </div>
+                            <span class="bg-green-100 text-green-800 px-3 py-1 rounded-full text-xs font-semibold">Beginner</span>
+                        </div>
+                    </div>
+
+                    <!-- Code Snippet with Syntax Highlighting -->
+                    <div class="px-6 py-4 bg-gray-900">
+                        <pre><code class="language-typescript">state = plugin.getInitialState();</code></pre>
+                    </div>
+
+                    <!-- Concept Details -->
+                    <div class="px-6 py-5 space-y-4">
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">What</h4>
+                            <p class="text-gray-600 leading-relaxed">Calling the plugin&#x27;s getInitialState method to obtain a fresh initial state object for testing</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Why</h4>
+                            <p class="text-gray-600 leading-relaxed">Using the plugin&#x27;s own initialization method ensures: (1) tests use the same initial state as production code, (2) state structure matches plugin&#x27;s expectations, (3) tests remain valid if initial state changes, (4) no need to manually construct state objects. This follows the principle of testing through the public API.</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">How</h4>
+                            <p class="text-gray-600 leading-relaxed">getInitialState() is a method on the plugin that returns a new state object with default values. Calling it in beforeEach ensures each test starts with fresh, unmodified initial state.</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Context</h4>
+                            <p class="text-gray-600 leading-relaxed">Obtaining the plugin&#x27;s initial state for use in tests. This state will be passed to plugin.init() and potentially modified during tests to verify state management behavior.</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Alternatives</h4>
+                            <p class="text-gray-600 leading-relaxed">Manually constructing state object; importing a state factory function; using a state fixture; cloning a shared state object; using plugin&#x27;s default state if available</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Tags</h4>
+                            <div class="flex flex-wrap gap-2 mt-2">
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">testing</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">test-setup</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">state-initialization</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">plugin-api</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">initial-state</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- CONCEPT-020 -->
+                <div class="bg-white rounded-lg shadow-md overflow-hidden border border-gray-200">
+                    <!-- Concept Header -->
+                    <div class="bg-gradient-to-r from-gray-50 to-gray-100 px-6 py-4 border-b border-gray-200">
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <div class="text-xs font-mono text-gray-500 mb-1">CONCEPT-020</div>
+                                <h3 class="text-xl font-bold text-gray-900"></h3>
+                                <div class="text-sm text-blue-600 font-medium mt-1">Testing/Mocking</div>
+                            </div>
+                            <span class="bg-yellow-100 text-yellow-800 px-3 py-1 rounded-full text-xs font-semibold">Intermediate</span>
+                        </div>
+                    </div>
+
+                    <!-- Code Snippet with Syntax Highlighting -->
+                    <div class="px-6 py-4 bg-gray-900">
+                        <pre><code class="language-typescript">resizeObserverMock.mockClear();
+observeMock.mockClear();
+unobserveMock.mockClear();
+disconnectMock.mockClear();</code></pre>
+                    </div>
+
+                    <!-- Concept Details -->
+                    <div class="px-6 py-5 space-y-4">
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">What</h4>
+                            <p class="text-gray-600 leading-relaxed">Calling mockClear() on Vitest mock functions to reset their call history and state between tests</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Why</h4>
+                            <p class="text-gray-600 leading-relaxed">Mock functions accumulate call history across their lifetime. Clearing them in beforeEach ensures: (1) each test starts with clean mocks, (2) assertions about call counts are accurate, (3) tests don&#x27;t interfere with each other, (4) test isolation is maintained. Without clearing, a test might pass/fail based on previous test&#x27;s calls.</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">How</h4>
+                            <p class="text-gray-600 leading-relaxed">mockClear() is a method on Vitest mock functions (created with vi.fn()) that resets the mock&#x27;s call history, clearing all recorded calls and arguments. The mock function itself remains, but its history is wiped. This is different from mockReset() which also clears implementation.</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Context</h4>
+                            <p class="text-gray-600 leading-relaxed">Resetting all four ResizeObserver-related mocks before each test to ensure clean state. This prevents call counts from previous tests affecting current test assertions.</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Alternatives</h4>
+                            <p class="text-gray-600 leading-relaxed">mockReset() (also clears implementation); mockRestore() (restores original implementation); recreating mocks with vi.fn(); using vi.clearAllMocks() to clear all at once; not clearing (breaks test isolation)</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Tags</h4>
+                            <div class="flex flex-wrap gap-2 mt-2">
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">vitest</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">mocking</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">mock-reset</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">test-isolation</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">mock-clear</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">test-cleanup</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- CONCEPT-021 -->
+                <div class="bg-white rounded-lg shadow-md overflow-hidden border border-gray-200">
+                    <!-- Concept Header -->
+                    <div class="bg-gradient-to-r from-gray-50 to-gray-100 px-6 py-4 border-b border-gray-200">
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <div class="text-xs font-mono text-gray-500 mb-1">CONCEPT-021</div>
+                                <h3 class="text-xl font-bold text-gray-900"></h3>
+                                <div class="text-sm text-blue-600 font-medium mt-1">Testing/Test Lifecycle</div>
+                            </div>
+                            <span class="bg-green-100 text-green-800 px-3 py-1 rounded-full text-xs font-semibold">Beginner</span>
+                        </div>
+                    </div>
+
+                    <!-- Code Snippet with Syntax Highlighting -->
+                    <div class="px-6 py-4 bg-gray-900">
+                        <pre><code class="language-typescript">afterEach(() =&gt; {
+  plugin.cleanup();
+});</code></pre>
+                    </div>
+
+                    <!-- Concept Details -->
+                    <div class="px-6 py-5 space-y-4">
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">What</h4>
+                            <p class="text-gray-600 leading-relaxed">Vitest/Jest lifecycle hook that runs after each test in the describe block, used for test cleanup and teardown</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Why</h4>
+                            <p class="text-gray-600 leading-relaxed">afterEach ensures: (1) cleanup happens after every test, even if test fails, (2) resources are released (event listeners, timers, observers), (3) no side effects leak between tests, (4) test environment is reset. This is critical for tests that create side effects like DOM observers or event listeners.</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">How</h4>
+                            <p class="text-gray-600 leading-relaxed">afterEach() takes a callback function that executes after each &#x27;it&#x27; block in the same describe scope. It runs even if the test fails or throws an error. The callback can be async if cleanup requires async operations.</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Context</h4>
+                            <p class="text-gray-600 leading-relaxed">Calling the plugin&#x27;s cleanup method after each test to ensure proper teardown. This likely disconnects the ResizeObserver and removes event listeners, preventing memory leaks and test interference.</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Alternatives</h4>
+                            <p class="text-gray-600 leading-relaxed">afterAll (runs once after all tests); cleanup in each test (repetitive); try-finally in tests; test.afterEach in some frameworks; automatic cleanup with testing-library</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Tags</h4>
+                            <div class="flex flex-wrap gap-2 mt-2">
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">vitest</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">testing</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">lifecycle-hooks</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">test-cleanup</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">test-teardown</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">after-each</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- CONCEPT-022 -->
+                <div class="bg-white rounded-lg shadow-md overflow-hidden border border-gray-200">
+                    <!-- Concept Header -->
+                    <div class="bg-gradient-to-r from-gray-50 to-gray-100 px-6 py-4 border-b border-gray-200">
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <div class="text-xs font-mono text-gray-500 mb-1">CONCEPT-022</div>
+                                <h3 class="text-xl font-bold text-gray-900"></h3>
+                                <div class="text-sm text-blue-600 font-medium mt-1">Testing/Test Cleanup</div>
+                            </div>
+                            <span class="bg-green-100 text-green-800 px-3 py-1 rounded-full text-xs font-semibold">Beginner</span>
+                        </div>
+                    </div>
+
+                    <!-- Code Snippet with Syntax Highlighting -->
+                    <div class="px-6 py-4 bg-gray-900">
+                        <pre><code class="language-typescript">plugin.cleanup();</code></pre>
+                    </div>
+
+                    <!-- Concept Details -->
+                    <div class="px-6 py-5 space-y-4">
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">What</h4>
+                            <p class="text-gray-600 leading-relaxed">Calling the plugin&#x27;s cleanup method to perform teardown operations like disconnecting observers and removing listeners</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Why</h4>
+                            <p class="text-gray-600 leading-relaxed">Cleanup methods are essential for: (1) preventing memory leaks from observers/listeners, (2) ensuring tests don&#x27;t interfere with each other, (3) releasing resources, (4) resetting global state. Calling cleanup in afterEach ensures it happens after every test, maintaining test isolation.</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">How</h4>
+                            <p class="text-gray-600 leading-relaxed">The cleanup() method is part of the plugin&#x27;s public API, designed to be called when the plugin is no longer needed. It likely disconnects the ResizeObserver, removes event listeners, and clears any internal state.</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Context</h4>
+                            <p class="text-gray-600 leading-relaxed">Ensuring the plugin properly cleans up after each test by calling its cleanup method. This is particularly important for this test suite since it&#x27;s testing ResizeObserver integration, which needs proper disconnection.</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Alternatives</h4>
+                            <p class="text-gray-600 leading-relaxed">Manual cleanup of specific resources; automatic cleanup via WeakMap/WeakRef; cleanup in beforeEach instead; no cleanup (causes leaks); using try-finally in tests</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Tags</h4>
+                            <div class="flex flex-wrap gap-2 mt-2">
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">testing</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">test-cleanup</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">resource-management</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">plugin-lifecycle</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">memory-management</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- CONCEPT-023 -->
+                <div class="bg-white rounded-lg shadow-md overflow-hidden border border-gray-200">
+                    <!-- Concept Header -->
+                    <div class="bg-gradient-to-r from-gray-50 to-gray-100 px-6 py-4 border-b border-gray-200">
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <div class="text-xs font-mono text-gray-500 mb-1">CONCEPT-023</div>
+                                <h3 class="text-xl font-bold text-gray-900"></h3>
+                                <div class="text-sm text-blue-600 font-medium mt-1">Testing/Test Organization</div>
+                            </div>
+                            <span class="bg-green-100 text-green-800 px-3 py-1 rounded-full text-xs font-semibold">Beginner</span>
+                        </div>
+                    </div>
+
+                    <!-- Code Snippet with Syntax Highlighting -->
+                    <div class="px-6 py-4 bg-gray-900">
+                        <pre><code class="language-typescript">it(&quot;should attach ResizeObserver on init&quot;, () =&gt; { ... });</code></pre>
+                    </div>
+
+                    <!-- Concept Details -->
+                    <div class="px-6 py-5 space-y-4">
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">What</h4>
+                            <p class="text-gray-600 leading-relaxed">Vitest/Jest &#x27;it&#x27; function that defines an individual test case with a descriptive name and test implementation</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Why</h4>
+                            <p class="text-gray-600 leading-relaxed">The &#x27;it&#x27; function (alias for &#x27;test&#x27;) defines individual test cases. Benefits: (1) descriptive names document expected behavior, (2) each test is isolated and focused, (3) test output clearly shows what passed/failed, (4) enables running individual tests, (5) follows BDD (Behavior-Driven Development) style with readable assertions.</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">How</h4>
+                            <p class="text-gray-600 leading-relaxed">&#x27;it&#x27; takes two arguments: a string describing what should happen, and a callback containing the test code. The callback runs as a test, and any thrown errors or failed assertions cause the test to fail. The description should complete the sentence &quot;it should...&quot;</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Context</h4>
+                            <p class="text-gray-600 leading-relaxed">Defining a test case that verifies the plugin attaches a ResizeObserver when its init method is called. The test name clearly states the expected behavior.</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Alternatives</h4>
+                            <p class="text-gray-600 leading-relaxed">test() function (same as it); specify() in some frameworks; using only describe without it; inline test execution; class-based test methods</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Tags</h4>
+                            <div class="flex flex-wrap gap-2 mt-2">
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">vitest</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">testing</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">test-case</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">it-function</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">test-organization</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">bdd-style</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- CONCEPT-024 -->
+                <div class="bg-white rounded-lg shadow-md overflow-hidden border border-gray-200">
+                    <!-- Concept Header -->
+                    <div class="bg-gradient-to-r from-gray-50 to-gray-100 px-6 py-4 border-b border-gray-200">
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <div class="text-xs font-mono text-gray-500 mb-1">CONCEPT-024</div>
+                                <h3 class="text-xl font-bold text-gray-900"></h3>
+                                <div class="text-sm text-blue-600 font-medium mt-1">Testing/Test Execution</div>
+                            </div>
+                            <span class="bg-green-100 text-green-800 px-3 py-1 rounded-full text-xs font-semibold">Beginner</span>
+                        </div>
+                    </div>
+
+                    <!-- Code Snippet with Syntax Highlighting -->
+                    <div class="px-6 py-4 bg-gray-900">
+                        <pre><code class="language-typescript">plugin.init(container, state);</code></pre>
+                    </div>
+
+                    <!-- Concept Details -->
+                    <div class="px-6 py-5 space-y-4">
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">What</h4>
+                            <p class="text-gray-600 leading-relaxed">Calling the plugin&#x27;s init method with container and state arguments to initialize the plugin for testing</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Why</h4>
+                            <p class="text-gray-600 leading-relaxed">The init method is the plugin&#x27;s entry point that sets up its functionality. Calling it in tests: (1) triggers the behavior being tested (ResizeObserver attachment), (2) simulates real usage, (3) allows testing initialization logic, (4) provides the plugin with necessary dependencies (container, state).</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">How</h4>
+                            <p class="text-gray-600 leading-relaxed">init() is a method on the plugin that takes a container element and initial state. It likely sets up the plugin&#x27;s internal state, attaches event listeners, creates observers, and performs initial rendering. This is the &quot;act&quot; phase of the test.</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Context</h4>
+                            <p class="text-gray-600 leading-relaxed">Initializing the plugin with the test container and state to trigger ResizeObserver creation. This is the action being tested - we want to verify that init() properly sets up the ResizeObserver.</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Alternatives</h4>
+                            <p class="text-gray-600 leading-relaxed">Auto-initialization in constructor; separate setup methods; dependency injection of observer; lazy initialization on first use; initialization via configuration object</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Tags</h4>
+                            <div class="flex flex-wrap gap-2 mt-2">
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">testing</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">plugin-initialization</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">test-execution</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">plugin-api</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">setup-phase</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- CONCEPT-025 -->
+                <div class="bg-white rounded-lg shadow-md overflow-hidden border border-gray-200">
+                    <!-- Concept Header -->
+                    <div class="bg-gradient-to-r from-gray-50 to-gray-100 px-6 py-4 border-b border-gray-200">
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <div class="text-xs font-mono text-gray-500 mb-1">CONCEPT-025</div>
+                                <h3 class="text-xl font-bold text-gray-900"></h3>
+                                <div class="text-sm text-blue-600 font-medium mt-1">Testing/Test Documentation</div>
+                            </div>
+                            <span class="bg-green-100 text-green-800 px-3 py-1 rounded-full text-xs font-semibold">Beginner</span>
+                        </div>
+                    </div>
+
+                    <!-- Code Snippet with Syntax Highlighting -->
+                    <div class="px-6 py-4 bg-gray-900">
+                        <pre><code class="language-typescript">// This should fail currently</code></pre>
+                    </div>
+
+                    <!-- Concept Details -->
+                    <div class="px-6 py-5 space-y-4">
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">What</h4>
+                            <p class="text-gray-600 leading-relaxed">Inline comment documenting that the following assertion is expected to fail in the current implementation</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Why</h4>
+                            <p class="text-gray-600 leading-relaxed">Comments like this serve as: (1) documentation of known issues or incomplete features, (2) TODO markers for future implementation, (3) explanation of test intent even when failing, (4) communication to other developers about test status. This indicates the test is written for behavior that isn&#x27;t yet implemented.</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">How</h4>
+                            <p class="text-gray-600 leading-relaxed">Single-line comment using &#x27;//&#x27; syntax. Placed immediately before the assertion that&#x27;s expected to fail. This is a documentation pattern, not a code construct - the test will still run and fail.</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Context</h4>
+                            <p class="text-gray-600 leading-relaxed">Indicating that the ResizeObserver attachment functionality is not yet implemented in the plugin, so these assertions will fail. The tests are written first (TDD style) to define expected behavior before implementation.</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Alternatives</h4>
+                            <p class="text-gray-600 leading-relaxed">test.todo() to mark test as pending; test.skip() to skip test; using expect.fail() with explanation; tracking in issue tracker instead; removing test until ready to implement</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Tags</h4>
+                            <div class="flex flex-wrap gap-2 mt-2">
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">testing</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">test-documentation</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">todo-comment</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">tdd</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">known-failure</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">inline-comment</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- CONCEPT-026 -->
+                <div class="bg-white rounded-lg shadow-md overflow-hidden border border-gray-200">
+                    <!-- Concept Header -->
+                    <div class="bg-gradient-to-r from-gray-50 to-gray-100 px-6 py-4 border-b border-gray-200">
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <div class="text-xs font-mono text-gray-500 mb-1">CONCEPT-026</div>
+                                <h3 class="text-xl font-bold text-gray-900"></h3>
+                                <div class="text-sm text-blue-600 font-medium mt-1">Testing/Assertions</div>
+                            </div>
+                            <span class="bg-green-100 text-green-800 px-3 py-1 rounded-full text-xs font-semibold">Beginner</span>
+                        </div>
+                    </div>
+
+                    <!-- Code Snippet with Syntax Highlighting -->
+                    <div class="px-6 py-4 bg-gray-900">
+                        <pre><code class="language-typescript">expect(resizeObserverMock).toHaveBeenCalled();</code></pre>
+                    </div>
+
+                    <!-- Concept Details -->
+                    <div class="px-6 py-5 space-y-4">
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">What</h4>
+                            <p class="text-gray-600 leading-relaxed">Vitest assertion that verifies a mock function was called at least once</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Why</h4>
+                            <p class="text-gray-600 leading-relaxed">toHaveBeenCalled() is essential for verifying side effects and interactions. It checks: (1) that a function was invoked, (2) that code paths were executed, (3) that dependencies were used correctly. For this test, it verifies the ResizeObserver constructor was called, proving the observer was created.</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">How</h4>
+                            <p class="text-gray-600 leading-relaxed">expect() wraps the mock function, and toHaveBeenCalled() checks if the mock&#x27;s call count is greater than zero. If the mock was never called, the assertion fails with a descriptive error message. This is a matcher specifically for mock functions.</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Context</h4>
+                            <p class="text-gray-600 leading-relaxed">Verifying that the ResizeObserver constructor was called during plugin initialization. This proves the plugin attempted to create a ResizeObserver instance.</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Alternatives</h4>
+                            <p class="text-gray-600 leading-relaxed">toHaveBeenCalledTimes(1) for exact count; toHaveBeenCalledWith() to check arguments; checking mock.mock.calls.length manually; using spy instead of mock; testing side effects instead of calls</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Tags</h4>
+                            <div class="flex flex-wrap gap-2 mt-2">
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">vitest</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">testing</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">assertions</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">mock-assertions</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">to-have-been-called</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">spy-verification</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- CONCEPT-027 -->
+                <div class="bg-white rounded-lg shadow-md overflow-hidden border border-gray-200">
+                    <!-- Concept Header -->
+                    <div class="bg-gradient-to-r from-gray-50 to-gray-100 px-6 py-4 border-b border-gray-200">
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <div class="text-xs font-mono text-gray-500 mb-1">CONCEPT-027</div>
+                                <h3 class="text-xl font-bold text-gray-900"></h3>
+                                <div class="text-sm text-blue-600 font-medium mt-1">Testing/Assertions</div>
+                            </div>
+                            <span class="bg-yellow-100 text-yellow-800 px-3 py-1 rounded-full text-xs font-semibold">Intermediate</span>
+                        </div>
+                    </div>
+
+                    <!-- Code Snippet with Syntax Highlighting -->
+                    <div class="px-6 py-4 bg-gray-900">
+                        <pre><code class="language-typescript">expect(observeMock).toHaveBeenCalledWith(container);</code></pre>
+                    </div>
+
+                    <!-- Concept Details -->
+                    <div class="px-6 py-5 space-y-4">
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">What</h4>
+                            <p class="text-gray-600 leading-relaxed">Vitest assertion that verifies a mock function was called with specific arguments</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Why</h4>
+                            <p class="text-gray-600 leading-relaxed">toHaveBeenCalledWith() verifies not just that a function was called, but that it was called with correct arguments. This is crucial for: (1) verifying correct API usage, (2) ensuring right data is passed, (3) catching argument errors, (4) documenting expected function calls. Here it verifies the observer is observing the correct container.</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">How</h4>
+                            <p class="text-gray-600 leading-relaxed">expect() wraps the mock, and toHaveBeenCalledWith() checks if any call to the mock had arguments matching the provided values. It uses deep equality comparison. If no call matches, the assertion fails with details about actual vs expected arguments.</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Context</h4>
+                            <p class="text-gray-600 leading-relaxed">Verifying that the ResizeObserver&#x27;s observe method was called with the container element. This proves the plugin is observing the correct element for resize events.</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Alternatives</h4>
+                            <p class="text-gray-600 leading-relaxed">toHaveBeenCalledWith(expect.objectContaining()) for partial matching; toHaveBeenLastCalledWith() for most recent call; toHaveBeenNthCalledWith(n, ...) for specific call; checking mock.mock.calls manually; using argument captors</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Tags</h4>
+                            <div class="flex flex-wrap gap-2 mt-2">
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">vitest</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">testing</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">assertions</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">mock-assertions</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">argument-verification</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">to-have-been-called-with</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- CONCEPT-028 -->
+                <div class="bg-white rounded-lg shadow-md overflow-hidden border border-gray-200">
+                    <!-- Concept Header -->
+                    <div class="bg-gradient-to-r from-gray-50 to-gray-100 px-6 py-4 border-b border-gray-200">
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <div class="text-xs font-mono text-gray-500 mb-1">CONCEPT-028</div>
+                                <h3 class="text-xl font-bold text-gray-900"></h3>
+                                <div class="text-sm text-blue-600 font-medium mt-1">Testing/Test Organization</div>
+                            </div>
+                            <span class="bg-yellow-100 text-yellow-800 px-3 py-1 rounded-full text-xs font-semibold">Intermediate</span>
+                        </div>
+                    </div>
+
+                    <!-- Code Snippet with Syntax Highlighting -->
+                    <div class="px-6 py-4 bg-gray-900">
+                        <pre><code class="language-typescript">it(&quot;should disconnect ResizeObserver on cleanup&quot;, () =&gt; {
+  plugin.init(container, state);
+  plugin.cleanup();
+
+  // This should fail currently
+  expect(disconnectMock).toHaveBeenCalled();
+});</code></pre>
+                    </div>
+
+                    <!-- Concept Details -->
+                    <div class="px-6 py-5 space-y-4">
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">What</h4>
+                            <p class="text-gray-600 leading-relaxed">Test case that verifies the plugin properly disconnects the ResizeObserver when cleanup is called</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Why</h4>
+                            <p class="text-gray-600 leading-relaxed">Testing cleanup behavior is critical for: (1) preventing memory leaks, (2) ensuring proper resource management, (3) verifying lifecycle methods work correctly, (4) catching cleanup bugs that could affect production. This test follows the arrange-act-assert pattern: setup, perform actions, verify results.</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">How</h4>
+                            <p class="text-gray-600 leading-relaxed">The test initializes the plugin (which should create the observer), calls cleanup (which should disconnect it), then asserts that disconnect was called. This verifies the full lifecycle: creation -&gt; usage -&gt; cleanup.</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Context</h4>
+                            <p class="text-gray-600 leading-relaxed">Testing that the plugin&#x27;s cleanup method properly disconnects the ResizeObserver. This is essential for preventing memory leaks when the plugin is destroyed or the component unmounts.</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Alternatives</h4>
+                            <p class="text-gray-600 leading-relaxed">Testing cleanup in afterEach only; testing cleanup side effects instead of method calls; integration test with real observer; testing memory leaks directly; using WeakRef to verify cleanup</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Tags</h4>
+                            <div class="flex flex-wrap gap-2 mt-2">
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">testing</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">test-case</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">cleanup-testing</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">lifecycle-testing</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">resource-management</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">memory-leak-prevention</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- CONCEPT-029 -->
+                <div class="bg-white rounded-lg shadow-md overflow-hidden border border-gray-200">
+                    <!-- Concept Header -->
+                    <div class="bg-gradient-to-r from-gray-50 to-gray-100 px-6 py-4 border-b border-gray-200">
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <div class="text-xs font-mono text-gray-500 mb-1">CONCEPT-029</div>
+                                <h3 class="text-xl font-bold text-gray-900"></h3>
+                                <div class="text-sm text-blue-600 font-medium mt-1">Testing/Test Execution</div>
+                            </div>
+                            <span class="bg-green-100 text-green-800 px-3 py-1 rounded-full text-xs font-semibold">Beginner</span>
+                        </div>
+                    </div>
+
+                    <!-- Code Snippet with Syntax Highlighting -->
+                    <div class="px-6 py-4 bg-gray-900">
+                        <pre><code class="language-typescript">plugin.init(container, state);
+plugin.cleanup();</code></pre>
+                    </div>
+
+                    <!-- Concept Details -->
+                    <div class="px-6 py-5 space-y-4">
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">What</h4>
+                            <p class="text-gray-600 leading-relaxed">Calling multiple methods in sequence to test the full lifecycle of the plugin from initialization through cleanup</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Why</h4>
+                            <p class="text-gray-600 leading-relaxed">Testing method sequences verifies: (1) methods work correctly in combination, (2) state transitions are handled properly, (3) lifecycle is implemented correctly, (4) cleanup works after initialization. This tests the plugin&#x27;s state machine: uninitialized -&gt; initialized -&gt; cleaned up.</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">How</h4>
+                            <p class="text-gray-600 leading-relaxed">Methods are called in order on the plugin instance. Each call may modify internal state. The test verifies that after this sequence, the expected side effects (disconnect being called) occurred.</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Context</h4>
+                            <p class="text-gray-600 leading-relaxed">Testing the complete lifecycle: initialize the plugin (creating the observer), then clean it up (disconnecting the observer). This verifies both methods work together correctly.</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Alternatives</h4>
+                            <p class="text-gray-600 leading-relaxed">Separate tests for each method; testing only final state; using beforeEach for init; testing intermediate states; integration tests with real usage patterns</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Tags</h4>
+                            <div class="flex flex-wrap gap-2 mt-2">
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">testing</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">test-execution</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">lifecycle-testing</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">method-sequence</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">state-transitions</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- CONCEPT-030 -->
+                <div class="bg-white rounded-lg shadow-md overflow-hidden border border-gray-200">
+                    <!-- Concept Header -->
+                    <div class="bg-gradient-to-r from-gray-50 to-gray-100 px-6 py-4 border-b border-gray-200">
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <div class="text-xs font-mono text-gray-500 mb-1">CONCEPT-030</div>
+                                <h3 class="text-xl font-bold text-gray-900"></h3>
+                                <div class="text-sm text-blue-600 font-medium mt-1">Testing/Development Methodology</div>
+                            </div>
+                            <span class="bg-yellow-100 text-yellow-800 px-3 py-1 rounded-full text-xs font-semibold">Intermediate</span>
+                        </div>
+                    </div>
+
+                    <!-- Code Snippet with Syntax Highlighting -->
+                    <div class="px-6 py-4 bg-gray-900">
+                        <pre><code class="language-typescript">// This should fail currently</code></pre>
+                    </div>
+
+                    <!-- Concept Details -->
+                    <div class="px-6 py-5 space-y-4">
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">What</h4>
+                            <p class="text-gray-600 leading-relaxed">Writing tests before implementation, with comments indicating expected failures until the feature is implemented</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Why</h4>
+                            <p class="text-gray-600 leading-relaxed">TDD (Test-Driven Development) provides: (1) clear specification of expected behavior, (2) confidence that implementation meets requirements, (3) regression prevention, (4) better design through testability focus, (5) documentation of intent. Writing failing tests first ensures tests actually test something.</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">How</h4>
+                            <p class="text-gray-600 leading-relaxed">The pattern is: (1) write test describing desired behavior, (2) run test and see it fail (red), (3) implement minimum code to pass (green), (4) refactor while keeping tests passing. The comments here indicate step 2 - acknowledging the test will fail until implementation.</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Context</h4>
+                            <p class="text-gray-600 leading-relaxed">These tests are written before the ResizeObserver integration is implemented. They define the expected behavior: observer should be created on init and disconnected on cleanup. The implementation will be written to make these tests pass.</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Alternatives</h4>
+                            <p class="text-gray-600 leading-relaxed">Implementation-first development; BDD (Behavior-Driven Development) with Cucumber/Gherkin; test-after development; exploratory testing; property-based testing; mutation testing</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Tags</h4>
+                            <div class="flex flex-wrap gap-2 mt-2">
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">testing</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">tdd</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">test-driven-development</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">development-methodology</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">red-green-refactor</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">test-first</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Footer -->
+    <div class="bg-gray-800 text-gray-300 py-6 px-6 mt-12">
+        <div class="max-w-7xl mx-auto text-center text-sm">
+            Generated from Code Taxonomy Analysis • 30 concepts extracted
+        </div>
+    </div>
+
+    <!-- Initialize Syntax Highlighting -->
+    <script>
+        hljs.highlightAll();
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,2458 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DebtGlossaryModal.tsx - Code Taxonomy</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Highlight.js for syntax highlighting -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/typescript.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/javascript.min.js"></script>
+</head>
+<body class="bg-gray-50 text-gray-900">
+    
+    <!-- Header -->
+    <div class="bg-gradient-to-r from-blue-600 to-blue-700 text-white py-8 px-6 shadow-lg">
+        <div class="max-w-7xl mx-auto">
+            <div class="text-sm text-blue-100 mb-2">src/plugins/treemap-explorer/components</div>
+            <h1 class="text-4xl font-bold mb-2">DebtGlossaryModal.tsx</h1>
+            <p class="text-blue-100">Render a glossary modal explaining technical debt metrics and terminology used in the treemap explorer plugin</p>
+        </div>
+    </div>
+
+    <!-- Metadata & Stats Bar -->
+    <div class="bg-white shadow-sm border-b">
+        <div class="max-w-7xl mx-auto py-6 px-6">
+            <div class="grid grid-cols-2 md:grid-cols-5 gap-6">
+                <div>
+                    <div class="text-xs font-semibold text-gray-500 uppercase tracking-wide mb-1">Type</div>
+                    <div class="text-lg font-bold text-gray-900">Component</div>
+                </div>
+                <div>
+                    <div class="text-xs font-semibold text-gray-500 uppercase tracking-wide mb-1">Priority</div>
+                    <div class="text-lg font-bold text-gray-900">Application</div>
+                </div>
+                <div>
+                    <div class="text-xs font-semibold text-gray-500 uppercase tracking-wide mb-1">Total Concepts</div>
+                    <div class="text-lg font-bold text-blue-600">35</div>
+                </div>
+                <div>
+                    <div class="text-xs font-semibold text-gray-500 uppercase tracking-wide mb-1">Categories</div>
+                    <div class="text-lg font-bold text-blue-600">16</div>
+                </div>
+                <div>
+                    <div class="text-xs font-semibold text-gray-500 uppercase tracking-wide mb-1">Complexity</div>
+                    <div class="text-sm font-mono text-gray-700">
+                        <span class="text-green-600">14</span> / 
+                        <span class="text-yellow-600">21</span> / 
+                        <span class="text-red-600">0</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="max-w-7xl mx-auto py-8 px-6">
+        
+        <!-- Summary Section -->
+        <div class="mb-8">
+            <h2 class="text-2xl font-bold mb-4">📊 Summary</h2>
+            
+            <div class="grid md:grid-cols-2 gap-6 mb-6">
+                <!-- Category Counts -->
+                <div class="bg-white rounded-lg shadow p-6">
+                    <h3 class="text-lg font-semibold mb-4 text-gray-700">Concepts by Category</h3>
+                    <div class="space-y-3">
+
+                        <div class="flex justify-between items-center">
+                            <span class="text-sm text-gray-600">Import/Module Management</span>
+                            <span class="bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm font-semibold">1</span>
+                        </div>
+
+                        <div class="flex justify-between items-center">
+                            <span class="text-sm text-gray-600">TypeScript/Type System</span>
+                            <span class="bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm font-semibold">5</span>
+                        </div>
+
+                        <div class="flex justify-between items-center">
+                            <span class="text-sm text-gray-600">Code Organization/Naming Conventions</span>
+                            <span class="bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm font-semibold">4</span>
+                        </div>
+
+                        <div class="flex justify-between items-center">
+                            <span class="text-sm text-gray-600">JavaScript/Data Structures</span>
+                            <span class="bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm font-semibold">3</span>
+                        </div>
+
+                        <div class="flex justify-between items-center">
+                            <span class="text-sm text-gray-600">JavaScript/ES6 Syntax</span>
+                            <span class="bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm font-semibold">1</span>
+                        </div>
+
+                        <div class="flex justify-between items-center">
+                            <span class="text-sm text-gray-600">JavaScript/String Content</span>
+                            <span class="bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm font-semibold">1</span>
+                        </div>
+
+                        <div class="flex justify-between items-center">
+                            <span class="text-sm text-gray-600">JavaScript/Object Syntax</span>
+                            <span class="bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm font-semibold">1</span>
+                        </div>
+
+                        <div class="flex justify-between items-center">
+                            <span class="text-sm text-gray-600">React/Component Patterns</span>
+                            <span class="bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm font-semibold">3</span>
+                        </div>
+
+                        <div class="flex justify-between items-center">
+                            <span class="text-sm text-gray-600">React/JSX Syntax</span>
+                            <span class="bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm font-semibold">5</span>
+                        </div>
+
+                        <div class="flex justify-between items-center">
+                            <span class="text-sm text-gray-600">React/JSX Patterns</span>
+                            <span class="bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm font-semibold">1</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Complexity Breakdown -->
+                <div class="bg-white rounded-lg shadow p-6">
+                    <h3 class="text-lg font-semibold mb-4 text-gray-700">Complexity Distribution</h3>
+                    <div class="space-y-4">
+
+                        <div>
+                            <div class="flex justify-between mb-1">
+                                <span class="text-sm font-medium text-green-700">Beginner</span>
+                                <span class="text-sm font-semibold text-green-700">14 concepts</span>
+                            </div>
+                            <div class="w-full bg-gray-200 rounded-full h-2">
+                                <div class="bg-green-500 h-2 rounded-full" style="width: 40%"></div>
+                            </div>
+                        </div>
+
+                        <div>
+                            <div class="flex justify-between mb-1">
+                                <span class="text-sm font-medium text-yellow-700">Intermediate</span>
+                                <span class="text-sm font-semibold text-yellow-700">21 concepts</span>
+                            </div>
+                            <div class="w-full bg-gray-200 rounded-full h-2">
+                                <div class="bg-yellow-500 h-2 rounded-full" style="width: 60%"></div>
+                            </div>
+                        </div>
+
+                        <div>
+                            <div class="flex justify-between mb-1">
+                                <span class="text-sm font-medium text-red-700">Advanced</span>
+                                <span class="text-sm font-semibold text-red-700">0 concepts</span>
+                            </div>
+                            <div class="w-full bg-gray-200 rounded-full h-2">
+                                <div class="bg-red-500 h-2 rounded-full" style="width: 0%"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tag Cloud -->
+            <div class="bg-white rounded-lg shadow p-6">
+                <h3 class="text-lg font-semibold mb-4 text-gray-700">🏷️ Tags</h3>
+                <div class="flex flex-wrap gap-2">
+                    <span class="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-sm">architecture</span>
+                    <span class="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-sm">array</span>
+                    <span class="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-sm">array-literal</span>
+                    <span class="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-sm">array-type</span>
+                    <span class="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-sm">arrow-function-type</span>
+                    <span class="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-sm">backticks</span>
+                    <span class="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-sm">bullet-point</span>
+                    <span class="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-sm">callback-type</span>
+                    <span class="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-sm">categorization</span>
+                    <span class="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-sm">code-formatting</span>
+                    <span class="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-sm">code-organization</span>
+                    <span class="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-sm">code-quality</span>
+                    <span class="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-sm">code-style</span>
+                    <span class="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-sm">component-composition</span>
+                    <span class="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-sm">component-contract</span>
+                    <span class="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-sm">component-definition</span>
+                    <span class="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-sm">component-render</span>
+                    <span class="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-sm">component-specialization</span>
+                    <span class="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-sm">configuration</span>
+                    <span class="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-sm">consistency</span>
+                    <span class="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-sm">const-declaration</span>
+                    <span class="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-sm">constant</span>
+                    <span class="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-sm">constant-reference</span>
+                    <span class="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-sm">constants</span>
+                    <span class="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-sm">content-management</span>
+                    <span class="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-sm">css-value</span>
+                    <span class="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-sm">curly-braces</span>
+                    <span class="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-sm">data-driven</span>
+                    <span class="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-sm">data-modeling</span>
+                    <span class="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-sm">data-relationships</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Concepts Section -->
+        <div>
+            <h2 class="text-2xl font-bold mb-4">💡 Concepts</h2>
+            
+            <div class="space-y-6">
+
+                <!-- CONCEPT-001 -->
+                <div class="bg-white rounded-lg shadow-md overflow-hidden border border-gray-200">
+                    <!-- Concept Header -->
+                    <div class="bg-gradient-to-r from-gray-50 to-gray-100 px-6 py-4 border-b border-gray-200">
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <div class="text-xs font-mono text-gray-500 mb-1">CONCEPT-001</div>
+                                <h3 class="text-xl font-bold text-gray-900"></h3>
+                                <div class="text-sm text-blue-600 font-medium mt-1">Import/Module Management</div>
+                            </div>
+                            <span class="bg-green-100 text-green-800 px-3 py-1 rounded-full text-xs font-semibold">Beginner</span>
+                        </div>
+                    </div>
+
+                    <!-- Code Snippet with Syntax Highlighting -->
+                    <div class="px-6 py-4 bg-gray-900">
+                        <pre><code class="language-typescript">import GlossaryModal, { GlossaryTerm } from &quot;./GlossaryModal&quot;;</code></pre>
+                    </div>
+
+                    <!-- Concept Details -->
+                    <div class="px-6 py-5 space-y-4">
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">What</h4>
+                            <p class="text-gray-600 leading-relaxed">Combines default import (GlossaryModal component) with named type import (GlossaryTerm interface) from a relative module path</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Why</h4>
+                            <p class="text-gray-600 leading-relaxed">Allows importing both the component implementation and its type definition in a single statement. This is efficient and shows the relationship between the component and its types. The type is needed to define the structure of glossary terms used in this file.</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">How</h4>
+                            <p class="text-gray-600 leading-relaxed">ES6 module syntax allows mixing default and named imports. TypeScript recognizes GlossaryTerm as a type (likely an interface or type alias) exported from the GlossaryModal module. The relative path &quot;./GlossaryModal&quot; resolves to a sibling file in the same directory.</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Context</h4>
+                            <p class="text-gray-600 leading-relaxed">Importing the base GlossaryModal component that this component will wrap, along with the GlossaryTerm type needed to define the DEBT_GLOSSARY_TERMS array structure</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Alternatives</h4>
+                            <p class="text-gray-600 leading-relaxed">Separate import statements; import type { GlossaryTerm } for type-only import; inline the type definition; use namespace import</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Tags</h4>
+                            <div class="flex flex-wrap gap-2 mt-2">
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">import</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">es6-modules</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">default-import</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">named-import</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">relative-import</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">typescript</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">type-import</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- CONCEPT-002 -->
+                <div class="bg-white rounded-lg shadow-md overflow-hidden border border-gray-200">
+                    <!-- Concept Header -->
+                    <div class="bg-gradient-to-r from-gray-50 to-gray-100 px-6 py-4 border-b border-gray-200">
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <div class="text-xs font-mono text-gray-500 mb-1">CONCEPT-002</div>
+                                <h3 class="text-xl font-bold text-gray-900"></h3>
+                                <div class="text-sm text-blue-600 font-medium mt-1">TypeScript/Type System</div>
+                            </div>
+                            <span class="bg-green-100 text-green-800 px-3 py-1 rounded-full text-xs font-semibold">Beginner</span>
+                        </div>
+                    </div>
+
+                    <!-- Code Snippet with Syntax Highlighting -->
+                    <div class="px-6 py-4 bg-gray-900">
+                        <pre><code class="language-typescript">interface DebtGlossaryModalProps {
+  isOpen: boolean;
+  onClose: () =&gt; void;
+  highlightedTermId?: string;
+}</code></pre>
+                    </div>
+
+                    <!-- Concept Details -->
+                    <div class="px-6 py-5 space-y-4">
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">What</h4>
+                            <p class="text-gray-600 leading-relaxed">TypeScript interface defining the shape of props accepted by the DebtGlossaryModal component</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Why</h4>
+                            <p class="text-gray-600 leading-relaxed">Provides compile-time type safety for component props, enables IDE autocomplete, documents the component&#x27;s API, and catches prop-related errors before runtime. The interface serves as a contract for how the component should be used.</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">How</h4>
+                            <p class="text-gray-600 leading-relaxed">TypeScript interface syntax declares a type with three properties: isOpen (required boolean), onClose (required function returning void), and highlightedTermId (optional string marked with ?). The interface can be used to type the component&#x27;s props parameter.</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Context</h4>
+                            <p class="text-gray-600 leading-relaxed">Defines the props contract for this modal component: isOpen controls visibility, onClose is a callback for closing, and highlightedTermId optionally specifies which term to highlight when opened</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Alternatives</h4>
+                            <p class="text-gray-600 leading-relaxed">Type alias (type DebtGlossaryModalProps = {...}); inline props type in component signature; React.FC generic with inline type; PropTypes (runtime validation)</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Tags</h4>
+                            <div class="flex flex-wrap gap-2 mt-2">
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">typescript</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">interface</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">props-typing</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">component-contract</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">type-safety</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- CONCEPT-003 -->
+                <div class="bg-white rounded-lg shadow-md overflow-hidden border border-gray-200">
+                    <!-- Concept Header -->
+                    <div class="bg-gradient-to-r from-gray-50 to-gray-100 px-6 py-4 border-b border-gray-200">
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <div class="text-xs font-mono text-gray-500 mb-1">CONCEPT-003</div>
+                                <h3 class="text-xl font-bold text-gray-900"></h3>
+                                <div class="text-sm text-blue-600 font-medium mt-1">TypeScript/Type System</div>
+                            </div>
+                            <span class="bg-green-100 text-green-800 px-3 py-1 rounded-full text-xs font-semibold">Beginner</span>
+                        </div>
+                    </div>
+
+                    <!-- Code Snippet with Syntax Highlighting -->
+                    <div class="px-6 py-4 bg-gray-900">
+                        <pre><code class="language-typescript">highlightedTermId?: string;</code></pre>
+                    </div>
+
+                    <!-- Concept Details -->
+                    <div class="px-6 py-5 space-y-4">
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">What</h4>
+                            <p class="text-gray-600 leading-relaxed">TypeScript optional property syntax using the ? modifier to indicate a property may be undefined</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Why</h4>
+                            <p class="text-gray-600 leading-relaxed">Makes the property optional rather than required, allowing the component to be used without providing this prop. This is useful for props that have default behavior or aren&#x27;t always needed. The type becomes &#x27;string | undefined&#x27; automatically.</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">How</h4>
+                            <p class="text-gray-600 leading-relaxed">The ? modifier after the property name tells TypeScript this property is optional. When accessing this property, TypeScript enforces checking for undefined or using optional chaining. The property can be omitted when creating objects of this type.</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Context</h4>
+                            <p class="text-gray-600 leading-relaxed">The highlightedTermId prop is optional because the modal can be opened without highlighting any specific term, or it can be opened with a specific term highlighted for direct navigation</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Alternatives</h4>
+                            <p class="text-gray-600 leading-relaxed">Union with undefined (highlightedTermId: string | undefined); default parameter value; separate interfaces for different use cases; using null instead of undefined</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Tags</h4>
+                            <div class="flex flex-wrap gap-2 mt-2">
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">typescript</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">optional-property</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">type-modifier</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">undefined-handling</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- CONCEPT-004 -->
+                <div class="bg-white rounded-lg shadow-md overflow-hidden border border-gray-200">
+                    <!-- Concept Header -->
+                    <div class="bg-gradient-to-r from-gray-50 to-gray-100 px-6 py-4 border-b border-gray-200">
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <div class="text-xs font-mono text-gray-500 mb-1">CONCEPT-004</div>
+                                <h3 class="text-xl font-bold text-gray-900"></h3>
+                                <div class="text-sm text-blue-600 font-medium mt-1">TypeScript/Type System</div>
+                            </div>
+                            <span class="bg-green-100 text-green-800 px-3 py-1 rounded-full text-xs font-semibold">Beginner</span>
+                        </div>
+                    </div>
+
+                    <!-- Code Snippet with Syntax Highlighting -->
+                    <div class="px-6 py-4 bg-gray-900">
+                        <pre><code class="language-typescript">onClose: () =&gt; void;</code></pre>
+                    </div>
+
+                    <!-- Concept Details -->
+                    <div class="px-6 py-5 space-y-4">
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">What</h4>
+                            <p class="text-gray-600 leading-relaxed">TypeScript function type annotation defining a function that takes no parameters and returns void</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Why</h4>
+                            <p class="text-gray-600 leading-relaxed">Specifies the exact signature of the callback function, ensuring type safety when the function is called. The void return type indicates the function is called for side effects (closing the modal) rather than returning a value.</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">How</h4>
+                            <p class="text-gray-600 leading-relaxed">Arrow function type syntax: () represents parameter list (empty in this case), =&gt; separates parameters from return type, void indicates no return value. This creates a type that matches any function with this signature.</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Context</h4>
+                            <p class="text-gray-600 leading-relaxed">Defines the onClose callback prop as a parameterless function that performs the side effect of closing the modal. The parent component will provide this function to control modal visibility.</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Alternatives</h4>
+                            <p class="text-gray-600 leading-relaxed">Function keyword syntax: onClose: Function; more specific with parameters: onClose: (reason?: string) =&gt; void; using a type alias for the function signature</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Tags</h4>
+                            <div class="flex flex-wrap gap-2 mt-2">
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">typescript</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">function-type</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">callback-type</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">void-return</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">arrow-function-type</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- CONCEPT-005 -->
+                <div class="bg-white rounded-lg shadow-md overflow-hidden border border-gray-200">
+                    <!-- Concept Header -->
+                    <div class="bg-gradient-to-r from-gray-50 to-gray-100 px-6 py-4 border-b border-gray-200">
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <div class="text-xs font-mono text-gray-500 mb-1">CONCEPT-005</div>
+                                <h3 class="text-xl font-bold text-gray-900"></h3>
+                                <div class="text-sm text-blue-600 font-medium mt-1">TypeScript/Type System</div>
+                            </div>
+                            <span class="bg-green-100 text-green-800 px-3 py-1 rounded-full text-xs font-semibold">Beginner</span>
+                        </div>
+                    </div>
+
+                    <!-- Code Snippet with Syntax Highlighting -->
+                    <div class="px-6 py-4 bg-gray-900">
+                        <pre><code class="language-typescript">const DEBT_GLOSSARY_TERMS: GlossaryTerm[] = [...]</code></pre>
+                    </div>
+
+                    <!-- Concept Details -->
+                    <div class="px-6 py-5 space-y-4">
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">What</h4>
+                            <p class="text-gray-600 leading-relaxed">Constant variable declaration with explicit TypeScript array type annotation</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Why</h4>
+                            <p class="text-gray-600 leading-relaxed">Ensures the array conforms to the GlossaryTerm interface structure, providing compile-time validation that each object in the array has the correct shape. The explicit type annotation makes the intent clear and enables better IDE support.</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">How</h4>
+                            <p class="text-gray-600 leading-relaxed">The : GlossaryTerm[] syntax annotates the variable with an array type where each element must conform to the GlossaryTerm interface. TypeScript validates each array element against this type during compilation.</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Context</h4>
+                            <p class="text-gray-600 leading-relaxed">Defines a typed array of glossary terms specific to technical debt metrics. The type annotation ensures each term object has all required properties (id, term, shortDescription, etc.) defined by GlossaryTerm.</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Alternatives</h4>
+                            <p class="text-gray-600 leading-relaxed">Type inference (let TypeScript infer from array contents); as const assertion for literal types; readonly array type (readonly GlossaryTerm[]); using a type alias for the array type</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Tags</h4>
+                            <div class="flex flex-wrap gap-2 mt-2">
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">typescript</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">type-annotation</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">array-type</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">const-declaration</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">type-safety</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- CONCEPT-006 -->
+                <div class="bg-white rounded-lg shadow-md overflow-hidden border border-gray-200">
+                    <!-- Concept Header -->
+                    <div class="bg-gradient-to-r from-gray-50 to-gray-100 px-6 py-4 border-b border-gray-200">
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <div class="text-xs font-mono text-gray-500 mb-1">CONCEPT-006</div>
+                                <h3 class="text-xl font-bold text-gray-900"></h3>
+                                <div class="text-sm text-blue-600 font-medium mt-1">Code Organization/Naming Conventions</div>
+                            </div>
+                            <span class="bg-green-100 text-green-800 px-3 py-1 rounded-full text-xs font-semibold">Beginner</span>
+                        </div>
+                    </div>
+
+                    <!-- Code Snippet with Syntax Highlighting -->
+                    <div class="px-6 py-4 bg-gray-900">
+                        <pre><code class="language-typescript">const DEBT_GLOSSARY_TERMS</code></pre>
+                    </div>
+
+                    <!-- Concept Details -->
+                    <div class="px-6 py-5 space-y-4">
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">What</h4>
+                            <p class="text-gray-600 leading-relaxed">Naming convention using all uppercase letters with underscores separating words</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Why</h4>
+                            <p class="text-gray-600 leading-relaxed">Indicates this is a constant value that should never be reassigned. The convention makes constants visually distinct from regular variables and functions, signaling to developers that this value is fixed configuration data.</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">How</h4>
+                            <p class="text-gray-600 leading-relaxed">All letters capitalized, words separated by underscores. This is a widely adopted convention in many programming languages for module-level constants.</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Context</h4>
+                            <p class="text-gray-600 leading-relaxed">Used for the glossary terms array which is static configuration data that defines all the technical debt terminology. This data never changes during runtime.</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Alternatives</h4>
+                            <p class="text-gray-600 leading-relaxed">camelCase (debtGlossaryTerms); PascalCase (DebtGlossaryTerms); using Object.freeze() to enforce immutability; as const assertion</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Tags</h4>
+                            <div class="flex flex-wrap gap-2 mt-2">
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">naming-convention</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">constants</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">code-style</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">screaming-snake-case</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">readability</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- CONCEPT-007 -->
+                <div class="bg-white rounded-lg shadow-md overflow-hidden border border-gray-200">
+                    <!-- Concept Header -->
+                    <div class="bg-gradient-to-r from-gray-50 to-gray-100 px-6 py-4 border-b border-gray-200">
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <div class="text-xs font-mono text-gray-500 mb-1">CONCEPT-007</div>
+                                <h3 class="text-xl font-bold text-gray-900"></h3>
+                                <div class="text-sm text-blue-600 font-medium mt-1">JavaScript/Data Structures</div>
+                            </div>
+                            <span class="bg-green-100 text-green-800 px-3 py-1 rounded-full text-xs font-semibold">Beginner</span>
+                        </div>
+                    </div>
+
+                    <!-- Code Snippet with Syntax Highlighting -->
+                    <div class="px-6 py-4 bg-gray-900">
+                        <pre><code class="language-typescript">const DEBT_GLOSSARY_TERMS: GlossaryTerm[] = [
+  {
+    id: &quot;health-score&quot;,
+    term: &quot;Health Score&quot;,
+    ...
+  },
+  {
+    id: &quot;churn-rate&quot;,
+    term: &quot;Churn Rate&quot;,
+    ...
+  },
+  ...
+];</code></pre>
+                    </div>
+
+                    <!-- Concept Details -->
+                    <div class="px-6 py-5 space-y-4">
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">What</h4>
+                            <p class="text-gray-600 leading-relaxed">Array literal containing multiple object literals as elements, creating a structured data collection</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Why</h4>
+                            <p class="text-gray-600 leading-relaxed">Provides a clean, declarative way to define configuration data. Array of objects is a common pattern for representing collections of structured data where each item has the same shape but different values.</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">How</h4>
+                            <p class="text-gray-600 leading-relaxed">Square brackets [] define the array, curly braces {} define each object element, commas separate elements. Each object follows the same structure defined by the GlossaryTerm interface.</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Context</h4>
+                            <p class="text-gray-600 leading-relaxed">Defines 9 glossary term objects, each explaining a different technical debt metric. The array structure allows easy iteration and passing to the GlossaryModal component.</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Alternatives</h4>
+                            <p class="text-gray-600 leading-relaxed">Array of class instances; Map data structure; separate const declarations for each term; importing from JSON file; using a factory function</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Tags</h4>
+                            <div class="flex flex-wrap gap-2 mt-2">
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">javascript</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">array-literal</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">object-literal</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">data-structure</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">configuration</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- CONCEPT-008 -->
+                <div class="bg-white rounded-lg shadow-md overflow-hidden border border-gray-200">
+                    <!-- Concept Header -->
+                    <div class="bg-gradient-to-r from-gray-50 to-gray-100 px-6 py-4 border-b border-gray-200">
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <div class="text-xs font-mono text-gray-500 mb-1">CONCEPT-008</div>
+                                <h3 class="text-xl font-bold text-gray-900"></h3>
+                                <div class="text-sm text-blue-600 font-medium mt-1">JavaScript/Object Syntax</div>
+                            </div>
+                            <span class="bg-green-100 text-green-800 px-3 py-1 rounded-full text-xs font-semibold">Beginner</span>
+                        </div>
+                    </div>
+
+                    <!-- Code Snippet with Syntax Highlighting -->
+                    <div class="px-6 py-4 bg-gray-900">
+                        <pre><code class="language-typescript">id: &quot;health-score&quot;,
+term: &quot;Health Score&quot;,
+shortDescription: &quot;Composite metric indicating overall code health (0-100)&quot;,</code></pre>
+                    </div>
+
+                    <!-- Concept Details -->
+                    <div class="px-6 py-5 space-y-4">
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">What</h4>
+                            <p class="text-gray-600 leading-relaxed">Object properties defined with identifier keys and string literal values</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Why</h4>
+                            <p class="text-gray-600 leading-relaxed">Creates key-value pairs where keys are property names and values are strings. This is the standard way to define object properties in JavaScript. String literals are used for human-readable text content.</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">How</h4>
+                            <p class="text-gray-600 leading-relaxed">Property name (identifier) followed by colon, then value (string in quotes). Multiple properties separated by commas. The keys become property names accessible via dot notation or bracket notation.</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Context</h4>
+                            <p class="text-gray-600 leading-relaxed">Defines the basic properties of each glossary term: id for programmatic reference, term for display name, shortDescription for brief explanation</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Alternatives</h4>
+                            <p class="text-gray-600 leading-relaxed">Computed property names [key]: value; using symbols as keys; Map data structure; class with properties</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Tags</h4>
+                            <div class="flex flex-wrap gap-2 mt-2">
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">javascript</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">object-literal</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">property-definition</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">string-literal</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- CONCEPT-009 -->
+                <div class="bg-white rounded-lg shadow-md overflow-hidden border border-gray-200">
+                    <!-- Concept Header -->
+                    <div class="bg-gradient-to-r from-gray-50 to-gray-100 px-6 py-4 border-b border-gray-200">
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <div class="text-xs font-mono text-gray-500 mb-1">CONCEPT-009</div>
+                                <h3 class="text-xl font-bold text-gray-900"></h3>
+                                <div class="text-sm text-blue-600 font-medium mt-1">JavaScript/ES6 Syntax</div>
+                            </div>
+                            <span class="bg-green-100 text-green-800 px-3 py-1 rounded-full text-xs font-semibold">Beginner</span>
+                        </div>
+                    </div>
+
+                    <!-- Code Snippet with Syntax Highlighting -->
+                    <div class="px-6 py-4 bg-gray-900">
+                        <pre><code class="language-typescript">fullDescription: `A weighted composite score that evaluates file health based on three key factors:
+• Churn Rate (40% weight): How frequently the code is rewritten
+• Author Diversity (30% weight): Number of unique contributors
+• Age/Dormancy (30% weight): Time since last modification
+
+The score combines these factors to give a holistic view of whether a file is well-maintained, potentially problematic, or requires immediate attention.`,</code></pre>
+                    </div>
+
+                    <!-- Concept Details -->
+                    <div class="px-6 py-5 space-y-4">
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">What</h4>
+                            <p class="text-gray-600 leading-relaxed">Template literal (backtick string) containing multiple lines of text with preserved formatting</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Why</h4>
+                            <p class="text-gray-600 leading-relaxed">Template literals allow multiline strings without escape characters or concatenation. They preserve whitespace and line breaks, making them ideal for formatted text, documentation, or content that needs to maintain its structure.</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">How</h4>
+                            <p class="text-gray-600 leading-relaxed">Backticks (`) delimit the string instead of quotes. Line breaks are preserved as-is in the string value. No need for \n escape sequences or string concatenation with +.</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Context</h4>
+                            <p class="text-gray-600 leading-relaxed">Used for the fullDescription property which contains detailed, formatted explanations of each metric. The multiline format makes the source code readable while preserving the formatting for display.</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Alternatives</h4>
+                            <p class="text-gray-600 leading-relaxed">String concatenation with \n; array of strings joined with newlines; separate string literals; importing from external file</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Tags</h4>
+                            <div class="flex flex-wrap gap-2 mt-2">
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">javascript</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">es6</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">template-literal</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">multiline-string</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">backticks</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- CONCEPT-010 -->
+                <div class="bg-white rounded-lg shadow-md overflow-hidden border border-gray-200">
+                    <!-- Concept Header -->
+                    <div class="bg-gradient-to-r from-gray-50 to-gray-100 px-6 py-4 border-b border-gray-200">
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <div class="text-xs font-mono text-gray-500 mb-1">CONCEPT-010</div>
+                                <h3 class="text-xl font-bold text-gray-900"></h3>
+                                <div class="text-sm text-blue-600 font-medium mt-1">JavaScript/String Content</div>
+                            </div>
+                            <span class="bg-green-100 text-green-800 px-3 py-1 rounded-full text-xs font-semibold">Beginner</span>
+                        </div>
+                    </div>
+
+                    <!-- Code Snippet with Syntax Highlighting -->
+                    <div class="px-6 py-4 bg-gray-900">
+                        <pre><code class="language-typescript">• Churn Rate (40% weight): How frequently the code is rewritten</code></pre>
+                    </div>
+
+                    <!-- Concept Details -->
+                    <div class="px-6 py-5 space-y-4">
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">What</h4>
+                            <p class="text-gray-600 leading-relaxed">Unicode bullet point character (•) embedded directly in string content</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Why</h4>
+                            <p class="text-gray-600 leading-relaxed">Provides visual formatting for list items in the displayed text. Using the actual Unicode character is simpler than HTML entities or CSS pseudo-elements, and works in any context where the string is rendered.</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">How</h4>
+                            <p class="text-gray-600 leading-relaxed">The • character (Unicode U+2022) is typed directly into the source code. JavaScript strings support Unicode characters natively, so no special encoding is needed.</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Context</h4>
+                            <p class="text-gray-600 leading-relaxed">Used throughout the glossary descriptions to create bulleted lists that explain different aspects of each metric. Makes the text more readable and organized when displayed.</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Alternatives</h4>
+                            <p class="text-gray-600 leading-relaxed">HTML list elements (&lt;ul&gt;&lt;li&gt;); asterisk or hyphen characters; CSS ::before pseudo-elements; Unicode escape sequence \u2022</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Tags</h4>
+                            <div class="flex flex-wrap gap-2 mt-2">
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">javascript</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">unicode</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">string-content</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">formatting</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">bullet-point</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- CONCEPT-011 -->
+                <div class="bg-white rounded-lg shadow-md overflow-hidden border border-gray-200">
+                    <!-- Concept Header -->
+                    <div class="bg-gradient-to-r from-gray-50 to-gray-100 px-6 py-4 border-b border-gray-200">
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <div class="text-xs font-mono text-gray-500 mb-1">CONCEPT-011</div>
+                                <h3 class="text-xl font-bold text-gray-900"></h3>
+                                <div class="text-sm text-blue-600 font-medium mt-1">JavaScript/Data Structures</div>
+                            </div>
+                            <span class="bg-yellow-100 text-yellow-800 px-3 py-1 rounded-full text-xs font-semibold">Intermediate</span>
+                        </div>
+                    </div>
+
+                    <!-- Code Snippet with Syntax Highlighting -->
+                    <div class="px-6 py-4 bg-gray-900">
+                        <pre><code class="language-typescript">ranges: [
+  {
+    range: &quot;0-30 (Critical)&quot;,
+    description: &quot;Requires immediate attention...&quot;,
+    color: &quot;#dc2626&quot;,
+  },
+  {
+    range: &quot;31-60 (Medium)&quot;,
+    description: &quot;Acceptable but could benefit...&quot;,
+    color: &quot;#eab308&quot;,
+  },
+  ...
+],</code></pre>
+                    </div>
+
+                    <!-- Concept Details -->
+                    <div class="px-6 py-5 space-y-4">
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">What</h4>
+                            <p class="text-gray-600 leading-relaxed">Object property whose value is an array of objects, creating a nested data structure</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Why</h4>
+                            <p class="text-gray-600 leading-relaxed">Allows grouping related data hierarchically. Each glossary term can have multiple range definitions, each with its own properties. This structure makes it easy to iterate over ranges and display them in the UI.</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">How</h4>
+                            <p class="text-gray-600 leading-relaxed">Property name followed by colon, then array literal containing object literals. Each nested object has its own properties (range, description, color). The structure can be accessed via dot notation and array indexing.</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Context</h4>
+                            <p class="text-gray-600 leading-relaxed">Defines the different value ranges for each metric (e.g., health score ranges from 0-30 critical, 31-60 medium, 61-100 healthy), with descriptions and color codes for visual representation</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Alternatives</h4>
+                            <p class="text-gray-600 leading-relaxed">Separate arrays for each property; Map of range objects; class instances; flattened structure with range prefixes</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Tags</h4>
+                            <div class="flex flex-wrap gap-2 mt-2">
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">javascript</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">nested-data</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">array-property</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">object-literal</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">data-structure</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- CONCEPT-012 -->
+                <div class="bg-white rounded-lg shadow-md overflow-hidden border border-gray-200">
+                    <!-- Concept Header -->
+                    <div class="bg-gradient-to-r from-gray-50 to-gray-100 px-6 py-4 border-b border-gray-200">
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <div class="text-xs font-mono text-gray-500 mb-1">CONCEPT-012</div>
+                                <h3 class="text-xl font-bold text-gray-900"></h3>
+                                <div class="text-sm text-blue-600 font-medium mt-1">JavaScript/String Content</div>
+                            </div>
+                            <span class="bg-green-100 text-green-800 px-3 py-1 rounded-full text-xs font-semibold">Beginner</span>
+                        </div>
+                    </div>
+
+                    <!-- Code Snippet with Syntax Highlighting -->
+                    <div class="px-6 py-4 bg-gray-900">
+                        <pre><code class="language-typescript">color: &quot;#dc2626&quot;,</code></pre>
+                    </div>
+
+                    <!-- Concept Details -->
+                    <div class="px-6 py-5 space-y-4">
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">What</h4>
+                            <p class="text-gray-600 leading-relaxed">String containing a hexadecimal color code in CSS format</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Why</h4>
+                            <p class="text-gray-600 leading-relaxed">Stores color information as a string that can be used directly in CSS or style attributes. Hex codes are a standard way to represent colors in web development, providing precise RGB values.</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">How</h4>
+                            <p class="text-gray-600 leading-relaxed">String starting with # followed by 6 hexadecimal digits representing RGB values (2 digits each for red, green, blue). The format #RRGGBB is standard CSS color notation.</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Context</h4>
+                            <p class="text-gray-600 leading-relaxed">Defines colors for different metric ranges (red for critical, yellow for medium, green for healthy), allowing the UI to visually distinguish between different severity levels</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Alternatives</h4>
+                            <p class="text-gray-600 leading-relaxed">RGB format &quot;rgb(220, 38, 38)&quot;; named colors &quot;red&quot;; HSL format; CSS custom properties; separate color constants</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Tags</h4>
+                            <div class="flex flex-wrap gap-2 mt-2">
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">javascript</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">string-literal</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">color-code</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">hex-color</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">css-value</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- CONCEPT-013 -->
+                <div class="bg-white rounded-lg shadow-md overflow-hidden border border-gray-200">
+                    <!-- Concept Header -->
+                    <div class="bg-gradient-to-r from-gray-50 to-gray-100 px-6 py-4 border-b border-gray-200">
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <div class="text-xs font-mono text-gray-500 mb-1">CONCEPT-013</div>
+                                <h3 class="text-xl font-bold text-gray-900"></h3>
+                                <div class="text-sm text-blue-600 font-medium mt-1">JavaScript/Object Syntax</div>
+                            </div>
+                            <span class="bg-yellow-100 text-yellow-800 px-3 py-1 rounded-full text-xs font-semibold">Intermediate</span>
+                        </div>
+                    </div>
+
+                    <!-- Code Snippet with Syntax Highlighting -->
+                    <div class="px-6 py-4 bg-gray-900">
+                        <pre><code class="language-typescript">formula: `Health Score = (Churn Score × 40%) + (Author Score × 30%) + (Age Score × 30%)...`,</code></pre>
+                    </div>
+
+                    <!-- Concept Details -->
+                    <div class="px-6 py-5 space-y-4">
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">What</h4>
+                            <p class="text-gray-600 leading-relaxed">Object property that may or may not be present on all objects in the array</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Why</h4>
+                            <p class="text-gray-600 leading-relaxed">Not all glossary terms have formulas - some are descriptive concepts while others are calculated metrics. Making the property optional allows flexibility in the data structure without requiring empty or null values.</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">How</h4>
+                            <p class="text-gray-600 leading-relaxed">The property is simply included on objects where it&#x27;s relevant and omitted from others. TypeScript&#x27;s optional property syntax (formula?: string in the interface) allows this flexibility.</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Context</h4>
+                            <p class="text-gray-600 leading-relaxed">Some terms like &quot;health-score&quot; and &quot;churn-rate&quot; have mathematical formulas, while others like &quot;primary-author&quot; are just data points. The formula property is only included where applicable.</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Alternatives</h4>
+                            <p class="text-gray-600 leading-relaxed">Always include with null/undefined value; separate interfaces for terms with/without formulas; use a discriminated union; nested object structure</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Tags</h4>
+                            <div class="flex flex-wrap gap-2 mt-2">
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">javascript</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">optional-property</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">object-structure</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">data-modeling</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- CONCEPT-014 -->
+                <div class="bg-white rounded-lg shadow-md overflow-hidden border border-gray-200">
+                    <!-- Concept Header -->
+                    <div class="bg-gradient-to-r from-gray-50 to-gray-100 px-6 py-4 border-b border-gray-200">
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <div class="text-xs font-mono text-gray-500 mb-1">CONCEPT-014</div>
+                                <h3 class="text-xl font-bold text-gray-900"></h3>
+                                <div class="text-sm text-blue-600 font-medium mt-1">JavaScript/Data Patterns</div>
+                            </div>
+                            <span class="bg-green-100 text-green-800 px-3 py-1 rounded-full text-xs font-semibold">Beginner</span>
+                        </div>
+                    </div>
+
+                    <!-- Code Snippet with Syntax Highlighting -->
+                    <div class="px-6 py-4 bg-gray-900">
+                        <pre><code class="language-typescript">source: &quot;calculated&quot;,
+source: &quot;provided&quot;,</code></pre>
+                    </div>
+
+                    <!-- Concept Details -->
+                    <div class="px-6 py-5 space-y-4">
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">What</h4>
+                            <p class="text-gray-600 leading-relaxed">String literal values used as enumeration-like constants to categorize data</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Why</h4>
+                            <p class="text-gray-600 leading-relaxed">Provides a simple way to categorize terms by their data source without creating a formal enum. The string values are self-documenting and can be used directly in comparisons or display.</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">How</h4>
+                            <p class="text-gray-600 leading-relaxed">Consistent string values (&quot;calculated&quot; or &quot;provided&quot;) are used across different objects to indicate whether the metric is computed or comes from the dataset. This creates an informal enumeration.</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Context</h4>
+                            <p class="text-gray-600 leading-relaxed">Distinguishes between metrics that are calculated by the system (like health score) versus metrics that come directly from the git data (like total commits)</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Alternatives</h4>
+                            <p class="text-gray-600 leading-relaxed">TypeScript enum; union type of string literals; constants object; numeric codes; boolean flag</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Tags</h4>
+                            <div class="flex flex-wrap gap-2 mt-2">
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">javascript</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">string-literal</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">enum-pattern</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">categorization</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">data-modeling</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- CONCEPT-015 -->
+                <div class="bg-white rounded-lg shadow-md overflow-hidden border border-gray-200">
+                    <!-- Concept Header -->
+                    <div class="bg-gradient-to-r from-gray-50 to-gray-100 px-6 py-4 border-b border-gray-200">
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <div class="text-xs font-mono text-gray-500 mb-1">CONCEPT-015</div>
+                                <h3 class="text-xl font-bold text-gray-900"></h3>
+                                <div class="text-sm text-blue-600 font-medium mt-1">JavaScript/Data Structures</div>
+                            </div>
+                            <span class="bg-yellow-100 text-yellow-800 px-3 py-1 rounded-full text-xs font-semibold">Intermediate</span>
+                        </div>
+                    </div>
+
+                    <!-- Code Snippet with Syntax Highlighting -->
+                    <div class="px-6 py-4 bg-gray-900">
+                        <pre><code class="language-typescript">relatedTerms: [&quot;health-score&quot;, &quot;author-diversity&quot;, &quot;age-penalty&quot;],</code></pre>
+                    </div>
+
+                    <!-- Concept Details -->
+                    <div class="px-6 py-5 space-y-4">
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">What</h4>
+                            <p class="text-gray-600 leading-relaxed">Array property containing string identifiers that reference other objects in the collection</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Why</h4>
+                            <p class="text-gray-600 leading-relaxed">Creates relationships between glossary terms without duplicating data. The string IDs can be used to look up related terms, enabling navigation between connected concepts in the UI.</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">How</h4>
+                            <p class="text-gray-600 leading-relaxed">Array of strings where each string matches the &#x27;id&#x27; property of another term object. This creates a simple reference system without circular dependencies or complex object references.</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Context</h4>
+                            <p class="text-gray-600 leading-relaxed">Links related concepts together (e.g., health-score is related to its component metrics: churn-rate, author-diversity, age-penalty). Allows the UI to show related terms or create navigation links.</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Alternatives</h4>
+                            <p class="text-gray-600 leading-relaxed">Object references; Map data structure; separate relationships array; graph database; nested objects</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Tags</h4>
+                            <div class="flex flex-wrap gap-2 mt-2">
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">javascript</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">array</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">string-identifiers</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">data-relationships</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">reference-pattern</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- CONCEPT-016 -->
+                <div class="bg-white rounded-lg shadow-md overflow-hidden border border-gray-200">
+                    <!-- Concept Header -->
+                    <div class="bg-gradient-to-r from-gray-50 to-gray-100 px-6 py-4 border-b border-gray-200">
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <div class="text-xs font-mono text-gray-500 mb-1">CONCEPT-016</div>
+                                <h3 class="text-xl font-bold text-gray-900"></h3>
+                                <div class="text-sm text-blue-600 font-medium mt-1">Code Organization/Naming Conventions</div>
+                            </div>
+                            <span class="bg-green-100 text-green-800 px-3 py-1 rounded-full text-xs font-semibold">Beginner</span>
+                        </div>
+                    </div>
+
+                    <!-- Code Snippet with Syntax Highlighting -->
+                    <div class="px-6 py-4 bg-gray-900">
+                        <pre><code class="language-typescript">id: &quot;health-score&quot;,
+id: &quot;churn-rate&quot;,
+id: &quot;bus-factor&quot;,</code></pre>
+                    </div>
+
+                    <!-- Concept Details -->
+                    <div class="px-6 py-5 space-y-4">
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">What</h4>
+                            <p class="text-gray-600 leading-relaxed">Naming convention using lowercase letters with hyphens separating words</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Why</h4>
+                            <p class="text-gray-600 leading-relaxed">Creates URL-friendly, readable identifiers that work well in HTML attributes and can be used in URLs without encoding. The format is common for IDs in web development and is more readable than camelCase in certain contexts.</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">How</h4>
+                            <p class="text-gray-600 leading-relaxed">All lowercase letters, words separated by hyphens. This convention is often used for HTML IDs, CSS classes, and URL slugs.</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Context</h4>
+                            <p class="text-gray-600 leading-relaxed">Used for glossary term IDs which may be used in URLs (for deep linking to specific terms) or as HTML element IDs for scrolling/highlighting</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Alternatives</h4>
+                            <p class="text-gray-600 leading-relaxed">camelCase (healthScore); snake_case (health_score); PascalCase (HealthScore); numeric IDs</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Tags</h4>
+                            <div class="flex flex-wrap gap-2 mt-2">
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">naming-convention</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">kebab-case</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">identifiers</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">url-friendly</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">html-ids</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- CONCEPT-017 -->
+                <div class="bg-white rounded-lg shadow-md overflow-hidden border border-gray-200">
+                    <!-- Concept Header -->
+                    <div class="bg-gradient-to-r from-gray-50 to-gray-100 px-6 py-4 border-b border-gray-200">
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <div class="text-xs font-mono text-gray-500 mb-1">CONCEPT-017</div>
+                                <h3 class="text-xl font-bold text-gray-900"></h3>
+                                <div class="text-sm text-blue-600 font-medium mt-1">React/Component Patterns</div>
+                            </div>
+                            <span class="bg-green-100 text-green-800 px-3 py-1 rounded-full text-xs font-semibold">Beginner</span>
+                        </div>
+                    </div>
+
+                    <!-- Code Snippet with Syntax Highlighting -->
+                    <div class="px-6 py-4 bg-gray-900">
+                        <pre><code class="language-typescript">export default function DebtGlossaryModal({
+  isOpen,
+  onClose,
+  highlightedTermId,
+}: DebtGlossaryModalProps) {
+  return (
+    &lt;GlossaryModal
+      isOpen={isOpen}
+      onClose={onClose}
+      title=&quot;Technical Debt Lens - Glossary&quot;
+      terms={DEBT_GLOSSARY_TERMS}
+      highlightedTermId={highlightedTermId}
+    /&gt;
+  );
+}</code></pre>
+                    </div>
+
+                    <!-- Concept Details -->
+                    <div class="px-6 py-5 space-y-4">
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">What</h4>
+                            <p class="text-gray-600 leading-relaxed">React functional component defined as a default export using function declaration syntax</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Why</h4>
+                            <p class="text-gray-600 leading-relaxed">Default export makes this the primary export of the module, allowing simpler import syntax. Function declaration (vs arrow function) provides better debugging with named functions in stack traces and React DevTools.</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">How</h4>
+                            <p class="text-gray-600 leading-relaxed">The &#x27;export default&#x27; keywords precede the function declaration, making it the default export. The function name becomes the component name. The function returns JSX.</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Context</h4>
+                            <p class="text-gray-600 leading-relaxed">Defines the main component exported from this module - a specialized glossary modal for technical debt terminology</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Alternatives</h4>
+                            <p class="text-gray-600 leading-relaxed">Named export; arrow function with default export; export at end of file; React.FC with arrow function</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Tags</h4>
+                            <div class="flex flex-wrap gap-2 mt-2">
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">react</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">component-definition</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">default-export</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">function-declaration</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">functional-component</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- CONCEPT-018 -->
+                <div class="bg-white rounded-lg shadow-md overflow-hidden border border-gray-200">
+                    <!-- Concept Header -->
+                    <div class="bg-gradient-to-r from-gray-50 to-gray-100 px-6 py-4 border-b border-gray-200">
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <div class="text-xs font-mono text-gray-500 mb-1">CONCEPT-018</div>
+                                <h3 class="text-xl font-bold text-gray-900"></h3>
+                                <div class="text-sm text-blue-600 font-medium mt-1">TypeScript/Type System</div>
+                            </div>
+                            <span class="bg-yellow-100 text-yellow-800 px-3 py-1 rounded-full text-xs font-semibold">Intermediate</span>
+                        </div>
+                    </div>
+
+                    <!-- Code Snippet with Syntax Highlighting -->
+                    <div class="px-6 py-4 bg-gray-900">
+                        <pre><code class="language-typescript">function DebtGlossaryModal({
+  isOpen,
+  onClose,
+  highlightedTermId,
+}: DebtGlossaryModalProps)</code></pre>
+                    </div>
+
+                    <!-- Concept Details -->
+                    <div class="px-6 py-5 space-y-4">
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">What</h4>
+                            <p class="text-gray-600 leading-relaxed">TypeScript type annotation applied directly to destructured function parameters</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Why</h4>
+                            <p class="text-gray-600 leading-relaxed">Provides type safety for the component&#x27;s props while using destructuring for clean access. The type annotation comes after the destructuring pattern, typing the entire props object.</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">How</h4>
+                            <p class="text-gray-600 leading-relaxed">Destructuring pattern in curly braces, followed by colon and type name. TypeScript infers the types of individual destructured variables from the interface properties.</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Context</h4>
+                            <p class="text-gray-600 leading-relaxed">Types the component&#x27;s props parameter with the DebtGlossaryModalProps interface while simultaneously destructuring the three props for direct use in the component body</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Alternatives</h4>
+                            <p class="text-gray-600 leading-relaxed">Type the props object then destructure in body; use React.FC generic; inline the interface; separate type and destructuring</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Tags</h4>
+                            <div class="flex flex-wrap gap-2 mt-2">
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">typescript</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">type-annotation</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">function-parameters</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">destructuring</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">props-typing</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- CONCEPT-019 -->
+                <div class="bg-white rounded-lg shadow-md overflow-hidden border border-gray-200">
+                    <!-- Concept Header -->
+                    <div class="bg-gradient-to-r from-gray-50 to-gray-100 px-6 py-4 border-b border-gray-200">
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <div class="text-xs font-mono text-gray-500 mb-1">CONCEPT-019</div>
+                                <h3 class="text-xl font-bold text-gray-900"></h3>
+                                <div class="text-sm text-blue-600 font-medium mt-1">React/Component Patterns</div>
+                            </div>
+                            <span class="bg-yellow-100 text-yellow-800 px-3 py-1 rounded-full text-xs font-semibold">Intermediate</span>
+                        </div>
+                    </div>
+
+                    <!-- Code Snippet with Syntax Highlighting -->
+                    <div class="px-6 py-4 bg-gray-900">
+                        <pre><code class="language-typescript">export default function DebtGlossaryModal({
+  isOpen,
+  onClose,
+  highlightedTermId,
+}: DebtGlossaryModalProps) {
+  return (
+    &lt;GlossaryModal
+      isOpen={isOpen}
+      onClose={onClose}
+      title=&quot;Technical Debt Lens - Glossary&quot;
+      terms={DEBT_GLOSSARY_TERMS}
+      highlightedTermId={highlightedTermId}
+    /&gt;
+  );
+}</code></pre>
+                    </div>
+
+                    <!-- Concept Details -->
+                    <div class="px-6 py-5 space-y-4">
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">What</h4>
+                            <p class="text-gray-600 leading-relaxed">Component that wraps another component, passing through some props and adding specific configuration</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Why</h4>
+                            <p class="text-gray-600 leading-relaxed">Provides a specialized version of a generic component (GlossaryModal) with domain-specific data (DEBT_GLOSSARY_TERMS) and configuration (title). This pattern promotes reusability - the base GlossaryModal can be used for different glossaries while this wrapper provides the debt-specific version.</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">How</h4>
+                            <p class="text-gray-600 leading-relaxed">The component accepts props, then returns JSX that renders another component with those props plus additional hardcoded values. No additional logic or state - purely a configuration wrapper.</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Context</h4>
+                            <p class="text-gray-600 leading-relaxed">Creates a debt-specific glossary modal by wrapping the generic GlossaryModal with the technical debt terms and appropriate title. This allows other parts of the app to use a simple, purpose-specific component.</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Alternatives</h4>
+                            <p class="text-gray-600 leading-relaxed">Higher-order component (HOC); render props; hooks for configuration; direct use of base component with props; configuration object</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Tags</h4>
+                            <div class="flex flex-wrap gap-2 mt-2">
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">react</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">wrapper-component</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">component-composition</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">specialization</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">configuration</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- CONCEPT-020 -->
+                <div class="bg-white rounded-lg shadow-md overflow-hidden border border-gray-200">
+                    <!-- Concept Header -->
+                    <div class="bg-gradient-to-r from-gray-50 to-gray-100 px-6 py-4 border-b border-gray-200">
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <div class="text-xs font-mono text-gray-500 mb-1">CONCEPT-020</div>
+                                <h3 class="text-xl font-bold text-gray-900"></h3>
+                                <div class="text-sm text-blue-600 font-medium mt-1">React/JSX Syntax</div>
+                            </div>
+                            <span class="bg-green-100 text-green-800 px-3 py-1 rounded-full text-xs font-semibold">Beginner</span>
+                        </div>
+                    </div>
+
+                    <!-- Code Snippet with Syntax Highlighting -->
+                    <div class="px-6 py-4 bg-gray-900">
+                        <pre><code class="language-typescript">return (
+  &lt;GlossaryModal
+    isOpen={isOpen}
+    onClose={onClose}
+    title=&quot;Technical Debt Lens - Glossary&quot;
+    terms={DEBT_GLOSSARY_TERMS}
+    highlightedTermId={highlightedTermId}
+  /&gt;
+);</code></pre>
+                    </div>
+
+                    <!-- Concept Details -->
+                    <div class="px-6 py-5 space-y-4">
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">What</h4>
+                            <p class="text-gray-600 leading-relaxed">Function return statement containing JSX syntax wrapped in parentheses</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Why</h4>
+                            <p class="text-gray-600 leading-relaxed">Returns a React element that will be rendered. Parentheses allow multiline JSX without automatic semicolon insertion issues. This is the standard way to return JSX from a component.</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">How</h4>
+                            <p class="text-gray-600 leading-relaxed">The return keyword followed by parentheses containing JSX. The JSX is transpiled to React.createElement calls. Parentheses are optional for single-line returns but required for multiline.</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Context</h4>
+                            <p class="text-gray-600 leading-relaxed">Returns the GlossaryModal component element with all necessary props, which React will render when this component is used</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Alternatives</h4>
+                            <p class="text-gray-600 leading-relaxed">Return without parentheses (single line); implicit return with arrow function; return React.createElement directly; return null for conditional rendering</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Tags</h4>
+                            <div class="flex flex-wrap gap-2 mt-2">
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">react</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">jsx</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">return-statement</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">component-render</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- CONCEPT-021 -->
+                <div class="bg-white rounded-lg shadow-md overflow-hidden border border-gray-200">
+                    <!-- Concept Header -->
+                    <div class="bg-gradient-to-r from-gray-50 to-gray-100 px-6 py-4 border-b border-gray-200">
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <div class="text-xs font-mono text-gray-500 mb-1">CONCEPT-021</div>
+                                <h3 class="text-xl font-bold text-gray-900"></h3>
+                                <div class="text-sm text-blue-600 font-medium mt-1">React/JSX Syntax</div>
+                            </div>
+                            <span class="bg-green-100 text-green-800 px-3 py-1 rounded-full text-xs font-semibold">Beginner</span>
+                        </div>
+                    </div>
+
+                    <!-- Code Snippet with Syntax Highlighting -->
+                    <div class="px-6 py-4 bg-gray-900">
+                        <pre><code class="language-typescript">&lt;GlossaryModal
+  isOpen={isOpen}
+  onClose={onClose}
+  title=&quot;Technical Debt Lens - Glossary&quot;
+  terms={DEBT_GLOSSARY_TERMS}
+  highlightedTermId={highlightedTermId}
+/&gt;</code></pre>
+                    </div>
+
+                    <!-- Concept Details -->
+                    <div class="px-6 py-5 space-y-4">
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">What</h4>
+                            <p class="text-gray-600 leading-relaxed">JSX element that closes itself with /&gt; instead of having separate opening and closing tags</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Why</h4>
+                            <p class="text-gray-600 leading-relaxed">Used for elements that don&#x27;t have children. More concise than &lt;GlossaryModal&gt;&lt;/GlossaryModal&gt;. This is the standard JSX syntax for childless elements, similar to HTML&#x27;s self-closing tags.</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">How</h4>
+                            <p class="text-gray-600 leading-relaxed">Element name followed by attributes, then /&gt; to close. No separate closing tag needed. The /&gt; syntax indicates no children will be rendered between tags.</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Context</h4>
+                            <p class="text-gray-600 leading-relaxed">The GlossaryModal component doesn&#x27;t need children in this usage - all content is provided via props (terms array). Self-closing syntax is appropriate.</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Alternatives</h4>
+                            <p class="text-gray-600 leading-relaxed">Opening and closing tags with no children: &lt;GlossaryModal&gt;&lt;/GlossaryModal&gt;; passing children via props instead of between tags</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Tags</h4>
+                            <div class="flex flex-wrap gap-2 mt-2">
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">react</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">jsx</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">self-closing-tag</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">xml-syntax</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- CONCEPT-022 -->
+                <div class="bg-white rounded-lg shadow-md overflow-hidden border border-gray-200">
+                    <!-- Concept Header -->
+                    <div class="bg-gradient-to-r from-gray-50 to-gray-100 px-6 py-4 border-b border-gray-200">
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <div class="text-xs font-mono text-gray-500 mb-1">CONCEPT-022</div>
+                                <h3 class="text-xl font-bold text-gray-900"></h3>
+                                <div class="text-sm text-blue-600 font-medium mt-1">React/JSX Syntax</div>
+                            </div>
+                            <span class="bg-green-100 text-green-800 px-3 py-1 rounded-full text-xs font-semibold">Beginner</span>
+                        </div>
+                    </div>
+
+                    <!-- Code Snippet with Syntax Highlighting -->
+                    <div class="px-6 py-4 bg-gray-900">
+                        <pre><code class="language-typescript">title=&quot;Technical Debt Lens - Glossary&quot;</code></pre>
+                    </div>
+
+                    <!-- Concept Details -->
+                    <div class="px-6 py-5 space-y-4">
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">What</h4>
+                            <p class="text-gray-600 leading-relaxed">JSX attribute with a string value provided directly in quotes</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Why</h4>
+                            <p class="text-gray-600 leading-relaxed">Passes a static string value as a prop. For string literals, quotes can be used directly without curly braces, making the syntax cleaner and more HTML-like.</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">How</h4>
+                            <p class="text-gray-600 leading-relaxed">Attribute name followed by = and string in quotes. No curly braces needed for string literals. The string is passed as-is to the component.</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Context</h4>
+                            <p class="text-gray-600 leading-relaxed">Sets the modal&#x27;s title to a static string that identifies this as the technical debt glossary</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Alternatives</h4>
+                            <p class="text-gray-600 leading-relaxed">Curly braces with string: title={&quot;Technical Debt Lens - Glossary&quot;}; template literal; constant variable; prop from parent</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Tags</h4>
+                            <div class="flex flex-wrap gap-2 mt-2">
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">react</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">jsx</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">props</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">string-literal</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">jsx-attributes</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- CONCEPT-023 -->
+                <div class="bg-white rounded-lg shadow-md overflow-hidden border border-gray-200">
+                    <!-- Concept Header -->
+                    <div class="bg-gradient-to-r from-gray-50 to-gray-100 px-6 py-4 border-b border-gray-200">
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <div class="text-xs font-mono text-gray-500 mb-1">CONCEPT-023</div>
+                                <h3 class="text-xl font-bold text-gray-900"></h3>
+                                <div class="text-sm text-blue-600 font-medium mt-1">React/JSX Syntax</div>
+                            </div>
+                            <span class="bg-green-100 text-green-800 px-3 py-1 rounded-full text-xs font-semibold">Beginner</span>
+                        </div>
+                    </div>
+
+                    <!-- Code Snippet with Syntax Highlighting -->
+                    <div class="px-6 py-4 bg-gray-900">
+                        <pre><code class="language-typescript">isOpen={isOpen}
+onClose={onClose}
+terms={DEBT_GLOSSARY_TERMS}
+highlightedTermId={highlightedTermId}</code></pre>
+                    </div>
+
+                    <!-- Concept Details -->
+                    <div class="px-6 py-5 space-y-4">
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">What</h4>
+                            <p class="text-gray-600 leading-relaxed">JSX attributes with JavaScript expressions in curly braces</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Why</h4>
+                            <p class="text-gray-600 leading-relaxed">Passes dynamic values (variables, constants, function references) as props. Curly braces tell JSX to evaluate the expression and pass the result, rather than treating it as a string literal.</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">How</h4>
+                            <p class="text-gray-600 leading-relaxed">Attribute name followed by = and curly braces containing a JavaScript expression. The expression is evaluated and its value is passed to the component.</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Context</h4>
+                            <p class="text-gray-600 leading-relaxed">Passes through the component&#x27;s props (isOpen, onClose, highlightedTermId) and the constant DEBT_GLOSSARY_TERMS to the child component. The curly braces enable passing non-string values.</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Alternatives</h4>
+                            <p class="text-gray-600 leading-relaxed">Spread props: {...props}; inline values; computed expressions; function calls in curly braces</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Tags</h4>
+                            <div class="flex flex-wrap gap-2 mt-2">
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">react</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">jsx</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">props</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">jsx-expressions</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">curly-braces</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- CONCEPT-024 -->
+                <div class="bg-white rounded-lg shadow-md overflow-hidden border border-gray-200">
+                    <!-- Concept Header -->
+                    <div class="bg-gradient-to-r from-gray-50 to-gray-100 px-6 py-4 border-b border-gray-200">
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <div class="text-xs font-mono text-gray-500 mb-1">CONCEPT-024</div>
+                                <h3 class="text-xl font-bold text-gray-900"></h3>
+                                <div class="text-sm text-blue-600 font-medium mt-1">React/Component Patterns</div>
+                            </div>
+                            <span class="bg-yellow-100 text-yellow-800 px-3 py-1 rounded-full text-xs font-semibold">Intermediate</span>
+                        </div>
+                    </div>
+
+                    <!-- Code Snippet with Syntax Highlighting -->
+                    <div class="px-6 py-4 bg-gray-900">
+                        <pre><code class="language-typescript">isOpen={isOpen}
+onClose={onClose}
+highlightedTermId={highlightedTermId}</code></pre>
+                    </div>
+
+                    <!-- Concept Details -->
+                    <div class="px-6 py-5 space-y-4">
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">What</h4>
+                            <p class="text-gray-600 leading-relaxed">Pattern where a component receives props and passes them directly to a child component with the same prop names</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Why</h4>
+                            <p class="text-gray-600 leading-relaxed">Maintains the same prop interface between wrapper and wrapped component for props that don&#x27;t need transformation. This makes the wrapper transparent for these props while allowing it to add or modify others.</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">How</h4>
+                            <p class="text-gray-600 leading-relaxed">Props received in the component&#x27;s parameters are passed to the child component using the same names. The syntax prop={prop} is common for forwarding.</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Context</h4>
+                            <p class="text-gray-600 leading-relaxed">The wrapper forwards isOpen, onClose, and highlightedTermId unchanged to GlossaryModal, while adding its own title and terms props</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Alternatives</h4>
+                            <p class="text-gray-600 leading-relaxed">Spread operator: {...props}; renaming props; transforming prop values; using different prop names</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Tags</h4>
+                            <div class="flex flex-wrap gap-2 mt-2">
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">react</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">props</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">prop-forwarding</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">component-composition</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">wrapper-pattern</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- CONCEPT-025 -->
+                <div class="bg-white rounded-lg shadow-md overflow-hidden border border-gray-200">
+                    <!-- Concept Header -->
+                    <div class="bg-gradient-to-r from-gray-50 to-gray-100 px-6 py-4 border-b border-gray-200">
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <div class="text-xs font-mono text-gray-500 mb-1">CONCEPT-025</div>
+                                <h3 class="text-xl font-bold text-gray-900"></h3>
+                                <div class="text-sm text-blue-600 font-medium mt-1">React/JSX Patterns</div>
+                            </div>
+                            <span class="bg-yellow-100 text-yellow-800 px-3 py-1 rounded-full text-xs font-semibold">Intermediate</span>
+                        </div>
+                    </div>
+
+                    <!-- Code Snippet with Syntax Highlighting -->
+                    <div class="px-6 py-4 bg-gray-900">
+                        <pre><code class="language-typescript">terms={DEBT_GLOSSARY_TERMS}</code></pre>
+                    </div>
+
+                    <!-- Concept Details -->
+                    <div class="px-6 py-5 space-y-4">
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">What</h4>
+                            <p class="text-gray-600 leading-relaxed">JSX prop receiving a reference to a module-level constant</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Why</h4>
+                            <p class="text-gray-600 leading-relaxed">Passes the entire glossary terms array to the child component. Using a constant reference is efficient - the same array reference is used on every render, avoiding unnecessary re-creation.</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">How</h4>
+                            <p class="text-gray-600 leading-relaxed">The constant DEBT_GLOSSARY_TERMS defined at module level is referenced in JSX curly braces. React passes the array reference to the component.</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Context</h4>
+                            <p class="text-gray-600 leading-relaxed">Provides the GlossaryModal with the complete array of technical debt term definitions to display</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Alternatives</h4>
+                            <p class="text-gray-600 leading-relaxed">Inline array literal (inefficient); useMemo hook; state variable; prop from parent; imported from separate file</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Tags</h4>
+                            <div class="flex flex-wrap gap-2 mt-2">
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">react</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">jsx</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">props</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">constant-reference</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">performance</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- CONCEPT-026 -->
+                <div class="bg-white rounded-lg shadow-md overflow-hidden border border-gray-200">
+                    <!-- Concept Header -->
+                    <div class="bg-gradient-to-r from-gray-50 to-gray-100 px-6 py-4 border-b border-gray-200">
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <div class="text-xs font-mono text-gray-500 mb-1">CONCEPT-026</div>
+                                <h3 class="text-xl font-bold text-gray-900"></h3>
+                                <div class="text-sm text-blue-600 font-medium mt-1">React/Code Style</div>
+                            </div>
+                            <span class="bg-green-100 text-green-800 px-3 py-1 rounded-full text-xs font-semibold">Beginner</span>
+                        </div>
+                    </div>
+
+                    <!-- Code Snippet with Syntax Highlighting -->
+                    <div class="px-6 py-4 bg-gray-900">
+                        <pre><code class="language-typescript">&lt;GlossaryModal
+  isOpen={isOpen}
+  onClose={onClose}
+  title=&quot;Technical Debt Lens - Glossary&quot;
+  terms={DEBT_GLOSSARY_TERMS}
+  highlightedTermId={highlightedTermId}
+/&gt;</code></pre>
+                    </div>
+
+                    <!-- Concept Details -->
+                    <div class="px-6 py-5 space-y-4">
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">What</h4>
+                            <p class="text-gray-600 leading-relaxed">JSX element formatted with each prop on its own line, indented for readability</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Why</h4>
+                            <p class="text-gray-600 leading-relaxed">Improves readability when a component has multiple props. Each prop is clearly visible and easy to modify. This is a common formatting convention enforced by tools like Prettier.</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">How</h4>
+                            <p class="text-gray-600 leading-relaxed">Opening tag on first line, each prop on its own line with consistent indentation, closing /&gt; on final line. Whitespace in JSX is generally ignored except in text content.</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Context</h4>
+                            <p class="text-gray-600 leading-relaxed">The component has 5 props, making multiline formatting more readable than a single long line</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Alternatives</h4>
+                            <p class="text-gray-600 leading-relaxed">Single line (for few props); props grouped by category; alphabetical ordering; closing tag on same line as last prop</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Tags</h4>
+                            <div class="flex flex-wrap gap-2 mt-2">
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">react</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">jsx</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">code-formatting</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">readability</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">code-style</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- CONCEPT-027 -->
+                <div class="bg-white rounded-lg shadow-md overflow-hidden border border-gray-200">
+                    <!-- Concept Header -->
+                    <div class="bg-gradient-to-r from-gray-50 to-gray-100 px-6 py-4 border-b border-gray-200">
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <div class="text-xs font-mono text-gray-500 mb-1">CONCEPT-027</div>
+                                <h3 class="text-xl font-bold text-gray-900"></h3>
+                                <div class="text-sm text-blue-600 font-medium mt-1">React/Architecture Patterns</div>
+                            </div>
+                            <span class="bg-yellow-100 text-yellow-800 px-3 py-1 rounded-full text-xs font-semibold">Intermediate</span>
+                        </div>
+                    </div>
+
+                    <!-- Code Snippet with Syntax Highlighting -->
+                    <div class="px-6 py-4 bg-gray-900">
+                        <pre><code class="language-typescript">export default function DebtGlossaryModal({...}: DebtGlossaryModalProps) {
+  return (
+    &lt;GlossaryModal
+      title=&quot;Technical Debt Lens - Glossary&quot;
+      terms={DEBT_GLOSSARY_TERMS}
+      ...
+    /&gt;
+  );
+}</code></pre>
+                    </div>
+
+                    <!-- Concept Details -->
+                    <div class="px-6 py-5 space-y-4">
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">What</h4>
+                            <p class="text-gray-600 leading-relaxed">Architectural pattern where a generic component is specialized by providing specific configuration data</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Why</h4>
+                            <p class="text-gray-600 leading-relaxed">Promotes component reusability and separation of concerns. The GlossaryModal component can be reused for different types of glossaries (debt, complexity, etc.) while each specialized wrapper provides domain-specific data and configuration. This avoids duplicating the modal logic.</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">How</h4>
+                            <p class="text-gray-600 leading-relaxed">Create a wrapper component that renders the generic component with hardcoded configuration (title, terms array). The wrapper accepts only the props needed for runtime behavior (isOpen, onClose, highlightedTermId).</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Context</h4>
+                            <p class="text-gray-600 leading-relaxed">DebtGlossaryModal specializes GlossaryModal for technical debt terminology, providing the specific terms and title while maintaining the same modal behavior</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Alternatives</h4>
+                            <p class="text-gray-600 leading-relaxed">Props-based configuration (pass everything as props); separate implementations; HOC pattern; render props; hooks for configuration</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Tags</h4>
+                            <div class="flex flex-wrap gap-2 mt-2">
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">react</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">architecture</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">component-specialization</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">reusability</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">separation-of-concerns</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">configuration</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- CONCEPT-028 -->
+                <div class="bg-white rounded-lg shadow-md overflow-hidden border border-gray-200">
+                    <!-- Concept Header -->
+                    <div class="bg-gradient-to-r from-gray-50 to-gray-100 px-6 py-4 border-b border-gray-200">
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <div class="text-xs font-mono text-gray-500 mb-1">CONCEPT-028</div>
+                                <h3 class="text-xl font-bold text-gray-900"></h3>
+                                <div class="text-sm text-blue-600 font-medium mt-1">React/Component Patterns</div>
+                            </div>
+                            <span class="bg-green-100 text-green-800 px-3 py-1 rounded-full text-xs font-semibold">Beginner</span>
+                        </div>
+                    </div>
+
+                    <!-- Code Snippet with Syntax Highlighting -->
+                    <div class="px-6 py-4 bg-gray-900">
+                        <pre><code class="language-typescript">export default function DebtGlossaryModal({...}: DebtGlossaryModalProps) {
+  return (...);
+}</code></pre>
+                    </div>
+
+                    <!-- Concept Details -->
+                    <div class="px-6 py-5 space-y-4">
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">What</h4>
+                            <p class="text-gray-600 leading-relaxed">React component that has no internal state or side effects, only props and return JSX</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Why</h4>
+                            <p class="text-gray-600 leading-relaxed">Simplest form of React component. No useState, useEffect, or other hooks needed. Easier to test, reason about, and optimize. Pure function of props to JSX.</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">How</h4>
+                            <p class="text-gray-600 leading-relaxed">Function that accepts props and returns JSX. No hooks called, no state managed. The component is purely presentational/structural.</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Context</h4>
+                            <p class="text-gray-600 leading-relaxed">This component doesn&#x27;t need state - it just configures and renders another component. All behavior is handled by the parent (via isOpen/onClose) and the child (GlossaryModal).</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Alternatives</h4>
+                            <p class="text-gray-600 leading-relaxed">Stateful component with hooks; class component; component with useEffect; component with useCallback/useMemo</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Tags</h4>
+                            <div class="flex flex-wrap gap-2 mt-2">
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">react</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">functional-component</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">stateless</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">pure-component</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">presentational</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- CONCEPT-029 -->
+                <div class="bg-white rounded-lg shadow-md overflow-hidden border border-gray-200">
+                    <!-- Concept Header -->
+                    <div class="bg-gradient-to-r from-gray-50 to-gray-100 px-6 py-4 border-b border-gray-200">
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <div class="text-xs font-mono text-gray-500 mb-1">CONCEPT-029</div>
+                                <h3 class="text-xl font-bold text-gray-900"></h3>
+                                <div class="text-sm text-blue-600 font-medium mt-1">React/Architecture Patterns</div>
+                            </div>
+                            <span class="bg-yellow-100 text-yellow-800 px-3 py-1 rounded-full text-xs font-semibold">Intermediate</span>
+                        </div>
+                    </div>
+
+                    <!-- Code Snippet with Syntax Highlighting -->
+                    <div class="px-6 py-4 bg-gray-900">
+                        <pre><code class="language-typescript">const DEBT_GLOSSARY_TERMS: GlossaryTerm[] = [...];
+
+export default function DebtGlossaryModal({...}) {
+  return (
+    &lt;GlossaryModal
+      terms={DEBT_GLOSSARY_TERMS}
+      ...
+    /&gt;
+  );
+}</code></pre>
+                    </div>
+
+                    <!-- Concept Details -->
+                    <div class="px-6 py-5 space-y-4">
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">What</h4>
+                            <p class="text-gray-600 leading-relaxed">Pattern where UI is generated from data structures rather than hardcoded markup</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Why</h4>
+                            <p class="text-gray-600 leading-relaxed">Separates data from presentation logic. The glossary terms are defined as data, and the GlossaryModal component knows how to render that data. This makes it easy to add/modify terms without changing component code, and the same component can render different data sets.</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">How</h4>
+                            <p class="text-gray-600 leading-relaxed">Define data in a structured format (array of objects), pass it to a component that iterates over the data and renders UI elements. The component is generic and data-agnostic.</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Context</h4>
+                            <p class="text-gray-600 leading-relaxed">The 9 glossary terms are defined as data objects, and GlossaryModal renders them. Adding a new term only requires adding to the array, not modifying component logic.</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Alternatives</h4>
+                            <p class="text-gray-600 leading-relaxed">Hardcoded JSX for each term; separate components for each term; JSX generation functions; template strings</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Tags</h4>
+                            <div class="flex flex-wrap gap-2 mt-2">
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">react</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">architecture</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">data-driven</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">separation-of-concerns</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">declarative</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- CONCEPT-030 -->
+                <div class="bg-white rounded-lg shadow-md overflow-hidden border border-gray-200">
+                    <!-- Concept Header -->
+                    <div class="bg-gradient-to-r from-gray-50 to-gray-100 px-6 py-4 border-b border-gray-200">
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <div class="text-xs font-mono text-gray-500 mb-1">CONCEPT-030</div>
+                                <h3 class="text-xl font-bold text-gray-900"></h3>
+                                <div class="text-sm text-blue-600 font-medium mt-1">Code Organization/Module Structure</div>
+                            </div>
+                            <span class="bg-yellow-100 text-yellow-800 px-3 py-1 rounded-full text-xs font-semibold">Intermediate</span>
+                        </div>
+                    </div>
+
+                    <!-- Code Snippet with Syntax Highlighting -->
+                    <div class="px-6 py-4 bg-gray-900">
+                        <pre><code class="language-typescript">const DEBT_GLOSSARY_TERMS: GlossaryTerm[] = [...];
+
+export default function DebtGlossaryModal({...}) {
+  return (
+    &lt;GlossaryModal
+      terms={DEBT_GLOSSARY_TERMS}
+      ...
+    /&gt;
+  );
+}</code></pre>
+                    </div>
+
+                    <!-- Concept Details -->
+                    <div class="px-6 py-5 space-y-4">
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">What</h4>
+                            <p class="text-gray-600 leading-relaxed">Constant defined at module scope (outside component function) that provides data to the component</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Why</h4>
+                            <p class="text-gray-600 leading-relaxed">Keeps the constant outside the component function so it&#x27;s not recreated on every render. Module-level constants are created once when the module loads and reused. This is more efficient than defining the array inside the component or in state.</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">How</h4>
+                            <p class="text-gray-600 leading-relaxed">Const declaration at the top level of the module, before the component definition. The component references this constant. The constant is in the module&#x27;s closure and accessible to the component.</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Context</h4>
+                            <p class="text-gray-600 leading-relaxed">DEBT_GLOSSARY_TERMS is static data that never changes, so it&#x27;s defined once at module level rather than recreated on every render or stored in state</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Alternatives</h4>
+                            <p class="text-gray-600 leading-relaxed">Define inside component (inefficient); use useMemo; import from separate file; use state (unnecessary); define as static class property</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Tags</h4>
+                            <div class="flex flex-wrap gap-2 mt-2">
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">javascript</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">module-scope</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">constant</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">performance</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">code-organization</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- CONCEPT-031 -->
+                <div class="bg-white rounded-lg shadow-md overflow-hidden border border-gray-200">
+                    <!-- Concept Header -->
+                    <div class="bg-gradient-to-r from-gray-50 to-gray-100 px-6 py-4 border-b border-gray-200">
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <div class="text-xs font-mono text-gray-500 mb-1">CONCEPT-031</div>
+                                <h3 class="text-xl font-bold text-gray-900"></h3>
+                                <div class="text-sm text-blue-600 font-medium mt-1">JavaScript/Data Modeling</div>
+                            </div>
+                            <span class="bg-yellow-100 text-yellow-800 px-3 py-1 rounded-full text-xs font-semibold">Intermediate</span>
+                        </div>
+                    </div>
+
+                    <!-- Code Snippet with Syntax Highlighting -->
+                    <div class="px-6 py-4 bg-gray-900">
+                        <pre><code class="language-typescript">fullDescription: `A weighted composite score that evaluates file health based on three key factors:
+• Churn Rate (40% weight): How frequently the code is rewritten
+• Author Diversity (30% weight): Number of unique contributors
+• Age/Dormancy (30% weight): Time since last modification
+
+The score combines these factors to give a holistic view of whether a file is well-maintained, potentially problematic, or requires immediate attention.`,</code></pre>
+                    </div>
+
+                    <!-- Concept Details -->
+                    <div class="px-6 py-5 space-y-4">
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">What</h4>
+                            <p class="text-gray-600 leading-relaxed">Storing formatted, multi-paragraph text content with special characters and structure as string data</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Why</h4>
+                            <p class="text-gray-600 leading-relaxed">Allows rich content to be stored in data structures and rendered dynamically. The text includes formatting (bullets, line breaks, emphasis) that will be preserved when displayed. This approach keeps content separate from presentation logic.</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">How</h4>
+                            <p class="text-gray-600 leading-relaxed">Template literals preserve whitespace and line breaks. Unicode characters (bullets) are embedded directly. The string can be rendered in the UI with appropriate CSS to preserve formatting.</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Context</h4>
+                            <p class="text-gray-600 leading-relaxed">Each glossary term has detailed explanations with formatted text, formulas, examples, and structured content. This rich content is stored as strings in the data structure.</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Alternatives</h4>
+                            <p class="text-gray-600 leading-relaxed">Markdown strings; HTML strings; JSX elements; separate content files; CMS; structured content objects</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Tags</h4>
+                            <div class="flex flex-wrap gap-2 mt-2">
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">javascript</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">data-modeling</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">rich-content</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">template-literals</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">content-management</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- CONCEPT-032 -->
+                <div class="bg-white rounded-lg shadow-md overflow-hidden border border-gray-200">
+                    <!-- Concept Header -->
+                    <div class="bg-gradient-to-r from-gray-50 to-gray-100 px-6 py-4 border-b border-gray-200">
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <div class="text-xs font-mono text-gray-500 mb-1">CONCEPT-032</div>
+                                <h3 class="text-xl font-bold text-gray-900"></h3>
+                                <div class="text-sm text-blue-600 font-medium mt-1">Code Organization/Naming Conventions</div>
+                            </div>
+                            <span class="bg-green-100 text-green-800 px-3 py-1 rounded-full text-xs font-semibold">Beginner</span>
+                        </div>
+                    </div>
+
+                    <!-- Code Snippet with Syntax Highlighting -->
+                    <div class="px-6 py-4 bg-gray-900">
+                        <pre><code class="language-typescript">{
+  id: &quot;health-score&quot;,
+  term: &quot;Health Score&quot;,
+  shortDescription: &quot;Composite metric indicating overall code health (0-100)&quot;,
+  fullDescription: `...`,
+  formula: `...`,
+  source: &quot;calculated&quot;,
+  ranges: [...],
+  example: `...`,
+  relatedTerms: [...]
+}</code></pre>
+                    </div>
+
+                    <!-- Concept Details -->
+                    <div class="px-6 py-5 space-y-4">
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">What</h4>
+                            <p class="text-gray-600 leading-relaxed">Object property names that clearly describe the purpose and content of each field</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Why</h4>
+                            <p class="text-gray-600 leading-relaxed">Makes the data structure self-documenting. Property names like &#x27;shortDescription&#x27; vs &#x27;fullDescription&#x27; clearly indicate the difference in content. &#x27;relatedTerms&#x27; is more descriptive than &#x27;links&#x27; or &#x27;refs&#x27;. Good naming reduces the need for comments and makes code easier to understand.</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">How</h4>
+                            <p class="text-gray-600 leading-relaxed">Use descriptive, unambiguous names that indicate the property&#x27;s purpose and content type. Use consistent naming patterns (e.g., &#x27;shortDescription&#x27; and &#x27;fullDescription&#x27; follow the same pattern).</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Context</h4>
+                            <p class="text-gray-600 leading-relaxed">The glossary term objects use clear, semantic property names that make the data structure easy to understand without documentation</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Alternatives</h4>
+                            <p class="text-gray-600 leading-relaxed">Abbreviated names (desc, fullDesc); generic names (text, content); single-letter names; Hungarian notation</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Tags</h4>
+                            <div class="flex flex-wrap gap-2 mt-2">
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">naming-convention</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">semantic-naming</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">readability</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">self-documenting</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">code-quality</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- CONCEPT-033 -->
+                <div class="bg-white rounded-lg shadow-md overflow-hidden border border-gray-200">
+                    <!-- Concept Header -->
+                    <div class="bg-gradient-to-r from-gray-50 to-gray-100 px-6 py-4 border-b border-gray-200">
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <div class="text-xs font-mono text-gray-500 mb-1">CONCEPT-033</div>
+                                <h3 class="text-xl font-bold text-gray-900"></h3>
+                                <div class="text-sm text-blue-600 font-medium mt-1">Code Organization/Documentation</div>
+                            </div>
+                            <span class="bg-yellow-100 text-yellow-800 px-3 py-1 rounded-full text-xs font-semibold">Intermediate</span>
+                        </div>
+                    </div>
+
+                    <!-- Code Snippet with Syntax Highlighting -->
+                    <div class="px-6 py-4 bg-gray-900">
+                        <pre><code class="language-typescript">const DEBT_GLOSSARY_TERMS: GlossaryTerm[] = [
+  {
+    id: &quot;health-score&quot;,
+    term: &quot;Health Score&quot;,
+    shortDescription: &quot;Composite metric indicating overall code health (0-100)&quot;,
+    fullDescription: `A weighted composite score that evaluates file health based on three key factors:...`,
+    formula: `Health Score = (Churn Score × 40%) + (Author Score × 30%) + (Age Score × 30%)...`,
+    ...
+  },
+  ...
+];</code></pre>
+                    </div>
+
+                    <!-- Concept Details -->
+                    <div class="px-6 py-5 space-y-4">
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">What</h4>
+                            <p class="text-gray-600 leading-relaxed">Using data structures to store documentation and explanatory content rather than code comments</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Why</h4>
+                            <p class="text-gray-600 leading-relaxed">Makes documentation first-class data that can be displayed in the UI, searched, and maintained alongside the code. Unlike comments, this documentation is visible to users and provides value in the application itself. It&#x27;s also structured and type-safe.</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">How</h4>
+                            <p class="text-gray-600 leading-relaxed">Define documentation as structured data (objects with description, formula, example fields) rather than comments. This data is then rendered in the UI as help text, tooltips, or glossary entries.</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Context</h4>
+                            <p class="text-gray-600 leading-relaxed">The entire glossary is inline documentation stored as data. Each term explains a concept used in the application, making the documentation accessible to users through the UI.</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Alternatives</h4>
+                            <p class="text-gray-600 leading-relaxed">Code comments; separate documentation files; JSDoc; external documentation site; tooltips with hardcoded text</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Tags</h4>
+                            <div class="flex flex-wrap gap-2 mt-2">
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">documentation</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">data-driven</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">inline-documentation</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">user-facing</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">code-organization</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- CONCEPT-034 -->
+                <div class="bg-white rounded-lg shadow-md overflow-hidden border border-gray-200">
+                    <!-- Concept Header -->
+                    <div class="bg-gradient-to-r from-gray-50 to-gray-100 px-6 py-4 border-b border-gray-200">
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <div class="text-xs font-mono text-gray-500 mb-1">CONCEPT-034</div>
+                                <h3 class="text-xl font-bold text-gray-900"></h3>
+                                <div class="text-sm text-blue-600 font-medium mt-1">JavaScript/Data Modeling</div>
+                            </div>
+                            <span class="bg-yellow-100 text-yellow-800 px-3 py-1 rounded-full text-xs font-semibold">Intermediate</span>
+                        </div>
+                    </div>
+
+                    <!-- Code Snippet with Syntax Highlighting -->
+                    <div class="px-6 py-4 bg-gray-900">
+                        <pre><code class="language-typescript">const DEBT_GLOSSARY_TERMS: GlossaryTerm[] = [
+  {
+    id: &quot;health-score&quot;,
+    term: &quot;Health Score&quot;,
+    shortDescription: &quot;...&quot;,
+    fullDescription: `...`,
+    formula: `...`,
+    source: &quot;calculated&quot;,
+    ranges: [...],
+    relatedTerms: [...]
+  },
+  {
+    id: &quot;churn-rate&quot;,
+    term: &quot;Churn Rate&quot;,
+    shortDescription: &quot;...&quot;,
+    fullDescription: `...`,
+    formula: `...`,
+    source: &quot;calculated&quot;,
+    ranges: [...],
+    example: `...`,
+    relatedTerms: [...]
+  },
+  ...
+];</code></pre>
+                    </div>
+
+                    <!-- Concept Details -->
+                    <div class="px-6 py-5 space-y-4">
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">What</h4>
+                            <p class="text-gray-600 leading-relaxed">Array of objects where each object follows the same structure/schema, with some optional properties</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Why</h4>
+                            <p class="text-gray-600 leading-relaxed">Consistency makes the data predictable and easy to process. Code that iterates over this array can rely on certain properties always being present (id, term, shortDescription) while handling optional properties (formula, example, ranges) gracefully. TypeScript enforces this consistency.</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">How</h4>
+                            <p class="text-gray-600 leading-relaxed">Define an interface (GlossaryTerm) that specifies required and optional properties. All objects in the array conform to this interface. TypeScript validates this at compile time.</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Context</h4>
+                            <p class="text-gray-600 leading-relaxed">All 9 glossary terms follow the same structure, making them easy to render with a single component that knows how to display GlossaryTerm objects</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Alternatives</h4>
+                            <p class="text-gray-600 leading-relaxed">Heterogeneous array with different structures; discriminated unions; separate arrays for different types; class instances</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Tags</h4>
+                            <div class="flex flex-wrap gap-2 mt-2">
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">javascript</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">data-modeling</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">consistency</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">schema</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">type-safety</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- CONCEPT-035 -->
+                <div class="bg-white rounded-lg shadow-md overflow-hidden border border-gray-200">
+                    <!-- Concept Header -->
+                    <div class="bg-gradient-to-r from-gray-50 to-gray-100 px-6 py-4 border-b border-gray-200">
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <div class="text-xs font-mono text-gray-500 mb-1">CONCEPT-035</div>
+                                <h3 class="text-xl font-bold text-gray-900"></h3>
+                                <div class="text-sm text-blue-600 font-medium mt-1">JavaScript/Data Patterns</div>
+                            </div>
+                            <span class="bg-green-100 text-green-800 px-3 py-1 rounded-full text-xs font-semibold">Beginner</span>
+                        </div>
+                    </div>
+
+                    <!-- Code Snippet with Syntax Highlighting -->
+                    <div class="px-6 py-4 bg-gray-900">
+                        <pre><code class="language-typescript">range: &quot;0-30 (Critical)&quot;,
+range: &quot;31-60 (Medium)&quot;,
+range: &quot;61-100 (Healthy)&quot;,</code></pre>
+                    </div>
+
+                    <!-- Concept Details -->
+                    <div class="px-6 py-5 space-y-4">
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">What</h4>
+                            <p class="text-gray-600 leading-relaxed">String literals that combine data values with human-readable labels for display purposes</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Why</h4>
+                            <p class="text-gray-600 leading-relaxed">Makes the data self-documenting and ready for display without transformation. The string includes both the numeric range and a semantic label (Critical, Medium, Healthy) that can be shown directly in the UI.</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">How</h4>
+                            <p class="text-gray-600 leading-relaxed">Combine the data value (range) with a descriptive label in parentheses. This creates a single string that serves both as data and display text.</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Context</h4>
+                            <p class="text-gray-600 leading-relaxed">Range strings like &quot;0-30 (Critical)&quot; can be displayed directly in the UI without parsing or transformation, making the data structure simpler</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Alternatives</h4>
+                            <p class="text-gray-600 leading-relaxed">Separate properties for value and label; numeric ranges with separate label property; structured range objects; enum values</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Tags</h4>
+                            <div class="flex flex-wrap gap-2 mt-2">
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">javascript</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">string-literal</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">data-modeling</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">display-ready</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">categorization</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Footer -->
+    <div class="bg-gray-800 text-gray-300 py-6 px-6 mt-12">
+        <div class="max-w-7xl mx-auto text-center text-sm">
+            Generated from Code Taxonomy Analysis • 35 concepts extracted
+        </div>
+    </div>
+
+    <!-- Initialize Syntax Highlighting -->
+    <script>
+        hljs.highlightAll();
+    </script>
+
+</body>
+</html>

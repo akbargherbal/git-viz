@@ -1,0 +1,803 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>types.ts - Code Taxonomy</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Highlight.js for syntax highlighting -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/typescript.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/javascript.min.js"></script>
+</head>
+<body class="bg-gray-50 text-gray-900">
+    
+    <!-- Header -->
+    <div class="bg-gradient-to-r from-blue-600 to-blue-700 text-white py-8 px-6 shadow-lg">
+        <div class="max-w-7xl mx-auto">
+            <div class="text-sm text-blue-100 mb-2">src/services/data</div>
+            <h1 class="text-4xl font-bold mb-2">types.ts</h1>
+            <p class="text-blue-100">Define TypeScript interfaces for data loading progress tracking</p>
+        </div>
+    </div>
+
+    <!-- Metadata & Stats Bar -->
+    <div class="bg-white shadow-sm border-b">
+        <div class="max-w-7xl mx-auto py-6 px-6">
+            <div class="grid grid-cols-2 md:grid-cols-5 gap-6">
+                <div>
+                    <div class="text-xs font-semibold text-gray-500 uppercase tracking-wide mb-1">Type</div>
+                    <div class="text-lg font-bold text-gray-900">Type</div>
+                </div>
+                <div>
+                    <div class="text-xs font-semibold text-gray-500 uppercase tracking-wide mb-1">Priority</div>
+                    <div class="text-lg font-bold text-gray-900">Application</div>
+                </div>
+                <div>
+                    <div class="text-xs font-semibold text-gray-500 uppercase tracking-wide mb-1">Total Concepts</div>
+                    <div class="text-lg font-bold text-blue-600">10</div>
+                </div>
+                <div>
+                    <div class="text-xs font-semibold text-gray-500 uppercase tracking-wide mb-1">Categories</div>
+                    <div class="text-lg font-bold text-blue-600">3</div>
+                </div>
+                <div>
+                    <div class="text-xs font-semibold text-gray-500 uppercase tracking-wide mb-1">Complexity</div>
+                    <div class="text-sm font-mono text-gray-700">
+                        <span class="text-green-600">6</span> / 
+                        <span class="text-yellow-600">4</span> / 
+                        <span class="text-red-600">0</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="max-w-7xl mx-auto py-8 px-6">
+        
+        <!-- Summary Section -->
+        <div class="mb-8">
+            <h2 class="text-2xl font-bold mb-4">📊 Summary</h2>
+            
+            <div class="grid md:grid-cols-2 gap-6 mb-6">
+                <!-- Category Counts -->
+                <div class="bg-white rounded-lg shadow p-6">
+                    <h3 class="text-lg font-semibold mb-4 text-gray-700">Concepts by Category</h3>
+                    <div class="space-y-3">
+
+                        <div class="flex justify-between items-center">
+                            <span class="text-sm text-gray-600">TypeScript Type System</span>
+                            <span class="bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm font-semibold">6</span>
+                        </div>
+
+                        <div class="flex justify-between items-center">
+                            <span class="text-sm text-gray-600">Code Organization</span>
+                            <span class="bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm font-semibold">3</span>
+                        </div>
+
+                        <div class="flex justify-between items-center">
+                            <span class="text-sm text-gray-600">Design Patterns</span>
+                            <span class="bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm font-semibold">1</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Complexity Breakdown -->
+                <div class="bg-white rounded-lg shadow p-6">
+                    <h3 class="text-lg font-semibold mb-4 text-gray-700">Complexity Distribution</h3>
+                    <div class="space-y-4">
+
+                        <div>
+                            <div class="flex justify-between mb-1">
+                                <span class="text-sm font-medium text-green-700">Beginner</span>
+                                <span class="text-sm font-semibold text-green-700">6 concepts</span>
+                            </div>
+                            <div class="w-full bg-gray-200 rounded-full h-2">
+                                <div class="bg-green-500 h-2 rounded-full" style="width: 60%"></div>
+                            </div>
+                        </div>
+
+                        <div>
+                            <div class="flex justify-between mb-1">
+                                <span class="text-sm font-medium text-yellow-700">Intermediate</span>
+                                <span class="text-sm font-semibold text-yellow-700">4 concepts</span>
+                            </div>
+                            <div class="w-full bg-gray-200 rounded-full h-2">
+                                <div class="bg-yellow-500 h-2 rounded-full" style="width: 40%"></div>
+                            </div>
+                        </div>
+
+                        <div>
+                            <div class="flex justify-between mb-1">
+                                <span class="text-sm font-medium text-red-700">Advanced</span>
+                                <span class="text-sm font-semibold text-red-700">0 concepts</span>
+                            </div>
+                            <div class="w-full bg-gray-200 rounded-full h-2">
+                                <div class="bg-red-500 h-2 rounded-full" style="width: 0%"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tag Cloud -->
+            <div class="bg-white rounded-lg shadow p-6">
+                <h3 class="text-lg font-semibold mb-4 text-gray-700">🏷️ Tags</h3>
+                <div class="flex flex-wrap gap-2">
+                    <span class="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-sm">async-operations</span>
+                    <span class="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-sm">code-documentation</span>
+                    <span class="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-sm">code-organization</span>
+                    <span class="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-sm">code-style</span>
+                    <span class="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-sm">comments</span>
+                    <span class="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-sm">compile-time</span>
+                    <span class="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-sm">conventions</span>
+                    <span class="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-sm">design-pattern</span>
+                    <span class="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-sm">developer-experience</span>
+                    <span class="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-sm">documentation</span>
+                    <span class="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-sm">enumeration</span>
+                    <span class="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-sm">export</span>
+                    <span class="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-sm">file-header</span>
+                    <span class="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-sm">formatting</span>
+                    <span class="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-sm">interface</span>
+                    <span class="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-sm">interface-properties</span>
+                    <span class="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-sm">jsdoc</span>
+                    <span class="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-sm">literal-type</span>
+                    <span class="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-sm">loading-state</span>
+                    <span class="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-sm">module-structure</span>
+                    <span class="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-sm">module-system</span>
+                    <span class="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-sm">named-export</span>
+                    <span class="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-sm">navigation</span>
+                    <span class="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-sm">non-optional</span>
+                    <span class="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-sm">number-type</span>
+                    <span class="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-sm">object-shape</span>
+                    <span class="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-sm">primitive-type</span>
+                    <span class="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-sm">progress-tracking</span>
+                    <span class="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-sm">required-properties</span>
+                    <span class="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-sm">semicolons</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Concepts Section -->
+        <div>
+            <h2 class="text-2xl font-bold mb-4">💡 Concepts</h2>
+            
+            <div class="space-y-6">
+
+                <!-- CONCEPT-001 -->
+                <div class="bg-white rounded-lg shadow-md overflow-hidden border border-gray-200">
+                    <!-- Concept Header -->
+                    <div class="bg-gradient-to-r from-gray-50 to-gray-100 px-6 py-4 border-b border-gray-200">
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <div class="text-xs font-mono text-gray-500 mb-1">CONCEPT-001</div>
+                                <h3 class="text-xl font-bold text-gray-900"></h3>
+                                <div class="text-sm text-blue-600 font-medium mt-1">Code Organization</div>
+                            </div>
+                            <span class="bg-green-100 text-green-800 px-3 py-1 rounded-full text-xs font-semibold">Beginner</span>
+                        </div>
+                    </div>
+
+                    <!-- Code Snippet with Syntax Highlighting -->
+                    <div class="px-6 py-4 bg-gray-900">
+                        <pre><code class="language-typescript">/**
+ * Progress tracking for data loading operations
+ */</code></pre>
+                    </div>
+
+                    <!-- Concept Details -->
+                    <div class="px-6 py-5 space-y-4">
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">What</h4>
+                            <p class="text-gray-600 leading-relaxed">Multi-line comment using JSDoc syntax (/** ... */) to document the interface below it</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Why</h4>
+                            <p class="text-gray-600 leading-relaxed">Provides human-readable documentation for the interface; enables IDE tooltips and IntelliSense; can be parsed by documentation generators; improves code maintainability by explaining intent; follows TypeScript/JavaScript documentation conventions</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">How</h4>
+                            <p class="text-gray-600 leading-relaxed">JSDoc comments start with /** and end with */; placed immediately before the code element they document; can include special tags like @param, @returns, but here uses plain description</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Context</h4>
+                            <p class="text-gray-600 leading-relaxed">Documents the LoadProgress interface, explaining its purpose is to track progress during data loading operations</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Alternatives</h4>
+                            <p class="text-gray-600 leading-relaxed">Single-line comments (//); regular multi-line comments (/* */); inline comments; no comments; separate documentation files; TSDoc format with @tags</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Tags</h4>
+                            <div class="flex flex-wrap gap-2 mt-2">
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">jsdoc</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">documentation</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">comments</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">code-documentation</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">developer-experience</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- CONCEPT-002 -->
+                <div class="bg-white rounded-lg shadow-md overflow-hidden border border-gray-200">
+                    <!-- Concept Header -->
+                    <div class="bg-gradient-to-r from-gray-50 to-gray-100 px-6 py-4 border-b border-gray-200">
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <div class="text-xs font-mono text-gray-500 mb-1">CONCEPT-002</div>
+                                <h3 class="text-xl font-bold text-gray-900"></h3>
+                                <div class="text-sm text-blue-600 font-medium mt-1">TypeScript Type System</div>
+                            </div>
+                            <span class="bg-green-100 text-green-800 px-3 py-1 rounded-full text-xs font-semibold">Beginner</span>
+                        </div>
+                    </div>
+
+                    <!-- Code Snippet with Syntax Highlighting -->
+                    <div class="px-6 py-4 bg-gray-900">
+                        <pre><code class="language-typescript">export interface LoadProgress { ... }</code></pre>
+                    </div>
+
+                    <!-- Concept Details -->
+                    <div class="px-6 py-5 space-y-4">
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">What</h4>
+                            <p class="text-gray-600 leading-relaxed">Combines the export keyword with interface declaration to make the type available for import in other modules</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Why</h4>
+                            <p class="text-gray-600 leading-relaxed">Allows other files to import and use this type definition; creates a reusable type contract; enables type checking across module boundaries; follows TypeScript module pattern for sharing types; makes the interface part of the module&#x27;s public API</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">How</h4>
+                            <p class="text-gray-600 leading-relaxed">The &#x27;export&#x27; keyword makes the interface available for named imports in other files; interface declaration creates a compile-time type that doesn&#x27;t exist at runtime; other files can import with &#x27;import { LoadProgress } from &quot;./types&quot;&#x27; or &#x27;import type { LoadProgress } from &quot;./types&quot;&#x27;</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Context</h4>
+                            <p class="text-gray-600 leading-relaxed">Exports LoadProgress interface so it can be used throughout the application wherever progress tracking is needed, particularly in data loading services</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Alternatives</h4>
+                            <p class="text-gray-600 leading-relaxed">Default export (export default interface); separate export statement (interface LoadProgress {} then export { LoadProgress }); type alias instead of interface; exporting from index.ts barrel file; inline type definitions where used</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Tags</h4>
+                            <div class="flex flex-wrap gap-2 mt-2">
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">export</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">named-export</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">interface</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">typescript</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">module-system</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">type-sharing</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- CONCEPT-003 -->
+                <div class="bg-white rounded-lg shadow-md overflow-hidden border border-gray-200">
+                    <!-- Concept Header -->
+                    <div class="bg-gradient-to-r from-gray-50 to-gray-100 px-6 py-4 border-b border-gray-200">
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <div class="text-xs font-mono text-gray-500 mb-1">CONCEPT-003</div>
+                                <h3 class="text-xl font-bold text-gray-900"></h3>
+                                <div class="text-sm text-blue-600 font-medium mt-1">TypeScript Type System</div>
+                            </div>
+                            <span class="bg-green-100 text-green-800 px-3 py-1 rounded-full text-xs font-semibold">Beginner</span>
+                        </div>
+                    </div>
+
+                    <!-- Code Snippet with Syntax Highlighting -->
+                    <div class="px-6 py-4 bg-gray-900">
+                        <pre><code class="language-typescript">interface LoadProgress { ... }</code></pre>
+                    </div>
+
+                    <!-- Concept Details -->
+                    <div class="px-6 py-5 space-y-4">
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">What</h4>
+                            <p class="text-gray-600 leading-relaxed">TypeScript construct that defines the shape of an object by specifying property names and their types</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Why</h4>
+                            <p class="text-gray-600 leading-relaxed">Provides compile-time type safety; enables IDE autocomplete and IntelliSense; documents the expected structure of objects; catches type errors before runtime; can be extended or implemented; more flexible than type aliases for object shapes; supports declaration merging</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">How</h4>
+                            <p class="text-gray-600 leading-relaxed">Interfaces are compile-time only constructs that disappear after TypeScript compilation; define a contract that objects must satisfy; can include properties, methods, index signatures, and call signatures; TypeScript uses structural typing to check compatibility</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Context</h4>
+                            <p class="text-gray-600 leading-relaxed">Defines the structure for progress tracking objects used during data loading, specifying three required properties: loaded, total, and phase</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Alternatives</h4>
+                            <p class="text-gray-600 leading-relaxed">Type alias (type LoadProgress = { ... }); class with properties; inline object type; JSDoc type annotations in JavaScript; PropTypes for React; JSON Schema; Zod or other runtime validation libraries</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Tags</h4>
+                            <div class="flex flex-wrap gap-2 mt-2">
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">interface</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">typescript</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">type-definition</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">object-shape</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">compile-time</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">type-safety</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- CONCEPT-004 -->
+                <div class="bg-white rounded-lg shadow-md overflow-hidden border border-gray-200">
+                    <!-- Concept Header -->
+                    <div class="bg-gradient-to-r from-gray-50 to-gray-100 px-6 py-4 border-b border-gray-200">
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <div class="text-xs font-mono text-gray-500 mb-1">CONCEPT-004</div>
+                                <h3 class="text-xl font-bold text-gray-900"></h3>
+                                <div class="text-sm text-blue-600 font-medium mt-1">TypeScript Type System</div>
+                            </div>
+                            <span class="bg-green-100 text-green-800 px-3 py-1 rounded-full text-xs font-semibold">Beginner</span>
+                        </div>
+                    </div>
+
+                    <!-- Code Snippet with Syntax Highlighting -->
+                    <div class="px-6 py-4 bg-gray-900">
+                        <pre><code class="language-typescript">loaded: number;
+  total: number;</code></pre>
+                    </div>
+
+                    <!-- Concept Details -->
+                    <div class="px-6 py-5 space-y-4">
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">What</h4>
+                            <p class="text-gray-600 leading-relaxed">Type annotation specifying that properties must be numeric values (integers or floating-point)</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Why</h4>
+                            <p class="text-gray-600 leading-relaxed">Ensures type safety for numeric operations; prevents accidental assignment of non-numeric values; enables IDE autocomplete with number methods; catches type errors at compile time; documents that these properties represent quantities</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">How</h4>
+                            <p class="text-gray-600 leading-relaxed">The colon syntax (: number) annotates the property type; TypeScript&#x27;s &#x27;number&#x27; type includes all numeric values (integers, floats, Infinity, NaN); type checking occurs during compilation; no runtime type checking unless added separately</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Context</h4>
+                            <p class="text-gray-600 leading-relaxed">Used for &#x27;loaded&#x27; and &#x27;total&#x27; properties to track numeric progress values - likely representing bytes loaded and total bytes, or items processed and total items</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Alternatives</h4>
+                            <p class="text-gray-600 leading-relaxed">Branded number types for more specificity; bigint for very large numbers; specific numeric literal types; union types with specific numbers; custom types like &#x27;type Bytes = number&#x27;; runtime validation with libraries like Zod</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Tags</h4>
+                            <div class="flex flex-wrap gap-2 mt-2">
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">typescript</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">type-annotation</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">number-type</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">primitive-type</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">type-safety</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- CONCEPT-005 -->
+                <div class="bg-white rounded-lg shadow-md overflow-hidden border border-gray-200">
+                    <!-- Concept Header -->
+                    <div class="bg-gradient-to-r from-gray-50 to-gray-100 px-6 py-4 border-b border-gray-200">
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <div class="text-xs font-mono text-gray-500 mb-1">CONCEPT-005</div>
+                                <h3 class="text-xl font-bold text-gray-900"></h3>
+                                <div class="text-sm text-blue-600 font-medium mt-1">TypeScript Type System</div>
+                            </div>
+                            <span class="bg-yellow-100 text-yellow-800 px-3 py-1 rounded-full text-xs font-semibold">Intermediate</span>
+                        </div>
+                    </div>
+
+                    <!-- Code Snippet with Syntax Highlighting -->
+                    <div class="px-6 py-4 bg-gray-900">
+                        <pre><code class="language-typescript">phase: &quot;metadata&quot; | &quot;tree&quot; | &quot;activity&quot; | &quot;complete&quot;;</code></pre>
+                    </div>
+
+                    <!-- Concept Details -->
+                    <div class="px-6 py-5 space-y-4">
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">What</h4>
+                            <p class="text-gray-600 leading-relaxed">Type annotation using union of specific string literal types, restricting the property to exactly one of the specified string values</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Why</h4>
+                            <p class="text-gray-600 leading-relaxed">Provides type-safe enumeration without runtime overhead; enables exhaustive checking in switch statements; better autocomplete than plain strings; self-documenting - shows all valid values; prevents typos and invalid values; more flexible than enums (can be used in type positions); no need for enum declaration</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">How</h4>
+                            <p class="text-gray-600 leading-relaxed">The pipe operator (|) creates a union type; string literals in quotes become specific types; TypeScript narrows the type to exactly these four strings; any other string value will cause a compile error; works with type narrowing and control flow analysis</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Context</h4>
+                            <p class="text-gray-600 leading-relaxed">Defines the four valid phases of data loading: metadata (loading metadata), tree (loading tree structure), activity (loading activity data), and complete (loading finished). This creates a state machine for progress tracking.</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Alternatives</h4>
+                            <p class="text-gray-600 leading-relaxed">Enum (enum Phase { Metadata = &quot;metadata&quot;, ... }); const assertion with array (const phases = [&quot;metadata&quot;, ...] as const; type Phase = typeof phases[number]); plain string type (less safe); numeric enum; separate boolean flags; state machine library</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Tags</h4>
+                            <div class="flex flex-wrap gap-2 mt-2">
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">typescript</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">union-type</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">literal-type</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">string-literal</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">type-safety</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">enumeration</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">state-machine</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- CONCEPT-006 -->
+                <div class="bg-white rounded-lg shadow-md overflow-hidden border border-gray-200">
+                    <!-- Concept Header -->
+                    <div class="bg-gradient-to-r from-gray-50 to-gray-100 px-6 py-4 border-b border-gray-200">
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <div class="text-xs font-mono text-gray-500 mb-1">CONCEPT-006</div>
+                                <h3 class="text-xl font-bold text-gray-900"></h3>
+                                <div class="text-sm text-blue-600 font-medium mt-1">TypeScript Type System</div>
+                            </div>
+                            <span class="bg-green-100 text-green-800 px-3 py-1 rounded-full text-xs font-semibold">Beginner</span>
+                        </div>
+                    </div>
+
+                    <!-- Code Snippet with Syntax Highlighting -->
+                    <div class="px-6 py-4 bg-gray-900">
+                        <pre><code class="language-typescript">loaded: number;
+  total: number;
+  phase: &quot;metadata&quot; | &quot;tree&quot; | &quot;activity&quot; | &quot;complete&quot;;</code></pre>
+                    </div>
+
+                    <!-- Concept Details -->
+                    <div class="px-6 py-5 space-y-4">
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">What</h4>
+                            <p class="text-gray-600 leading-relaxed">Interface properties without the optional modifier (?), meaning they must be present on any object conforming to this interface</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Why</h4>
+                            <p class="text-gray-600 leading-relaxed">Ensures all progress objects have complete information; prevents undefined/null errors when accessing properties; makes the contract explicit - all three properties are mandatory; simplifies consuming code by eliminating null checks; documents that these are essential properties</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">How</h4>
+                            <p class="text-gray-600 leading-relaxed">Properties without &#x27;?&#x27; after the name are required; TypeScript will error if an object is missing any required property; the absence of &#x27;| undefined&#x27; in the type means the property cannot be undefined; objects must have all required properties at creation time</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Context</h4>
+                            <p class="text-gray-600 leading-relaxed">All three properties (loaded, total, phase) are required for progress tracking to be meaningful - you always need to know how much is loaded, the total, and what phase you&#x27;re in</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Alternatives</h4>
+                            <p class="text-gray-600 leading-relaxed">Optional properties (loaded?: number); properties with undefined union (loaded: number | undefined); partial type (Partial&lt;LoadProgress&gt;); separate interfaces for different states; builder pattern for gradual construction; default values in implementation</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Tags</h4>
+                            <div class="flex flex-wrap gap-2 mt-2">
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">typescript</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">required-properties</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">interface-properties</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">type-safety</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">non-optional</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- CONCEPT-007 -->
+                <div class="bg-white rounded-lg shadow-md overflow-hidden border border-gray-200">
+                    <!-- Concept Header -->
+                    <div class="bg-gradient-to-r from-gray-50 to-gray-100 px-6 py-4 border-b border-gray-200">
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <div class="text-xs font-mono text-gray-500 mb-1">CONCEPT-007</div>
+                                <h3 class="text-xl font-bold text-gray-900"></h3>
+                                <div class="text-sm text-blue-600 font-medium mt-1">Code Organization</div>
+                            </div>
+                            <span class="bg-green-100 text-green-800 px-3 py-1 rounded-full text-xs font-semibold">Beginner</span>
+                        </div>
+                    </div>
+
+                    <!-- Code Snippet with Syntax Highlighting -->
+                    <div class="px-6 py-4 bg-gray-900">
+                        <pre><code class="language-typescript">loaded: number;
+  total: number;
+  phase: &quot;metadata&quot; | &quot;tree&quot; | &quot;activity&quot; | &quot;complete&quot;;</code></pre>
+                    </div>
+
+                    <!-- Concept Details -->
+                    <div class="px-6 py-5 space-y-4">
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">What</h4>
+                            <p class="text-gray-600 leading-relaxed">Use of semicolons to terminate each property declaration in the interface</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Why</h4>
+                            <p class="text-gray-600 leading-relaxed">Follows TypeScript/JavaScript convention for statement termination; improves code consistency; prevents potential ASI (Automatic Semicolon Insertion) issues; matches common style guides; makes property boundaries explicit; some linters enforce this style</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">How</h4>
+                            <p class="text-gray-600 leading-relaxed">Each property declaration ends with a semicolon; TypeScript also allows commas or no terminator in interfaces, but semicolons are conventional; the choice is typically enforced by linting rules (ESLint, Prettier)</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Context</h4>
+                            <p class="text-gray-600 leading-relaxed">Used consistently for all three properties in the interface, following standard TypeScript formatting conventions</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Alternatives</h4>
+                            <p class="text-gray-600 leading-relaxed">Comma separators (loaded: number,); no terminators (loaded: number\n); mixed styles (inconsistent); letting Prettier auto-format; using only newlines as separators</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Tags</h4>
+                            <div class="flex flex-wrap gap-2 mt-2">
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">code-style</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">semicolons</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">formatting</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">conventions</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">syntax</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- CONCEPT-008 -->
+                <div class="bg-white rounded-lg shadow-md overflow-hidden border border-gray-200">
+                    <!-- Concept Header -->
+                    <div class="bg-gradient-to-r from-gray-50 to-gray-100 px-6 py-4 border-b border-gray-200">
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <div class="text-xs font-mono text-gray-500 mb-1">CONCEPT-008</div>
+                                <h3 class="text-xl font-bold text-gray-900"></h3>
+                                <div class="text-sm text-blue-600 font-medium mt-1">Design Patterns</div>
+                            </div>
+                            <span class="bg-yellow-100 text-yellow-800 px-3 py-1 rounded-full text-xs font-semibold">Intermediate</span>
+                        </div>
+                    </div>
+
+                    <!-- Code Snippet with Syntax Highlighting -->
+                    <div class="px-6 py-4 bg-gray-900">
+                        <pre><code class="language-typescript">export interface LoadProgress {
+  loaded: number;
+  total: number;
+  phase: &quot;metadata&quot; | &quot;tree&quot; | &quot;activity&quot; | &quot;complete&quot;;
+}</code></pre>
+                    </div>
+
+                    <!-- Concept Details -->
+                    <div class="px-6 py-5 space-y-4">
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">What</h4>
+                            <p class="text-gray-600 leading-relaxed">Design pattern for tracking the progress of asynchronous operations using loaded/total counts and phase states</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Why</h4>
+                            <p class="text-gray-600 leading-relaxed">Enables UI progress indicators (progress bars, percentages); provides user feedback during long operations; allows cancellation or retry logic based on progress; helps debug loading issues; enables analytics on loading performance; supports incremental loading strategies</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">How</h4>
+                            <p class="text-gray-600 leading-relaxed">Combines numeric progress (loaded/total for percentage calculation) with categorical state (phase for qualitative status); typically updated during async operations and passed to UI components or callbacks; can be used with React state, observables, or event emitters</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Context</h4>
+                            <p class="text-gray-600 leading-relaxed">Designed for tracking multi-phase data loading operations with three distinct phases (metadata, tree, activity) before completion. The loaded/total pattern allows calculating percentage progress within each phase.</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Alternatives</h4>
+                            <p class="text-gray-600 leading-relaxed">Simple percentage number; boolean loading flag; promise-based loading without progress; streaming with progress events; separate state for each phase; progress libraries like nprogress; custom event emitters; RxJS observables with progress</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Tags</h4>
+                            <div class="flex flex-wrap gap-2 mt-2">
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">design-pattern</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">progress-tracking</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">async-operations</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">user-feedback</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">loading-state</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">ux-pattern</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- CONCEPT-009 -->
+                <div class="bg-white rounded-lg shadow-md overflow-hidden border border-gray-200">
+                    <!-- Concept Header -->
+                    <div class="bg-gradient-to-r from-gray-50 to-gray-100 px-6 py-4 border-b border-gray-200">
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <div class="text-xs font-mono text-gray-500 mb-1">CONCEPT-009</div>
+                                <h3 class="text-xl font-bold text-gray-900"></h3>
+                                <div class="text-sm text-blue-600 font-medium mt-1">Code Organization</div>
+                            </div>
+                            <span class="bg-yellow-100 text-yellow-800 px-3 py-1 rounded-full text-xs font-semibold">Intermediate</span>
+                        </div>
+                    </div>
+
+                    <!-- Code Snippet with Syntax Highlighting -->
+                    <div class="px-6 py-4 bg-gray-900">
+                        <pre><code class="language-typescript">// src/services/data/types.ts
+
+/**
+ * Progress tracking for data loading operations
+ */
+export interface LoadProgress {
+  loaded: number;
+  total: number;
+  phase: &quot;metadata&quot; | &quot;tree&quot; | &quot;activity&quot; | &quot;complete&quot;;
+}</code></pre>
+                    </div>
+
+                    <!-- Concept Details -->
+                    <div class="px-6 py-5 space-y-4">
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">What</h4>
+                            <p class="text-gray-600 leading-relaxed">TypeScript file containing only type definitions (interfaces, types) with no runtime code or implementations</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Why</h4>
+                            <p class="text-gray-600 leading-relaxed">Separates type definitions from implementation; enables type-only imports for better tree-shaking; prevents circular dependencies; makes types easily discoverable; follows separation of concerns; allows types to be shared across multiple implementations; reduces bundle size when using type-only imports</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">How</h4>
+                            <p class="text-gray-600 leading-relaxed">File contains only TypeScript type constructs (interface, type, enum) that are erased during compilation; no functions, classes, or values that exist at runtime; can be imported with &#x27;import type&#x27; for compile-time only usage</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Context</h4>
+                            <p class="text-gray-600 leading-relaxed">This types.ts file in the services/data directory provides shared type definitions for data loading operations, keeping types separate from service implementations</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Alternatives</h4>
+                            <p class="text-gray-600 leading-relaxed">Inline types in implementation files; .d.ts declaration files; types co-located with implementations; barrel exports from index.ts; monolithic types file; types in same file as implementation; JSDoc type annotations</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Tags</h4>
+                            <div class="flex flex-wrap gap-2 mt-2">
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">typescript</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">type-only-module</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">code-organization</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">separation-of-concerns</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">module-structure</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">tree-shaking</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- CONCEPT-010 -->
+                <div class="bg-white rounded-lg shadow-md overflow-hidden border border-gray-200">
+                    <!-- Concept Header -->
+                    <div class="bg-gradient-to-r from-gray-50 to-gray-100 px-6 py-4 border-b border-gray-200">
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <div class="text-xs font-mono text-gray-500 mb-1">CONCEPT-010</div>
+                                <h3 class="text-xl font-bold text-gray-900"></h3>
+                                <div class="text-sm text-blue-600 font-medium mt-1">Code Organization</div>
+                            </div>
+                            <span class="bg-green-100 text-green-800 px-3 py-1 rounded-full text-xs font-semibold">Beginner</span>
+                        </div>
+                    </div>
+
+                    <!-- Code Snippet with Syntax Highlighting -->
+                    <div class="px-6 py-4 bg-gray-900">
+                        <pre><code class="language-typescript">// src/services/data/types.ts</code></pre>
+                    </div>
+
+                    <!-- Concept Details -->
+                    <div class="px-6 py-5 space-y-4">
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">What</h4>
+                            <p class="text-gray-600 leading-relaxed">Single-line comment at the top of the file indicating the file&#x27;s path in the project structure</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Why</h4>
+                            <p class="text-gray-600 leading-relaxed">Helps developers quickly identify which file they&#x27;re viewing; useful when code is copied or viewed out of context; aids in navigation in large codebases; helpful for code reviews and documentation; provides context when viewing file contents in isolation; some tools/generators add this automatically</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">How</h4>
+                            <p class="text-gray-600 leading-relaxed">Single-line comment (//) placed as the first line of the file; contains the relative path from project root; purely informational, has no effect on code execution or compilation</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Context</h4>
+                            <p class="text-gray-600 leading-relaxed">Identifies this file as types.ts in the src/services/data directory, indicating it&#x27;s part of the data services layer and contains type definitions</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Alternatives</h4>
+                            <p class="text-gray-600 leading-relaxed">No path comment (rely on IDE/editor); file header with more metadata; JSDoc @file tag; package/module comment; copyright header; generated header comments; relying solely on file system</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Tags</h4>
+                            <div class="flex flex-wrap gap-2 mt-2">
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">comments</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">file-header</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">documentation</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">code-organization</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">navigation</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Footer -->
+    <div class="bg-gray-800 text-gray-300 py-6 px-6 mt-12">
+        <div class="max-w-7xl mx-auto text-center text-sm">
+            Generated from Code Taxonomy Analysis • 10 concepts extracted
+        </div>
+    </div>
+
+    <!-- Initialize Syntax Highlighting -->
+    <script>
+        hljs.highlightAll();
+    </script>
+
+</body>
+</html>

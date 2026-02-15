@@ -1,0 +1,2003 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LoadingSpinner.tsx - Code Taxonomy</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Highlight.js for syntax highlighting -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/typescript.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/javascript.min.js"></script>
+</head>
+<body class="bg-gray-50 text-gray-900">
+    
+    <!-- Header -->
+    <div class="bg-gradient-to-r from-blue-600 to-blue-700 text-white py-8 px-6 shadow-lg">
+        <div class="max-w-7xl mx-auto">
+            <div class="text-sm text-blue-100 mb-2">src/components/common</div>
+            <h1 class="text-4xl font-bold mb-2">LoadingSpinner.tsx</h1>
+            <p class="text-blue-100">Reusable loading spinner component with optional message display</p>
+        </div>
+    </div>
+
+    <!-- Metadata & Stats Bar -->
+    <div class="bg-white shadow-sm border-b">
+        <div class="max-w-7xl mx-auto py-6 px-6">
+            <div class="grid grid-cols-2 md:grid-cols-5 gap-6">
+                <div>
+                    <div class="text-xs font-semibold text-gray-500 uppercase tracking-wide mb-1">Type</div>
+                    <div class="text-lg font-bold text-gray-900">Component</div>
+                </div>
+                <div>
+                    <div class="text-xs font-semibold text-gray-500 uppercase tracking-wide mb-1">Priority</div>
+                    <div class="text-lg font-bold text-gray-900">Application</div>
+                </div>
+                <div>
+                    <div class="text-xs font-semibold text-gray-500 uppercase tracking-wide mb-1">Total Concepts</div>
+                    <div class="text-lg font-bold text-blue-600">30</div>
+                </div>
+                <div>
+                    <div class="text-xs font-semibold text-gray-500 uppercase tracking-wide mb-1">Categories</div>
+                    <div class="text-lg font-bold text-blue-600">21</div>
+                </div>
+                <div>
+                    <div class="text-xs font-semibold text-gray-500 uppercase tracking-wide mb-1">Complexity</div>
+                    <div class="text-sm font-mono text-gray-700">
+                        <span class="text-green-600">19</span> / 
+                        <span class="text-yellow-600">11</span> / 
+                        <span class="text-red-600">0</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="max-w-7xl mx-auto py-8 px-6">
+        
+        <!-- Summary Section -->
+        <div class="mb-8">
+            <h2 class="text-2xl font-bold mb-4">📊 Summary</h2>
+            
+            <div class="grid md:grid-cols-2 gap-6 mb-6">
+                <!-- Category Counts -->
+                <div class="bg-white rounded-lg shadow p-6">
+                    <h3 class="text-lg font-semibold mb-4 text-gray-700">Concepts by Category</h3>
+                    <div class="space-y-3">
+
+                        <div class="flex justify-between items-center">
+                            <span class="text-sm text-gray-600">Import/Module Management</span>
+                            <span class="bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm font-semibold">3</span>
+                        </div>
+
+                        <div class="flex justify-between items-center">
+                            <span class="text-sm text-gray-600">TypeScript/Type System</span>
+                            <span class="bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm font-semibold">2</span>
+                        </div>
+
+                        <div class="flex justify-between items-center">
+                            <span class="text-sm text-gray-600">TypeScript/React Types</span>
+                            <span class="bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm font-semibold">1</span>
+                        </div>
+
+                        <div class="flex justify-between items-center">
+                            <span class="text-sm text-gray-600">React/Component Patterns</span>
+                            <span class="bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm font-semibold">4</span>
+                        </div>
+
+                        <div class="flex justify-between items-center">
+                            <span class="text-sm text-gray-600">JavaScript/ES6 Syntax</span>
+                            <span class="bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm font-semibold">2</span>
+                        </div>
+
+                        <div class="flex justify-between items-center">
+                            <span class="text-sm text-gray-600">React/JSX Syntax</span>
+                            <span class="bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm font-semibold">3</span>
+                        </div>
+
+                        <div class="flex justify-between items-center">
+                            <span class="text-sm text-gray-600">Styling/CSS Framework</span>
+                            <span class="bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm font-semibold">1</span>
+                        </div>
+
+                        <div class="flex justify-between items-center">
+                            <span class="text-sm text-gray-600">Styling/Layout Patterns</span>
+                            <span class="bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm font-semibold">1</span>
+                        </div>
+
+                        <div class="flex justify-between items-center">
+                            <span class="text-sm text-gray-600">Styling/Animation</span>
+                            <span class="bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm font-semibold">1</span>
+                        </div>
+
+                        <div class="flex justify-between items-center">
+                            <span class="text-sm text-gray-600">Styling/Spacing</span>
+                            <span class="bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm font-semibold">1</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Complexity Breakdown -->
+                <div class="bg-white rounded-lg shadow p-6">
+                    <h3 class="text-lg font-semibold mb-4 text-gray-700">Complexity Distribution</h3>
+                    <div class="space-y-4">
+
+                        <div>
+                            <div class="flex justify-between mb-1">
+                                <span class="text-sm font-medium text-green-700">Beginner</span>
+                                <span class="text-sm font-semibold text-green-700">19 concepts</span>
+                            </div>
+                            <div class="w-full bg-gray-200 rounded-full h-2">
+                                <div class="bg-green-500 h-2 rounded-full" style="width: 63%"></div>
+                            </div>
+                        </div>
+
+                        <div>
+                            <div class="flex justify-between mb-1">
+                                <span class="text-sm font-medium text-yellow-700">Intermediate</span>
+                                <span class="text-sm font-semibold text-yellow-700">11 concepts</span>
+                            </div>
+                            <div class="w-full bg-gray-200 rounded-full h-2">
+                                <div class="bg-yellow-500 h-2 rounded-full" style="width: 36%"></div>
+                            </div>
+                        </div>
+
+                        <div>
+                            <div class="flex justify-between mb-1">
+                                <span class="text-sm font-medium text-red-700">Advanced</span>
+                                <span class="text-sm font-semibold text-red-700">0 concepts</span>
+                            </div>
+                            <div class="w-full bg-gray-200 rounded-full h-2">
+                                <div class="bg-red-500 h-2 rounded-full" style="width: 0%"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tag Cloud -->
+            <div class="bg-white rounded-lg shadow p-6">
+                <h3 class="text-lg font-semibold mb-4 text-gray-700">🏷️ Tags</h3>
+                <div class="flex flex-wrap gap-2">
+                    <span class="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-sm">accessibility</span>
+                    <span class="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-sm">animation</span>
+                    <span class="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-sm">api-design</span>
+                    <span class="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-sm">arrow-function</span>
+                    <span class="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-sm">best-practices</span>
+                    <span class="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-sm">border</span>
+                    <span class="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-sm">border-radius</span>
+                    <span class="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-sm">brand-colors</span>
+                    <span class="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-sm">build-configuration</span>
+                    <span class="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-sm">centering</span>
+                    <span class="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-sm">classname</span>
+                    <span class="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-sm">clean-code</span>
+                    <span class="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-sm">code-organization</span>
+                    <span class="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-sm">code-style</span>
+                    <span class="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-sm">color</span>
+                    <span class="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-sm">component-definition</span>
+                    <span class="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-sm">component-design</span>
+                    <span class="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-sm">component-pattern</span>
+                    <span class="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-sm">component-typing</span>
+                    <span class="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-sm">const-declaration</span>
+                    <span class="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-sm">css</span>
+                    <span class="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-sm">css-animation</span>
+                    <span class="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-sm">css-framework</span>
+                    <span class="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-sm">data-binding</span>
+                    <span class="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-sm">declarative-ui</span>
+                    <span class="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-sm">default-export</span>
+                    <span class="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-sm">default-import</span>
+                    <span class="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-sm">default-parameters</span>
+                    <span class="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-sm">design-principles</span>
+                    <span class="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-sm">design-system</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Concepts Section -->
+        <div>
+            <h2 class="text-2xl font-bold mb-4">💡 Concepts</h2>
+            
+            <div class="space-y-6">
+
+                <!-- CONCEPT-001 -->
+                <div class="bg-white rounded-lg shadow-md overflow-hidden border border-gray-200">
+                    <!-- Concept Header -->
+                    <div class="bg-gradient-to-r from-gray-50 to-gray-100 px-6 py-4 border-b border-gray-200">
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <div class="text-xs font-mono text-gray-500 mb-1">CONCEPT-001</div>
+                                <h3 class="text-xl font-bold text-gray-900"></h3>
+                                <div class="text-sm text-blue-600 font-medium mt-1">Import/Module Management</div>
+                            </div>
+                            <span class="bg-green-100 text-green-800 px-3 py-1 rounded-full text-xs font-semibold">Beginner</span>
+                        </div>
+                    </div>
+
+                    <!-- Code Snippet with Syntax Highlighting -->
+                    <div class="px-6 py-4 bg-gray-900">
+                        <pre><code class="language-typescript">import React from &quot;react&quot;;</code></pre>
+                    </div>
+
+                    <!-- Concept Details -->
+                    <div class="px-6 py-5 space-y-4">
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">What</h4>
+                            <p class="text-gray-600 leading-relaxed">Imports the React namespace as a default import, providing access to React&#x27;s core functionality</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Why</h4>
+                            <p class="text-gray-600 leading-relaxed">Required for JSX transformation and TypeScript type annotations like React.FC. Even though modern React doesn&#x27;t require React in scope for JSX (with new JSX transform), it&#x27;s still needed for type annotations and explicit React API usage. This import style is cleaner than namespace imports when only the default export is needed.</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">How</h4>
+                            <p class="text-gray-600 leading-relaxed">ES6 default import syntax brings in the main React object from the &#x27;react&#x27; package. The bundler resolves this to node_modules/react and TypeScript uses the type definitions from @types/react.</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Context</h4>
+                            <p class="text-gray-600 leading-relaxed">Used here to access React.FC type annotation for the component definition. This is the minimal React import needed for a typed functional component.</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Alternatives</h4>
+                            <p class="text-gray-600 leading-relaxed">Namespace import &#x27;import * as React from &quot;react&quot;&#x27;; no import at all with new JSX transform (but loses React.FC typing); importing specific named exports if needed</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Tags</h4>
+                            <div class="flex flex-wrap gap-2 mt-2">
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">import</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">react</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">default-import</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">es6-modules</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">jsx-support</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- CONCEPT-002 -->
+                <div class="bg-white rounded-lg shadow-md overflow-hidden border border-gray-200">
+                    <!-- Concept Header -->
+                    <div class="bg-gradient-to-r from-gray-50 to-gray-100 px-6 py-4 border-b border-gray-200">
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <div class="text-xs font-mono text-gray-500 mb-1">CONCEPT-002</div>
+                                <h3 class="text-xl font-bold text-gray-900"></h3>
+                                <div class="text-sm text-blue-600 font-medium mt-1">TypeScript/Type System</div>
+                            </div>
+                            <span class="bg-green-100 text-green-800 px-3 py-1 rounded-full text-xs font-semibold">Beginner</span>
+                        </div>
+                    </div>
+
+                    <!-- Code Snippet with Syntax Highlighting -->
+                    <div class="px-6 py-4 bg-gray-900">
+                        <pre><code class="language-typescript">interface LoadingSpinnerProps {
+  message?: string;
+}</code></pre>
+                    </div>
+
+                    <!-- Concept Details -->
+                    <div class="px-6 py-5 space-y-4">
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">What</h4>
+                            <p class="text-gray-600 leading-relaxed">TypeScript interface defining the shape of props object for the LoadingSpinner component</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Why</h4>
+                            <p class="text-gray-600 leading-relaxed">Provides compile-time type safety for component props, enables IDE autocomplete and IntelliSense, documents the component&#x27;s API, catches type errors before runtime, and makes refactoring safer. Interfaces are the standard way to define object shapes in TypeScript.</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">How</h4>
+                            <p class="text-gray-600 leading-relaxed">Interface keyword creates a named type contract. Properties can be required or optional (using ?). TypeScript compiler checks that any object passed as props matches this shape.</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Context</h4>
+                            <p class="text-gray-600 leading-relaxed">Defines that LoadingSpinner accepts an optional &#x27;message&#x27; prop of type string. This makes the component&#x27;s API explicit and type-safe.</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Alternatives</h4>
+                            <p class="text-gray-600 leading-relaxed">Type alias &#x27;type LoadingSpinnerProps = { message?: string }&#x27;; inline type annotation directly in component signature; PropTypes for runtime validation (older React pattern)</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Tags</h4>
+                            <div class="flex flex-wrap gap-2 mt-2">
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">typescript</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">interface</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">type-definition</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">props-typing</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">type-safety</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- CONCEPT-003 -->
+                <div class="bg-white rounded-lg shadow-md overflow-hidden border border-gray-200">
+                    <!-- Concept Header -->
+                    <div class="bg-gradient-to-r from-gray-50 to-gray-100 px-6 py-4 border-b border-gray-200">
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <div class="text-xs font-mono text-gray-500 mb-1">CONCEPT-003</div>
+                                <h3 class="text-xl font-bold text-gray-900"></h3>
+                                <div class="text-sm text-blue-600 font-medium mt-1">TypeScript/Type System</div>
+                            </div>
+                            <span class="bg-green-100 text-green-800 px-3 py-1 rounded-full text-xs font-semibold">Beginner</span>
+                        </div>
+                    </div>
+
+                    <!-- Code Snippet with Syntax Highlighting -->
+                    <div class="px-6 py-4 bg-gray-900">
+                        <pre><code class="language-typescript">message?: string;</code></pre>
+                    </div>
+
+                    <!-- Concept Details -->
+                    <div class="px-6 py-5 space-y-4">
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">What</h4>
+                            <p class="text-gray-600 leading-relaxed">TypeScript syntax marking a property as optional using the ? modifier, meaning it can be present or undefined</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Why</h4>
+                            <p class="text-gray-600 leading-relaxed">Makes the prop optional rather than required, allowing component to be used without providing this prop. This provides flexibility while maintaining type safety - TypeScript knows the value might be undefined and enforces handling that case.</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">How</h4>
+                            <p class="text-gray-600 leading-relaxed">The ? modifier after property name makes it optional. TypeScript treats the type as &#x27;string | undefined&#x27;. When accessing optional properties, TypeScript enforces null/undefined checks or provides default values.</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Context</h4>
+                            <p class="text-gray-600 leading-relaxed">Makes the message prop optional so LoadingSpinner can be used without specifying a custom message. The component provides a default value to handle the undefined case.</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Alternatives</h4>
+                            <p class="text-gray-600 leading-relaxed">Required property without ?; union type &#x27;message: string | undefined&#x27; (functionally similar but more verbose); providing undefined as explicit type &#x27;message: string | undefined&#x27;</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Tags</h4>
+                            <div class="flex flex-wrap gap-2 mt-2">
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">typescript</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">optional-property</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">type-modifier</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">nullable-types</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">flexibility</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- CONCEPT-004 -->
+                <div class="bg-white rounded-lg shadow-md overflow-hidden border border-gray-200">
+                    <!-- Concept Header -->
+                    <div class="bg-gradient-to-r from-gray-50 to-gray-100 px-6 py-4 border-b border-gray-200">
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <div class="text-xs font-mono text-gray-500 mb-1">CONCEPT-004</div>
+                                <h3 class="text-xl font-bold text-gray-900"></h3>
+                                <div class="text-sm text-blue-600 font-medium mt-1">Import/Module Management</div>
+                            </div>
+                            <span class="bg-green-100 text-green-800 px-3 py-1 rounded-full text-xs font-semibold">Beginner</span>
+                        </div>
+                    </div>
+
+                    <!-- Code Snippet with Syntax Highlighting -->
+                    <div class="px-6 py-4 bg-gray-900">
+                        <pre><code class="language-typescript">export const LoadingSpinner: React.FC&lt;LoadingSpinnerProps&gt; = ...</code></pre>
+                    </div>
+
+                    <!-- Concept Details -->
+                    <div class="px-6 py-5 space-y-4">
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">What</h4>
+                            <p class="text-gray-600 leading-relaxed">Exports a constant variable as a named export, making it importable by name from other modules</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Why</h4>
+                            <p class="text-gray-600 leading-relaxed">Named exports allow multiple exports from a single file, enable tree-shaking (unused exports can be eliminated), make imports explicit (must use exact name), and support better IDE refactoring. Using const prevents accidental reassignment of the component.</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">How</h4>
+                            <p class="text-gray-600 leading-relaxed">The export keyword before const makes the variable available to other modules. Importers must use the exact name &#x27;LoadingSpinner&#x27; in curly braces: import { LoadingSpinner } from &#x27;./path&#x27;.</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Context</h4>
+                            <p class="text-gray-600 leading-relaxed">Exports the LoadingSpinner component as a named export, allowing it to be imported by name. This file also has a default export, providing both import styles.</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Alternatives</h4>
+                            <p class="text-gray-600 leading-relaxed">Default export only &#x27;export default LoadingSpinner&#x27;; export after declaration &#x27;const LoadingSpinner = ...; export { LoadingSpinner }&#x27;; function declaration with export &#x27;export function LoadingSpinner() {}&#x27;</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Tags</h4>
+                            <div class="flex flex-wrap gap-2 mt-2">
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">export</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">named-export</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">es6-modules</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">const-declaration</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">module-system</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- CONCEPT-005 -->
+                <div class="bg-white rounded-lg shadow-md overflow-hidden border border-gray-200">
+                    <!-- Concept Header -->
+                    <div class="bg-gradient-to-r from-gray-50 to-gray-100 px-6 py-4 border-b border-gray-200">
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <div class="text-xs font-mono text-gray-500 mb-1">CONCEPT-005</div>
+                                <h3 class="text-xl font-bold text-gray-900"></h3>
+                                <div class="text-sm text-blue-600 font-medium mt-1">TypeScript/React Types</div>
+                            </div>
+                            <span class="bg-yellow-100 text-yellow-800 px-3 py-1 rounded-full text-xs font-semibold">Intermediate</span>
+                        </div>
+                    </div>
+
+                    <!-- Code Snippet with Syntax Highlighting -->
+                    <div class="px-6 py-4 bg-gray-900">
+                        <pre><code class="language-typescript">React.FC&lt;LoadingSpinnerProps&gt;</code></pre>
+                    </div>
+
+                    <!-- Concept Details -->
+                    <div class="px-6 py-5 space-y-4">
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">What</h4>
+                            <p class="text-gray-600 leading-relaxed">Generic type annotation that defines the component as a React Function Component with typed props</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Why</h4>
+                            <p class="text-gray-600 leading-relaxed">Provides complete type safety for the component including props type, return type (React.ReactElement), and implicit children prop. Ensures the component signature is correct, enables better IDE support, and catches type errors at compile time. React.FC is a convenience type that bundles common component type requirements.</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">How</h4>
+                            <p class="text-gray-600 leading-relaxed">React.FC is a generic type that accepts a props type parameter. It defines the component as a function that takes props and returns a valid React element. The generic parameter &lt;LoadingSpinnerProps&gt; specifies the exact shape of props this component accepts.</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Context</h4>
+                            <p class="text-gray-600 leading-relaxed">Types the LoadingSpinner component to accept LoadingSpinnerProps and return valid JSX. This makes the component&#x27;s contract explicit and type-safe.</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Alternatives</h4>
+                            <p class="text-gray-600 leading-relaxed">Inline function type &#x27;(props: LoadingSpinnerProps) =&gt; JSX.Element&#x27;; React.FunctionComponent (same as FC); no type annotation (loses type safety); typing just the props parameter</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Tags</h4>
+                            <div class="flex flex-wrap gap-2 mt-2">
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">typescript</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">react</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">react-fc</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">generic-type</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">component-typing</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">type-annotation</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- CONCEPT-006 -->
+                <div class="bg-white rounded-lg shadow-md overflow-hidden border border-gray-200">
+                    <!-- Concept Header -->
+                    <div class="bg-gradient-to-r from-gray-50 to-gray-100 px-6 py-4 border-b border-gray-200">
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <div class="text-xs font-mono text-gray-500 mb-1">CONCEPT-006</div>
+                                <h3 class="text-xl font-bold text-gray-900"></h3>
+                                <div class="text-sm text-blue-600 font-medium mt-1">React/Component Patterns</div>
+                            </div>
+                            <span class="bg-green-100 text-green-800 px-3 py-1 rounded-full text-xs font-semibold">Beginner</span>
+                        </div>
+                    </div>
+
+                    <!-- Code Snippet with Syntax Highlighting -->
+                    <div class="px-6 py-4 bg-gray-900">
+                        <pre><code class="language-typescript">= ({ message = &quot;Loading...&quot; }) =&gt; { ... }</code></pre>
+                    </div>
+
+                    <!-- Concept Details -->
+                    <div class="px-6 py-5 space-y-4">
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">What</h4>
+                            <p class="text-gray-600 leading-relaxed">Component defined as an arrow function expression assigned to a constant variable</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Why</h4>
+                            <p class="text-gray-600 leading-relaxed">Modern React convention for functional components. Arrow functions provide concise syntax, lexical this binding (though not needed in functional components), and prevent reassignment when used with const. This pattern is widely adopted in the React community and works well with hooks.</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">How</h4>
+                            <p class="text-gray-600 leading-relaxed">Arrow function syntax &#x27;() =&gt; {}&#x27; creates a function expression. When assigned to a const, it creates an immutable component reference. The function takes props as parameter and returns JSX.</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Context</h4>
+                            <p class="text-gray-600 leading-relaxed">Defines LoadingSpinner as a functional component using modern React patterns. The arrow function syntax is concise and clear for this simple component.</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Alternatives</h4>
+                            <p class="text-gray-600 leading-relaxed">Function declaration &#x27;function LoadingSpinner() {}&#x27;; function expression &#x27;const LoadingSpinner = function() {}&#x27;; class component &#x27;class LoadingSpinner extends React.Component {}&#x27;</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Tags</h4>
+                            <div class="flex flex-wrap gap-2 mt-2">
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">react</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">arrow-function</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">functional-component</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">component-definition</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">modern-react</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">es6</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- CONCEPT-007 -->
+                <div class="bg-white rounded-lg shadow-md overflow-hidden border border-gray-200">
+                    <!-- Concept Header -->
+                    <div class="bg-gradient-to-r from-gray-50 to-gray-100 px-6 py-4 border-b border-gray-200">
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <div class="text-xs font-mono text-gray-500 mb-1">CONCEPT-007</div>
+                                <h3 class="text-xl font-bold text-gray-900"></h3>
+                                <div class="text-sm text-blue-600 font-medium mt-1">JavaScript/ES6 Syntax</div>
+                            </div>
+                            <span class="bg-green-100 text-green-800 px-3 py-1 rounded-full text-xs font-semibold">Beginner</span>
+                        </div>
+                    </div>
+
+                    <!-- Code Snippet with Syntax Highlighting -->
+                    <div class="px-6 py-4 bg-gray-900">
+                        <pre><code class="language-typescript">({ message = &quot;Loading...&quot; })</code></pre>
+                    </div>
+
+                    <!-- Concept Details -->
+                    <div class="px-6 py-5 space-y-4">
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">What</h4>
+                            <p class="text-gray-600 leading-relaxed">Destructures the props object directly in the function parameter, extracting the message property</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Why</h4>
+                            <p class="text-gray-600 leading-relaxed">Provides cleaner code by avoiding &#x27;props.&#x27; prefix throughout the component. Makes it immediately clear which props are used. Reduces repetitive code and improves readability. This pattern is standard in modern React components.</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">How</h4>
+                            <p class="text-gray-600 leading-relaxed">ES6 destructuring syntax extracts properties from the object passed as argument. The pattern &#x27;{ message }&#x27; creates a constant named &#x27;message&#x27; from the props object&#x27;s message property.</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Context</h4>
+                            <p class="text-gray-600 leading-relaxed">Extracts the message prop from the props object at the function signature level, making it directly accessible in the component body without needing props.message.</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Alternatives</h4>
+                            <p class="text-gray-600 leading-relaxed">Accept props object and use dot notation &#x27;props.message&#x27;; destructure in component body &#x27;const { message } = props&#x27;; use props directly without destructuring</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Tags</h4>
+                            <div class="flex flex-wrap gap-2 mt-2">
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">javascript</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">es6</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">destructuring</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">function-parameters</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">props-handling</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">clean-code</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- CONCEPT-008 -->
+                <div class="bg-white rounded-lg shadow-md overflow-hidden border border-gray-200">
+                    <!-- Concept Header -->
+                    <div class="bg-gradient-to-r from-gray-50 to-gray-100 px-6 py-4 border-b border-gray-200">
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <div class="text-xs font-mono text-gray-500 mb-1">CONCEPT-008</div>
+                                <h3 class="text-xl font-bold text-gray-900"></h3>
+                                <div class="text-sm text-blue-600 font-medium mt-1">JavaScript/ES6 Syntax</div>
+                            </div>
+                            <span class="bg-yellow-100 text-yellow-800 px-3 py-1 rounded-full text-xs font-semibold">Intermediate</span>
+                        </div>
+                    </div>
+
+                    <!-- Code Snippet with Syntax Highlighting -->
+                    <div class="px-6 py-4 bg-gray-900">
+                        <pre><code class="language-typescript">message = &quot;Loading...&quot;</code></pre>
+                    </div>
+
+                    <!-- Concept Details -->
+                    <div class="px-6 py-5 space-y-4">
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">What</h4>
+                            <p class="text-gray-600 leading-relaxed">Provides a default value for a destructured parameter, used when the property is undefined</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Why</h4>
+                            <p class="text-gray-600 leading-relaxed">Handles the optional prop case elegantly by providing a fallback value. Eliminates need for conditional logic or null checks in the component body. Makes the default behavior explicit and self-documenting. This pattern is cleaner than using || or ?? operators later.</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">How</h4>
+                            <p class="text-gray-600 leading-relaxed">ES6 default parameter syntax assigns a value when the destructured property is undefined. The syntax &#x27;property = defaultValue&#x27; in destructuring provides the fallback. This happens at parameter binding time, before the function body executes.</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Context</h4>
+                            <p class="text-gray-600 leading-relaxed">Provides &quot;Loading...&quot; as the default message when the message prop is not provided. This ensures the component always has a message to display without additional logic.</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Alternatives</h4>
+                            <p class="text-gray-600 leading-relaxed">Conditional in JSX &#x27;{message || &quot;Loading...&quot;}&#x27;; nullish coalescing &#x27;{message ?? &quot;Loading...&quot;}&#x27;; default in component body &#x27;const displayMessage = message || &quot;Loading...&quot;&#x27;; conditional rendering</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Tags</h4>
+                            <div class="flex flex-wrap gap-2 mt-2">
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">javascript</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">es6</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">default-parameters</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">destructuring</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">fallback-values</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">optional-handling</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- CONCEPT-009 -->
+                <div class="bg-white rounded-lg shadow-md overflow-hidden border border-gray-200">
+                    <!-- Concept Header -->
+                    <div class="bg-gradient-to-r from-gray-50 to-gray-100 px-6 py-4 border-b border-gray-200">
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <div class="text-xs font-mono text-gray-500 mb-1">CONCEPT-009</div>
+                                <h3 class="text-xl font-bold text-gray-900"></h3>
+                                <div class="text-sm text-blue-600 font-medium mt-1">React/JSX Syntax</div>
+                            </div>
+                            <span class="bg-green-100 text-green-800 px-3 py-1 rounded-full text-xs font-semibold">Beginner</span>
+                        </div>
+                    </div>
+
+                    <!-- Code Snippet with Syntax Highlighting -->
+                    <div class="px-6 py-4 bg-gray-900">
+                        <pre><code class="language-typescript">return (
+    &lt;div className=&quot;flex h-full flex-col items-center justify-center&quot;&gt;
+      &lt;div className=&quot;mb-4 h-12 w-12 animate-spin rounded-full border-b-2 border-purple-500&quot;&gt;&lt;/div&gt;
+      &lt;p className=&quot;text-sm text-zinc-400&quot;&gt;{message}&lt;/p&gt;
+    &lt;/div&gt;
+  );</code></pre>
+                    </div>
+
+                    <!-- Concept Details -->
+                    <div class="px-6 py-5 space-y-4">
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">What</h4>
+                            <p class="text-gray-600 leading-relaxed">Returns JSX (JavaScript XML) from the component function, defining the component&#x27;s rendered output</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Why</h4>
+                            <p class="text-gray-600 leading-relaxed">JSX provides a declarative, HTML-like syntax for defining UI structure in JavaScript. It&#x27;s more readable than React.createElement calls, enables component composition, and is the standard way to define React component output. The parentheses allow multi-line JSX formatting.</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">How</h4>
+                            <p class="text-gray-600 leading-relaxed">JSX is transpiled to React.createElement calls by the build tool (Babel/TypeScript). The return statement sends the JSX tree back to React for rendering. Parentheses after return allow multi-line JSX without automatic semicolon insertion issues.</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Context</h4>
+                            <p class="text-gray-600 leading-relaxed">Returns the loading spinner UI structure with a spinning animation element and message text. The JSX defines a centered layout with Tailwind CSS classes.</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Alternatives</h4>
+                            <p class="text-gray-600 leading-relaxed">React.createElement calls &#x27;return React.createElement(&quot;div&quot;, ...)&#x27;; template literals with html tagged template; implicit return with arrow function &#x27;const Component = () =&gt; &lt;div&gt;...&lt;/div&gt;&#x27;</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Tags</h4>
+                            <div class="flex flex-wrap gap-2 mt-2">
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">react</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">jsx</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">return-statement</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">component-output</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">declarative-ui</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- CONCEPT-010 -->
+                <div class="bg-white rounded-lg shadow-md overflow-hidden border border-gray-200">
+                    <!-- Concept Header -->
+                    <div class="bg-gradient-to-r from-gray-50 to-gray-100 px-6 py-4 border-b border-gray-200">
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <div class="text-xs font-mono text-gray-500 mb-1">CONCEPT-010</div>
+                                <h3 class="text-xl font-bold text-gray-900"></h3>
+                                <div class="text-sm text-blue-600 font-medium mt-1">Styling/CSS Framework</div>
+                            </div>
+                            <span class="bg-green-100 text-green-800 px-3 py-1 rounded-full text-xs font-semibold">Beginner</span>
+                        </div>
+                    </div>
+
+                    <!-- Code Snippet with Syntax Highlighting -->
+                    <div class="px-6 py-4 bg-gray-900">
+                        <pre><code class="language-typescript">className=&quot;flex h-full flex-col items-center justify-center&quot;</code></pre>
+                    </div>
+
+                    <!-- Concept Details -->
+                    <div class="px-6 py-5 space-y-4">
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">What</h4>
+                            <p class="text-gray-600 leading-relaxed">Utility-first CSS framework classes applied via className prop to style elements</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Why</h4>
+                            <p class="text-gray-600 leading-relaxed">Tailwind provides rapid styling without writing custom CSS, ensures design consistency through predefined scales, reduces CSS bundle size through purging unused classes, and enables responsive design with utility modifiers. Utility classes are composable and self-documenting.</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">How</h4>
+                            <p class="text-gray-600 leading-relaxed">Tailwind CSS processes className strings at build time, generating only the CSS for classes actually used. Each utility class maps to specific CSS properties. The build tool (PostCSS) scans files for class names and generates optimized CSS.</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Context</h4>
+                            <p class="text-gray-600 leading-relaxed">Used throughout this component to create a centered flexbox layout. The classes create a full-height container with vertically centered content using flexbox utilities.</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Alternatives</h4>
+                            <p class="text-gray-600 leading-relaxed">CSS modules with custom classes; styled-components or emotion CSS-in-JS; inline styles with style prop; traditional CSS with custom class names; other utility frameworks like Bootstrap</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Tags</h4>
+                            <div class="flex flex-wrap gap-2 mt-2">
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">tailwind</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">css</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">utility-classes</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">styling</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">css-framework</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- CONCEPT-011 -->
+                <div class="bg-white rounded-lg shadow-md overflow-hidden border border-gray-200">
+                    <!-- Concept Header -->
+                    <div class="bg-gradient-to-r from-gray-50 to-gray-100 px-6 py-4 border-b border-gray-200">
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <div class="text-xs font-mono text-gray-500 mb-1">CONCEPT-011</div>
+                                <h3 class="text-xl font-bold text-gray-900"></h3>
+                                <div class="text-sm text-blue-600 font-medium mt-1">Styling/Layout Patterns</div>
+                            </div>
+                            <span class="bg-yellow-100 text-yellow-800 px-3 py-1 rounded-full text-xs font-semibold">Intermediate</span>
+                        </div>
+                    </div>
+
+                    <!-- Code Snippet with Syntax Highlighting -->
+                    <div class="px-6 py-4 bg-gray-900">
+                        <pre><code class="language-typescript">flex h-full flex-col items-center justify-center</code></pre>
+                    </div>
+
+                    <!-- Concept Details -->
+                    <div class="px-6 py-5 space-y-4">
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">What</h4>
+                            <p class="text-gray-600 leading-relaxed">Combination of Tailwind utilities creating a flexbox container with vertical centering</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Why</h4>
+                            <p class="text-gray-600 leading-relaxed">Flexbox is the modern standard for layout, providing powerful alignment and distribution capabilities. This specific combination creates a common pattern: vertically stacked, centered content that fills available height. It&#x27;s responsive and works across different screen sizes.</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">How</h4>
+                            <p class="text-gray-600 leading-relaxed">&#x27;flex&#x27; enables flexbox display; &#x27;h-full&#x27; sets height to 100%; &#x27;flex-col&#x27; sets flex-direction to column; &#x27;items-center&#x27; centers items on cross-axis (horizontally); &#x27;justify-center&#x27; centers items on main axis (vertically). These combine to create perfect centering.</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Context</h4>
+                            <p class="text-gray-600 leading-relaxed">Creates the outer container that centers the spinner and message both horizontally and vertically within the available space. This is a common loading state pattern.</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Alternatives</h4>
+                            <p class="text-gray-600 leading-relaxed">CSS Grid with place-items-center; absolute positioning with transforms; table display with vertical-align; margin auto techniques; custom CSS flexbox</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Tags</h4>
+                            <div class="flex flex-wrap gap-2 mt-2">
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">flexbox</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">layout</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">centering</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">tailwind</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">responsive-design</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- CONCEPT-012 -->
+                <div class="bg-white rounded-lg shadow-md overflow-hidden border border-gray-200">
+                    <!-- Concept Header -->
+                    <div class="bg-gradient-to-r from-gray-50 to-gray-100 px-6 py-4 border-b border-gray-200">
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <div class="text-xs font-mono text-gray-500 mb-1">CONCEPT-012</div>
+                                <h3 class="text-xl font-bold text-gray-900"></h3>
+                                <div class="text-sm text-blue-600 font-medium mt-1">Styling/Animation</div>
+                            </div>
+                            <span class="bg-green-100 text-green-800 px-3 py-1 rounded-full text-xs font-semibold">Beginner</span>
+                        </div>
+                    </div>
+
+                    <!-- Code Snippet with Syntax Highlighting -->
+                    <div class="px-6 py-4 bg-gray-900">
+                        <pre><code class="language-typescript">animate-spin</code></pre>
+                    </div>
+
+                    <!-- Concept Details -->
+                    <div class="px-6 py-5 space-y-4">
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">What</h4>
+                            <p class="text-gray-600 leading-relaxed">Tailwind utility class that applies a continuous 360-degree rotation animation</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Why</h4>
+                            <p class="text-gray-600 leading-relaxed">Provides a built-in loading animation without custom CSS or JavaScript. The spin animation is a universal loading indicator pattern that users immediately recognize. Using Tailwind&#x27;s built-in animation ensures consistency and reduces custom code.</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">How</h4>
+                            <p class="text-gray-600 leading-relaxed">Tailwind&#x27;s animate-spin class applies a CSS animation with infinite iteration, linear timing, and 1-second duration. It rotates the element continuously using CSS transform: rotate(). The animation is defined in Tailwind&#x27;s default theme.</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Context</h4>
+                            <p class="text-gray-600 leading-relaxed">Applied to the spinner div to create the rotating loading indicator effect. Combined with rounded-full and border styling to create the classic spinner appearance.</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Alternatives</h4>
+                            <p class="text-gray-600 leading-relaxed">Custom CSS keyframe animation; JavaScript-based animation; SVG animation; animated GIF; CSS transition with JavaScript toggle; third-party animation libraries like Framer Motion</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Tags</h4>
+                            <div class="flex flex-wrap gap-2 mt-2">
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">animation</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">tailwind</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">css-animation</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">loading-indicator</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">visual-feedback</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- CONCEPT-013 -->
+                <div class="bg-white rounded-lg shadow-md overflow-hidden border border-gray-200">
+                    <!-- Concept Header -->
+                    <div class="bg-gradient-to-r from-gray-50 to-gray-100 px-6 py-4 border-b border-gray-200">
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <div class="text-xs font-mono text-gray-500 mb-1">CONCEPT-013</div>
+                                <h3 class="text-xl font-bold text-gray-900"></h3>
+                                <div class="text-sm text-blue-600 font-medium mt-1">Styling/Spacing</div>
+                            </div>
+                            <span class="bg-green-100 text-green-800 px-3 py-1 rounded-full text-xs font-semibold">Beginner</span>
+                        </div>
+                    </div>
+
+                    <!-- Code Snippet with Syntax Highlighting -->
+                    <div class="px-6 py-4 bg-gray-900">
+                        <pre><code class="language-typescript">mb-4</code></pre>
+                    </div>
+
+                    <!-- Concept Details -->
+                    <div class="px-6 py-5 space-y-4">
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">What</h4>
+                            <p class="text-gray-600 leading-relaxed">Tailwind margin-bottom utility class applying 1rem (16px) of bottom margin</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Why</h4>
+                            <p class="text-gray-600 leading-relaxed">Provides consistent spacing using Tailwind&#x27;s spacing scale. The mb-4 class (4 * 0.25rem = 1rem) creates visual separation between the spinner and message. Using the spacing scale ensures design consistency across the application.</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">How</h4>
+                            <p class="text-gray-600 leading-relaxed">Tailwind&#x27;s spacing utilities follow the pattern {property}{side}-{size}. &#x27;mb&#x27; means margin-bottom, &#x27;4&#x27; refers to the 4th step in the spacing scale (1rem). The class generates CSS: margin-bottom: 1rem.</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Context</h4>
+                            <p class="text-gray-600 leading-relaxed">Adds space between the spinning animation and the loading message text, improving visual hierarchy and readability.</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Alternatives</h4>
+                            <p class="text-gray-600 leading-relaxed">Custom CSS margin; inline style with style prop; other spacing utilities (my, m, space-y); CSS Grid gap; padding on child element</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Tags</h4>
+                            <div class="flex flex-wrap gap-2 mt-2">
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">spacing</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">margin</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">tailwind</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">layout</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">visual-hierarchy</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- CONCEPT-014 -->
+                <div class="bg-white rounded-lg shadow-md overflow-hidden border border-gray-200">
+                    <!-- Concept Header -->
+                    <div class="bg-gradient-to-r from-gray-50 to-gray-100 px-6 py-4 border-b border-gray-200">
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <div class="text-xs font-mono text-gray-500 mb-1">CONCEPT-014</div>
+                                <h3 class="text-xl font-bold text-gray-900"></h3>
+                                <div class="text-sm text-blue-600 font-medium mt-1">Styling/Sizing</div>
+                            </div>
+                            <span class="bg-green-100 text-green-800 px-3 py-1 rounded-full text-xs font-semibold">Beginner</span>
+                        </div>
+                    </div>
+
+                    <!-- Code Snippet with Syntax Highlighting -->
+                    <div class="px-6 py-4 bg-gray-900">
+                        <pre><code class="language-typescript">h-12 w-12</code></pre>
+                    </div>
+
+                    <!-- Concept Details -->
+                    <div class="px-6 py-5 space-y-4">
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">What</h4>
+                            <p class="text-gray-600 leading-relaxed">Tailwind utilities setting both height and width to 3rem (48px), creating a square element</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Why</h4>
+                            <p class="text-gray-600 leading-relaxed">Creates a consistent, appropriately-sized spinner that&#x27;s visible but not overwhelming. Using matching height and width ensures the spinner is perfectly square, which is essential for the circular border appearance. The size (48px) is large enough to be noticeable but not dominating.</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">How</h4>
+                            <p class="text-gray-600 leading-relaxed">Tailwind&#x27;s sizing utilities follow the pattern {property}-{size}. &#x27;h-12&#x27; sets height: 3rem, &#x27;w-12&#x27; sets width: 3rem. The number 12 refers to the 12th step in the spacing scale (12 * 0.25rem = 3rem = 48px).</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Context</h4>
+                            <p class="text-gray-600 leading-relaxed">Defines the dimensions of the spinner element, creating a 48x48 pixel square that will appear circular due to rounded-full class.</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Alternatives</h4>
+                            <p class="text-gray-600 leading-relaxed">Custom CSS width/height; inline styles; size utility &#x27;size-12&#x27; (newer Tailwind); aspect-ratio with single dimension; viewport units like vw/vh</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Tags</h4>
+                            <div class="flex flex-wrap gap-2 mt-2">
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">sizing</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">dimensions</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">tailwind</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">layout</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">responsive-design</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- CONCEPT-015 -->
+                <div class="bg-white rounded-lg shadow-md overflow-hidden border border-gray-200">
+                    <!-- Concept Header -->
+                    <div class="bg-gradient-to-r from-gray-50 to-gray-100 px-6 py-4 border-b border-gray-200">
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <div class="text-xs font-mono text-gray-500 mb-1">CONCEPT-015</div>
+                                <h3 class="text-xl font-bold text-gray-900"></h3>
+                                <div class="text-sm text-blue-600 font-medium mt-1">Styling/Visual Effects</div>
+                            </div>
+                            <span class="bg-green-100 text-green-800 px-3 py-1 rounded-full text-xs font-semibold">Beginner</span>
+                        </div>
+                    </div>
+
+                    <!-- Code Snippet with Syntax Highlighting -->
+                    <div class="px-6 py-4 bg-gray-900">
+                        <pre><code class="language-typescript">rounded-full</code></pre>
+                    </div>
+
+                    <!-- Concept Details -->
+                    <div class="px-6 py-5 space-y-4">
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">What</h4>
+                            <p class="text-gray-600 leading-relaxed">Tailwind utility class that applies border-radius: 9999px, creating a perfect circle or pill shape</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Why</h4>
+                            <p class="text-gray-600 leading-relaxed">Transforms the square div into a circular shape, which is the standard appearance for loading spinners. The &#x27;full&#x27; value (9999px) is intentionally excessive to ensure perfect circularity regardless of element size. This is more reliable than using 50% which can have rendering issues.</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">How</h4>
+                            <p class="text-gray-600 leading-relaxed">Tailwind&#x27;s rounded-full class sets border-radius to 9999px on all corners. For a square element, this creates a perfect circle. The large value ensures the corners are fully rounded even if the element size changes.</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Context</h4>
+                            <p class="text-gray-600 leading-relaxed">Makes the spinner div circular, which combined with the border-b-2 class creates the classic loading spinner appearance with a visible arc.</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Alternatives</h4>
+                            <p class="text-gray-600 leading-relaxed">rounded-full equivalent &#x27;rounded-[50%]&#x27;; custom CSS border-radius; clip-path for circular shape; SVG circle element; using actual circular element</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Tags</h4>
+                            <div class="flex flex-wrap gap-2 mt-2">
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">border-radius</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">rounded</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">tailwind</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">visual-effects</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">shape</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- CONCEPT-016 -->
+                <div class="bg-white rounded-lg shadow-md overflow-hidden border border-gray-200">
+                    <!-- Concept Header -->
+                    <div class="bg-gradient-to-r from-gray-50 to-gray-100 px-6 py-4 border-b border-gray-200">
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <div class="text-xs font-mono text-gray-500 mb-1">CONCEPT-016</div>
+                                <h3 class="text-xl font-bold text-gray-900"></h3>
+                                <div class="text-sm text-blue-600 font-medium mt-1">Styling/Borders</div>
+                            </div>
+                            <span class="bg-green-100 text-green-800 px-3 py-1 rounded-full text-xs font-semibold">Beginner</span>
+                        </div>
+                    </div>
+
+                    <!-- Code Snippet with Syntax Highlighting -->
+                    <div class="px-6 py-4 bg-gray-900">
+                        <pre><code class="language-typescript">border-b-2 border-purple-500</code></pre>
+                    </div>
+
+                    <!-- Concept Details -->
+                    <div class="px-6 py-5 space-y-4">
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">What</h4>
+                            <p class="text-gray-600 leading-relaxed">Tailwind utilities applying a 2px bottom border with purple color</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Why</h4>
+                            <p class="text-gray-600 leading-relaxed">Creates the visible arc of the spinner by applying a border to only one side of the circular element. When animated with spin, this creates the rotating loading indicator effect. The purple color provides brand consistency and visual interest. The 2px width is thick enough to be clearly visible.</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">How</h4>
+                            <p class="text-gray-600 leading-relaxed">&#x27;border-b-2&#x27; sets border-bottom-width to 2px; &#x27;border-purple-500&#x27; sets border-color to the 500 shade of purple from Tailwind&#x27;s color palette. Combined with rounded-full and animate-spin, this creates the spinner effect.</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Context</h4>
+                            <p class="text-gray-600 leading-relaxed">Creates the visible portion of the spinner - a purple arc that rotates continuously. The bottom-only border on a circular element creates the classic loading spinner appearance.</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Alternatives</h4>
+                            <p class="text-gray-600 leading-relaxed">All-sides border with gradient; SVG circle with stroke-dasharray; CSS conic-gradient; border on different side (border-t, border-l, border-r); multiple borders for thicker appearance</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Tags</h4>
+                            <div class="flex flex-wrap gap-2 mt-2">
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">border</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">tailwind</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">color</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">visual-effects</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">loading-indicator</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- CONCEPT-017 -->
+                <div class="bg-white rounded-lg shadow-md overflow-hidden border border-gray-200">
+                    <!-- Concept Header -->
+                    <div class="bg-gradient-to-r from-gray-50 to-gray-100 px-6 py-4 border-b border-gray-200">
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <div class="text-xs font-mono text-gray-500 mb-1">CONCEPT-017</div>
+                                <h3 class="text-xl font-bold text-gray-900"></h3>
+                                <div class="text-sm text-blue-600 font-medium mt-1">Styling/Color System</div>
+                            </div>
+                            <span class="bg-green-100 text-green-800 px-3 py-1 rounded-full text-xs font-semibold">Beginner</span>
+                        </div>
+                    </div>
+
+                    <!-- Code Snippet with Syntax Highlighting -->
+                    <div class="px-6 py-4 bg-gray-900">
+                        <pre><code class="language-typescript">border-purple-500</code></pre>
+                    </div>
+
+                    <!-- Concept Details -->
+                    <div class="px-6 py-5 space-y-4">
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">What</h4>
+                            <p class="text-gray-600 leading-relaxed">Reference to Tailwind&#x27;s predefined color palette, specifically the 500 shade of purple</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Why</h4>
+                            <p class="text-gray-600 leading-relaxed">Tailwind&#x27;s color system provides consistent, accessible colors across the application. The 500 shade is the base/default shade in each color family, providing good contrast and visibility. Using the palette ensures design consistency and makes color changes easier through theme configuration.</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">How</h4>
+                            <p class="text-gray-600 leading-relaxed">Tailwind&#x27;s color utilities follow the pattern {property}-{color}-{shade}. Colors range from 50 (lightest) to 950 (darkest). The 500 shade is the middle/base color. These map to specific hex values defined in Tailwind&#x27;s default theme.</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Context</h4>
+                            <p class="text-gray-600 leading-relaxed">Uses purple-500 for the spinner border, likely matching the application&#x27;s brand colors. Purple is often used for loading states as it&#x27;s visually distinct and associated with processing/thinking.</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Alternatives</h4>
+                            <p class="text-gray-600 leading-relaxed">Custom color with arbitrary value &#x27;border-[#a855f7]&#x27;; CSS custom properties; different color from palette; gradient borders; theme color variables</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Tags</h4>
+                            <div class="flex flex-wrap gap-2 mt-2">
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">color</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">tailwind</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">design-system</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">theming</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">brand-colors</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- CONCEPT-018 -->
+                <div class="bg-white rounded-lg shadow-md overflow-hidden border border-gray-200">
+                    <!-- Concept Header -->
+                    <div class="bg-gradient-to-r from-gray-50 to-gray-100 px-6 py-4 border-b border-gray-200">
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <div class="text-xs font-mono text-gray-500 mb-1">CONCEPT-018</div>
+                                <h3 class="text-xl font-bold text-gray-900"></h3>
+                                <div class="text-sm text-blue-600 font-medium mt-1">Styling/Typography</div>
+                            </div>
+                            <span class="bg-green-100 text-green-800 px-3 py-1 rounded-full text-xs font-semibold">Beginner</span>
+                        </div>
+                    </div>
+
+                    <!-- Code Snippet with Syntax Highlighting -->
+                    <div class="px-6 py-4 bg-gray-900">
+                        <pre><code class="language-typescript">text-sm text-zinc-400</code></pre>
+                    </div>
+
+                    <!-- Concept Details -->
+                    <div class="px-6 py-5 space-y-4">
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">What</h4>
+                            <p class="text-gray-600 leading-relaxed">Tailwind utilities setting font size to small and text color to a medium gray</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Why</h4>
+                            <p class="text-gray-600 leading-relaxed">Creates subtle, secondary text that doesn&#x27;t compete with the spinner for attention. The small size (0.875rem/14px) and muted gray color (zinc-400) indicate this is supporting information. This follows typography hierarchy principles where loading messages are informative but not primary content.</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">How</h4>
+                            <p class="text-gray-600 leading-relaxed">&#x27;text-sm&#x27; sets font-size to 0.875rem and line-height to 1.25rem; &#x27;text-zinc-400&#x27; sets color to the 400 shade of zinc (a neutral gray). These classes generate corresponding CSS properties.</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Context</h4>
+                            <p class="text-gray-600 leading-relaxed">Styles the loading message text to be small and subtle, providing context without overwhelming the visual loading indicator. The gray color indicates secondary/supporting content.</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Alternatives</h4>
+                            <p class="text-gray-600 leading-relaxed">Custom CSS font-size and color; inline styles; different size utilities (text-xs, text-base); different color (text-gray-400, text-slate-400); custom color with arbitrary value</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Tags</h4>
+                            <div class="flex flex-wrap gap-2 mt-2">
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">typography</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">font-size</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">text-color</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">tailwind</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">visual-hierarchy</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- CONCEPT-019 -->
+                <div class="bg-white rounded-lg shadow-md overflow-hidden border border-gray-200">
+                    <!-- Concept Header -->
+                    <div class="bg-gradient-to-r from-gray-50 to-gray-100 px-6 py-4 border-b border-gray-200">
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <div class="text-xs font-mono text-gray-500 mb-1">CONCEPT-019</div>
+                                <h3 class="text-xl font-bold text-gray-900"></h3>
+                                <div class="text-sm text-blue-600 font-medium mt-1">React/JSX Syntax</div>
+                            </div>
+                            <span class="bg-green-100 text-green-800 px-3 py-1 rounded-full text-xs font-semibold">Beginner</span>
+                        </div>
+                    </div>
+
+                    <!-- Code Snippet with Syntax Highlighting -->
+                    <div class="px-6 py-4 bg-gray-900">
+                        <pre><code class="language-typescript">{message}</code></pre>
+                    </div>
+
+                    <!-- Concept Details -->
+                    <div class="px-6 py-5 space-y-4">
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">What</h4>
+                            <p class="text-gray-600 leading-relaxed">Curly braces in JSX that embed JavaScript expressions, rendering the value of the message variable</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Why</h4>
+                            <p class="text-gray-600 leading-relaxed">Allows dynamic content in JSX by evaluating JavaScript expressions. This is fundamental to React&#x27;s dynamic rendering - it enables components to display different content based on props, state, or computed values. Without this, JSX would be static HTML.</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">How</h4>
+                            <p class="text-gray-600 leading-relaxed">Curly braces {} in JSX create an expression context where JavaScript is evaluated. The result is converted to a string and rendered as text content. React handles the conversion and escaping automatically for security.</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Context</h4>
+                            <p class="text-gray-600 leading-relaxed">Displays the message prop value (either the provided custom message or the default &quot;Loading...&quot;). This makes the component flexible and reusable with different messages.</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Alternatives</h4>
+                            <p class="text-gray-600 leading-relaxed">Template literals in a variable then render the variable; string concatenation; conditional rendering with ternary; separate component for message</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Tags</h4>
+                            <div class="flex flex-wrap gap-2 mt-2">
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">jsx</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">react</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">expression-interpolation</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">dynamic-content</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">data-binding</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- CONCEPT-020 -->
+                <div class="bg-white rounded-lg shadow-md overflow-hidden border border-gray-200">
+                    <!-- Concept Header -->
+                    <div class="bg-gradient-to-r from-gray-50 to-gray-100 px-6 py-4 border-b border-gray-200">
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <div class="text-xs font-mono text-gray-500 mb-1">CONCEPT-020</div>
+                                <h3 class="text-xl font-bold text-gray-900"></h3>
+                                <div class="text-sm text-blue-600 font-medium mt-1">React/JSX Syntax</div>
+                            </div>
+                            <span class="bg-green-100 text-green-800 px-3 py-1 rounded-full text-xs font-semibold">Beginner</span>
+                        </div>
+                    </div>
+
+                    <!-- Code Snippet with Syntax Highlighting -->
+                    <div class="px-6 py-4 bg-gray-900">
+                        <pre><code class="language-typescript">&lt;div className=&quot;mb-4 h-12 w-12 animate-spin rounded-full border-b-2 border-purple-500&quot;&gt;&lt;/div&gt;</code></pre>
+                    </div>
+
+                    <!-- Concept Details -->
+                    <div class="px-6 py-5 space-y-4">
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">What</h4>
+                            <p class="text-gray-600 leading-relaxed">JSX element with no children, closed with /&gt; or separate closing tag</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Why</h4>
+                            <p class="text-gray-600 leading-relaxed">Self-closing syntax is cleaner for elements without children, reducing visual clutter. However, this example uses a full closing tag &lt;/div&gt; even though the div has no children. In JSX, elements can be self-closed with /&gt; when they have no children, but HTML elements like div are often written with full closing tags for clarity.</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">How</h4>
+                            <p class="text-gray-600 leading-relaxed">JSX allows two syntaxes: self-closing &lt;element /&gt; for childless elements, or full &lt;element&gt;&lt;/element&gt;. Both are valid. React components and HTML elements can use either syntax when they have no children.</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Context</h4>
+                            <p class="text-gray-600 leading-relaxed">The spinner div has no children (it&#x27;s styled with borders to create the visual effect), but uses full closing tag syntax. This is a style choice - could also be written as &lt;div className=&quot;...&quot; /&gt;.</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Alternatives</h4>
+                            <p class="text-gray-600 leading-relaxed">Self-closing syntax &#x27;&lt;div className=&quot;...&quot; /&gt;&#x27;; keeping full closing tag for consistency; using a different element that semantically requires closing</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Tags</h4>
+                            <div class="flex flex-wrap gap-2 mt-2">
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">jsx</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">syntax</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">self-closing-tags</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">code-style</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- CONCEPT-021 -->
+                <div class="bg-white rounded-lg shadow-md overflow-hidden border border-gray-200">
+                    <!-- Concept Header -->
+                    <div class="bg-gradient-to-r from-gray-50 to-gray-100 px-6 py-4 border-b border-gray-200">
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <div class="text-xs font-mono text-gray-500 mb-1">CONCEPT-021</div>
+                                <h3 class="text-xl font-bold text-gray-900"></h3>
+                                <div class="text-sm text-blue-600 font-medium mt-1">HTML/Accessibility</div>
+                            </div>
+                            <span class="bg-green-100 text-green-800 px-3 py-1 rounded-full text-xs font-semibold">Beginner</span>
+                        </div>
+                    </div>
+
+                    <!-- Code Snippet with Syntax Highlighting -->
+                    <div class="px-6 py-4 bg-gray-900">
+                        <pre><code class="language-typescript">&lt;p className=&quot;text-sm text-zinc-400&quot;&gt;{message}&lt;/p&gt;</code></pre>
+                    </div>
+
+                    <!-- Concept Details -->
+                    <div class="px-6 py-5 space-y-4">
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">What</h4>
+                            <p class="text-gray-600 leading-relaxed">Using the &lt;p&gt; paragraph element for text content rather than generic div</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Why</h4>
+                            <p class="text-gray-600 leading-relaxed">Semantic HTML improves accessibility by providing meaning to screen readers and assistive technologies. The &lt;p&gt; tag indicates this is a paragraph of text content, which helps screen readers announce it appropriately. It also improves SEO and code maintainability by making the structure&#x27;s purpose clear.</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">How</h4>
+                            <p class="text-gray-600 leading-relaxed">HTML semantic elements like &lt;p&gt;, &lt;article&gt;, &lt;section&gt;, &lt;nav&gt; provide meaning beyond generic &lt;div&gt; containers. Browsers and assistive technologies use these tags to understand content structure and purpose.</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Context</h4>
+                            <p class="text-gray-600 leading-relaxed">Uses &lt;p&gt; for the loading message text, indicating it&#x27;s a paragraph of informational content. This is more semantic than using a &lt;div&gt; or &lt;span&gt;.</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Alternatives</h4>
+                            <p class="text-gray-600 leading-relaxed">Generic div &#x27;&lt;div&gt;{message}&lt;/div&gt;&#x27;; span element; heading element if message is a title; aria-label on div for accessibility</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Tags</h4>
+                            <div class="flex flex-wrap gap-2 mt-2">
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">html</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">semantic-html</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">accessibility</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">best-practices</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">screen-readers</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- CONCEPT-022 -->
+                <div class="bg-white rounded-lg shadow-md overflow-hidden border border-gray-200">
+                    <!-- Concept Header -->
+                    <div class="bg-gradient-to-r from-gray-50 to-gray-100 px-6 py-4 border-b border-gray-200">
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <div class="text-xs font-mono text-gray-500 mb-1">CONCEPT-022</div>
+                                <h3 class="text-xl font-bold text-gray-900"></h3>
+                                <div class="text-sm text-blue-600 font-medium mt-1">Import/Module Management</div>
+                            </div>
+                            <span class="bg-green-100 text-green-800 px-3 py-1 rounded-full text-xs font-semibold">Beginner</span>
+                        </div>
+                    </div>
+
+                    <!-- Code Snippet with Syntax Highlighting -->
+                    <div class="px-6 py-4 bg-gray-900">
+                        <pre><code class="language-typescript">export default LoadingSpinner;</code></pre>
+                    </div>
+
+                    <!-- Concept Details -->
+                    <div class="px-6 py-5 space-y-4">
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">What</h4>
+                            <p class="text-gray-600 leading-relaxed">Exports the LoadingSpinner component as the default export of the module</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Why</h4>
+                            <p class="text-gray-600 leading-relaxed">Provides a default export in addition to the named export, giving consumers flexibility in how they import. Default exports allow importing with any name &#x27;import MySpinner from &quot;./LoadingSpinner&quot;&#x27; while named exports require the exact name. This dual-export pattern is common in component libraries.</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">How</h4>
+                            <p class="text-gray-600 leading-relaxed">The &#x27;export default&#x27; statement designates one export as the default. When importing, consumers can use &#x27;import LoadingSpinner from &quot;./path&quot;&#x27; (without curly braces) or any other name. Only one default export is allowed per module.</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Context</h4>
+                            <p class="text-gray-600 leading-relaxed">Provides a default export for LoadingSpinner, allowing it to be imported either as &#x27;import LoadingSpinner from &quot;./LoadingSpinner&quot;&#x27; or &#x27;import { LoadingSpinner } from &quot;./LoadingSpinner&quot;&#x27;. This gives maximum flexibility to consumers.</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Alternatives</h4>
+                            <p class="text-gray-600 leading-relaxed">Only named export (no default); inline default export &#x27;export default const LoadingSpinner = ...&#x27;; default export only (no named export); exporting different component as default</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Tags</h4>
+                            <div class="flex flex-wrap gap-2 mt-2">
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">export</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">default-export</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">es6-modules</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">module-system</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">import-flexibility</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- CONCEPT-023 -->
+                <div class="bg-white rounded-lg shadow-md overflow-hidden border border-gray-200">
+                    <!-- Concept Header -->
+                    <div class="bg-gradient-to-r from-gray-50 to-gray-100 px-6 py-4 border-b border-gray-200">
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <div class="text-xs font-mono text-gray-500 mb-1">CONCEPT-023</div>
+                                <h3 class="text-xl font-bold text-gray-900"></h3>
+                                <div class="text-sm text-blue-600 font-medium mt-1">Code Organization/File Structure</div>
+                            </div>
+                            <span class="bg-green-100 text-green-800 px-3 py-1 rounded-full text-xs font-semibold">Beginner</span>
+                        </div>
+                    </div>
+
+                    <!-- Code Snippet with Syntax Highlighting -->
+                    <div class="px-6 py-4 bg-gray-900">
+                        <pre><code class="language-typescript">// src/components/common/LoadingSpinner.tsx</code></pre>
+                    </div>
+
+                    <!-- Concept Details -->
+                    <div class="px-6 py-5 space-y-4">
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">What</h4>
+                            <p class="text-gray-600 leading-relaxed">File path indicating component location in a common/shared components directory</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Why</h4>
+                            <p class="text-gray-600 leading-relaxed">Organizing shared/reusable components in a &#x27;common&#x27; directory separates them from feature-specific components. This improves code organization, makes reusable components easy to find, and prevents duplication. The pattern &#x27;components/common&#x27; is a widely-adopted convention for shared UI components.</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">How</h4>
+                            <p class="text-gray-600 leading-relaxed">Directory structure organizes code by type (components) and then by scope (common for shared, or feature-specific directories). This creates a clear hierarchy that scales as the application grows.</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Context</h4>
+                            <p class="text-gray-600 leading-relaxed">LoadingSpinner is placed in components/common because it&#x27;s a reusable UI component that can be used throughout the application, not tied to any specific feature.</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Alternatives</h4>
+                            <p class="text-gray-600 leading-relaxed">Flat components directory; organizing by feature first; ui/ or shared/ directory instead of common/; co-locating with features that use it; separate package/library</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Tags</h4>
+                            <div class="flex flex-wrap gap-2 mt-2">
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">file-structure</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">code-organization</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">project-structure</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">best-practices</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">scalability</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- CONCEPT-024 -->
+                <div class="bg-white rounded-lg shadow-md overflow-hidden border border-gray-200">
+                    <!-- Concept Header -->
+                    <div class="bg-gradient-to-r from-gray-50 to-gray-100 px-6 py-4 border-b border-gray-200">
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <div class="text-xs font-mono text-gray-500 mb-1">CONCEPT-024</div>
+                                <h3 class="text-xl font-bold text-gray-900"></h3>
+                                <div class="text-sm text-blue-600 font-medium mt-1">TypeScript/Build Configuration</div>
+                            </div>
+                            <span class="bg-green-100 text-green-800 px-3 py-1 rounded-full text-xs font-semibold">Beginner</span>
+                        </div>
+                    </div>
+
+                    <!-- Code Snippet with Syntax Highlighting -->
+                    <div class="px-6 py-4 bg-gray-900">
+                        <pre><code class="language-typescript">LoadingSpinner.tsx</code></pre>
+                    </div>
+
+                    <!-- Concept Details -->
+                    <div class="px-6 py-5 space-y-4">
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">What</h4>
+                            <p class="text-gray-600 leading-relaxed">File extension indicating TypeScript file with JSX support</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Why</h4>
+                            <p class="text-gray-600 leading-relaxed">The .tsx extension tells TypeScript and build tools that this file contains both TypeScript and JSX syntax. This enables proper parsing and type checking of JSX elements. Using .tsx instead of .ts is required for files containing JSX, as the TypeScript compiler needs to know to process JSX syntax.</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">How</h4>
+                            <p class="text-gray-600 leading-relaxed">Build tools (TypeScript compiler, Vite, Webpack) recognize .tsx extension and enable JSX transformation. The compiler processes both TypeScript type annotations and JSX syntax, transforming JSX to React.createElement calls or the new JSX transform.</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Context</h4>
+                            <p class="text-gray-600 leading-relaxed">This file uses .tsx because it contains JSX (the return statement with JSX elements). If it only had TypeScript without JSX, it would use .ts extension.</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Alternatives</h4>
+                            <p class="text-gray-600 leading-relaxed">.ts extension (but would fail with JSX syntax); .jsx for JavaScript with JSX; .js for plain JavaScript; .tsx is required for TypeScript + JSX</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Tags</h4>
+                            <div class="flex flex-wrap gap-2 mt-2">
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">typescript</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">file-extension</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">jsx</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">build-configuration</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">tooling</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- CONCEPT-025 -->
+                <div class="bg-white rounded-lg shadow-md overflow-hidden border border-gray-200">
+                    <!-- Concept Header -->
+                    <div class="bg-gradient-to-r from-gray-50 to-gray-100 px-6 py-4 border-b border-gray-200">
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <div class="text-xs font-mono text-gray-500 mb-1">CONCEPT-025</div>
+                                <h3 class="text-xl font-bold text-gray-900"></h3>
+                                <div class="text-sm text-blue-600 font-medium mt-1">Code Organization/Naming Conventions</div>
+                            </div>
+                            <span class="bg-green-100 text-green-800 px-3 py-1 rounded-full text-xs font-semibold">Beginner</span>
+                        </div>
+                    </div>
+
+                    <!-- Code Snippet with Syntax Highlighting -->
+                    <div class="px-6 py-4 bg-gray-900">
+                        <pre><code class="language-typescript">LoadingSpinner</code></pre>
+                    </div>
+
+                    <!-- Concept Details -->
+                    <div class="px-6 py-5 space-y-4">
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">What</h4>
+                            <p class="text-gray-600 leading-relaxed">PascalCase naming convention for React component</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Why</h4>
+                            <p class="text-gray-600 leading-relaxed">React requires component names to start with uppercase letter to distinguish them from HTML elements in JSX. PascalCase (UpperCamelCase) is the standard convention for React components, making them immediately recognizable as components. This convention is enforced by React - lowercase names are treated as HTML elements.</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">How</h4>
+                            <p class="text-gray-600 leading-relaxed">PascalCase capitalizes the first letter of each word with no separators. React&#x27;s JSX transformer checks the first character - uppercase indicates a component (variable reference), lowercase indicates an HTML element (string).</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Context</h4>
+                            <p class="text-gray-600 leading-relaxed">LoadingSpinner follows React naming conventions, making it clear this is a component. The name is descriptive, indicating both what it does (loading) and what it looks like (spinner).</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Alternatives</h4>
+                            <p class="text-gray-600 leading-relaxed">camelCase (would be treated as HTML element); kebab-case (invalid in JSX); SCREAMING_SNAKE_CASE (unconventional); different naming pattern</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Tags</h4>
+                            <div class="flex flex-wrap gap-2 mt-2">
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">naming-convention</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">react</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">pascal-case</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">code-style</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">best-practices</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- CONCEPT-026 -->
+                <div class="bg-white rounded-lg shadow-md overflow-hidden border border-gray-200">
+                    <!-- Concept Header -->
+                    <div class="bg-gradient-to-r from-gray-50 to-gray-100 px-6 py-4 border-b border-gray-200">
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <div class="text-xs font-mono text-gray-500 mb-1">CONCEPT-026</div>
+                                <h3 class="text-xl font-bold text-gray-900"></h3>
+                                <div class="text-sm text-blue-600 font-medium mt-1">React/Component Patterns</div>
+                            </div>
+                            <span class="bg-yellow-100 text-yellow-800 px-3 py-1 rounded-full text-xs font-semibold">Intermediate</span>
+                        </div>
+                    </div>
+
+                    <!-- Code Snippet with Syntax Highlighting -->
+                    <div class="px-6 py-4 bg-gray-900">
+                        <pre><code class="language-typescript">export const LoadingSpinner: React.FC&lt;LoadingSpinnerProps&gt; = ({ message = &quot;Loading...&quot; }) =&gt; { return (...); };</code></pre>
+                    </div>
+
+                    <!-- Concept Details -->
+                    <div class="px-6 py-5 space-y-4">
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">What</h4>
+                            <p class="text-gray-600 leading-relaxed">Component that focuses purely on presentation/UI without business logic or state management</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Why</h4>
+                            <p class="text-gray-600 leading-relaxed">Separating presentational components from container/logic components improves reusability, testability, and maintainability. This component only renders UI based on props, making it easy to test, reuse in different contexts, and reason about. It follows the single responsibility principle.</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">How</h4>
+                            <p class="text-gray-600 leading-relaxed">Presentational components receive data via props and render UI. They don&#x27;t manage state (except UI state), don&#x27;t fetch data, and don&#x27;t contain business logic. They&#x27;re pure functions of their props.</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Context</h4>
+                            <p class="text-gray-600 leading-relaxed">LoadingSpinner is purely presentational - it receives a message prop and renders a loading UI. It has no state, no effects, no data fetching. This makes it highly reusable across the application.</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Alternatives</h4>
+                            <p class="text-gray-600 leading-relaxed">Container component with logic; component with hooks for state/effects; smart component with data fetching; compound component pattern; render props pattern</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Tags</h4>
+                            <div class="flex flex-wrap gap-2 mt-2">
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">react</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">component-pattern</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">presentational-component</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">separation-of-concerns</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">reusability</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">testability</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- CONCEPT-027 -->
+                <div class="bg-white rounded-lg shadow-md overflow-hidden border border-gray-200">
+                    <!-- Concept Header -->
+                    <div class="bg-gradient-to-r from-gray-50 to-gray-100 px-6 py-4 border-b border-gray-200">
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <div class="text-xs font-mono text-gray-500 mb-1">CONCEPT-027</div>
+                                <h3 class="text-xl font-bold text-gray-900"></h3>
+                                <div class="text-sm text-blue-600 font-medium mt-1">TypeScript/Naming Conventions</div>
+                            </div>
+                            <span class="bg-green-100 text-green-800 px-3 py-1 rounded-full text-xs font-semibold">Beginner</span>
+                        </div>
+                    </div>
+
+                    <!-- Code Snippet with Syntax Highlighting -->
+                    <div class="px-6 py-4 bg-gray-900">
+                        <pre><code class="language-typescript">LoadingSpinnerProps</code></pre>
+                    </div>
+
+                    <!-- Concept Details -->
+                    <div class="px-6 py-5 space-y-4">
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">What</h4>
+                            <p class="text-gray-600 leading-relaxed">Naming pattern for props interface: ComponentName + &#x27;Props&#x27; suffix</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Why</h4>
+                            <p class="text-gray-600 leading-relaxed">This naming convention makes it immediately clear what the interface is for and creates consistency across the codebase. The &#x27;Props&#x27; suffix is a widely-adopted standard in TypeScript React projects, making code more readable and maintainable. It also prevents naming conflicts with the component itself.</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">How</h4>
+                            <p class="text-gray-600 leading-relaxed">Convention is to name props interfaces as &#x27;{ComponentName}Props&#x27;. This creates a clear relationship between component and its props type. TypeScript enforces the type but the naming is a community convention.</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Context</h4>
+                            <p class="text-gray-600 leading-relaxed">LoadingSpinnerProps clearly indicates this interface defines the props for LoadingSpinner component. The naming makes the relationship explicit and follows community standards.</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Alternatives</h4>
+                            <p class="text-gray-600 leading-relaxed">Different suffix like &#x27;LoadingSpinnerProperties&#x27;; prefix like &#x27;ILoadingSpinnerProps&#x27;; no suffix &#x27;LoadingSpinner&#x27; (conflicts with component); inline type without interface</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Tags</h4>
+                            <div class="flex flex-wrap gap-2 mt-2">
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">typescript</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">naming-convention</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">props-typing</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">code-style</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">best-practices</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- CONCEPT-028 -->
+                <div class="bg-white rounded-lg shadow-md overflow-hidden border border-gray-200">
+                    <!-- Concept Header -->
+                    <div class="bg-gradient-to-r from-gray-50 to-gray-100 px-6 py-4 border-b border-gray-200">
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <div class="text-xs font-mono text-gray-500 mb-1">CONCEPT-028</div>
+                                <h3 class="text-xl font-bold text-gray-900"></h3>
+                                <div class="text-sm text-blue-600 font-medium mt-1">React/Design Principles</div>
+                            </div>
+                            <span class="bg-yellow-100 text-yellow-800 px-3 py-1 rounded-full text-xs font-semibold">Intermediate</span>
+                        </div>
+                    </div>
+
+                    <!-- Code Snippet with Syntax Highlighting -->
+                    <div class="px-6 py-4 bg-gray-900">
+                        <pre><code class="language-typescript">export const LoadingSpinner: React.FC&lt;LoadingSpinnerProps&gt; = ({ message = &quot;Loading...&quot; }) =&gt; { return (...); };</code></pre>
+                    </div>
+
+                    <!-- Concept Details -->
+                    <div class="px-6 py-5 space-y-4">
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">What</h4>
+                            <p class="text-gray-600 leading-relaxed">Component that does one thing well - displays a loading spinner with optional message</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Why</h4>
+                            <p class="text-gray-600 leading-relaxed">Following the Single Responsibility Principle makes components easier to understand, test, maintain, and reuse. This component has one clear purpose: show a loading state. It doesn&#x27;t handle data fetching, routing, or other concerns. This focused approach improves code quality and reduces coupling.</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">How</h4>
+                            <p class="text-gray-600 leading-relaxed">Keep components focused on a single concern by limiting their responsibilities. Extract unrelated logic into separate components, hooks, or utilities. This component only handles loading UI presentation.</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Context</h4>
+                            <p class="text-gray-600 leading-relaxed">LoadingSpinner has one job: render a loading indicator. It doesn&#x27;t know why it&#x27;s loading, what&#x27;s being loaded, or when to stop loading. Parent components handle those concerns, keeping this component simple and reusable.</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Alternatives</h4>
+                            <p class="text-gray-600 leading-relaxed">Multi-purpose component handling loading, error, and success states; component with built-in data fetching; component with complex conditional logic; monolithic component</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Tags</h4>
+                            <div class="flex flex-wrap gap-2 mt-2">
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">design-principles</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">single-responsibility</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">react</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">clean-code</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">maintainability</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- CONCEPT-029 -->
+                <div class="bg-white rounded-lg shadow-md overflow-hidden border border-gray-200">
+                    <!-- Concept Header -->
+                    <div class="bg-gradient-to-r from-gray-50 to-gray-100 px-6 py-4 border-b border-gray-200">
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <div class="text-xs font-mono text-gray-500 mb-1">CONCEPT-029</div>
+                                <h3 class="text-xl font-bold text-gray-900"></h3>
+                                <div class="text-sm text-blue-600 font-medium mt-1">React/Component Patterns</div>
+                            </div>
+                            <span class="bg-yellow-100 text-yellow-800 px-3 py-1 rounded-full text-xs font-semibold">Intermediate</span>
+                        </div>
+                    </div>
+
+                    <!-- Code Snippet with Syntax Highlighting -->
+                    <div class="px-6 py-4 bg-gray-900">
+                        <pre><code class="language-typescript">interface LoadingSpinnerProps { message?: string; }</code></pre>
+                    </div>
+
+                    <!-- Concept Details -->
+                    <div class="px-6 py-5 space-y-4">
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">What</h4>
+                            <p class="text-gray-600 leading-relaxed">Component designed for reuse across different contexts through configurable props</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Why</h4>
+                            <p class="text-gray-600 leading-relaxed">Reusable components reduce code duplication, ensure UI consistency, and make maintenance easier. By accepting a configurable message prop with a sensible default, this component can be used in many contexts without modification. This is a key principle of component-based architecture.</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">How</h4>
+                            <p class="text-gray-600 leading-relaxed">Design for reusability by: accepting props for customization, providing sensible defaults, avoiding hard-coded values, keeping components focused, and not coupling to specific contexts. This component achieves reusability through its simple, flexible API.</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Context</h4>
+                            <p class="text-gray-600 leading-relaxed">LoadingSpinner can be used anywhere a loading state is needed - data fetching, page transitions, form submissions, etc. The optional message prop allows customization while the default ensures it works out of the box.</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Alternatives</h4>
+                            <p class="text-gray-600 leading-relaxed">Context-specific loading components; hard-coded loading UI in each component; loading component with many specific props; compound component pattern for more flexibility</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Tags</h4>
+                            <div class="flex flex-wrap gap-2 mt-2">
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">react</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">reusability</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">component-design</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">api-design</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">flexibility</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- CONCEPT-030 -->
+                <div class="bg-white rounded-lg shadow-md overflow-hidden border border-gray-200">
+                    <!-- Concept Header -->
+                    <div class="bg-gradient-to-r from-gray-50 to-gray-100 px-6 py-4 border-b border-gray-200">
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <div class="text-xs font-mono text-gray-500 mb-1">CONCEPT-030</div>
+                                <h3 class="text-xl font-bold text-gray-900"></h3>
+                                <div class="text-sm text-blue-600 font-medium mt-1">React/Styling Patterns</div>
+                            </div>
+                            <span class="bg-green-100 text-green-800 px-3 py-1 rounded-full text-xs font-semibold">Beginner</span>
+                        </div>
+                    </div>
+
+                    <!-- Code Snippet with Syntax Highlighting -->
+                    <div class="px-6 py-4 bg-gray-900">
+                        <pre><code class="language-typescript">className=&quot;flex h-full flex-col items-center justify-center&quot;</code></pre>
+                    </div>
+
+                    <!-- Concept Details -->
+                    <div class="px-6 py-5 space-y-4">
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">What</h4>
+                            <p class="text-gray-600 leading-relaxed">Applying CSS classes to JSX elements using the className prop instead of HTML&#x27;s class attribute</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Why</h4>
+                            <p class="text-gray-600 leading-relaxed">JSX uses className instead of class because &#x27;class&#x27; is a reserved keyword in JavaScript. This naming prevents conflicts and makes JSX valid JavaScript. className accepts a string of space-separated class names, just like HTML&#x27;s class attribute.</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">How</h4>
+                            <p class="text-gray-600 leading-relaxed">React&#x27;s JSX transformer converts className to the class attribute in the rendered HTML. During development, React will warn if you use &#x27;class&#x27; instead of &#x27;className&#x27;. The prop accepts any string value that would be valid in HTML&#x27;s class attribute.</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Context</h4>
+                            <p class="text-gray-600 leading-relaxed">Used throughout this component to apply Tailwind utility classes. The className prop is the standard way to apply CSS classes in React components.</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Alternatives</h4>
+                            <p class="text-gray-600 leading-relaxed">Inline styles with style prop; CSS-in-JS libraries (styled-components, emotion); CSS modules with imported styles; class attribute (would cause warnings)</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">Tags</h4>
+                            <div class="flex flex-wrap gap-2 mt-2">
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">react</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">jsx</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">classname</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">styling</span>
+                                <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs">css</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Footer -->
+    <div class="bg-gray-800 text-gray-300 py-6 px-6 mt-12">
+        <div class="max-w-7xl mx-auto text-center text-sm">
+            Generated from Code Taxonomy Analysis • 30 concepts extracted
+        </div>
+    </div>
+
+    <!-- Initialize Syntax Highlighting -->
+    <script>
+        hljs.highlightAll();
+    </script>
+
+</body>
+</html>
